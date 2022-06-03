@@ -1,0 +1,20 @@
+{
+  "compilerOptions": {
+    "sourceMap": true,
+    "outDir": "dist",
+    "strict": true,
+    "lib": ["esnext"],
+    "typeRoots": ["./node_modules/@types", "./src/@types"],
+    "moduleResolution": "node",
+    "esModuleInterop": true,
+    "rootDirs": ["src"],
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["src/*"],
+      "@/src/modules/*": ["src/modules/*"],
+      "@/shared/*": ["src/shared/*"],
+    }
+  },
+  "include": ["**/*.ts", "**/*.tsx"],
+  "exclude": ["node_modules"]
+}
