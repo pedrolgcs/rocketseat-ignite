@@ -1,3 +1,4 @@
+import { Comment } from '../Comment';
 import styles from './styles.module.css';
 
 function Post(props) {
@@ -45,6 +46,12 @@ function Post(props) {
           <button type="submit">Publicar</button>
         </div>
       </form>
+
+      <div className={styles.commentList}>
+        <Comment />
+        <Comment />
+        <Comment />
+      </div>
     </article>
   );
 }
