@@ -1,0 +1,28 @@
+{
+  "continents": [
+    {
+      "id": 1,
+      "name": "América do Norte",
+      "description": "A América do Norte é um subcontinente que compreende a porção setentrional do continente americano ",
+      "img_url": "/images/continents/america-do-norte.jpg"
+    },
+    {
+      "id": 2,
+      "name": "Ásia",
+      "description": "A Ásia é o maior dos continentes, tanto em área como em população.",
+      "img_url": "/images/continents/asia.jpg"
+    },
+    {
+      "id": 3,
+      "name": "África",
+      "description": "A África é o terceiro continente mais extenso (depois da Ásia e da América) com cerca de 30 milhões de quilômetros quadrados.",
+      "img_url": "/images/continents/africa.jpg"
+    },
+    {
+      "id": 4,
+      "name": "Europa",
+      "description": "A Europa é, por convenção, um dos seis continentes do mundo.",
+      "img_url": "/images/continents/europa.jpg"
+    }
+  ]
+}
