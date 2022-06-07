@@ -6,11 +6,19 @@ import {
 import { Avatar } from '..';
 import styles from './styles.module.css';
 
-function Comment({ comment, onRemove }) {
-  const { id, content, publishedAt } = comment;
+function Comment({ comment, onDeleteComment, onUpdateCommentLike }) {
+  const { id, content, likes, publishedAt } = comment;
 
   const publishedAtFormatted = formatePublishedAt(publishedAt);
   const publishedDateRelative = formatePublishedDateRelative(publishedAt);
+
+  function handleDeleteComment() {
+    onDeleteComment(id);
+  }
+
+  function handleUpdateCommentLike() {
+    onUpdateCommentLike(id);
+  }
 
   return (
     <div className={styles.comment}>
@@ -29,7 +37,7 @@ function Comment({ comment, onRemove }) {
               </time>
             </div>
 
-            <button title="Deletar comentário" onClick={() => onRemove(id)}>
+            <button title="Deletar comentário" onClick={handleDeleteComment}>
               <Trash size={24} />
             </button>
           </header>
@@ -38,9 +46,9 @@ function Comment({ comment, onRemove }) {
         </div>
 
         <footer>
-          <button>
+          <button onClick={handleUpdateCommentLike}>
             <ThumbsUp />
-            Aplaudir <span>20</span>
+            Aplaudir <span>{likes}</span>
           </button>
         </footer>
       </div>

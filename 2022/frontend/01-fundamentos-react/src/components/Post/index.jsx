@@ -13,6 +13,13 @@ function Post({ author, content, publishedAt }) {
   const publishedAtFormatted = formatePublishedAt(publishedAt);
   const publishedDateRelative = formatePublishedDateRelative(publishedAt);
 
+  // update the comment text
+  function handleNewCommentChange(event) {
+    event.target.setCustomValidity('');
+    setNewCommentText(event.target.value);
+  }
+
+  // create a new comment
   function handleCreateNewComment(event) {
     event.preventDefault();
 
@@ -20,6 +27,7 @@ function Post({ author, content, publishedAt }) {
       id: Math.random().toString(),
       content: newCommentText,
       publishedAt: new Date(),
+      likes: 0,
     };
 
     setComments([...comments, newComment]);
@@ -27,9 +35,25 @@ function Post({ author, content, publishedAt }) {
     setNewCommentText('');
   }
 
-  function handleRemoveComment(commentId) {
+  // remove comment
+  function deleteComment(commentId) {
     setComments(comments.filter((comment) => comment.id !== commentId));
   }
+
+  // update likes
+  function updateCommentLike(commentId) {
+    const comment = comments.find((comment) => comment.id === commentId);
+    comment.likes += 1;
+    setComments([...comments]);
+  }
+
+  // validate fields
+  function handleNewInvalidText(event) {
+    event.target.setCustomValidity('Esse campo é obrigatório');
+  }
+
+  // utils
+  const isNewCommentEmpty = newCommentText.trim().length === 0;
 
   return (
     <article className={styles.post}>
@@ -48,12 +72,12 @@ function Post({ author, content, publishedAt }) {
       </header>
 
       <div className={styles.content}>
-        {content.map((line, index) => {
+        {content.map((line) => {
           if (line.type === 'paragraph') {
-            return <p key={String(index)}>{line.content}</p>;
+            return <p key={line.content}>{line.content}</p>;
           } else if (line.type === 'link') {
             return (
-              <p key={String(index)}>
+              <p key={line.content}>
                 <a href="">{line.content}</a>
               </p>
             );
@@ -66,12 +90,16 @@ function Post({ author, content, publishedAt }) {
 
         <textarea
           value={newCommentText}
-          onChange={(event) => setNewCommentText(event.target.value)}
+          onChange={handleNewCommentChange}
           placeholder="Deixe seu comentário"
+          required
+          onInvalid={handleNewInvalidText}
         />
 
         <div className={styles.submitButtonContainer}>
-          <button type="submit">Publicar</button>
+          <button type="submit" disabled={isNewCommentEmpty}>
+            Publicar
+          </button>
         </div>
       </form>
 
@@ -80,7 +108,8 @@ function Post({ author, content, publishedAt }) {
           <Comment
             key={comment.id}
             comment={comment}
-            onRemove={handleRemoveComment}
+            onDeleteComment={deleteComment}
+            onUpdateCommentLike={updateCommentLike}
           />
         ))}
       </div>
