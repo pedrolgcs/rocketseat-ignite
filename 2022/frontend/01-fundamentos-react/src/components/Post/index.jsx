@@ -1,43 +1,74 @@
+import * as React from 'react';
+import {
+  formatePublishedAt,
+  formatePublishedDateRelative,
+} from '../../utils/date';
 import { Comment, Avatar } from '..';
 import styles from './styles.module.css';
 
-function Post(props) {
+function Post({ author, content, publishedAt }) {
+  const [comments, setComments] = React.useState([]);
+  const [newCommentText, setNewCommentText] = React.useState('');
+
+  const publishedAtFormatted = formatePublishedAt(publishedAt);
+  const publishedDateRelative = formatePublishedDateRelative(publishedAt);
+
+  function handleCreateNewComment(event) {
+    event.preventDefault();
+
+    const newComment = {
+      id: Math.random().toString(),
+      content: newCommentText,
+      publishedAt: new Date(),
+    };
+
+    setComments([...comments, newComment]);
+
+    setNewCommentText('');
+  }
+
+  function handleRemoveComment(commentId) {
+    setComments(comments.filter((comment) => comment.id !== commentId));
+  }
+
   return (
     <article className={styles.post}>
       <header>
         <div className={styles.author}>
-          <Avatar url="https://github.com/pedrolgcs.png" />
+          <Avatar url={author.avatarUrl} />
           <div className={styles.info}>
-            <strong>Pedro Henrique</strong>
-            <span>Web Developer</span>
+            <strong>{author.name}</strong>
+            <span>{author.role}</span>
           </div>
         </div>
 
-        <time title="11 de Maio às 08:13" dateTime="2022-05-11 08:13:30">
-          Publicado há 1h
+        <time title={publishedAtFormatted} dateTime={publishedAt.toISOString()}>
+          {publishedDateRelative}
         </time>
       </header>
 
       <div className={styles.content}>
-        <p>Fala galeraa 👋</p>
-        <p>
-          Acabei de subir mais um projeto no meu portifa. É um projeto que fiz
-          no NLW Return, evento da Rocketseat. O nome do projeto é DoctorCare 🚀
-        </p>
-        <p>
-          👉 <a href="">jane.design/doctorcare</a>
-        </p>
-        <p>
-          <a href="">#novoprojeto</a>
-          <a href="">#rocketseat</a>
-          <a href="">#nlw</a>
-        </p>
+        {content.map((line, index) => {
+          if (line.type === 'paragraph') {
+            return <p key={String(index)}>{line.content}</p>;
+          } else if (line.type === 'link') {
+            return (
+              <p key={String(index)}>
+                <a href="">{line.content}</a>
+              </p>
+            );
+          }
+        })}
       </div>
 
-      <form className={styles.commentForm}>
+      <form className={styles.commentForm} onSubmit={handleCreateNewComment}>
         <strong>Deixe seu feedback</strong>
 
-        <textarea placeholder="Deixe seu comentário" />
+        <textarea
+          value={newCommentText}
+          onChange={(event) => setNewCommentText(event.target.value)}
+          placeholder="Deixe seu comentário"
+        />
 
         <div className={styles.submitButtonContainer}>
           <button type="submit">Publicar</button>
@@ -45,9 +76,13 @@ function Post(props) {
       </form>
 
       <div className={styles.commentList}>
-        <Comment />
-        <Comment />
-        <Comment />
+        {comments.map((comment) => (
+          <Comment
+            key={comment.id}
+            comment={comment}
+            onRemove={handleRemoveComment}
+          />
+        ))}
       </div>
     </article>
   );
