@@ -4,23 +4,32 @@ import {
   formatePublishedDateRelative,
 } from '../../utils/date';
 import { Comment, Avatar } from '..';
+import { IPost, IComment } from '../../models';
 import styles from './styles.module.css';
 
-function Post({ author, content, publishedAt }) {
-  const [comments, setComments] = React.useState([]);
+type PostProps = {
+  post: IPost;
+};
+
+function Post({ post }: PostProps) {
+  const { author, content, publishedAt } = post;
+
+  const [comments, setComments] = React.useState<IComment[]>([]);
   const [newCommentText, setNewCommentText] = React.useState('');
 
   const publishedAtFormatted = formatePublishedAt(publishedAt);
   const publishedDateRelative = formatePublishedDateRelative(publishedAt);
 
   // update the comment text
-  function handleNewCommentChange(event) {
+  function handleNewCommentChange(
+    event: React.ChangeEvent<HTMLTextAreaElement>
+  ) {
     event.target.setCustomValidity('');
     setNewCommentText(event.target.value);
   }
 
   // create a new comment
-  function handleCreateNewComment(event) {
+  function handleCreateNewComment(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
 
     const newComment = {
@@ -36,20 +45,15 @@ function Post({ author, content, publishedAt }) {
   }
 
   // remove comment
-  function deleteComment(commentId) {
+  function deleteComment(commentId: string) {
     setComments(comments.filter((comment) => comment.id !== commentId));
   }
 
   // update likes
-  function updateCommentLike(commentId) {
+  function updateCommentLike(commentId: string) {
     const comment = comments.find((comment) => comment.id === commentId);
-    comment.likes += 1;
+    if (comment) comment.likes += 1;
     setComments([...comments]);
-  }
-
-  // validate fields
-  function handleNewInvalidText(event) {
-    event.target.setCustomValidity('Esse campo é obrigatório');
   }
 
   // utils
@@ -92,8 +96,6 @@ function Post({ author, content, publishedAt }) {
           value={newCommentText}
           onChange={handleNewCommentChange}
           placeholder="Deixe seu comentário"
-          required
-          onInvalid={handleNewInvalidText}
         />
 
         <div className={styles.submitButtonContainer}>

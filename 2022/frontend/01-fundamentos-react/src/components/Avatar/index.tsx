@@ -1,6 +1,11 @@
 import styles from './styles.module.css';
 
-function Avatar({ hasBorder = true, url }) {
+type AvatarProps = {
+  hasBorder?: boolean;
+  url: string;
+};
+
+function Avatar({ hasBorder = true, url }: AvatarProps) {
   return (
     <img
       src={url}

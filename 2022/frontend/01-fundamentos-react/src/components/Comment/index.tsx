@@ -5,8 +5,19 @@ import {
 } from '../../utils/date';
 import { Avatar } from '..';
 import styles from './styles.module.css';
+import { IComment } from '../../models';
 
-function Comment({ comment, onDeleteComment, onUpdateCommentLike }) {
+type CommentProps = {
+  comment: IComment;
+  onDeleteComment: (id: string) => void;
+  onUpdateCommentLike: (id: string) => void;
+};
+
+function Comment({
+  comment,
+  onDeleteComment,
+  onUpdateCommentLike,
+}: CommentProps) {
   const { id, content, likes, publishedAt } = comment;
 
   const publishedAtFormatted = formatePublishedAt(publishedAt);
