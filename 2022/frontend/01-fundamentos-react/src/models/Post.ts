@@ -1,8 +1,4 @@
-interface IAuthor {
-  avatarUrl: string;
-  name: string;
-  role: string;
-}
+import { IAuthor } from '.';
 
 interface IContent {
   type: string;
@@ -16,4 +12,4 @@ interface IPost {
   publishedAt: Date;
 }
 
-export type { IAuthor, IContent, IPost };
+export type { IContent, IPost };
