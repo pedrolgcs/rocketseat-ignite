@@ -33,7 +33,7 @@ function Comment({
 
   return (
     <div className={styles.comment}>
-      <Avatar hasBorder={false} url="https://github.com/pedrolgcs.png" />
+      <Avatar hasBorder={false} src="https://github.com/pedrolgcs.png" />
 
       <div className={styles.box}>
         <div className={styles.content}>
