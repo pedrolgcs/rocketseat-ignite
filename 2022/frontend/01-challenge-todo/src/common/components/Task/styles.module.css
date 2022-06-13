@@ -1,0 +1,52 @@
+.container {
+  background-color: var(--gray-500);
+  padding: 1rem;
+  border-radius: 8px;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  justify-content: flex-start;
+  grid-template-rows: auto;
+  gap: 0.75rem;
+}
+
+.checkbox {
+  position: relative;
+  line-height: 0;
+  cursor: pointer;
+  padding: 0;
+  z-index: 1000;
+}
+
+.cover {
+  position: absolute;
+  background-color: var(--white);
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 100%;
+  bottom: 5px;
+  right: 5px;
+  z-index: -1;
+}
+
+.text {
+  color: var(--gray-100);
+  font-size: 0.875rem;
+  line-height: 1.4;
+}
+
+.completedText {
+  color: var(--gray-300);
+  font-size: 0.875rem;
+  line-height: 1.4;
+  text-decoration-line: line-through;
+}
+
+.delete {
+  border: none;
+  cursor: pointer;
+  background: transparent;
+  height: fit-content;
+  color: var(--gray-300);
+  height: 1rem;
+  width: 1rem;
+}
