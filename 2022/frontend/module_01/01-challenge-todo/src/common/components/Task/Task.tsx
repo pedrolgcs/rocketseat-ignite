@@ -10,7 +10,7 @@ type TaskProps = {
 };
 
 const Task: React.FC<TaskProps> = ({ task, onChange, onRemove }) => {
-  const { id, content, completed } = task;
+  const { id, completed, content } = task;
 
   function handleRemove() {
     onRemove(id);
