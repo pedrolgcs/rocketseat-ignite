@@ -62,8 +62,8 @@ const Subscribe: React.FC = () => {
   };
 
   return (
-    <div className="h-screen overflow-hidden bg-blur bg-cover bg-no-repeat flex flex-col items-center">
-      <div className="w-full max-w-[1100px] flex items-center justify-between mt-20">
+    <div className="h-screen bg-blur bg-cover bg-no-repeat flex flex-col items-center md:overflow-hidden">
+      <div className="w-full max-w-[1100px] flex flex-col items-center justify-between mt-20 px-10 gap-10 md:flex-row">
         <div className="max-w-[640px]">
           <img src="/assets/images/logo.svg" alt="ignite" />
 
@@ -79,7 +79,7 @@ const Subscribe: React.FC = () => {
           </p>
         </div>
 
-        <div className="p-8 bg-gray-700 border border-gray-500 rounded">
+        <div className="p-8 bg-gray-700 border border-gray-500 rounded w-full">
           <strong className="text-2xl mb-6 block">
             Inscreva-se gratuitamente
           </strong>
@@ -119,15 +119,9 @@ const Subscribe: React.FC = () => {
         </div>
       </div>
 
-      <img
-        src="/assets/images/code-mockup.png"
-        className="mt-10"
-        alt="code"
-      />
+      <img src="/assets/images/code-mockup.png" className="mt-6" alt="code" />
     </div>
   );
 };
 
 export { Subscribe };
-
-// 48:22
