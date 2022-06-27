@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import toast from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
 import classnames from 'classnames';
-import logoImg from '../../assets/images/logo.svg';
 import {
   useCreateSubscriberMutation,
   useGetSubscriberByEmailLazyQuery,
@@ -66,7 +65,7 @@ const Subscribe: React.FC = () => {
     <div className="h-screen overflow-hidden bg-blur bg-cover bg-no-repeat flex flex-col items-center">
       <div className="w-full max-w-[1100px] flex items-center justify-between mt-20">
         <div className="max-w-[640px]">
-          <img src={logoImg} alt="ignite" />
+          <img src="/assets/images/logo.svg" alt="ignite" />
 
           <h1 className="mt-8 text-[2.5rem] leading-tight">
             Construa uma{' '}
@@ -121,7 +120,7 @@ const Subscribe: React.FC = () => {
       </div>
 
       <img
-        src="/src/assets/images/code-mockup.png"
+        src="/assets/images/code-mockup.png"
         className="mt-10"
         alt="code"
       />
