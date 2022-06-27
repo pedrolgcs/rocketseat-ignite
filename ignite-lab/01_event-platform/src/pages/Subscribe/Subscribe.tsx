@@ -1,30 +1,12 @@
 import React, { useState } from 'react';
-import { gql, useMutation, useQuery, useLazyQuery } from '@apollo/client';
 import toast from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
 import classnames from 'classnames';
 import logoImg from '../../assets/images/logo.svg';
-import { ISubscriber } from '../../models';
-
-const CREATE_SUBSCRIBER_MUTATION = gql`
-  mutation ($name: String!, $email: String!) {
-    createSubscriber(data: { name: $name, email: $email }) {
-      id
-    }
-  }
-`;
-
-const GET_SUBSCRIBER_BY_EMAIL_QUERY = gql`
-  query ($email: String!) {
-    subscriber(where: { email: $email }) {
-      id
-    }
-  }
-`;
-
-type GetSubscriberByEmailQueryResponse = {
-  subscriber?: Pick<ISubscriber, 'id'>;
-};
+import {
+  useCreateSubscriberMutation,
+  useGetSubscriberByEmailLazyQuery,
+} from '../../graphql/generated';
 
 const Subscribe: React.FC = () => {
   const [name, setName] = React.useState('');
@@ -36,13 +18,9 @@ const Subscribe: React.FC = () => {
 
   const navigate = useNavigate();
 
-  const [createSubscriber, { loading }] = useMutation(
-    CREATE_SUBSCRIBER_MUTATION
-  );
+  const [createSubscriber, { loading }] = useCreateSubscriberMutation();
 
-  const [geSubscriberByEmail] = useLazyQuery<GetSubscriberByEmailQueryResponse>(
-    GET_SUBSCRIBER_BY_EMAIL_QUERY
-  );
+  const [geSubscriberByEmail] = useGetSubscriberByEmailLazyQuery();
 
   const handleSubscribe = async (event: React.FormEvent) => {
     event.preventDefault();

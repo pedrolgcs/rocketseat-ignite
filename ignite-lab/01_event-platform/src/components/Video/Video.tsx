@@ -1,6 +1,4 @@
 import React from 'react';
-// import { DefaultUi, Player, Youtube } from '@vime/react';
-import { gql, useQuery } from '@apollo/client';
 import {
   CaretRight,
   DiscordLogo,
@@ -9,43 +7,20 @@ import {
   Image,
 } from 'phosphor-react';
 import '@vime/core/themes/default.css';
-import { ILesson } from '../../models';
-
-const GET_LESSON_BY_SLUG_QUERY = gql`
-  query ($slug: String) {
-    lesson(where: { slug: $slug }) {
-      id
-      title
-      description
-      videoId
-      teacher {
-        name
-        avatarURL
-        bio
-      }
-    }
-  }
-`;
-
-type GetLessonBySlugQueryResponse = {
-  lesson: Omit<ILesson, 'lessonType' | 'availableAt' | 'challenge'>;
-};
+import { useGetLessonBySlugQuery } from '../../graphql/generated';
 
 type VideoProps = {
   lessonSlug: string;
 };
 
 const Video: React.FC<VideoProps> = ({ lessonSlug }) => {
-  const { data } = useQuery<GetLessonBySlugQueryResponse>(
-    GET_LESSON_BY_SLUG_QUERY,
-    {
-      variables: {
-        slug: lessonSlug,
-      },
-    }
-  );
+  const { data } = useGetLessonBySlugQuery({
+    variables: {
+      slug: lessonSlug,
+    },
+  });
 
-  if (!data) {
+  if (!data || !data.lesson) {
     return (
       <div className="flex-1">
         <p>Carregando...</p>;
@@ -57,11 +32,6 @@ const Video: React.FC<VideoProps> = ({ lessonSlug }) => {
     <div className="flex-1 ">
       <div className="bg-black flex justify-center">
         <div className="h-full w-full max-w-[1100px] max-h-[60vh] aspect-video">
-          {/* // ! NOT RELOAD VIDEO FRAME ON CHANGE VIDEO_ID */}
-          {/* <Player>
-            <Youtube videoId={data.lesson.videoId} />
-            <DefaultUi />
-          </Player> */}
           <iframe
             width="100%"
             height="100%"
@@ -82,21 +52,23 @@ const Video: React.FC<VideoProps> = ({ lessonSlug }) => {
               {data.lesson.description}
             </p>
 
-            <div className="flex items-center gap-4 mt-6">
-              <img
-                src="https://github.com/diego3g.png"
-                alt=""
-                className="h-16 w-16 rounded-full border-2 border-blue-500"
-              />
-              <div className="leading-relaxed">
-                <strong className="font-bold text-2xl block">
-                  {data.lesson.teacher?.name}
-                </strong>
-                <span className="text-gray-200 text-sm block">
-                  {data.lesson.teacher?.bio}
-                </span>
+            {data.lesson.teacher && (
+              <div className="flex items-center gap-4 mt-6">
+                <img
+                  src="https://github.com/diego3g.png"
+                  alt=""
+                  className="h-16 w-16 rounded-full border-2 border-blue-500"
+                />
+                <div className="leading-relaxed">
+                  <strong className="font-bold text-2xl block">
+                    {data.lesson.teacher.name}
+                  </strong>
+                  <span className="text-gray-200 text-sm block">
+                    {data.lesson.teacher.bio}
+                  </span>
+                </div>
               </div>
-            </div>
+            )}
           </div>
 
           <div className="flex flex-col gap-4">
