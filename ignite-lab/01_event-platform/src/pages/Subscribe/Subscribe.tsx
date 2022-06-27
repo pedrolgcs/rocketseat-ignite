@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { gql, useMutation, useQuery, useLazyQuery } from '@apollo/client';
 import toast from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
+import classnames from 'classnames';
 import logoImg from '../../assets/images/logo.svg';
 import { ISubscriber } from '../../models';
 
@@ -123,9 +124,10 @@ const Subscribe: React.FC = () => {
               name="email"
               value={email}
               onChange={(event) => setEmail(event.target.value)}
-              className={`bg-gray-900 rounded px-5 h-14 outline-none ${
-                fieldsError.email && 'border border-red-500'
-              }`}
+              className={classnames(
+                'bg-gray-900 rounded px-5 h-14 outline-none',
+                { 'border border-red-500': fieldsError.email }
+              )}
               type="email"
               placeholder="Digite seu e-mail"
             />
