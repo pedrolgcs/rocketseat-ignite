@@ -1,6 +1,6 @@
 import { ThemeProvider } from 'styled-components';
 import { Button } from '@/common/components';
-import theme from '@/styles/theme';
+import theme from '@/styles/themes/default';
 
 function App() {
   return (
