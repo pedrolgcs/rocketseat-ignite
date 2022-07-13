@@ -23,4 +23,4 @@ export default {
       500: '#FBA94C',
     },
   },
-} as const;
+}
