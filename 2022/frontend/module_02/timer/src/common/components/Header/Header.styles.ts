@@ -25,7 +25,7 @@ export const HeaderNavigation = styled.nav`
       border-bottom: 3px solid ${(props) => props.theme.colors.green[500]};
     }
 
-    &:active {
+    &.active {
       color: ${(props) => props.theme.colors.green[500]};
     }
   }
