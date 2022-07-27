@@ -2,11 +2,13 @@ import * as React from 'react'
 import { differenceInSeconds } from 'date-fns'
 import { ICycle } from '@/entities/cycle'
 
+type CreateNewCycle = Pick<ICycle, 'task' | 'minutesAmount'>
+
 type CyclesContextData = {
   cycles: ICycle[]
   activeCycle: ICycle | undefined
   amountSecondsPassed: number
-  addNewCycle: (cycle: ICycle) => void
+  createNewCycle: (cycle: CreateNewCycle) => void
   markCurrentCycleAsFinished: () => void
   interruptCurrentCycle: () => void
   setSecondsPassed: (seconds: number) => void
@@ -16,7 +18,7 @@ const CyclesContext = React.createContext<CyclesContextData>({
   cycles: [],
   activeCycle: undefined,
   amountSecondsPassed: 0,
-  addNewCycle: () => {},
+  createNewCycle: () => {},
   markCurrentCycleAsFinished: () => {},
   interruptCurrentCycle: () => {},
   setSecondsPassed: () => {},
@@ -39,9 +41,16 @@ function CyclesProvider({ children }: CyclesProviderProps) {
 
   const activeCycle = cycles.find((cycle) => cycle.id === activeCycleId)
 
-  const addNewCycle = React.useCallback((cycle: ICycle) => {
-    setCycles((state) => [...state, cycle])
-    setActiveCycleId(cycle.id)
+  const createNewCycle = React.useCallback((data: CreateNewCycle) => {
+    const newCycle = {
+      id: String(new Date().getTime()),
+      task: data.task,
+      minutesAmount: data.minutesAmount,
+      startedAt: new Date(),
+    }
+
+    setCycles((state) => [...state, newCycle])
+    setActiveCycleId(newCycle.id)
   }, [])
 
   const markCurrentCycleAsFinished = React.useCallback(() => {
@@ -62,6 +71,7 @@ function CyclesProvider({ children }: CyclesProviderProps) {
 
     if (currentCycleIndex >= 0) {
       setActiveCycleId(null)
+      setAmountSecondsPassed(0)
       cycles[currentCycleIndex].startedAt = new Date()
     }
   }, [activeCycleId, cycles])
@@ -76,7 +86,7 @@ function CyclesProvider({ children }: CyclesProviderProps) {
         cycles,
         activeCycle,
         amountSecondsPassed,
-        addNewCycle,
+        createNewCycle,
         markCurrentCycleAsFinished,
         interruptCurrentCycle,
         setSecondsPassed,

@@ -3,7 +3,6 @@ import { FormProvider, useForm } from 'react-hook-form'
 import { HandPalm, Play } from 'phosphor-react'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useCycles } from '@/contexts'
-import { ICycle } from '@/entities/cycle'
 import {
   NewCycleForm,
   Countdown,
@@ -13,8 +12,7 @@ import {
 import * as S from './Home.styles'
 
 const Home: React.FC = () => {
-  const { interruptCurrentCycle, addNewCycle, setSecondsPassed, activeCycle } =
-    useCycles()
+  const { interruptCurrentCycle, createNewCycle, activeCycle } = useCycles()
 
   const newCycleForm = useForm<NewCycleFormData>({
     resolver: zodResolver(newCycleFormValidationSchema),
@@ -30,21 +28,13 @@ const Home: React.FC = () => {
   const task = watch('task')
   const isSubmitDisabled = !task
 
-  function onSubmit(data: NewCycleFormData) {
-    const newCycle: ICycle = {
-      id: String(new Date().getTime()),
-      task: data.task,
-      minutesAmount: data.minutesAmount,
-      startedAt: new Date(),
-    }
-
-    addNewCycle(newCycle)
+  function onSubmit(newCycle: NewCycleFormData) {
+    createNewCycle(newCycle)
     reset()
   }
 
   function handleInterruptCycle() {
     interruptCurrentCycle()
-    setSecondsPassed(0)
   }
 
   return (
