@@ -6,13 +6,11 @@ export enum ActionTypes {
   INTERRUPT_CURRENT_CYCLE = 'INTERRUPT_CURRENT_CYCLE',
 }
 
-type CreateNewCycleActionPayload = {
-  cycle: ICycle
-}
-
 type CreateNewCycleAction = {
   type: ActionTypes.CREATE_NEW_CYCLE
-  payload: CreateNewCycleActionPayload
+  payload: {
+    cycle: ICycle
+  }
 }
 
 type FinishedCurrentCycleAction = {
