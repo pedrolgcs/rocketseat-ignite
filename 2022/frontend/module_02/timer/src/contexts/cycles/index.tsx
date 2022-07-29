@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { differenceInSeconds } from 'date-fns'
 import { ICycle } from '@/entities/cycle'
-import * as actions from './actions'
+import { ActionTypes } from './actions'
 import { inicialState, cyclesReducer } from './reducer'
 
 type createNewCycleData = Pick<ICycle, 'task' | 'minutesAmount'>
@@ -26,11 +26,7 @@ const CyclesContext = React.createContext<CyclesContextData>({
   setSecondsPassed: () => {},
 })
 
-type CyclesProviderProps = {
-  children: React.ReactNode
-}
-
-function CyclesProvider({ children }: CyclesProviderProps) {
+function CyclesProvider({ children }: React.PropsWithChildren<void>) {
   const [{ cycles, activeCycleId }, dispatch] = React.useReducer(
     cyclesReducer,
     inicialState,
@@ -53,16 +49,26 @@ function CyclesProvider({ children }: CyclesProviderProps) {
       startedAt: new Date(),
     }
 
-    dispatch(actions.createNewCycleAction(newCycle))
+    dispatch({
+      type: ActionTypes.CREATE_NEW_CYCLE,
+      payload: {
+        cycle: newCycle,
+      },
+    })
+
     setAmountSecondsPassed(0)
   }, [])
 
   const markCurrentCycleAsFinished = React.useCallback(() => {
-    dispatch(actions.finishedCurrentCycleAction())
+    dispatch({
+      type: ActionTypes.FINISHED_CURRENT_CYCLE,
+    })
   }, [])
 
   const interruptCurrentCycle = React.useCallback(() => {
-    dispatch(actions.interruptCurrentCycleAction())
+    dispatch({
+      type: ActionTypes.INTERRUPT_CURRENT_CYCLE,
+    })
   }, [])
 
   const setSecondsPassed = React.useCallback((seconds: number) => {
