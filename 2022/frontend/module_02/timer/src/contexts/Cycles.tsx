@@ -72,7 +72,7 @@ function CyclesProvider({ children }: CyclesProviderProps) {
     if (currentCycleIndex >= 0) {
       setActiveCycleId(null)
       setAmountSecondsPassed(0)
-      cycles[currentCycleIndex].startedAt = new Date()
+      cycles[currentCycleIndex].interruptedDate = new Date()
     }
   }, [activeCycleId, cycles])
 

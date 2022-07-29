@@ -1,4 +1,5 @@
 import React from 'react'
+import { formatDistanceToNow } from 'date-fns'
 import { useCycles } from '@/contexts'
 import * as S from './History.styles'
 
@@ -24,10 +25,24 @@ const History: React.FC = () => {
             {cycles.map((cycle) => (
               <tr key={cycle.id}>
                 <td>{cycle.task}</td>
-                <td>20 minutos</td>
-                <td>Há dois meses</td>
+                <td>{cycle.minutesAmount} minutos</td>
                 <td>
-                  <S.Status statusColor="yellow">Em andamento</S.Status>
+                  {formatDistanceToNow(cycle.startedAt, {
+                    addSuffix: true,
+                  })}
+                </td>
+                <td>
+                  {cycle.finishedDate && (
+                    <S.Status statusColor="green">Concluído</S.Status>
+                  )}
+
+                  {cycle.interruptedDate && (
+                    <S.Status statusColor="red">Interrompido</S.Status>
+                  )}
+
+                  {!cycle.finishedDate && !cycle.interruptedDate && (
+                    <S.Status statusColor="yellow">Em andamento</S.Status>
+                  )}
                 </td>
               </tr>
             ))}
