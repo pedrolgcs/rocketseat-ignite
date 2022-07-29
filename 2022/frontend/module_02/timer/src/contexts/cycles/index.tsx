@@ -1,14 +1,16 @@
 import * as React from 'react'
 import { differenceInSeconds } from 'date-fns'
 import { ICycle } from '@/entities/cycle'
+import * as actions from './actions'
+import { inicialState, cyclesReducer } from './reducer'
 
-type CreateNewCycle = Pick<ICycle, 'task' | 'minutesAmount'>
+type createNewCycleData = Pick<ICycle, 'task' | 'minutesAmount'>
 
 type CyclesContextData = {
   cycles: ICycle[]
   activeCycle: ICycle | undefined
   amountSecondsPassed: number
-  createNewCycle: (cycle: CreateNewCycle) => void
+  createNewCycle: (cycle: createNewCycleData) => void
   markCurrentCycleAsFinished: () => void
   interruptCurrentCycle: () => void
   setSecondsPassed: (seconds: number) => void
@@ -29,8 +31,10 @@ type CyclesProviderProps = {
 }
 
 function CyclesProvider({ children }: CyclesProviderProps) {
-  const [cycles, setCycles] = React.useState<ICycle[]>([])
-  const [activeCycleId, setActiveCycleId] = React.useState<string | null>(null)
+  const [{ cycles, activeCycleId }, dispatch] = React.useReducer(
+    cyclesReducer,
+    inicialState,
+  )
   const [amountSecondsPassed, setAmountSecondsPassed] = React.useState(() => {
     if (activeCycleId) {
       return differenceInSeconds(new Date(), new Date(activeCycle!.startedAt))
@@ -41,7 +45,7 @@ function CyclesProvider({ children }: CyclesProviderProps) {
 
   const activeCycle = cycles.find((cycle) => cycle.id === activeCycleId)
 
-  const createNewCycle = React.useCallback((data: CreateNewCycle) => {
+  const createNewCycle = React.useCallback((data: createNewCycleData) => {
     const newCycle = {
       id: String(new Date().getTime()),
       task: data.task,
@@ -49,32 +53,17 @@ function CyclesProvider({ children }: CyclesProviderProps) {
       startedAt: new Date(),
     }
 
-    setCycles((state) => [...state, newCycle])
-    setActiveCycleId(newCycle.id)
+    dispatch(actions.createNewCycleAction(newCycle))
+    setAmountSecondsPassed(0)
   }, [])
 
   const markCurrentCycleAsFinished = React.useCallback(() => {
-    const currentCycleIndex = cycles.findIndex((cycle) => {
-      return cycle.id === activeCycleId
-    })
-
-    if (currentCycleIndex >= 0) {
-      setActiveCycleId(null)
-      cycles[currentCycleIndex].finishedDate = new Date()
-    }
-  }, [activeCycleId, cycles])
+    dispatch(actions.finishedCurrentCycleAction())
+  }, [])
 
   const interruptCurrentCycle = React.useCallback(() => {
-    const currentCycleIndex = cycles.findIndex((cycle) => {
-      return cycle.id === activeCycleId
-    })
-
-    if (currentCycleIndex >= 0) {
-      setActiveCycleId(null)
-      setAmountSecondsPassed(0)
-      cycles[currentCycleIndex].interruptedDate = new Date()
-    }
-  }, [activeCycleId, cycles])
+    dispatch(actions.interruptCurrentCycleAction())
+  }, [])
 
   const setSecondsPassed = React.useCallback((seconds: number) => {
     setAmountSecondsPassed(seconds)
