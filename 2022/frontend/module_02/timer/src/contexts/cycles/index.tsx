@@ -2,7 +2,7 @@ import * as React from 'react'
 import { differenceInSeconds } from 'date-fns'
 import { ICycle } from '@/entities/cycle'
 import { ActionTypes } from './actions'
-import { inicialState, cyclesReducer } from './reducer'
+import { inicialState, cyclesReducer, CyclesState } from './reducer'
 
 type createNewCycleData = Pick<ICycle, 'task' | 'minutesAmount'>
 
@@ -30,16 +30,47 @@ function CyclesProvider({ children }: React.PropsWithChildren<void>) {
   const [{ cycles, activeCycleId }, dispatch] = React.useReducer(
     cyclesReducer,
     inicialState,
+    () => {
+      const storageStateAsJson = localStorage.getItem(
+        '@ignite-timer:cycles-state-1.0.0',
+      )
+
+      if (storageStateAsJson) {
+        const { activeCycleId, cycles }: CyclesState =
+          JSON.parse(storageStateAsJson)
+
+        const parseCycleDates = cycles.map((cycle) => {
+          return {
+            ...cycle,
+            startedAt: new Date(cycle.startedAt),
+            interruptedDate: cycle.interruptedDate
+              ? new Date(cycle.interruptedDate)
+              : undefined,
+            finishedDate: cycle.interruptedDate
+              ? new Date(cycle.interruptedDate)
+              : undefined,
+          }
+        })
+
+        return {
+          activeCycleId,
+          cycles: parseCycleDates,
+        }
+      }
+
+      return inicialState
+    },
   )
+
+  const activeCycle = cycles?.find((cycle) => cycle.id === activeCycleId)
+
   const [amountSecondsPassed, setAmountSecondsPassed] = React.useState(() => {
     if (activeCycleId) {
-      return differenceInSeconds(new Date(), new Date(activeCycle!.startedAt))
+      return differenceInSeconds(new Date(), activeCycle!.startedAt)
     }
 
     return 0
   })
-
-  const activeCycle = cycles.find((cycle) => cycle.id === activeCycleId)
 
   const createNewCycle = React.useCallback((data: createNewCycleData) => {
     const newCycle = {
@@ -74,6 +105,18 @@ function CyclesProvider({ children }: React.PropsWithChildren<void>) {
   const setSecondsPassed = React.useCallback((seconds: number) => {
     setAmountSecondsPassed(seconds)
   }, [])
+
+  /**
+   * Update cycles in localStorage
+   */
+  React.useEffect(() => {
+    const stateJSON = JSON.stringify({
+      cycles,
+      activeCycleId,
+    })
+
+    localStorage.setItem('@ignite-timer:cycles-state-1.0.0', stateJSON)
+  }, [cycles, activeCycleId])
 
   return (
     <CyclesContext.Provider
