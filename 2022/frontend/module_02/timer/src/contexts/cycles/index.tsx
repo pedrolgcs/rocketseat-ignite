@@ -2,7 +2,7 @@ import * as React from 'react'
 import { differenceInSeconds } from 'date-fns'
 import { ICycle } from '@/entities/cycle'
 import { ActionTypes } from './actions'
-import { inicialState, cyclesReducer, CyclesState } from './reducer'
+import { getInitialState, cyclesReducer, CyclesState } from './reducer'
 
 type createNewCycleData = Pick<ICycle, 'task' | 'minutesAmount'>
 
@@ -29,36 +29,23 @@ const CyclesContext = React.createContext<CyclesContextData>({
 function CyclesProvider({ children }: React.PropsWithChildren<void>) {
   const [{ cycles, activeCycleId }, dispatch] = React.useReducer(
     cyclesReducer,
-    inicialState,
-    () => {
-      const storageStateAsJson = localStorage.getItem(
-        '@ignite-timer:cycles-state-1.0.0',
-      )
+    getInitialState(),
+    (state) => {
+      const parsedValues = state.cycles.map((cycle) => ({
+        ...cycle,
+        startedAt: new Date(cycle.startedAt),
+        interruptedDate: cycle.interruptedDate
+          ? new Date(cycle.interruptedDate)
+          : undefined,
+        finishedDate: cycle.finishedDate
+          ? new Date(cycle.finishedDate)
+          : undefined,
+      }))
 
-      if (storageStateAsJson) {
-        const { activeCycleId, cycles }: CyclesState =
-          JSON.parse(storageStateAsJson)
-
-        const parseCycleDates = cycles.map((cycle) => {
-          return {
-            ...cycle,
-            startedAt: new Date(cycle.startedAt),
-            interruptedDate: cycle.interruptedDate
-              ? new Date(cycle.interruptedDate)
-              : undefined,
-            finishedDate: cycle.interruptedDate
-              ? new Date(cycle.interruptedDate)
-              : undefined,
-          }
-        })
-
-        return {
-          activeCycleId,
-          cycles: parseCycleDates,
-        }
+      return {
+        activeCycleId: state.activeCycleId,
+        cycles: parsedValues,
       }
-
-      return inicialState
     },
   )
 

@@ -12,6 +12,18 @@ export const inicialState: CyclesState = {
   activeCycleId: null,
 }
 
+export const getInitialState = (): CyclesState => {
+  const storageStateAsJson = localStorage.getItem(
+    '@ignite-timer:cycles-state-1.0.0',
+  )
+
+  if (storageStateAsJson) {
+    return JSON.parse(storageStateAsJson)
+  }
+
+  return inicialState
+}
+
 export const cyclesReducer = (state: CyclesState, action: ReduceActions) => {
   switch (action.type) {
     case ActionTypes.CREATE_NEW_CYCLE:
