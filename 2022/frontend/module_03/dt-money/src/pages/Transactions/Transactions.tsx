@@ -1,4 +1,5 @@
 import { Summary } from '@/components';
+import {SearchForm} from './components';
 import * as S from './Transactions.styles';
 
 function Transactions() {
@@ -7,6 +8,8 @@ function Transactions() {
       <Summary />
 
       <S.TransactionsContent>
+        <SearchForm />
+        
         <S.TransactionsTable>
           <tbody>
             <tr>
