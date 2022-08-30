@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 export const TransactionsContainer = styled.main`
   margin-top: -5rem;
@@ -20,7 +20,7 @@ export const TransactionsTable = styled.table`
   td {
     padding: 1.25rem 2rem;
     background: ${(props) => props.theme.colors.gray[700]};
-    
+
     &:first-child {
       border-top-left-radius: 6px;
       border-bottom-left-radius: 6px;
@@ -43,4 +43,14 @@ export const PriceHightLight = styled.span<PriceHightLightProps>`
     props.variant === 'income'
       ? props.theme.colors.green[300]
       : props.theme.colors.red[300]};
+
+  &::before {
+    ${(props) => css`
+      content: '${props.variant === 'outcome' ? '-' : ''}';
+    `};
+
+    ${(props) => css`
+      margin-right: ${props.variant === 'outcome' ? '5px' : ''};
+    `};
+  }
 `;

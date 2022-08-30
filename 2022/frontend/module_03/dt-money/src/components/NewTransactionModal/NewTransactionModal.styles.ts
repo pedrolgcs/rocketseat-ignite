@@ -39,6 +39,10 @@ export const Content = styled(Dialog.Content)`
       }
     }
 
+    label {
+      color: ${(props) => props.theme.colors.red[300]};
+    }
+
     button[type='submit'] {
       height: 3.625rem;
       border: 0;
@@ -50,8 +54,13 @@ export const Content = styled(Dialog.Content)`
       margin-top: 1.5rem;
       transition: background 0.3s;
 
-      &:hover {
+      &:not(:disabled):hover {
         background: ${(props) => props.theme.colors.green[700]};
+      }
+
+      &:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
       }
     }
   }
@@ -83,7 +92,9 @@ type TransactionTypeButtonProps = {
   variant: 'income' | 'outcome';
 };
 
-export const TransactionTypeButton = styled(RadioGroup.Item)<TransactionTypeButtonProps>`
+export const TransactionTypeButton = styled(
+  RadioGroup.Item
+)<TransactionTypeButtonProps>`
   background: ${(props) => props.theme.colors.gray[700]};
   padding: 1rem;
   border-radius: 6px;

@@ -1,38 +1,33 @@
 import { Summary } from '@/components';
-import {SearchForm} from './components';
+import { useTransactions, TransactionsProvider } from '@/contexts';
+import { dateFormatter } from '@/utils/date';
+import { SearchForm } from './components';
 import * as S from './Transactions.styles';
 
 function Transactions() {
+  const { transactions } = useTransactions();
+
   return (
     <S.TransactionsContainer>
       <Summary />
 
       <S.TransactionsContent>
         <SearchForm />
-        
+
         <S.TransactionsTable>
           <tbody>
-            <tr>
-              <td>Desenvolvimento de site</td>
-              <td>
-                <S.PriceHightLight variant="income">
-                  R$ 12.000,00
-                </S.PriceHightLight>
-              </td>
-              <td>Venda</td>
-              <td>13/04/2022</td>
-            </tr>
-
-            <tr>
-              <td>Hamburger</td>
-              <td>
-                <S.PriceHightLight variant="outcome">
-                  - R$ 59,00
-                </S.PriceHightLight>
-              </td>
-              <td>Alimentação</td>
-              <td>10/04/2022</td>
-            </tr>
+            {transactions?.map((transaction) => (
+              <tr key={transaction.id}>
+                <td>{transaction.description}</td>
+                <td>
+                  <S.PriceHightLight variant={transaction.type}>
+                    {transaction.formattedPrice}
+                  </S.PriceHightLight>
+                </td>
+                <td>{transaction.category}</td>
+                <td>{dateFormatter.format(transaction.createdAt)}</td>
+              </tr>
+            ))}
           </tbody>
         </S.TransactionsTable>
       </S.TransactionsContent>
@@ -40,4 +35,12 @@ function Transactions() {
   );
 }
 
-export default Transactions;
+function TransactionsWithProviders() {
+  return (
+    <TransactionsProvider>
+      <Transactions />
+    </TransactionsProvider>
+  );
+}
+
+export default TransactionsWithProviders;
