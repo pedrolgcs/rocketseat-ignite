@@ -1,14 +1,5 @@
-import { Transaction } from '@/entities/transaction';
+import { Transaction, ITransaction } from '@/entities/transaction';
 import { serverAxiosInstance } from '@/services/api';
-
-type GetTransactionsResponse = {
-  id: string;
-  description: string;
-  type: 'income' | 'outcome';
-  category: string;
-  price: number;
-  createdAt: string;
-}[];
 
 export type GetTransactionsParams = {
   filters?: {
@@ -17,14 +8,37 @@ export type GetTransactionsParams = {
 };
 
 export async function getTransactions({ filters }: GetTransactionsParams) {
-  const { data: transactions } =
-    await serverAxiosInstance.get<GetTransactionsResponse>('/transactions', {
-      params: { q: filters?.query },
-    });
+  const { data: transactions } = await serverAxiosInstance.get<ITransaction[]>(
+    '/transactions',
+    {
+      params: { _sort: 'createdAt', _order: 'desc', q: filters?.query },
+    }
+  );
 
   const normalizedTransactions = transactions.map(
     (transaction) => new Transaction(transaction)
   );
 
   return normalizedTransactions;
+}
+
+export type CreateNewTransactionParams = {
+  description: string;
+  category: string;
+  price: number;
+  type: 'income' | 'outcome';
+};
+
+export async function createNewTransaction(data: CreateNewTransactionParams) {
+  const newTransaction = {
+    ...data,
+    createdAt: new Date(),
+  };
+
+  const { data: transaction } = await serverAxiosInstance.post<ITransaction>(
+    '/transactions',
+    newTransaction
+  );
+
+  return new Transaction(transaction);
 }

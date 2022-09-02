@@ -2,7 +2,7 @@ import { priceFormatter } from '@/utils/currency';
 
 export type TransactionType = 'income' | 'outcome';
 
-type ITransaction = {
+export type ITransaction = {
   id: string;
   description: string;
   type: TransactionType;

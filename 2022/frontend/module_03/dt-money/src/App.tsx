@@ -6,6 +6,7 @@ import ptBr from 'date-fns/locale/pt-BR';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { Router } from '@/routes/Router';
+import { TransactionsProvider } from '@/contexts';
 import { GlobalStyle } from '@/styles/global';
 import defaultTheme from '@/styles/themes/default';
 
@@ -23,7 +24,9 @@ function App() {
     <QueryClientProvider client={queryClient}>
       <ThemeProvider theme={defaultTheme}>
         <BrowserRouter>
-          <Router />
+          <TransactionsProvider>
+            <Router />
+          </TransactionsProvider>
         </BrowserRouter>
         <GlobalStyle />
       </ThemeProvider>

@@ -15,6 +15,70 @@
       "category": "Alimentação",
       "price": 50,
       "createdAt": "2022-07-29T19:30:44.505Z"
+    },
+    {
+      "description": "Carro",
+      "price": 1200,
+      "category": "Pessoal",
+      "type": "outcome",
+      "createdAt": "2022-08-30T19:02:48.735Z",
+      "id": 3
+    },
+    {
+      "description": "Desenvolvimento de App",
+      "price": 10000,
+      "category": "Trabalho",
+      "type": "income",
+      "createdAt": "2022-09-02T11:07:29.833Z",
+      "id": 4
+    },
+    {
+      "description": "Pizza",
+      "price": 32,
+      "category": "Alimentação",
+      "type": "outcome",
+      "createdAt": "2022-09-02T11:36:14.614Z",
+      "id": 5
+    },
+    {
+      "description": "Carro",
+      "price": 1000,
+      "category": "Pessoal",
+      "type": "outcome",
+      "createdAt": "2022-09-02T11:36:41.648Z",
+      "id": 6
+    },
+    {
+      "description": "Alimentaç~Sanduiche",
+      "price": 12,
+      "category": "Alimentação",
+      "type": "outcome",
+      "createdAt": "2022-09-02T11:48:40.509Z",
+      "id": 7
+    },
+    {
+      "description": "Pizza",
+      "price": 35,
+      "category": "Alimentação",
+      "type": "outcome",
+      "createdAt": "2022-09-02T12:12:36.943Z",
+      "id": 8
+    },
+    {
+      "description": "Pizza",
+      "price": 42,
+      "category": "Alimentação",
+      "type": "outcome",
+      "createdAt": "2022-09-02T12:13:16.620Z",
+      "id": 9
+    },
+    {
+      "description": "Pizza",
+      "price": 55,
+      "category": "Alimentação",
+      "type": "outcome",
+      "createdAt": "2022-09-02T12:16:27.435Z",
+      "id": 10
     }
   ]
 }

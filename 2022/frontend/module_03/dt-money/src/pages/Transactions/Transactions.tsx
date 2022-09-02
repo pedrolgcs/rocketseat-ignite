@@ -1,5 +1,5 @@
 import { Summary } from '@/components';
-import { useTransactions, TransactionsProvider } from '@/contexts';
+import { useTransactions } from '@/contexts';
 import { dateFormatter } from '@/utils/date';
 import { SearchForm } from './components';
 import * as S from './Transactions.styles';
@@ -35,12 +35,4 @@ function Transactions() {
   );
 }
 
-function TransactionsWithProviders() {
-  return (
-    <TransactionsProvider>
-      <Transactions />
-    </TransactionsProvider>
-  );
-}
-
-export default TransactionsWithProviders;
+export default Transactions;

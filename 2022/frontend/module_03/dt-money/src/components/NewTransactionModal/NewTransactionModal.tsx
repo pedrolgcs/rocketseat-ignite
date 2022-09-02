@@ -3,6 +3,7 @@ import { useForm, SubmitHandler, Controller } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as zod from 'zod';
 import * as Dialog from '@radix-ui/react-dialog';
+import { useTransactions } from '@/contexts';
 import * as S from './NewTransactionModal.styles';
 
 const newTransactionSchema = zod.object({
@@ -16,11 +17,18 @@ const newTransactionSchema = zod.object({
 
 type NewTransactionFormInputs = zod.infer<typeof newTransactionSchema>;
 
-function NewTransactionModal() {
+type NewTransactionModalProps = {
+  toggleModal: () => void;
+};
+
+function NewTransactionModal({ toggleModal }: NewTransactionModalProps) {
+  const { createTransaction } = useTransactions();
+
   const {
     register,
     handleSubmit,
     control,
+    reset,
     formState: { isSubmitting, errors },
   } = useForm<NewTransactionFormInputs>({
     resolver: zodResolver(newTransactionSchema),
@@ -32,10 +40,14 @@ function NewTransactionModal() {
     },
   });
 
-  const handleCreateNewTransaction: SubmitHandler<NewTransactionFormInputs> = (
-    data
-  ) => {
-    console.log({ data });
+  const handleCreateNewTransaction: SubmitHandler<
+    NewTransactionFormInputs
+  > = async (data) => {
+    await createTransaction(data);
+
+    reset();
+
+    toggleModal();
   };
 
   return (
