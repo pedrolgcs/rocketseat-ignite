@@ -1,8 +1,16 @@
-import { useTransactions } from '@/contexts';
+import { TransactionsContext } from '@/contexts';
+import { useContextSelector } from 'use-context-selector';
 import { priceFormatter } from '@/utils/currency';
 
 function useSummary() {
-  const { transactions } = useTransactions();
+  const { transactions } = useContextSelector(
+    TransactionsContext,
+    (context) => {
+      return {
+        transactions: context.transactions,
+      };
+    }
+  );
 
   const summary = transactions.reduce(
     (acc, transaction) => {

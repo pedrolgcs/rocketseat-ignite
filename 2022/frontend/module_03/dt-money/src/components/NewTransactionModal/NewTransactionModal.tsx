@@ -3,7 +3,8 @@ import { useForm, SubmitHandler, Controller } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as zod from 'zod';
 import * as Dialog from '@radix-ui/react-dialog';
-import { useTransactions } from '@/contexts';
+import { TransactionsContext } from '@/contexts';
+import { useContextSelector } from 'use-context-selector';
 import * as S from './NewTransactionModal.styles';
 
 const newTransactionSchema = zod.object({
@@ -22,7 +23,14 @@ type NewTransactionModalProps = {
 };
 
 function NewTransactionModal({ toggleModal }: NewTransactionModalProps) {
-  const { createTransaction } = useTransactions();
+  const { createTransaction } = useContextSelector(
+    TransactionsContext,
+    (context) => {
+      return {
+        createTransaction: context.createTransaction,
+      };
+    }
+  );
 
   const {
     register,

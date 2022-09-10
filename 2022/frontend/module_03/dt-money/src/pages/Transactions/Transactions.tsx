@@ -1,11 +1,19 @@
 import { Summary } from '@/components';
-import { useTransactions } from '@/contexts';
+import { useContextSelector } from 'use-context-selector';
+import { TransactionsContext } from '@/contexts';
 import { dateFormatter } from '@/utils/date';
 import { SearchForm } from './components';
 import * as S from './Transactions.styles';
 
 function Transactions() {
-  const { transactions } = useTransactions();
+  const { transactions } = useContextSelector(
+    TransactionsContext,
+    (context) => {
+      return {
+        transactions: context.transactions,
+      };
+    }
+  );
 
   return (
     <S.TransactionsContainer>

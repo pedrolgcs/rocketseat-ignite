@@ -1,3 +1,4 @@
+import { createContext } from 'use-context-selector';
 import { Transaction } from '@/entities/transaction';
 import {
   getTransactions,
@@ -13,7 +14,7 @@ type TransactionsContextData = {
   createTransaction: (params: CreateNewTransactionParams) => Promise<void>;
 };
 
-const TransactionsContext = React.createContext<TransactionsContextData>({
+const TransactionsContext = createContext<TransactionsContextData>({
   transactions: [],
   fetchTransactions: () => Promise.resolve(),
   createTransaction: () => Promise.resolve(),
@@ -26,15 +27,21 @@ type TransactionsProviderProps = {
 function TransactionsProvider({ children }: TransactionsProviderProps) {
   const [transactions, setTransactions] = React.useState<Transaction[]>([]);
 
-  async function fetchTransactions(params: GetTransactionsParams) {
-    const response = await getTransactions(params);
-    setTransactions(response);
-  }
+  const fetchTransactions = React.useCallback(
+    async (params: GetTransactionsParams) => {
+      const response = await getTransactions(params);
+      setTransactions(response);
+    },
+    []
+  );
 
-  async function createTransaction(data: CreateNewTransactionParams) {
-    const newTransaction = await createNewTransaction(data);
-    setTransactions((state) => [newTransaction, ...state]);
-  }
+  const createTransaction = React.useCallback(
+    async (data: CreateNewTransactionParams) => {
+      const newTransaction = await createNewTransaction(data);
+      setTransactions((state) => [newTransaction, ...state]);
+    },
+    []
+  );
 
   React.useEffect(() => {
     fetchTransactions({});
@@ -49,14 +56,4 @@ function TransactionsProvider({ children }: TransactionsProviderProps) {
   );
 }
 
-function useTransactions() {
-  const context = React.useContext(TransactionsContext);
-
-  if (!context) {
-    throw new Error('useCycles must be used within an Cycles provider');
-  }
-
-  return context;
-}
-
-export { TransactionsProvider, useTransactions };
+export { TransactionsProvider, TransactionsContext };
