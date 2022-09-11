@@ -2,18 +2,18 @@ import { Summary } from '@/components';
 import { useContextSelector } from 'use-context-selector';
 import { TransactionsContext } from '@/contexts';
 import { dateFormatter } from '@/utils/date';
+import { useTransactionsQueries } from '@/hooks/queries';
 import { SearchForm } from './components';
 import * as S from './Transactions.styles';
 
 function Transactions() {
-  const { transactions } = useContextSelector(
-    TransactionsContext,
-    (context) => {
-      return {
-        transactions: context.transactions,
-      };
-    }
-  );
+  const { query } = useContextSelector(TransactionsContext, (context) => {
+    return {
+      query: context.query,
+    };
+  });
+
+  const { data: transactions } = useTransactionsQueries({ query });
 
   return (
     <S.TransactionsContainer>

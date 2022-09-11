@@ -2,16 +2,14 @@ import { Transaction, ITransaction } from '@/entities/transaction';
 import { serverAxiosInstance } from '@/services/api';
 
 export type GetTransactionsParams = {
-  filters?: {
-    query: string;
-  };
+  query?: string;
 };
 
-export async function getTransactions({ filters }: GetTransactionsParams) {
+export async function getTransactions({ query = '' }: GetTransactionsParams) {
   const { data: transactions } = await serverAxiosInstance.get<ITransaction[]>(
     '/transactions',
     {
-      params: { _sort: 'createdAt', _order: 'desc', q: filters?.query },
+      params: { _sort: 'createdAt', _order: 'desc', q: query },
     }
   );
 

@@ -3,8 +3,7 @@ import { useForm, SubmitHandler, Controller } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as zod from 'zod';
 import * as Dialog from '@radix-ui/react-dialog';
-import { TransactionsContext } from '@/contexts';
-import { useContextSelector } from 'use-context-selector';
+import { useMutationCreateTransaction } from '@/hooks/mutations';
 import * as S from './NewTransactionModal.styles';
 
 const newTransactionSchema = zod.object({
@@ -23,21 +22,14 @@ type NewTransactionModalProps = {
 };
 
 function NewTransactionModal({ toggleModal }: NewTransactionModalProps) {
-  const { createTransaction } = useContextSelector(
-    TransactionsContext,
-    (context) => {
-      return {
-        createTransaction: context.createTransaction,
-      };
-    }
-  );
+  const { mutate, isLoading } = useMutationCreateTransaction();
 
   const {
     register,
     handleSubmit,
     control,
     reset,
-    formState: { isSubmitting, errors },
+    formState: { errors },
   } = useForm<NewTransactionFormInputs>({
     resolver: zodResolver(newTransactionSchema),
     defaultValues: {
@@ -51,11 +43,12 @@ function NewTransactionModal({ toggleModal }: NewTransactionModalProps) {
   const handleCreateNewTransaction: SubmitHandler<
     NewTransactionFormInputs
   > = async (data) => {
-    await createTransaction(data);
-
-    reset();
-
-    toggleModal();
+    mutate(data, {
+      onSuccess: () => {
+        reset();
+        toggleModal();
+      },
+    });
   };
 
   return (
@@ -74,21 +67,24 @@ function NewTransactionModal({ toggleModal }: NewTransactionModalProps) {
             placeholder="Descrição"
             {...register('description')}
           />
-          <label htmlFor="description">{errors.description?.message}</label>
+
+          <S.Error htmlFor="description">{errors.description?.message}</S.Error>
 
           <input
             type="number"
             placeholder="Preço"
             {...register('price', { valueAsNumber: true })}
           />
-          <label htmlFor="price">{errors.price?.message}</label>
+
+          <S.Error htmlFor="price">{errors.price?.message}</S.Error>
 
           <input
             type="text"
             placeholder="Categoria"
             {...register('category')}
           />
-          <label htmlFor="category">{errors.category?.message}</label>
+
+          <S.Error htmlFor="category">{errors.category?.message}</S.Error>
 
           <Controller
             control={control}
@@ -108,7 +104,7 @@ function NewTransactionModal({ toggleModal }: NewTransactionModalProps) {
             )}
           />
 
-          <button type="submit" disabled={isSubmitting}>
+          <button type="submit" disabled={isLoading}>
             Cadastrar
           </button>
         </form>

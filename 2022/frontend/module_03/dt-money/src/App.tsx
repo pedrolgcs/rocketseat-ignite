@@ -2,6 +2,7 @@ import * as React from 'react';
 import { BrowserRouter } from 'react-router-dom';
 import { ThemeProvider } from 'styled-components';
 import setDefaultOptions from 'date-fns/setDefaultOptions';
+import { Toaster } from 'react-hot-toast';
 import ptBr from 'date-fns/locale/pt-BR';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
@@ -28,6 +29,7 @@ function App() {
             <Router />
           </TransactionsProvider>
         </BrowserRouter>
+        <Toaster />
         <GlobalStyle />
       </ThemeProvider>
 

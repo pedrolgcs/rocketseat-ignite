@@ -4,11 +4,11 @@ import {
   GetTransactionsParams,
 } from '@/services/requests/transactions';
 
-export function useTransactionsQueries({ filters }: GetTransactionsParams) {
+export function useTransactionsQueries({ query = '' }: GetTransactionsParams) {
   return useQuery(
-    ['transactions', filters],
+    ['transactions', query],
     async () => {
-      const transactions = await getTransactions({ filters });
+      const transactions = await getTransactions({ query });
 
       return transactions;
     },

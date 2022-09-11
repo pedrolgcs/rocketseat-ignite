@@ -1,23 +1,14 @@
 import { createContext } from 'use-context-selector';
-import { Transaction } from '@/entities/transaction';
-import {
-  getTransactions,
-  GetTransactionsParams,
-  createNewTransaction,
-  CreateNewTransactionParams,
-} from '@/services/requests/transactions';
 import * as React from 'react';
 
 type TransactionsContextData = {
-  transactions: Transaction[];
-  fetchTransactions: (params: GetTransactionsParams) => Promise<void>;
-  createTransaction: (params: CreateNewTransactionParams) => Promise<void>;
+  query: string;
+  updateQuery: (value: string) => void;
 };
 
 const TransactionsContext = createContext<TransactionsContextData>({
-  transactions: [],
-  fetchTransactions: () => Promise.resolve(),
-  createTransaction: () => Promise.resolve(),
+  query: '',
+  updateQuery: () => {},
 });
 
 type TransactionsProviderProps = {
@@ -25,32 +16,14 @@ type TransactionsProviderProps = {
 };
 
 function TransactionsProvider({ children }: TransactionsProviderProps) {
-  const [transactions, setTransactions] = React.useState<Transaction[]>([]);
+  const [query, setQuery] = React.useState('');
 
-  const fetchTransactions = React.useCallback(
-    async (params: GetTransactionsParams) => {
-      const response = await getTransactions(params);
-      setTransactions(response);
-    },
-    []
-  );
-
-  const createTransaction = React.useCallback(
-    async (data: CreateNewTransactionParams) => {
-      const newTransaction = await createNewTransaction(data);
-      setTransactions((state) => [newTransaction, ...state]);
-    },
-    []
-  );
-
-  React.useEffect(() => {
-    fetchTransactions({});
+  const updateQuery = React.useCallback((data: string) => {
+    setQuery(data);
   }, []);
 
   return (
-    <TransactionsContext.Provider
-      value={{ transactions, fetchTransactions, createTransaction }}
-    >
+    <TransactionsContext.Provider value={{ query, updateQuery }}>
       {children}
     </TransactionsContext.Provider>
   );

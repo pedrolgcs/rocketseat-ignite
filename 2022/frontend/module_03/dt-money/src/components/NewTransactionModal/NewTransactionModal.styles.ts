@@ -39,10 +39,6 @@ export const Content = styled(Dialog.Content)`
       }
     }
 
-    label {
-      color: ${(props) => props.theme.colors.red[300]};
-    }
-
     button[type='submit'] {
       height: 3.625rem;
       border: 0;
@@ -129,4 +125,8 @@ export const TransactionTypeButton = styled(
   &[data-state='unchecked']:hover {
     background: ${(props) => props.theme.colors.gray[600]};
   }
+`;
+
+export const Error = styled.label`
+  color: ${(props) => props.theme.colors.red[300]};
 `;
