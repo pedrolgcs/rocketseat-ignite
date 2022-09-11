@@ -1,15 +1,10 @@
 import { useQuery } from '@tanstack/react-query';
-import { getTransactions } from '@/services/requests/transactions';
+import {
+  getTransactions,
+  GetTransactionsParams,
+} from '@/services/requests/transactions';
 
-type UseTransactionsQueriesParams = {
-  filters?: {
-    query: string;
-  };
-};
-
-export function useTransactionsQueries({
-  filters,
-}: UseTransactionsQueriesParams) {
+export function useTransactionsQueries({ filters }: GetTransactionsParams) {
   return useQuery(
     ['transactions', filters],
     async () => {
@@ -18,7 +13,7 @@ export function useTransactionsQueries({
       return transactions;
     },
     {
-      staleTime: 1000 * 60 * 1, // 1 minute
+      staleTime: 1000 * 60 * 10, // 10 minute
     }
   );
 }
