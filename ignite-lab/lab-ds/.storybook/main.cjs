@@ -7,6 +7,7 @@ module.exports = {
     '@storybook/addon-links',
     '@storybook/addon-essentials',
     '@storybook/addon-interactions',
+    '@storybook/addon-a11y',
   ],
   framework: '@storybook/react',
   core: {
@@ -17,7 +18,7 @@ module.exports = {
   },
   async viteFinal(config, { configType }) {
     if (configType === 'PRODUCTION') {
-      config.base = 'rocketseat-ignite/ignite-lab/lab-ds'
+      config.base = 'rocketseat-ignite/ignite-lab/lab-ds';
     }
 
     const { config: userConfig } = await loadConfigFromFile(
