@@ -1,12 +1,7 @@
-import { SendNotificationUseCase } from '@/application/notification/use-cases/send-notification/send-notification-use-case';
-import { DatabaseModule } from '@/infra/database/database.module';
 import { Module } from '@nestjs/common';
-import { NotificationsController } from './notification/notifications.controller';
+import { NotificationsModule } from './notifications/notifications.module';
 
 @Module({
-  imports: [DatabaseModule],
-  controllers: [NotificationsController],
-  providers: [SendNotificationUseCase],
-  exports: [DatabaseModule],
+  imports: [NotificationsModule],
 })
 export class ControllersModule {}

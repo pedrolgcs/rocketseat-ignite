@@ -3,7 +3,7 @@ import { CreateNotificationBody } from '@/infra/http/dtos/create-notification-bo
 import { SendNotificationUseCase } from '@/application/notification/use-cases/send-notification/send-notification-use-case';
 
 @Controller('notifications')
-export class NotificationsController {
+export class SendNotificationsController {
   constructor(private sendNotification: SendNotificationUseCase) {}
 
   @Post()
