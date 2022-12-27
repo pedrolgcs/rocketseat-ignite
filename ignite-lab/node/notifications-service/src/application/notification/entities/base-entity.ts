@@ -1,16 +1,16 @@
 import { randomUUID } from 'node:crypto';
-import { Replace } from '@/helpers/Replace';
 
 interface BaseEntityProps {
-  createdAt: Date;
+  id?: string;
+  createdAt?: Date;
 }
 
 export class BaseEntity {
   private _id: string;
   private _createdAt: Date;
 
-  constructor(props: Replace<BaseEntityProps, { createdAt?: Date }>) {
-    this._id = randomUUID();
+  constructor(props: BaseEntityProps) {
+    this._id = props.id ?? randomUUID();
     this._createdAt = props.createdAt ?? new Date();
   }
 

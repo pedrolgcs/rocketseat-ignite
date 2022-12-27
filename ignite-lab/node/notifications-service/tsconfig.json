@@ -9,10 +9,11 @@
     "target": "es2017",
     "sourceMap": true,
     "outDir": "./dist",
+    "resolveJsonModule": true,
     "baseUrl": "./",
     "paths": {
       "@/test/*": ["./test/*"],
-      "@/*": ["./src/*"],
+      "@/*": ["./src/*"]
     },
     "incremental": true,
     "skipLibCheck": true,

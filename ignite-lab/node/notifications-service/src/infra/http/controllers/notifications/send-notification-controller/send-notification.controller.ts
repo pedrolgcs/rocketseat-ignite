@@ -1,13 +1,14 @@
 import { Body, Controller, Post } from '@nestjs/common';
+import { SendNotificationUseCase } from '@/application/notification/use-cases/send-notification';
 import { CreateNotificationBody } from '@/infra/http/dtos/create-notification-body';
-import { SendNotificationUseCase } from '@/application/notification/use-cases/send-notification/send-notification-use-case';
+import { NotificationViewModel } from '@/infra/http/view-models/notification-view-model';
 
 @Controller('notifications')
 export class SendNotificationsController {
   constructor(private sendNotification: SendNotificationUseCase) {}
 
   @Post()
-  async create(@Body() body: CreateNotificationBody) {
+  async handle(@Body() body: CreateNotificationBody) {
     const { content, category, recipientId } = body;
 
     const { notification } = await this.sendNotification.execute({
@@ -16,6 +17,6 @@ export class SendNotificationsController {
       category,
     });
 
-    return { notification };
+    return { notification: NotificationViewModel.toHTTP(notification) };
   }
 }

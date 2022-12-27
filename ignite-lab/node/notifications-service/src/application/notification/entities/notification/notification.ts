@@ -1,19 +1,22 @@
-import { Replace } from '@/helpers/Replace';
 import { BaseEntity } from '../base-entity';
 import { Content } from './validate';
 
-interface NotificationProps {
+export interface NotificationProps {
+  id?: string;
   recipientId: string;
   content: Content;
   category: string;
+  canceledAt?: Date | null;
   readAt?: Date | null;
+  createdAt?: Date;
 }
 
 export class Notification extends BaseEntity {
   private props: NotificationProps;
 
-  constructor(props: Replace<NotificationProps, { createdAt?: Date }>) {
-    super({});
+  constructor(props: NotificationProps) {
+    super({ id: props.id, createdAt: props.createdAt });
+
     this.props = {
       ...props,
     };
@@ -23,7 +26,7 @@ export class Notification extends BaseEntity {
     return this.props.recipientId;
   }
 
-  public set recipientId(recipientId: string) {
+  public set recipientId(recipientId) {
     this.props.recipientId = recipientId;
   }
 
@@ -39,7 +42,7 @@ export class Notification extends BaseEntity {
     return this.props.category;
   }
 
-  public set category(category: string) {
+  public set category(category) {
     this.props.category = category;
   }
 
@@ -47,7 +50,19 @@ export class Notification extends BaseEntity {
     return this.props.readAt;
   }
 
-  public set readAt(readAt: Date | null | undefined) {
-    this.props.readAt = readAt;
+  public get canceledAt() {
+    return this.props.canceledAt;
+  }
+
+  public cancel() {
+    this.props.canceledAt = new Date();
+  }
+
+  public read() {
+    this.props.readAt = new Date();
+  }
+
+  public unread() {
+    this.props.readAt = null;
   }
 }

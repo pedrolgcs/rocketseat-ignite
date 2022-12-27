@@ -3,24 +3,25 @@ import { InMemoryNotificationsRepository } from '@/test/repositories/in-memory-n
 
 // inicialize
 let notificationsRepository: InMemoryNotificationsRepository;
+let sendNotificationUseCase: SendNotificationUseCase;
 
 describe('[UseCase] SendNotification', () => {
   beforeEach(() => {
     notificationsRepository = new InMemoryNotificationsRepository();
+
+    sendNotificationUseCase = new SendNotificationUseCase(
+      notificationsRepository,
+    );
   });
 
   it('should be able to send a notification', async () => {
-    const sendNotificationUseCase = new SendNotificationUseCase(
-      notificationsRepository,
-    );
-
-    const { notification } = await sendNotificationUseCase.execute({
+    const sut = await sendNotificationUseCase.execute({
       recipientId: 'uuid',
       category: 'social',
       content: 'This is a notification',
     });
 
     expect(notificationsRepository.notifications).toHaveLength(1);
-    expect(notificationsRepository.notifications[0]).toEqual(notification);
+    expect(notificationsRepository.notifications[0]).toEqual(sut.notification);
   });
 });
