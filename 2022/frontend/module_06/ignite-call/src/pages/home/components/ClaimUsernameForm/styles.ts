@@ -1,4 +1,5 @@
-import { Box, styled, Text } from '@ignite-ui/react'
+import { Box } from '@pedrolgcs-ignite-ui/react'
+import { styled } from '@/styles/stitches'
 
 export const Form = styled(Box, {
   display: 'grid',
@@ -15,7 +16,7 @@ export const Form = styled(Box, {
 export const FormAnnotation = styled('div', {
   marginTop: '$2',
 
-  [`> ${Text}`]: {
+  [`> p`]: {
     color: '$gray400',
   },
 })

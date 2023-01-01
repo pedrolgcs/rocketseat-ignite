@@ -1,4 +1,4 @@
-import { Heading, Text, styled } from '@ignite-ui/react'
+import { styled } from '@/styles/stitches'
 
 export const Container = styled('div', {
   height: '100vh',
@@ -19,13 +19,13 @@ export const Hero = styled('div', {
   maxWidth: 480,
   padding: '0 $10',
 
-  [`> ${Heading}`]: {
+  '> h1': {
     '@media(max-width: 600px)': {
       fontSize: '$6xl',
     },
   },
 
-  [`> ${Text}`]: {
+  '> p': {
     marginTop: '$2',
     color: '$gray200',
   },

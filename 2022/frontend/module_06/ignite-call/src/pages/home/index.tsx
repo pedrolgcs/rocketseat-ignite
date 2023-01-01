@@ -1,5 +1,5 @@
 import Image from 'next/image'
-import { Heading, Text } from '@ignite-ui/react'
+import { Heading, Text } from '@pedrolgcs-ignite-ui/react'
 import { ClaimUsernameForm } from './components'
 import * as S from './styles'
 

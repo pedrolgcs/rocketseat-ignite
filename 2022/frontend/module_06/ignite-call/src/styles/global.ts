@@ -1,4 +1,4 @@
-import { globalCss } from '@ignite-ui/react'
+import { globalCss } from './stitches'
 
 export const globalStyles = globalCss({
   '*': {

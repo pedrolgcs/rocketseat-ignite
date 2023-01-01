@@ -1,5 +1,5 @@
 import { Html, Head, Main, NextScript } from 'next/document'
-import { getCssText } from '@ignite-ui/react'
+import { getCssText } from '@/styles/stitches'
 
 export default function Document() {
   return (

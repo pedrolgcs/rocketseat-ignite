@@ -1,5 +1,5 @@
 import { zodResolver } from '@hookform/resolvers/zod'
-import { Button, TextInput, Text } from '@ignite-ui/react'
+import { Button, TextInput, Text } from '@pedrolgcs-ignite-ui/react'
 import { ArrowRight } from 'phosphor-react'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
