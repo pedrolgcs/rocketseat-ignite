@@ -26,7 +26,7 @@ export default function Home() {
           width={700}
           height={400}
           alt="Calendário simbolizando aplicação funcionando"
-          src="/images/logo.svg"
+          src="/images/app-preview.png"
         />
       </S.Preview>
     </S.Container>
