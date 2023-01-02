@@ -7,11 +7,11 @@ export default function Home() {
   return (
     <S.Container>
       <S.Hero>
-        <Heading as="h1" size={'4xl'}>
+        <Heading as="h1" size="4xl">
           Agendamento descomplicado
         </Heading>
 
-        <Text size={'xl'}>
+        <Text size="xl">
           Conecte seu calendário e permita que as pessoas marquem agendamentos
           no seu tempo livre.
         </Text>
