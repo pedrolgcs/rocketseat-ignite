@@ -1,3 +1,4 @@
+import { useRouter } from 'next/router'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Button, TextInput, Text } from '@pedrolgcs-ignite-ui/react'
 import { ArrowRight } from 'phosphor-react'
@@ -18,32 +19,38 @@ const claimUsernameFormSchema = z.object({
 type ClaimUsernameFormData = z.infer<typeof claimUsernameFormSchema>
 
 function ClaimUsernameForm() {
+  const router = useRouter()
+
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isSubmitting },
   } = useForm<ClaimUsernameFormData>({
     resolver: zodResolver(claimUsernameFormSchema),
   })
 
   async function handleClaimUsername(data: ClaimUsernameFormData) {
-    console.log(data)
+    const { username } = data
+
+    await router.push(`/register?username=${username}`)
   }
 
   return (
     <>
-      <S.Form as="form" onSubmit={handleSubmit(handleClaimUsername)}>
-        <TextInput
-          size="sm"
-          prefix="ignite.com/"
-          placeholder="seu-usuario"
-          {...register('username')}
-        />
+      <S.Form onSubmit={handleSubmit(handleClaimUsername)}>
+        <S.FormContent>
+          <TextInput
+            size="sm"
+            prefix="ignite.com/"
+            placeholder="seu-usuario"
+            {...register('username')}
+          />
 
-        <Button size="sm" type="submit">
-          Reservar
-          <ArrowRight />
-        </Button>
+          <Button size="sm" type="submit" disabled={isSubmitting}>
+            Reservar
+            <ArrowRight />
+          </Button>
+        </S.FormContent>
       </S.Form>
 
       <S.FormAnnotation>

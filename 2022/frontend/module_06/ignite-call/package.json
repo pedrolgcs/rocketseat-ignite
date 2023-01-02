@@ -11,7 +11,7 @@
   "dependencies": {
     "@hookform/resolvers": "^2.9.10",
     "@next/font": "13.1.1",
-    "@pedrolgcs-ignite-ui/react": "^1.1.0",
+    "@pedrolgcs-ignite-ui/react": "^1.4.0",
     "@pedrolgcs-ignite-ui/tokens": "^1.0.0",
     "@stitches/react": "^1.2.8",
     "@types/node": "18.11.18",
