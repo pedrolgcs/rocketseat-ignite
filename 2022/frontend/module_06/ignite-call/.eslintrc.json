@@ -5,6 +5,7 @@
   ],
   "plugins": ["eslint-plugin-import-helpers"],
   "rules": {
+    "no-case-declarations": "off",
     "import-helpers/order-imports": [
       "warn",
       {

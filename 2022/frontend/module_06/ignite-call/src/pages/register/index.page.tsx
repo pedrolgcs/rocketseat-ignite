@@ -11,6 +11,8 @@ import {
 import { ArrowRight } from 'phosphor-react'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
+import { api } from '@/lib/axios'
+import { AppError } from '@/utils/Error'
 import * as S from './styles'
 
 const registerFormSchema = z.object({
@@ -41,7 +43,18 @@ export default function Register() {
   })
 
   async function handleRegister(data: RegisterFormData) {
-    console.log(data)
+    try {
+      await api.post('/users', {
+        name: data.name,
+        username: data.username,
+      })
+
+      await router.push('/register/connect-calendar')
+    } catch (error) {
+      if (error instanceof AppError) {
+        alert(error.friendlyMessage)
+      }
+    }
   }
 
   /**
