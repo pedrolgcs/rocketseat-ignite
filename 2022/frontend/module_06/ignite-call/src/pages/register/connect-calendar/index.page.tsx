@@ -16,10 +16,14 @@ export default function Register() {
     await signIn('google')
   }
 
+  function handleRedirectToNextStage() {
+    router.push('/register/time-intervals')
+  }
+
   return (
     <S.Container>
       <S.Header>
-        <Heading as="strong">Conecte sua agenda!!</Heading>
+        <Heading as="strong">Conecte sua agenda!</Heading>
         <Text>
           Conecte o seu calendário para verificar automaticamente as horas
           ocupadas e os novos eventos à medida em que são agendados.
@@ -56,7 +60,11 @@ export default function Register() {
           </S.AuthError>
         )}
 
-        <Button type="button" disabled={!isSignedIn}>
+        <Button
+          type="button"
+          disabled={!isSignedIn}
+          onClick={handleRedirectToNextStage}
+        >
           Próximo passo
           <ArrowRight />
         </Button>
