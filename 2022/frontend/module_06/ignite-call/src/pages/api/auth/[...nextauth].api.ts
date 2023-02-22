@@ -34,13 +34,15 @@ export function buildNextAuthOptions(
 
     callbacks: {
       async signIn({ account }) {
-        if (
-          !account?.scope?.includes('https://www.googleapis.com/auth/calendar')
-        ) {
-          return '/register/connect-calendar/?error=permissions'
+        const accountHasCalendarScope = account?.scope?.includes(
+          'https://www.googleapis.com/auth/calendar',
+        )
+
+        if (accountHasCalendarScope) {
+          return true
         }
 
-        return true
+        return '/register/connect-calendar/?error=permissions'
       },
       async session({ session, user }) {
         return {
