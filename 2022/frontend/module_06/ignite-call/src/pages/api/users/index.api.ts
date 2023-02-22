@@ -21,9 +21,6 @@ export default async function handler(
       if (userExists) {
         return response.status(400).json({
           friendlyMessage: 'Ops, esse nome de usuário já está em uso!',
-          error: {
-            message: 'Username already taken',
-          },
         })
       }
 
@@ -41,7 +38,7 @@ export default async function handler(
 
       return response.status(201).json({ user })
     default:
-      response.setHeader('Allow', ['GET'])
+      response.setHeader('Allow', ['POST'])
       response.status(405).end(`Method ${method} Not Allowed`)
   }
 }

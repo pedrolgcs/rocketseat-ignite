@@ -10,6 +10,7 @@ import {
 } from '@pedrolgcs-ignite-ui/react'
 import { ArrowRight } from 'phosphor-react'
 import { useForm } from 'react-hook-form'
+import { toast } from 'react-hot-toast'
 import { z } from 'zod'
 import { api } from '@/lib/axios'
 import { AppError } from '@/utils/Error'
@@ -52,7 +53,7 @@ export default function Register() {
       await router.push('/register/connect-calendar')
     } catch (error) {
       if (error instanceof AppError) {
-        alert(error.friendlyMessage)
+        toast.error(error.friendlyMessage)
       }
     }
   }

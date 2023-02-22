@@ -29,10 +29,10 @@ const api = createAxiosInstance((axiosInstance: AxiosInstance) => {
     (response) => {
       return response
     },
-    (err: AxiosError<AppError>) => {
+    (err: AxiosError<Pick<AppError, 'friendlyMessage'>>) => {
       const friendlyMessage = err.response?.data.friendlyMessage
       const statusCode = err.response?.status
-      const error = err.response?.data.error
+      const error = err
 
       return Promise.reject(new AppError(friendlyMessage, statusCode, error))
     },
