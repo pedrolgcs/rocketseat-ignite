@@ -1,3 +1,4 @@
+import { useRouter } from 'next/router'
 import { zodResolver } from '@hookform/resolvers/zod'
 import {
   Heading,
@@ -9,8 +10,11 @@ import {
 } from '@pedrolgcs-ignite-ui/react'
 import { ArrowRight } from 'phosphor-react'
 import { useFieldArray, useForm, Controller } from 'react-hook-form'
+import { toast } from 'react-hot-toast'
 import { z } from 'zod'
+import { api } from '@/lib/axios'
 import { convertTimeStringToMinutes } from '@/utils/convert-time-string-to-minutes'
+import { AppError } from '@/utils/Error'
 import { getWeekDays } from '@/utils/get-week-days'
 import * as S from './styles'
 
@@ -57,6 +61,8 @@ type TimeIntervalsFormInput = z.input<typeof timeIntervalFormSchema>
 type TimeIntervalsFormOutput = z.output<typeof timeIntervalFormSchema>
 
 export default function TimeIntervals() {
+  const router = useRouter()
+
   const {
     register,
     handleSubmit,
@@ -78,24 +84,35 @@ export default function TimeIntervals() {
     },
   })
 
-  const { fields } = useFieldArray({
+  const { fields: intervals } = useFieldArray({
     name: 'intervals',
     control,
   })
 
-  const intervals = watch('intervals')
+  const watchIntervals = watch('intervals')
 
   const weekDays = getWeekDays()
 
-  async function handleSetTimeIntervals(data: any) {
-    const formData = data as TimeIntervalsFormOutput
-    console.log(formData)
+  async function handleSetTimeIntervals(data: unknown) {
+    const { intervals } = data as TimeIntervalsFormOutput
+
+    try {
+      await api.post<void>('/users/time-intervals', {
+        intervals,
+      })
+
+      router.push('/')
+    } catch (error) {
+      if (error instanceof AppError) {
+        toast.error(error.friendlyMessage)
+      }
+    }
   }
 
   return (
     <S.Container>
       <S.Header>
-        <Heading as="strong">Quase lá</Heading>
+        <Heading as="strong">Quase lá!</Heading>
         <Text>
           Defina o intervalo de horários que você está disponível em cada dia da
           semana.
@@ -104,10 +121,10 @@ export default function TimeIntervals() {
         <MultiStep size={4} currentStep={3} />
       </S.Header>
 
-      <S.IntervalForm onSubmit={handleSubmit(handleSetTimeIntervals)}>
-        <S.IntervalBox>
+      <S.IntervalBox>
+        <S.IntervalForm onSubmit={handleSubmit(handleSetTimeIntervals)}>
           <S.IntervalContainer>
-            {fields.map((field, index) => (
+            {intervals.map((field, index) => (
               <S.IntervalItem key={field.id}>
                 <S.IntervalDay>
                   <Controller
@@ -129,14 +146,14 @@ export default function TimeIntervals() {
                     size="sm"
                     type="time"
                     step={60}
-                    disabled={intervals[index].enabled === false}
+                    disabled={watchIntervals[index].enabled === false}
                     {...register(`intervals.${index}.startTime`)}
                   />
                   <TextInput
                     size="sm"
                     type="time"
                     step={60}
-                    disabled={intervals[index].enabled === false}
+                    disabled={watchIntervals[index].enabled === false}
                     {...register(`intervals.${index}.endTime`)}
                   />
                 </S.IntervalInputs>
@@ -151,8 +168,8 @@ export default function TimeIntervals() {
           <Button type="submit" disabled={isSubmitting}>
             Próximo passo <ArrowRight />
           </Button>
-        </S.IntervalBox>
-      </S.IntervalForm>
+        </S.IntervalForm>
+      </S.IntervalBox>
     </S.Container>
   )
 }

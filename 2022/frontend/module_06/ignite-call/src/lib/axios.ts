@@ -1,6 +1,13 @@
 import axios, { AxiosError, AxiosInstance } from 'axios'
 import { AppError } from '@/utils/Error'
 
+export type AxiosErrorData = {
+  friendlyMessage: string
+  errors: {
+    message: string
+  }[]
+}
+
 const createAxiosInstance = (
   callback: (axiosInstance: AxiosInstance) => AxiosInstance,
 ) => {
@@ -29,7 +36,7 @@ const api = createAxiosInstance((axiosInstance: AxiosInstance) => {
     (response) => {
       return response
     },
-    (err: AxiosError<Pick<AppError, 'friendlyMessage'>>) => {
+    (err: AxiosError<AxiosErrorData>) => {
       const friendlyMessage = err.response?.data.friendlyMessage
       const statusCode = err.response?.status
       const error = err

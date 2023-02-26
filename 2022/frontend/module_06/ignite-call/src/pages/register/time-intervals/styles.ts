@@ -20,11 +20,11 @@ export const Header = styled('div', {
   },
 })
 
-export const IntervalForm = styled('form', {
+export const IntervalBox = styled(Box, {
   marginTop: '$6',
 })
 
-export const IntervalBox = styled(Box, {
+export const IntervalForm = styled('form', {
   display: 'flex',
   flexDirection: 'column',
   gap: '$4',
