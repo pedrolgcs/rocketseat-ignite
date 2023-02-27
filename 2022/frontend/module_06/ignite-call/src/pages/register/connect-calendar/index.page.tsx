@@ -16,7 +16,7 @@ export default function Register() {
     await signIn('google')
   }
 
-  function handleRedirectToNextStage() {
+  function handleNavigateToNextStage() {
     router.push('/register/time-intervals')
   }
 
@@ -63,7 +63,7 @@ export default function Register() {
         <Button
           type="button"
           disabled={!isSignedIn}
-          onClick={handleRedirectToNextStage}
+          onClick={handleNavigateToNextStage}
         >
           Próximo passo
           <ArrowRight />

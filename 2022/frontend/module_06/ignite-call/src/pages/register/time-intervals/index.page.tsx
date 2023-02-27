@@ -1,3 +1,4 @@
+import * as React from 'react'
 import { useRouter } from 'next/router'
 import { zodResolver } from '@hookform/resolvers/zod'
 import {
@@ -101,7 +102,7 @@ export default function TimeIntervals() {
         intervals,
       })
 
-      router.push('/')
+      router.push('/register/update-profile')
     } catch (error) {
       if (error instanceof AppError) {
         toast.error(error.friendlyMessage)

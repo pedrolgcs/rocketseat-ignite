@@ -12,7 +12,7 @@ export default function App({
   return (
     <SessionProvider session={session}>
       <Component {...pageProps} />
-      <Toaster />
+      <Toaster position="bottom-right" />
     </SessionProvider>
   )
 }

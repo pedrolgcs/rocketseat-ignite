@@ -4,7 +4,7 @@ import { z } from 'zod'
 import { prisma } from '@/lib/prisma'
 import { buildNextAuthOptions } from '../auth/[...nextauth].api'
 
-const bodySchema = z.object({
+const timeIntervalsBodySchema = z.object({
   intervals: z
     .array(
       z.object({
@@ -33,7 +33,7 @@ export default async function handler(
 
   switch (method) {
     case 'POST':
-      const body = bodySchema.safeParse(request.body)
+      const body = timeIntervalsBodySchema.safeParse(request.body)
 
       if (!body.success) {
         const { errors } = body.error
