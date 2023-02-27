@@ -1,4 +1,5 @@
 import * as React from 'react'
+import { GetServerSideProps } from 'next'
 import { useRouter } from 'next/router'
 import { zodResolver } from '@hookform/resolvers/zod'
 import {
@@ -14,6 +15,7 @@ import { useFieldArray, useForm, Controller } from 'react-hook-form'
 import { toast } from 'react-hot-toast'
 import { z } from 'zod'
 import { api } from '@/lib/axios'
+import { withSSRAuth } from '@/utils/auth/with-ssr-auth'
 import { convertTimeStringToMinutes } from '@/utils/convert-time-string-to-minutes'
 import { AppError } from '@/utils/Error'
 import { getWeekDays } from '@/utils/get-week-days'
@@ -174,3 +176,13 @@ export default function TimeIntervals() {
     </S.Container>
   )
 }
+
+export const getServerSideProps: GetServerSideProps = withSSRAuth(
+  async (ctx, session) => {
+    return {
+      props: {
+        session,
+      },
+    }
+  },
+)

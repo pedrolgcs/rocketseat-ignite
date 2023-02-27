@@ -15,8 +15,8 @@ import { useForm } from 'react-hook-form'
 import { toast } from 'react-hot-toast'
 import { z } from 'zod'
 import { api } from '@/lib/axios'
+import { withSSRAuth } from '@/utils/auth/with-ssr-auth'
 import { AppError } from '@/utils/Error'
-import { withSSRAuth } from '@/utils/with-ssr-auth'
 import * as S from './styles'
 
 const updateProfileFormSchema = z.object({

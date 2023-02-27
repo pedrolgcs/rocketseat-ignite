@@ -1,4 +1,5 @@
 import * as React from 'react'
+import { GetServerSideProps } from 'next'
 import { useRouter } from 'next/router'
 import { zodResolver } from '@hookform/resolvers/zod'
 import {
@@ -13,6 +14,7 @@ import { useForm } from 'react-hook-form'
 import { toast } from 'react-hot-toast'
 import { z } from 'zod'
 import { api } from '@/lib/axios'
+import { withSSRGuest } from '@/utils/auth/with-ssr-guest'
 import { AppError } from '@/utils/Error'
 import * as S from './styles'
 
@@ -110,3 +112,9 @@ export default function Register() {
     </S.Container>
   )
 }
+
+export const getServerSideProps: GetServerSideProps = withSSRGuest(async () => {
+  return {
+    props: {},
+  }
+})
