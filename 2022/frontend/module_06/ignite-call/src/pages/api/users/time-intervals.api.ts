@@ -58,6 +58,20 @@ export default async function handler(
 
       const { intervals } = body.data
 
+      const userIntervals = await prisma.userTimeInterval.findMany({
+        where: {
+          user_id: session.user.id,
+        },
+      })
+
+      if (userIntervals.length > 0) {
+        await prisma.userTimeInterval.deleteMany({
+          where: {
+            user_id: session.user.id,
+          },
+        })
+      }
+
       await prisma.userTimeInterval.createMany({
         data: intervals.map((interval) => {
           return {
