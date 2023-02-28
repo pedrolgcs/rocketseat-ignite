@@ -1,10 +1,8 @@
 import * as React from 'react'
-import { GetServerSideProps } from 'next'
 import { signIn, useSession } from 'next-auth/react'
 import { useRouter } from 'next/router'
 import { Button, Heading, MultiStep, Text } from '@pedrolgcs-ignite-ui/react'
 import { ArrowRight, Check } from 'phosphor-react'
-import { withSSRGuest } from '@/utils/auth/with-ssr-guest'
 import * as S from './styles'
 
 export default function Register() {
@@ -74,9 +72,3 @@ export default function Register() {
     </S.Container>
   )
 }
-
-export const getServerSideProps: GetServerSideProps = withSSRGuest(async () => {
-  return {
-    props: {},
-  }
-})
