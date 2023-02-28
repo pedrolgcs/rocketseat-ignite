@@ -5,12 +5,24 @@ import { Button, Heading, MultiStep, Text } from '@pedrolgcs-ignite-ui/react'
 import { ArrowRight, Check } from 'phosphor-react'
 import * as S from './styles'
 
+const authErrors = (error: string) => {
+  switch (error) {
+    case 'OAuthAccountNotLinked':
+      return 'Falha ao se conectar ao Google, conta já utilizada'
+    case 'OAuthPermissions':
+      return 'Falha ao se conectar ao Google, verifique se você habilitou as permissões de acesso ao Google Calendar.'
+    default:
+      return 'Falha ao se conectar ao Google, por favor tente novamente'
+  }
+}
+
 export default function Register() {
   const router = useRouter()
   const session = useSession()
 
   const isSignedIn = session.status === 'authenticated'
-  const hasAuthError = !!router.query.error && !isSignedIn
+  const signInError = router.query.error
+  const hasAuthError = !!signInError && !isSignedIn
 
   async function handleConnectCalendar() {
     await signIn('google')
@@ -55,8 +67,7 @@ export default function Register() {
 
         {hasAuthError && (
           <S.AuthError size="sm">
-            Falha ao se conectar ao Google, verifique se você habilitou as
-            permissões de acesso ao Google Calendar.
+            {authErrors(signInError.toString())}
           </S.AuthError>
         )}
 

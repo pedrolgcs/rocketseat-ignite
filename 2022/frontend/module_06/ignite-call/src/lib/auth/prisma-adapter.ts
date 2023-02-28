@@ -81,6 +81,14 @@ export function PrismaAdapter(
     },
 
     async getUserByAccount({ providerAccountId, provider }) {
+      const { '@ignitecall:userId': userIdOnCookies } = parseCookies({
+        req: request,
+      })
+
+      if (userIdOnCookies) {
+        return null
+      }
+
       const account = await prisma.account.findUnique({
         where: {
           provider_provider_account_id: {

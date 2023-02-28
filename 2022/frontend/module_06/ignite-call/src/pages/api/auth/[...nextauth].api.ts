@@ -9,6 +9,9 @@ export function buildNextAuthOptions(
 ): NextAuthOptions {
   return {
     adapter: PrismaAdapter(request, response),
+    pages: {
+      signIn: '/register/connect-calendar',
+    },
 
     providers: [
       GoogleProvider({
@@ -42,7 +45,7 @@ export function buildNextAuthOptions(
           return true
         }
 
-        return '/register/connect-calendar/?error=permissions'
+        return '/register/connect-calendar/?error=OAuthPermissions'
       },
       async session({ session, user }) {
         return {
