@@ -8,9 +8,15 @@ export const globalStyles = globalCss({
   },
 
   body: {
-    fontFamily: 'Roboto, sans-serif',
+    fontFamily: '$default',
     backgroundColor: '$gray900',
     color: '$gray100',
     '-webkit-font-smoothing': 'antialiased',
+  },
+
+  button: {
+    '&:focus': {
+      boxShadow: '0 0 0 2px $colors$gray100',
+    },
   },
 })

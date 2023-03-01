@@ -94,7 +94,7 @@ export default function TimeIntervals() {
 
   const watchIntervals = watch('intervals')
 
-  const weekDays = getWeekDays()
+  const weekDays = getWeekDays({ short: false })
 
   async function handleSetTimeIntervals(data: unknown) {
     const { intervals } = data as TimeIntervalsFormOutput
