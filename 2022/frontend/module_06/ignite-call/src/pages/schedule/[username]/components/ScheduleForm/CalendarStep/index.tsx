@@ -3,7 +3,7 @@ import { Calendar } from '@/components'
 import * as S from './styles'
 
 function CalendarStep() {
-  const isDateSelected = true
+  const isDateSelected = false
 
   return (
     <S.Container isTimePickerOpen={isDateSelected}>
