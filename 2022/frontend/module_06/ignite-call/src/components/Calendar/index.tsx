@@ -4,6 +4,8 @@ import { CaretLeft, CaretRight } from 'phosphor-react'
 import { getWeekDays } from '@/utils/get-week-days'
 import * as S from './styles'
 
+const DAYS_IN_WEEK = 7
+
 type CalendarWeek = {
   week: number
   days: Array<{
@@ -26,19 +28,22 @@ function Calendar() {
   const currentYear = currentDate.format('YYYY')
 
   const calendarWeeks = React.useMemo(() => {
-    const daysInWeek = 7
-
     const daysInMonthArray = Array.from({
       length: currentDate.daysInMonth(),
     }).map((_, index) => {
       return currentDate.set('date', index + 1)
     })
 
-    // 0 - 6
     const firstWeekDay = currentDate.get('day')
 
+    const monthStartInSunday = firstWeekDay === 0
+
+    /**
+     * If month start in sunday we add seven days to fill in the last previous month week.
+     * If not we get the days to complete the previous week.
+     */
     const previousMonthFillArray = Array.from({
-      length: firstWeekDay === 0 ? firstWeekDay + 7 : firstWeekDay,
+      length: monthStartInSunday ? DAYS_IN_WEEK : firstWeekDay,
     })
       .map((_, index) => {
         return currentDate.subtract(index + 1, 'day')
@@ -50,38 +55,48 @@ function Calendar() {
       currentDate.daysInMonth(),
     )
 
-    // 0 - 6
-    const lasWeekDay = lastDayInCurrentMonth.get('day')
+    const lastWeekDay = lastDayInCurrentMonth.get('day')
 
+    const daysLeftToCompleteWeek = DAYS_IN_WEEK - (lastWeekDay + 1)
+
+    /**
+     * Sum the remaining days of the week to the previous completely
+     */
     const nextMonthFillArray = Array.from({
-      length:
-        previousMonthFillArray.length === 7
-          ? 7 - (lasWeekDay + 1)
-          : 7 - (lasWeekDay + 1) + 7,
+      length: daysLeftToCompleteWeek + DAYS_IN_WEEK,
     }).map((_, index) => {
       return lastDayInCurrentMonth.add(index + 1, 'day')
     })
 
     const calendarDays = [
       ...previousMonthFillArray.map((date) => {
-        return { date, disabled: true }
+        return {
+          date,
+          disabled: true,
+        }
       }),
       ...daysInMonthArray.map((date) => {
-        return { date, disabled: false }
+        return {
+          date,
+          disabled: false,
+        }
       }),
       ...nextMonthFillArray.map((date) => {
-        return { date, disabled: true }
+        return {
+          date,
+          disabled: true,
+        }
       }),
     ]
 
     const calendarWeeks = calendarDays.reduce<CalendarWeeks>(
       (weeks, _, index, original) => {
-        const isNewWeek = index % daysInWeek === 0
+        const isNewWeek = index % DAYS_IN_WEEK === 0
 
         if (isNewWeek) {
           weeks.push({
-            week: index / daysInWeek + 1,
-            days: original.slice(index, index + daysInWeek),
+            week: index / DAYS_IN_WEEK + 1,
+            days: original.slice(index, index + DAYS_IN_WEEK),
           })
         }
 
@@ -90,9 +105,7 @@ function Calendar() {
       [],
     )
 
-    const calendarWeeksWithoutExtraWeeks = calendarWeeks.slice(0, 6)
-
-    return calendarWeeksWithoutExtraWeeks
+    return calendarWeeks.slice(0, 6)
   }, [currentDate])
 
   function handlePreviousMonth() {
