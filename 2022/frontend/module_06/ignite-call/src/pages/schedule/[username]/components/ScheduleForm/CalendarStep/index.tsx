@@ -3,11 +3,24 @@ import { Calendar } from '@/components'
 import * as S from './styles'
 
 function CalendarStep() {
-  const isDateSelected = false
+  const [selectedDate, setSelectedDate] = React.useState<Date | null>(null)
+
+  const isDateSelected = !!selectedDate
+
+  const handleChangeSelectedDate = (date: Date) => {
+    if (selectedDate?.getTime() === date.getTime()) {
+      return setSelectedDate(null)
+    }
+
+    return setSelectedDate(date)
+  }
 
   return (
     <S.Container isTimePickerOpen={isDateSelected}>
-      <Calendar />
+      <Calendar
+        selectedDate={selectedDate}
+        onDateSelected={handleChangeSelectedDate}
+      />
 
       {isDateSelected && (
         <S.TimePicker>
