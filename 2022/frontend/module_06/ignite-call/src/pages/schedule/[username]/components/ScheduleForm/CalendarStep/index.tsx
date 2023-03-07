@@ -8,10 +8,10 @@ function CalendarStep() {
 
   const isDateSelected = !!selectedDate
 
-  const weekDay = isDateSelected ? dayjs(selectedDate).format('dddd') : null
-  const describedDate = isDateSelected
-    ? dayjs(selectedDate).format('DD[ de ]MMMM')
-    : null
+  const describedDate = {
+    day: isDateSelected ? dayjs(selectedDate).format('dddd') : null,
+    month: isDateSelected ? dayjs(selectedDate).format('DD[ de ]MMMM') : null,
+  }
 
   const handleChangeSelectedDate = (date: Date) => {
     if (selectedDate?.getTime() === date.getTime()) {
@@ -31,7 +31,7 @@ function CalendarStep() {
       {isDateSelected && (
         <S.TimePicker>
           <S.TimePickerHeader>
-            {weekDay} <span>{describedDate}</span>
+            {describedDate.day} <span>{describedDate.month}</span>
           </S.TimePickerHeader>
 
           <S.TimePickerList>
