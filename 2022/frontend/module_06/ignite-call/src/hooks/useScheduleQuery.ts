@@ -38,3 +38,42 @@ export const useQueryAvailabilityByDate = ({
     },
   )
 }
+
+// ----------------------------------------------------
+
+type BlockedDates = {
+  blockedWeekDays: Array<number>
+}
+
+type UseQueryBlockedDatesByDateParams = {
+  username: string
+  year: number
+  month: number
+}
+
+export const useQueryBlockedDatesByDate = ({
+  username,
+  year,
+  month,
+}: UseQueryBlockedDatesByDateParams) => {
+  return useQuery<BlockedDates>(
+    ['blocked-dates', year, month, username],
+    async () => {
+      const { data } = await api.get<BlockedDates>(
+        `/users/${username}/blocked-dates`,
+        {
+          params: {
+            year,
+            month,
+          },
+        },
+      )
+
+      return data
+    },
+    {
+      staleTime: 1000 * 60 * 60 * 3, // 3 hours
+      enabled: true,
+    },
+  )
+}

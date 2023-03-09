@@ -1,6 +1,8 @@
 import * as React from 'react'
+import { useRouter } from 'next/router'
 import dayjs from 'dayjs'
 import { CaretLeft, CaretRight } from 'phosphor-react'
+import { useQueryBlockedDatesByDate } from '@/hooks/useScheduleQuery'
 import { getWeekDays } from '@/utils/get-week-days'
 import * as S from './styles'
 
@@ -24,6 +26,16 @@ type CalendarProps = {
 function Calendar({ selectedDate, onDateSelected }: CalendarProps) {
   const [currentDate, setCurrentDate] = React.useState(() => {
     return dayjs().set('date', 1)
+  })
+
+  const router = useRouter()
+
+  const username = String(router.query.username)
+
+  const { data: blockedDates } = useQueryBlockedDatesByDate({
+    username,
+    month: currentDate.get('month'),
+    year: currentDate.get('year'),
   })
 
   const shortWeekDays = getWeekDays({ short: true })
@@ -83,7 +95,9 @@ function Calendar({ selectedDate, onDateSelected }: CalendarProps) {
       ...daysInMonthArray.map((date) => {
         return {
           date,
-          disabled: date.endOf('day').isBefore(new Date()),
+          disabled:
+            date.endOf('day').isBefore(new Date()) ||
+            !!blockedDates?.blockedWeekDays.includes(date.get('day')),
         }
       }),
       ...nextMonthFillArray.map((date) => {
@@ -111,7 +125,7 @@ function Calendar({ selectedDate, onDateSelected }: CalendarProps) {
     )
 
     return calendarWeeks.slice(0, 6)
-  }, [currentDate])
+  }, [currentDate, blockedDates])
 
   function handlePreviousMonth() {
     const previousMonthDate = currentDate.subtract(1, 'month')
