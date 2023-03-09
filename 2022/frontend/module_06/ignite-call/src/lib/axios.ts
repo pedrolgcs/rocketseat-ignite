@@ -3,9 +3,9 @@ import { AppError } from '@/utils/Error'
 
 export type AxiosErrorData = {
   friendlyMessage: string
-  errors: {
+  errors?: Array<{
     message: string
-  }[]
+  }>
 }
 
 const createAxiosInstance = (

@@ -1,10 +1,20 @@
 import * as React from 'react'
+import { useRouter } from 'next/router'
+import { Text } from '@pedrolgcs-ignite-ui/react'
 import dayjs from 'dayjs'
 import { Calendar } from '@/components'
+import { useQueryAvailabilityByDate } from '@/hooks/useScheduleQuery'
 import * as S from './styles'
 
 function CalendarStep() {
   const [selectedDate, setSelectedDate] = React.useState<Date | null>(null)
+
+  const router = useRouter()
+
+  const username = String(router.query.username)
+
+  const { data: availability, isLoading: isLoadingAvailability } =
+    useQueryAvailabilityByDate({ date: selectedDate, username })
 
   const isDateSelected = !!selectedDate
 
@@ -30,21 +40,23 @@ function CalendarStep() {
 
       {isDateSelected && (
         <S.TimePicker>
-          <S.TimePickerHeader>
-            {describedDate.day} <span>{describedDate.month}</span>
-          </S.TimePickerHeader>
+          {isLoadingAvailability ? (
+            <Text>...carregando</Text>
+          ) : (
+            <S.TimePickerHeader>
+              {describedDate.day} <span>{describedDate.month}</span>
+            </S.TimePickerHeader>
+          )}
 
           <S.TimePickerList>
-            <S.TimePickerItem>08:00</S.TimePickerItem>
-            <S.TimePickerItem>09:00</S.TimePickerItem>
-            <S.TimePickerItem>10:00</S.TimePickerItem>
-            <S.TimePickerItem>11:00</S.TimePickerItem>
-            <S.TimePickerItem>12:00</S.TimePickerItem>
-            <S.TimePickerItem>13:00</S.TimePickerItem>
-            <S.TimePickerItem>14:00</S.TimePickerItem>
-            <S.TimePickerItem>15:00</S.TimePickerItem>
-            <S.TimePickerItem>16:00</S.TimePickerItem>
-            <S.TimePickerItem>17:00</S.TimePickerItem>
+            {availability?.possibleTimes.map((hour) => (
+              <S.TimePickerItem
+                key={hour}
+                disabled={!availability.availableTimes.includes(hour)}
+              >
+                {String(hour).padStart(2, '0')}:00
+              </S.TimePickerItem>
+            ))}
           </S.TimePickerList>
         </S.TimePicker>
       )}
