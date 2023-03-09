@@ -1,3 +1,4 @@
+import 'react-loading-skeleton/dist/skeleton.css'
 import '@/lib/dayjs'
 import { SessionProvider } from 'next-auth/react'
 import type { AppProps } from 'next/app'

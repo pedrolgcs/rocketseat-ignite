@@ -1,4 +1,5 @@
 import { Box, Text } from '@pedrolgcs-ignite-ui/react'
+import Skeleton from 'react-loading-skeleton'
 import { styled } from '@/styles/stitches'
 
 export const Container = styled(Box, {
@@ -81,4 +82,14 @@ export const TimePickerItem = styled('button', {
   '&:not(:disabled):hover': {
     background: '$gray500',
   },
+})
+
+export const TimePickerListSkeleton = styled('div', {
+  marginTop: '$3',
+})
+
+export const TimePickerItemSkeleton = styled(Skeleton, {
+  padding: '0.6875rem 0',
+  marginBottom: '0.5rem',
+  opacity: 0.1,
 })

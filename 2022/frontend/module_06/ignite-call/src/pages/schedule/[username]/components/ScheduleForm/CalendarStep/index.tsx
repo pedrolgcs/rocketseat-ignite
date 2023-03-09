@@ -1,6 +1,5 @@
 import * as React from 'react'
 import { useRouter } from 'next/router'
-import { Text } from '@pedrolgcs-ignite-ui/react'
 import dayjs from 'dayjs'
 import { Calendar } from '@/components'
 import { useQueryAvailabilityByDate } from '@/hooks/useScheduleQuery'
@@ -40,24 +39,26 @@ function CalendarStep() {
 
       {isDateSelected && (
         <S.TimePicker>
-          {isLoadingAvailability ? (
-            <Text>...carregando</Text>
-          ) : (
-            <S.TimePickerHeader>
-              {describedDate.day} <span>{describedDate.month}</span>
-            </S.TimePickerHeader>
-          )}
+          <S.TimePickerHeader>
+            {describedDate.day} <span>{describedDate.month}</span>
+          </S.TimePickerHeader>
 
-          <S.TimePickerList>
-            {availability?.possibleTimes.map((hour) => (
-              <S.TimePickerItem
-                key={hour}
-                disabled={!availability.availableTimes.includes(hour)}
-              >
-                {String(hour).padStart(2, '0')}:00
-              </S.TimePickerItem>
-            ))}
-          </S.TimePickerList>
+          {isLoadingAvailability ? (
+            <S.TimePickerListSkeleton>
+              <S.TimePickerItemSkeleton count={10} />
+            </S.TimePickerListSkeleton>
+          ) : (
+            <S.TimePickerList>
+              {availability?.possibleTimes.map((hour) => (
+                <S.TimePickerItem
+                  key={hour}
+                  disabled={!availability.availableTimes.includes(hour)}
+                >
+                  {String(hour).padStart(2, '0')}:00
+                </S.TimePickerItem>
+              ))}
+            </S.TimePickerList>
+          )}
         </S.TimePicker>
       )}
     </S.Container>
