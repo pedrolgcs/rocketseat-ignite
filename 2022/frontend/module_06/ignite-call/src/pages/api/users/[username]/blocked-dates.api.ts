@@ -59,14 +59,31 @@ export default async function handler(
         )
       })
 
-      const blockedDatesRaw = await prisma.$queryRaw`
-        SELECT * 
-        from schedulings S
+      const blockedDatesRaw: Array<{
+        date: string
+      }> = await prisma.$queryRaw`
+        SELECT
+          EXTRACT(DAY FROM S.date) AS date,
+          COUNT(S.date) AS amount,
+          ((UTI.time_end_in_minutes - UTI.time_start_in_minutes) / 60) AS size
+
+        FROM schedulings S
+
+        LEFT JOIN user_time_intervals UTI
+          ON UTI.week_day = EXTRACT('dow' from S.date)
+
         WHERE S.user_id = ${user.id}
           AND TO_CHAR(S.date, 'YYYY-MM') = ${`${year}-${month}`}
+
+        GROUP BY EXTRACT(DAY from S.date),
+          ((UTI.time_end_in_minutes - UTI.time_start_in_minutes) / 60)
+
+        HAVING COUNT(S.date) >= ((UTI.time_end_in_minutes - UTI.time_start_in_minutes) / 60)
       `
 
-      return response.status(200).json({ blockedWeekDays, blockedDatesRaw })
+      const blockedDates = blockedDatesRaw.map((item) => Number(item.date))
+
+      return response.status(200).json({ blockedWeekDays, blockedDates })
     default:
       response.setHeader('Allow', ['GET'])
       response.status(405).end(`Method ${method} Not Allowed`)

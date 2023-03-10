@@ -45,6 +45,7 @@ export const useQueryAvailabilityByDate = ({
 
 type BlockedDates = {
   blockedWeekDays: Array<number>
+  blockedDates: Array<number>
 }
 
 type UseQueryBlockedDatesByDateParams = {
