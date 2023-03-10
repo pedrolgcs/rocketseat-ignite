@@ -32,10 +32,14 @@ function Calendar({ selectedDate, onDateSelected }: CalendarProps) {
 
   const username = String(router.query.username)
 
-  const { data: blockedDates } = useQueryBlockedDatesByDate({
+  const {
+    data: blockedDates,
+    isLoading: isLoadingBlockedDates,
+    isError: isErrorBlockedDates,
+  } = useQueryBlockedDatesByDate({
     username,
-    month: currentDate.get('month'),
-    year: currentDate.get('year'),
+    month: currentDate.format('MM'),
+    year: currentDate.format('YYYY'),
   })
 
   const shortWeekDays = getWeekDays({ short: true })
@@ -169,20 +173,28 @@ function Calendar({ selectedDate, onDateSelected }: CalendarProps) {
         </thead>
 
         <tbody>
-          {calendarWeeks.map(({ week, days }) => (
-            <tr key={week}>
-              {days.map((day) => (
-                <th key={day.date.get('date')}>
-                  <S.Day
-                    disabled={day.disabled}
-                    onClick={() => onDateSelected(day.date.toDate())}
-                  >
-                    {day.date.get('date')}
-                  </S.Day>
-                </th>
-              ))}
-            </tr>
-          ))}
+          {calendarWeeks.map(({ week, days }) => {
+            return (
+              <tr key={week}>
+                {days.map((day) => {
+                  return (
+                    <th key={day.date.get('date')}>
+                      {isLoadingBlockedDates ? (
+                        <S.SkeletonDay />
+                      ) : (
+                        <S.Day
+                          disabled={day.disabled || isErrorBlockedDates}
+                          onClick={() => onDateSelected(day.date.toDate())}
+                        >
+                          {day.date.get('date')}
+                        </S.Day>
+                      )}
+                    </th>
+                  )
+                })}
+              </tr>
+            )
+          })}
         </tbody>
       </S.Body>
     </S.Container>

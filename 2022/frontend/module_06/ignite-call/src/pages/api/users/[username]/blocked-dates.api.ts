@@ -1,11 +1,10 @@
 import { NextApiRequest, NextApiResponse } from 'next'
-import dayjs from 'dayjs'
 import { z } from 'zod'
 import { prisma } from '@/lib/prisma'
 
 const searchAvailabilityQuerySchema = z.object({
-  year: z.string(),
-  month: z.string(),
+  year: z.string().length(4),
+  month: z.string().length(2),
 })
 
 export default async function handler(
@@ -60,7 +59,14 @@ export default async function handler(
         )
       })
 
-      return response.status(200).json({ blockedWeekDays })
+      const blockedDatesRaw = await prisma.$queryRaw`
+        SELECT * 
+        from schedulings S
+        WHERE S.user_id = ${user.id}
+          AND TO_CHAR(S.date, 'YYYY-MM') = ${`${year}-${month}`}
+      `
+
+      return response.status(200).json({ blockedWeekDays, blockedDatesRaw })
     default:
       response.setHeader('Allow', ['GET'])
       response.status(405).end(`Method ${method} Not Allowed`)

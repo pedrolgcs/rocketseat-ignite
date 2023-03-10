@@ -1,4 +1,5 @@
 import { Text } from '@pedrolgcs-ignite-ui/react'
+import Skeleton from 'react-loading-skeleton'
 import { styled } from '@/styles/stitches'
 
 export const Container = styled('div', {
@@ -95,4 +96,12 @@ export const Day = styled('button', {
   '&:focus': {
     boxShadow: '0 0 0 2px $colors$gray100',
   },
+})
+
+export const SkeletonDay = styled(Skeleton, {
+  all: 'unset',
+  width: '100%',
+  aspectRatio: '1/1',
+  borderRadius: '$sm',
+  opacity: 0.1,
 })

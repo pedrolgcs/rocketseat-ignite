@@ -74,5 +74,5 @@ model Scheduling {
   user_id      String
   user         User     @relation(fields: [user_id], references: [id])
 
-  @@map("schedulins")
+  @@map("schedulings")
 }

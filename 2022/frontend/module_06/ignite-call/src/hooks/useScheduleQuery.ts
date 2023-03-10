@@ -1,6 +1,8 @@
 import { useQuery } from '@tanstack/react-query'
 import dayjs from 'dayjs'
+import { toast } from 'react-hot-toast'
 import { api } from '@/lib/axios'
+import { AppError } from '@/utils/Error'
 
 type Availability = {
   possibleTimes: Array<number>
@@ -47,8 +49,8 @@ type BlockedDates = {
 
 type UseQueryBlockedDatesByDateParams = {
   username: string
-  year: number
-  month: number
+  year: string
+  month: string
 }
 
 export const useQueryBlockedDatesByDate = ({
@@ -72,6 +74,11 @@ export const useQueryBlockedDatesByDate = ({
       return data
     },
     {
+      onError(err) {
+        if (err instanceof AppError) {
+          toast.error(err.friendlyMessage)
+        }
+      },
       staleTime: 1000 * 60 * 60 * 3, // 3 hours
       enabled: true,
     },
