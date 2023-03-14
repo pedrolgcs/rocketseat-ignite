@@ -35,6 +35,11 @@ export const useQueryAvailabilityByDate = ({
       return data
     },
     {
+      onError(err) {
+        if (err instanceof AppError) {
+          toast.error(err.friendlyMessage)
+        }
+      },
       staleTime: 1000 * 60 * 60 * 3, // 3 hours
       enabled: !!date,
     },
