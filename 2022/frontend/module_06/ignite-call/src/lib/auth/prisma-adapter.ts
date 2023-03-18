@@ -13,13 +13,19 @@ export function PrismaAdapter(
         req: request,
       })
 
-      if (!userIdOnCookies) {
-        throw new Error('User ID not found on cookies!')
+      const userExistsInDatabase = await prisma.user.findUnique({
+        where: {
+          email: user.email,
+        },
+      })
+
+      if (!userIdOnCookies && !userExistsInDatabase) {
+        throw new Error('User not found!')
       }
 
       const updatedUser = await prisma.user.update({
         where: {
-          id: userIdOnCookies,
+          id: userIdOnCookies || userExistsInDatabase?.id,
         },
         data: {
           email: user.email,

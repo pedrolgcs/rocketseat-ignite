@@ -11,6 +11,8 @@ const authErrors = (error: string) => {
       return 'Falha ao se conectar ao Google, conta já utilizada'
     case 'OAuthPermissions':
       return 'Falha ao se conectar ao Google, verifique se você habilitou as permissões de acesso ao Google Calendar.'
+    case 'OAuthCreateAccount':
+      return 'Falha ao se conectar ao Google, por favor tente criar uma nova conta na aplicação'
     default:
       return 'Falha ao se conectar ao Google, por favor tente novamente'
   }

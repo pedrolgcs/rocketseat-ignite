@@ -1,6 +1,22 @@
 import { Box, Text } from '@pedrolgcs-ignite-ui/react'
 import { styled } from '@/styles/stitches'
 
+export const NotAuthenticatedBox = styled(Box, {
+  margin: '$6 auto 0',
+  maxWidth: 540,
+  padding: '$8',
+
+  display: 'flex',
+  flexDirection: 'column',
+  alignItems: 'center',
+  justifyContent: 'center',
+  gap: '$6',
+})
+
+export const NotAuthenticatedError = styled(Text, {
+  color: '$gray200',
+})
+
 export const FormBox = styled(Box, {
   margin: '$6 auto 0',
   maxWidth: 540,

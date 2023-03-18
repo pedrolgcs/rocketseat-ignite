@@ -5,7 +5,11 @@ import { Calendar } from '@/components'
 import { useQueryAvailabilityByDate } from '@/hooks/useScheduleQuery'
 import * as S from './styles'
 
-function CalendarStep() {
+type CalendarStepProps = {
+  onSelectDateTime: (date: Date) => void
+}
+
+function CalendarStep({ onSelectDateTime }: CalendarStepProps) {
   const [selectedDate, setSelectedDate] = React.useState<Date | null>(null)
 
   const router = useRouter()
@@ -30,6 +34,15 @@ function CalendarStep() {
     return setSelectedDate(date)
   }
 
+  const handleSelectTime = (hour: number) => {
+    const dateWithTime = dayjs(selectedDate)
+      .set('hour', hour)
+      .startOf('hour')
+      .toDate()
+
+    onSelectDateTime(dateWithTime)
+  }
+
   return (
     <S.Container isTimePickerOpen={isDateSelected}>
       <Calendar
@@ -52,6 +65,7 @@ function CalendarStep() {
               {availability?.possibleTimes.map((hour) => (
                 <S.TimePickerItem
                   key={hour}
+                  onClick={() => handleSelectTime(hour)}
                   disabled={!availability.availableTimes.includes(hour)}
                 >
                   {String(hour).padStart(2, '0')}:00

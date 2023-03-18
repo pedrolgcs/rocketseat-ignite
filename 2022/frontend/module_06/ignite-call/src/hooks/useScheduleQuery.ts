@@ -40,7 +40,6 @@ export const useQueryAvailabilityByDate = ({
           toast.error(err.friendlyMessage)
         }
       },
-      staleTime: 1000 * 60 * 60 * 3, // 3 hours
       enabled: !!date,
     },
   )
@@ -85,7 +84,6 @@ export const useQueryBlockedDatesByDate = ({
           toast.error(err.friendlyMessage)
         }
       },
-      staleTime: 1000 * 60 * 60 * 3, // 3 hours
       enabled: true,
     },
   )

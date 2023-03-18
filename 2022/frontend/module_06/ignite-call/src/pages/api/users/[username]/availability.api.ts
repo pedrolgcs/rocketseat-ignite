@@ -82,18 +82,8 @@ export default async function handler(
         where: {
           user_id: user.id,
           date: {
-            gte: referenceDate
-              .set('hour', startHour)
-              .set('minute', 0)
-              .set('second', 0)
-              .set('millisecond', 0)
-              .toDate(),
-            lte: referenceDate
-              .set('hour', endHour)
-              .set('minute', 0)
-              .set('second', 0)
-              .set('millisecond', 0)
-              .toDate(),
+            gte: referenceDate.set('hour', startHour).startOf('hour').toDate(),
+            lte: referenceDate.set('hour', endHour).startOf('hour').toDate(),
           },
         },
         select: {
