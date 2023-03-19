@@ -3,20 +3,8 @@ import { signIn, useSession } from 'next-auth/react'
 import { useRouter } from 'next/router'
 import { Button, Heading, MultiStep, Text } from '@pedrolgcs-ignite-ui/react'
 import { ArrowRight, Check } from 'phosphor-react'
+import { SignInError } from '@/components'
 import * as S from './styles'
-
-const authErrors = (error: string) => {
-  switch (error) {
-    case 'OAuthAccountNotLinked':
-      return 'Falha ao se conectar ao Google, conta já utilizada'
-    case 'OAuthPermissions':
-      return 'Falha ao se conectar ao Google, verifique se você habilitou as permissões de acesso ao Google Calendar.'
-    case 'OAuthCreateAccount':
-      return 'Falha ao se conectar ao Google, por favor tente criar uma nova conta na aplicação'
-    default:
-      return 'Falha ao se conectar ao Google, por favor tente novamente'
-  }
-}
 
 export default function Register() {
   const router = useRouter()
@@ -68,9 +56,9 @@ export default function Register() {
         </S.ConnectItem>
 
         {hasAuthError && (
-          <S.AuthError size="sm">
-            {authErrors(signInError.toString())}
-          </S.AuthError>
+          <S.AuthErrorContainer>
+            <SignInError error={signInError.toString()} />
+          </S.AuthErrorContainer>
         )}
 
         <Button
