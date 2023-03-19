@@ -1,4 +1,4 @@
-import { Box, Text } from '@pedrolgcs-ignite-ui/react'
+import { Box } from '@pedrolgcs-ignite-ui/react'
 import { styled } from '@/styles/stitches'
 
 export const Container = styled('main', {
@@ -36,6 +36,6 @@ export const ConnectItem = styled('div', {
   marginBottom: '$4',
 })
 
-export const AuthErrorContainer = styled(Text, {
+export const AuthErrorContainer = styled('div', {
   marginBottom: '$4',
 })
