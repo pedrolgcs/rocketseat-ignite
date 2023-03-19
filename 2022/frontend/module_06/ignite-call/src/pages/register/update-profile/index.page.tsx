@@ -36,7 +36,9 @@ export default function UpdateProfile() {
     formState: { isSubmitting },
   } = useForm<UpdateProfileFormInput>({
     resolver: zodResolver(updateProfileFormSchema),
-    defaultValues: {},
+    defaultValues: {
+      bio: session.data?.user.bio ?? '',
+    },
   })
 
   async function handleUpdateProfile(data: UpdateProfileFormInput) {
