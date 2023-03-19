@@ -1,7 +1,9 @@
 import { NextApiRequest, NextApiResponse } from 'next'
+import { getServerSession } from 'next-auth/next'
 import dayjs from 'dayjs'
 import { z } from 'zod'
 import { prisma } from '@/lib/prisma'
+import { buildNextAuthOptions } from '../../auth/[...nextauth].api'
 
 const createSchedulingBodySchema = z.object({
   name: z.string(),
@@ -20,6 +22,37 @@ export default async function handler(
     case 'POST':
       const username = String(request.query.username)
 
+      const user = await prisma.user.findUnique({
+        where: {
+          username,
+        },
+      })
+
+      if (!user) {
+        return response.status(400).json({
+          friendlyMessage: 'Ops, usuário não encontrado!',
+        })
+      }
+
+      const session = await getServerSession(
+        request,
+        response,
+        buildNextAuthOptions(request, response),
+      )
+
+      if (!session) {
+        return response.status(401).json({
+          friendlyMessage: 'Ops, usuário não está autenticado!',
+        })
+      }
+
+      if (session.user.username === user.username) {
+        return response.status(401).json({
+          friendlyMessage:
+            'Ops, não é possível agendar horários com você mesmo!',
+        })
+      }
+
       const body = createSchedulingBodySchema.safeParse(request.body)
 
       if (!body.success) {
@@ -32,18 +65,6 @@ export default async function handler(
       }
 
       const { name, email, observations, date } = body.data
-
-      const user = await prisma.user.findUnique({
-        where: {
-          username,
-        },
-      })
-
-      if (!user) {
-        return response.status(400).json({
-          friendlyMessage: 'Ops, usuário não encontrado!',
-        })
-      }
 
       const schedulingDate = dayjs(date).startOf('hour')
 
