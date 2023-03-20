@@ -1,5 +1,6 @@
 import * as React from 'react'
 import { signIn, useSession } from 'next-auth/react'
+import { NextSeo } from 'next-seo'
 import { useRouter } from 'next/router'
 import { Button, Heading, MultiStep, Text } from '@pedrolgcs-ignite-ui/react'
 import { ArrowRight, Check } from 'phosphor-react'
@@ -23,53 +24,57 @@ export default function Register() {
   }
 
   return (
-    <S.Container>
-      <S.Header>
-        <Heading as="strong">Conecte sua agenda!</Heading>
-        <Text>
-          Conecte o seu calendário para verificar automaticamente as horas
-          ocupadas e os novos eventos à medida em que são agendados.
-        </Text>
+    <>
+      <NextSeo title="Conecte sua agenda do Google | Ignite Call" noindex />
 
-        <MultiStep size={4} currentStep={2} />
-      </S.Header>
+      <S.Container>
+        <S.Header>
+          <Heading as="strong">Conecte sua agenda!</Heading>
+          <Text>
+            Conecte o seu calendário para verificar automaticamente as horas
+            ocupadas e os novos eventos à medida em que são agendados.
+          </Text>
 
-      <S.ConnectBox>
-        <S.ConnectItem>
-          <Text>Google Calendar</Text>
+          <MultiStep size={4} currentStep={2} />
+        </S.Header>
 
-          {isSignedIn ? (
-            <Button size="sm" disabled>
-              Conectado
-              <Check />
-            </Button>
-          ) : (
-            <Button
-              variant="secondary"
-              size="sm"
-              onClick={handleConnectCalendar}
-            >
-              Conectar
-              <ArrowRight />
-            </Button>
+        <S.ConnectBox>
+          <S.ConnectItem>
+            <Text>Google Calendar</Text>
+
+            {isSignedIn ? (
+              <Button size="sm" disabled>
+                Conectado
+                <Check />
+              </Button>
+            ) : (
+              <Button
+                variant="secondary"
+                size="sm"
+                onClick={handleConnectCalendar}
+              >
+                Conectar
+                <ArrowRight />
+              </Button>
+            )}
+          </S.ConnectItem>
+
+          {hasAuthError && (
+            <S.AuthErrorContainer>
+              <SignInError error={signInError.toString()} />
+            </S.AuthErrorContainer>
           )}
-        </S.ConnectItem>
 
-        {hasAuthError && (
-          <S.AuthErrorContainer>
-            <SignInError error={signInError.toString()} />
-          </S.AuthErrorContainer>
-        )}
-
-        <Button
-          type="button"
-          disabled={!isSignedIn}
-          onClick={handleNavigateToNextStage}
-        >
-          Próximo passo
-          <ArrowRight />
-        </Button>
-      </S.ConnectBox>
-    </S.Container>
+          <Button
+            type="button"
+            disabled={!isSignedIn}
+            onClick={handleNavigateToNextStage}
+          >
+            Próximo passo
+            <ArrowRight />
+          </Button>
+        </S.ConnectBox>
+      </S.Container>
+    </>
   )
 }
