@@ -26,7 +26,7 @@ function withSSRAuth<P extends { [key: string]: any }>(
     if (!session) {
       return {
         redirect: {
-          destination: '/register',
+          destination: '/register/connect-calendar',
           permanent: false,
         },
       }

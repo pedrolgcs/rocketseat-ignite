@@ -10,7 +10,16 @@ import * as S from './styles'
 export default function Me() {
   const session = useSession()
 
-  const { data } = useQuerySchedulesByUser(session.data?.user.username!)
+  const { data: schedules, isLoading: isLoadingSchedules } =
+    useQuerySchedulesByUser(session.data?.user.username!)
+
+  const hasNoSchedules = React.useMemo(() => {
+    if (schedules && !isLoadingSchedules) {
+      return Object.keys(schedules.schedules).length === 0
+    }
+
+    return false
+  }, [schedules, isLoadingSchedules])
 
   return (
     <S.Container>
@@ -20,9 +29,19 @@ export default function Me() {
         <Text>Front-end developer at @ioasys</Text>
       </S.Header>
 
+      {isLoadingSchedules && <S.ScheduleSkeleton count={5} />}
+
+      {hasNoSchedules && (
+        <S.EmptySchedules>
+          <Text as="strong" size="lg">
+            Você não possui agendamentos.
+          </Text>
+        </S.EmptySchedules>
+      )}
+
       <S.Ul>
-        {data?.schedules &&
-          Object.entries(data.schedules).map((schedule) => {
+        {schedules?.schedules &&
+          Object.entries(schedules.schedules).map((schedule) => {
             const [day, schedules] = schedule
 
             return (
@@ -51,7 +70,7 @@ export default function Me() {
 }
 
 export const getServerSideProps: GetServerSideProps = withSSRAuth(
-  async (ctx, session) => {
+  async (_, session) => {
     return {
       props: {
         session,

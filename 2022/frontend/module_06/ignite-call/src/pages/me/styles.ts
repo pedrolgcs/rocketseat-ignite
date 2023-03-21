@@ -1,4 +1,5 @@
 import { Box, Text } from '@pedrolgcs-ignite-ui/react'
+import Skeleton from 'react-loading-skeleton'
 import { styled } from '@/styles/stitches'
 
 export const Container = styled('main', {
@@ -40,6 +41,13 @@ export const Schedule = styled(Box, {
   gap: '$3',
 })
 
+export const ScheduleSkeleton = styled(Skeleton, {
+  height: '6rem',
+  display: 'flex',
+  marginBottom: '$5',
+  opacity: 0.1,
+})
+
 export const ScheduleDescription = styled('div', {
   maxWidth: '75%',
 
@@ -55,4 +63,15 @@ export const ScheduleDescription = styled('div', {
 
 export const ScheduleTime = styled(Text, {
   color: '$gray200',
+})
+
+export const EmptySchedules = styled('div', {
+  display: 'flex',
+  justifyContent: 'center',
+  alignItems: 'center',
+  height: '80vh',
+
+  '> strong': {
+    color: '$gray400',
+  },
 })
