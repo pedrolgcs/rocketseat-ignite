@@ -3,6 +3,11 @@ import dayjs from 'dayjs'
 import { z } from 'zod'
 import { prisma } from '@/lib/prisma'
 
+export type GetAvailabilityRouterResponse = {
+  possibleTimes: Array<number>
+  availableTimes: Array<number>
+}
+
 const searchAvailabilityQuerySchema = z.object({
   date: z.string(),
 })

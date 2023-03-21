@@ -2,12 +2,10 @@ import { useQuery } from '@tanstack/react-query'
 import dayjs from 'dayjs'
 import { toast } from 'react-hot-toast'
 import { api } from '@/lib/axios'
+import type { GetAvailabilityRouterResponse } from '@/pages/api/users/[username]/availability.api'
+import type { GetBlockedDatesRouterResponse } from '@/pages/api/users/[username]/blocked-dates.api'
+import type { GetSchedulesRouterResponse } from '@/pages/api/users/schedules.api'
 import { AppError } from '@/utils/Error'
-
-type Availability = {
-  possibleTimes: Array<number>
-  availableTimes: Array<number>
-}
 
 type UseQueryAvailabilityByDateParams = {
   date: Date | null
@@ -20,10 +18,10 @@ export const useQueryAvailabilityByDate = ({
 }: UseQueryAvailabilityByDateParams) => {
   const selectedDateWithoutTime = date ? dayjs(date).format('YYYY-MM-DD') : null
 
-  return useQuery<Availability>(
+  return useQuery(
     ['availability', selectedDateWithoutTime, username],
     async () => {
-      const { data } = await api.get<Availability>(
+      const { data } = await api.get<GetAvailabilityRouterResponse>(
         `/users/${username}/availability`,
         {
           params: {
@@ -47,11 +45,6 @@ export const useQueryAvailabilityByDate = ({
 
 // ----------------------------------------------------
 
-type BlockedDates = {
-  blockedWeekDays: Array<number>
-  blockedDates: Array<number>
-}
-
 type UseQueryBlockedDatesByDateParams = {
   username: string
   year: string
@@ -63,10 +56,10 @@ export const useQueryBlockedDatesByDate = ({
   year,
   month,
 }: UseQueryBlockedDatesByDateParams) => {
-  return useQuery<BlockedDates>(
+  return useQuery(
     ['blocked-dates', year, month, username],
     async () => {
-      const { data } = await api.get<BlockedDates>(
+      const { data } = await api.get<GetBlockedDatesRouterResponse>(
         `/users/${username}/blocked-dates`,
         {
           params: {
@@ -85,6 +78,30 @@ export const useQueryBlockedDatesByDate = ({
         }
       },
       enabled: true,
+    },
+  )
+}
+
+// ----------------------------------------------------
+
+export const useQuerySchedulesByUser = (username: string) => {
+  return useQuery(
+    ['schedules', username],
+    async () => {
+      const { data } = await api.get<GetSchedulesRouterResponse>(
+        `/users/schedules`,
+      )
+
+      return data
+    },
+    {
+      onError(err) {
+        if (err instanceof AppError) {
+          toast.error(err.friendlyMessage)
+        }
+      },
+      enabled: !!username,
+      staleTime: 1000 * 60 * 10, // 10 minutes
     },
   )
 }

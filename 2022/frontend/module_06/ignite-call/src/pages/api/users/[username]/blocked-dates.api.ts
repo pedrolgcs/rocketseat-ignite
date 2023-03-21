@@ -2,6 +2,11 @@ import { NextApiRequest, NextApiResponse } from 'next'
 import { z } from 'zod'
 import { prisma } from '@/lib/prisma'
 
+export type GetBlockedDatesRouterResponse = {
+  blockedWeekDays: Array<number>
+  blockedDates: Array<number>
+}
+
 const searchAvailabilityQuerySchema = z.object({
   year: z.string().length(4),
   month: z.string().length(2),
