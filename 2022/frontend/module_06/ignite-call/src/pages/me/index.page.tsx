@@ -24,9 +24,9 @@ export default function Me() {
   return (
     <S.Container>
       <S.Header>
-        <Heading as="strong">Olá Pedro Henrique</Heading>
+        <Heading as="strong">Olá {session.data?.user.name}</Heading>
 
-        <Text>Front-end developer at @ioasys</Text>
+        <Text>{session.data?.user.bio}</Text>
       </S.Header>
 
       {isLoadingSchedules && <S.ScheduleSkeleton count={5} />}
