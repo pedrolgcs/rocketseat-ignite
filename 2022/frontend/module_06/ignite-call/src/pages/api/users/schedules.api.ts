@@ -34,6 +34,9 @@ export default async function handler(
       const schedules = await prisma.scheduling.findMany({
         where: {
           user_id: session.user.id,
+          date: {
+            gte: new Date(),
+          },
         },
         select: {
           id: true,

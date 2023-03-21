@@ -1,3 +1,4 @@
+import { Box, Text } from '@pedrolgcs-ignite-ui/react'
 import { styled } from '@/styles/stitches'
 
 export const Container = styled('main', {
@@ -7,8 +8,6 @@ export const Container = styled('main', {
 })
 
 export const Header = styled('div', {
-  padding: '0 $6',
-
   '> strong': {
     lineHeight: '$base',
   },
@@ -19,13 +18,41 @@ export const Header = styled('div', {
   },
 })
 
-export const ScheduleList = styled('ul', {
-  all: 'unset',
-})
+export const Ul = styled('ul', {})
 
-export const ScheduleItem = styled('li', {
+export const Li = styled('li', {
   all: 'unset',
   display: 'block',
-  paddingBottom: '1rem',
-  borderBottom: '1px solid red',
+  marginBottom: '$4',
+  paddingTop: '$3',
+  '& + &': {
+    borderTop: '1px solid $gray700',
+  },
+})
+
+export const Schedule = styled(Box, {
+  marginTop: '$3',
+  opacity: '0.7',
+
+  display: 'flex',
+  justifyContent: 'space-between',
+  alignItems: 'flex-start',
+  gap: '$3',
+})
+
+export const ScheduleDescription = styled('div', {
+  maxWidth: '75%',
+
+  '> p': {
+    color: '$gray100',
+    display: '-webkit-box',
+    '-webkit-line-clamp': '3',
+    '-webkit-box-orient': 'vertical',
+    textOverflow: 'ellipsis',
+    overflow: 'hidden',
+  },
+})
+
+export const ScheduleTime = styled(Text, {
+  color: '$gray200',
 })
