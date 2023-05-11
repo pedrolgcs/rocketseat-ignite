@@ -1,6 +1,9 @@
 # node
 node_modules
 
+# App
+build
+
 # envoriments
 .env
 .env.test
