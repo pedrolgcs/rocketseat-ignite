@@ -1,0 +1,5 @@
+src/application/@types/*.d.ts
+
+build
+
+node_modules

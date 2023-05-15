@@ -1,0 +1,5 @@
+export * from './create-meal/create-meal-controller'
+export * from './update-meal/update-meal-controller'
+export * from './get-meals-by-user/get-meals-by-user-controller'
+export * from './delete-meal/delete-meal-controller'
+export * from './get-meal-by-id/get-meal-by-id-controller'
