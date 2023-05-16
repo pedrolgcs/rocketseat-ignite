@@ -1,7 +1,10 @@
 import { knex } from '@/application/lib/knex'
 import { Meal } from '@/application/modules/meal/entities'
 import { KnexMealMapper } from '@/application/modules/meal/mappers'
-import { IMealsRepository } from '../IMealRepository'
+import {
+  IMealsRepository,
+  GetBestIsDietSequenceDayResponse,
+} from '../IMealRepository'
 
 class MealRepository implements IMealsRepository {
   async find(userId: string): Promise<Meal[]> {
@@ -54,6 +57,39 @@ class MealRepository implements IMealsRepository {
     await knex('meals').delete().where({
       id,
     })
+  }
+
+  async getBestIsDietSequenceDayByUser(
+    userId: string,
+  ): Promise<GetBestIsDietSequenceDayResponse> {
+    const bestIsDietSequenceDay = await knex('meals AS M')
+      .select(
+        knex.raw(`
+          STRFTIME('%m-%d-%Y', M.eat_time/1000, 'unixepoch') AS date,
+          COUNT(M.id) AS amount
+        `),
+      )
+      .where({
+        user_id: userId,
+        is_diet: true,
+      })
+      .groupByRaw(`STRFTIME('%m-%d-%Y', M.eat_time/1000, 'unixepoch')`)
+      .orderBy('amount', 'DESC')
+      .first()
+
+    if (!bestIsDietSequenceDay) {
+      return {
+        date: new Date(),
+        amount: 0,
+      }
+    }
+
+    const formattedBestIsDietSequenceDay = {
+      date: new Date(bestIsDietSequenceDay.date),
+      amount: bestIsDietSequenceDay.amount,
+    }
+
+    return formattedBestIsDietSequenceDay
   }
 }
 

@@ -21,7 +21,7 @@ class KnexMealMapper {
       {
         name: raw.name,
         description: raw.description,
-        eatTime: raw.eat_time,
+        eatTime: new Date(raw.eat_time),
         isDiet: raw.is_diet,
         userId: raw.user_id,
         createdAt: raw.created_at,
