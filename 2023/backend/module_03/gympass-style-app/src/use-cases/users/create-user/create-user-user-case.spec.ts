@@ -5,10 +5,12 @@ import { CreateUserUseCase } from './create-user-use-case'
 import * as Error from './errors'
 
 let createUserUseCase: CreateUserUseCase
+let inMemoryUsersRepository: InMemoryUsersRepository
 
 describe('[User] - Create user', () => {
   beforeEach(() => {
-    createUserUseCase = new CreateUserUseCase(new InMemoryUsersRepository())
+    inMemoryUsersRepository = new InMemoryUsersRepository()
+    createUserUseCase = new CreateUserUseCase(inMemoryUsersRepository)
   })
 
   it('should be able to create a new user', async () => {

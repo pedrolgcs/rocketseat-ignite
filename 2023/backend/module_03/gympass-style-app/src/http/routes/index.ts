@@ -1,4 +1,5 @@
 import { FastifyInstance } from 'fastify'
+import { sessionsRoutes } from './session-routes'
 import { usersRoutes } from './users-routes'
 
 async function routes(app: FastifyInstance) {
@@ -9,6 +10,8 @@ async function routes(app: FastifyInstance) {
   })
 
   app.register(usersRoutes, { prefix: '/users' })
+
+  app.register(sessionsRoutes, { prefix: '/sessions' })
 }
 
 export { routes }
