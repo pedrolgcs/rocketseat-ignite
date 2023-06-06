@@ -1,7 +1,6 @@
 import { FastifyReply, FastifyRequest } from 'fastify'
 import { z } from 'zod'
-import { PrismaUsersRepository } from '@/repositories/prisma/prisma-users-repository'
-import { AuthenticateUserUseCase } from '@/use-cases'
+import { makeAuthenticateUserUseCase } from '@/use-cases/users'
 
 class AuthenticateUserController {
   public async handler(request: FastifyRequest, reply: FastifyReply) {
@@ -12,11 +11,7 @@ class AuthenticateUserController {
 
     const { email, password } = authenticateBodySchema.parse(request.body)
 
-    const prismaUsersRepository = new PrismaUsersRepository()
-
-    const authenticateUserUserUseCase = new AuthenticateUserUseCase(
-      prismaUsersRepository,
-    )
+    const authenticateUserUserUseCase = makeAuthenticateUserUseCase()
 
     await authenticateUserUserUseCase.execute({ email, password })
 

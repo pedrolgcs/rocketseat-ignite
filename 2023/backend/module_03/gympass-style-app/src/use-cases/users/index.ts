@@ -1,2 +1,2 @@
-export * from './create-user/create-user-use-case'
-export * from './authenticate-user/authenticate-user-use-case'
+export * from './create-user'
+export * from './authenticate-user'
