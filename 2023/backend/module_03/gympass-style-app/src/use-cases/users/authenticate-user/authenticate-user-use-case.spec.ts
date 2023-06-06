@@ -4,15 +4,13 @@ import { InMemoryUsersRepository } from '@/repositories/in-memory/in-memory-user
 import { AuthenticateUserUseCase } from './authenticate-user-use-case'
 import * as Error from './errors'
 
-let authenticateUserUseCase: AuthenticateUserUseCase
+let sut: AuthenticateUserUseCase
 let inMemoryUsersRepository: InMemoryUsersRepository
 
 describe('[User] - Authenticate user', () => {
   beforeEach(() => {
     inMemoryUsersRepository = new InMemoryUsersRepository()
-    authenticateUserUseCase = new AuthenticateUserUseCase(
-      inMemoryUsersRepository,
-    )
+    sut = new AuthenticateUserUseCase(inMemoryUsersRepository)
   })
 
   it('should be able to authenticate a user', async () => {
@@ -22,7 +20,7 @@ describe('[User] - Authenticate user', () => {
       password_hash: await hash('secret', 6),
     })
 
-    const { user } = await authenticateUserUseCase.execute({
+    const { user } = await sut.execute({
       email: 'jhondoe.com',
       password: 'secret',
     })
@@ -32,7 +30,7 @@ describe('[User] - Authenticate user', () => {
 
   it('should not be able to authenticate with wrong email', async () => {
     await expect(() =>
-      authenticateUserUseCase.execute({
+      sut.execute({
         email: 'jhondoe.com',
         password: 'secret',
       }),
@@ -47,7 +45,7 @@ describe('[User] - Authenticate user', () => {
     })
 
     await expect(() =>
-      authenticateUserUseCase.execute({
+      sut.execute({
         email: 'jhondoe.com',
         password: 'wrong_password',
       }),

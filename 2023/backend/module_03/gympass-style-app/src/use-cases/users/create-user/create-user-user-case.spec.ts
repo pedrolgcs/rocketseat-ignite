@@ -4,17 +4,17 @@ import { InMemoryUsersRepository } from '@/repositories/in-memory/in-memory-user
 import { CreateUserUseCase } from './create-user-use-case'
 import * as Error from './errors'
 
-let createUserUseCase: CreateUserUseCase
+let sut: CreateUserUseCase
 let inMemoryUsersRepository: InMemoryUsersRepository
 
 describe('[User] - Create user', () => {
   beforeEach(() => {
     inMemoryUsersRepository = new InMemoryUsersRepository()
-    createUserUseCase = new CreateUserUseCase(inMemoryUsersRepository)
+    sut = new CreateUserUseCase(inMemoryUsersRepository)
   })
 
   it('should be able to create a new user', async () => {
-    const { user } = await createUserUseCase.execute({
+    const { user } = await sut.execute({
       name: 'John Doe',
       email: 'jhondoe.com',
       password: 'secret',
@@ -24,7 +24,7 @@ describe('[User] - Create user', () => {
   })
 
   it('should be able to hash user password upon registration', async () => {
-    const { user } = await createUserUseCase.execute({
+    const { user } = await sut.execute({
       name: 'John Doe',
       email: 'jhondoe.com',
       password: 'secret',
@@ -39,14 +39,14 @@ describe('[User] - Create user', () => {
   })
 
   it('should not be able to create a user with the same email twice', async () => {
-    await createUserUseCase.execute({
+    await sut.execute({
       name: 'John Doe',
       email: 'jhondoe.com',
       password: 'secret',
     })
 
     await expect(() =>
-      createUserUseCase.execute({
+      sut.execute({
         name: 'John Doe',
         email: 'jhondoe.com',
         password: 'secret',
