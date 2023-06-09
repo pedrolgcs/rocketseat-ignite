@@ -26,10 +26,10 @@ class InMemoryUsersRepository implements UsersRepository {
   }
 
   async create(data: Prisma.UserCreateInput) {
-    const { name, email, password_hash } = data
+    const { id, name, email, password_hash } = data
 
     const user = {
-      id: crypto.randomUUID(),
+      id: id ?? crypto.randomUUID(),
       name,
       email,
       password_hash,
