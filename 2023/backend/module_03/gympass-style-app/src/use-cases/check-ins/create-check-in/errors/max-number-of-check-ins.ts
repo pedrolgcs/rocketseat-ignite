@@ -1,9 +1,9 @@
 import { AppError } from '@/erros/AppError'
 
-export class DistanceNotAllowed extends AppError {
+export class MaxNumberOfCheckIns extends AppError {
   constructor() {
     super({
-      message: 'Distance bigger than hundred meters',
+      message: 'Max number of check-ins reached',
       statusCode: 400,
     })
   }

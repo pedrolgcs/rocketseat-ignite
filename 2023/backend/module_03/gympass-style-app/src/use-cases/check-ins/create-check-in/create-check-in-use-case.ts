@@ -43,7 +43,7 @@ class CreateCheckInUseCase {
     const MAX_DISTANCE_IN_KILOMETERS = 0.1
 
     if (distance > MAX_DISTANCE_IN_KILOMETERS) {
-      throw new Error.DistanceNotAllowed()
+      throw new Error.MaxDistance()
     }
 
     const checkInOnSameDay = await this.checkInsRepository.findByUserIdOnDate(
@@ -51,8 +51,10 @@ class CreateCheckInUseCase {
       new Date(),
     )
 
-    if (checkInOnSameDay) {
-      throw new Error.AlreadyExists()
+    const MAX_CHECK_INS_PER_DAY = 1
+
+    if (checkInOnSameDay.length >= MAX_CHECK_INS_PER_DAY) {
+      throw new Error.MaxNumberOfCheckIns()
     }
 
     const checkIn = await this.checkInsRepository.create({

@@ -1,6 +1,6 @@
 import { hash } from 'bcryptjs'
 import { describe, it, expect, beforeEach } from 'vitest'
-import { InMemoryUsersRepository } from '@/repositories/in-memory/in-memory-users-repository'
+import { InMemoryUsersRepository } from '@/repositories/in-memory'
 import { AuthenticateUserUseCase } from './authenticate-user-use-case'
 import * as Error from './errors'
 

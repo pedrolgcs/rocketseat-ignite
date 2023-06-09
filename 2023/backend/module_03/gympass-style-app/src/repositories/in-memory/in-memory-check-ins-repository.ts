@@ -6,24 +6,17 @@ import { CheckInsRepository } from '../check-ins-repository'
 class InMemoryCheckInsRepository implements CheckInsRepository {
   public checkIns: CheckIn[] = []
 
-  async findByUserIdOnDate(
-    userId: string,
-    date: Date,
-  ): Promise<CheckIn | null> {
+  async findByUserIdOnDate(userId: string, date: Date): Promise<CheckIn[]> {
     const startOfDay = dayjs(date).startOf('date')
     const endOfDay = dayjs(date).endOf('date')
 
-    const checkInOnSameDate = this.checkIns.find((checkIn) => {
+    const checkInOnSameDate = this.checkIns.filter((checkIn) => {
       const checkInDate = dayjs(checkIn.created_at)
       const isOnSameDate =
         checkInDate.isAfter(startOfDay) && checkInDate.isBefore(endOfDay)
 
       return checkIn.user_id === userId && isOnSameDate
     })
-
-    if (!checkInOnSameDate) {
-      return null
-    }
 
     return checkInOnSameDate
   }

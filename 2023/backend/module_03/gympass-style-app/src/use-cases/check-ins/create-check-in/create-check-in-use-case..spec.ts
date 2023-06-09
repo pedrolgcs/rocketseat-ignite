@@ -11,7 +11,7 @@ let inMemoryCheckInsRepository: InMemoryCheckInsRepository
 let inMemoryGymsRepository: InMemoryGymsRepository
 
 describe('[CheckIn] - Create check-in', () => {
-  beforeEach(() => {
+  beforeEach(async () => {
     inMemoryCheckInsRepository = new InMemoryCheckInsRepository()
     inMemoryGymsRepository = new InMemoryGymsRepository()
     sut = new CreateCheckInUseCase(
@@ -20,7 +20,7 @@ describe('[CheckIn] - Create check-in', () => {
     )
 
     // create a new gym
-    inMemoryGymsRepository.create({
+    await inMemoryGymsRepository.create({
       id: 'gym-01',
       title: 'Gym 01',
       description: 'Gym 01 description',
@@ -86,7 +86,7 @@ describe('[CheckIn] - Create check-in', () => {
         userLatitude: -6.433559,
         userLongitude: -36.643044,
       }),
-    ).rejects.toBeInstanceOf(Error.AlreadyExists)
+    ).rejects.toBeInstanceOf(Error.MaxNumberOfCheckIns)
   })
 
   it('should not be able to check in when gym is not found', async () => {
@@ -111,6 +111,6 @@ describe('[CheckIn] - Create check-in', () => {
         userLatitude: latitudeBiggerThanHundredMeters,
         userLongitude: longitudeBiggerThanHundredMeters,
       }),
-    ).rejects.toBeInstanceOf(Error.DistanceNotAllowed)
+    ).rejects.toBeInstanceOf(Error.MaxDistance)
   })
 })

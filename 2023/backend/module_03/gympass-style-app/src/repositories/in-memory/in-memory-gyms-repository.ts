@@ -21,8 +21,8 @@ class InMemoryGymsRepository implements GymsRepository {
       title: gym.title,
       description: gym.description ?? null,
       phone: gym.phone,
-      latitude: new Prisma.Decimal(gym.latitude as number),
-      longitude: new Prisma.Decimal(gym.longitude as number),
+      latitude: new Prisma.Decimal(gym.latitude.toString()),
+      longitude: new Prisma.Decimal(gym.longitude.toString()),
     }
 
     this.gyms.push(newGym)

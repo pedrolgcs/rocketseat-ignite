@@ -1,9 +1,9 @@
 import { AppError } from '@/erros/AppError'
 
-export class AlreadyExists extends AppError {
+export class MaxDistance extends AppError {
   constructor() {
     super({
-      message: 'Check in already exists',
+      message: 'Distance bigger than hundred meters',
       statusCode: 400,
     })
   }
