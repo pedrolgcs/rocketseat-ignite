@@ -3,10 +3,10 @@ import { User, Prisma } from '@prisma/client'
 import { UsersRepository } from '../users-repository'
 
 class InMemoryUsersRepository implements UsersRepository {
-  public users: User[] = []
+  public items: User[] = []
 
   async findById(id: string): Promise<User | null> {
-    const user = this.users.find((user) => user.id === id)
+    const user = this.items.find((user) => user.id === id)
 
     if (!user) {
       return null
@@ -16,7 +16,7 @@ class InMemoryUsersRepository implements UsersRepository {
   }
 
   async findByEmail(email: string) {
-    const user = this.users.find((user) => user.email === email)
+    const user = this.items.find((user) => user.email === email)
 
     if (!user) {
       return null
@@ -36,7 +36,7 @@ class InMemoryUsersRepository implements UsersRepository {
       created_at: new Date(),
     }
 
-    this.users.push(user)
+    this.items.push(user)
 
     return user
   }

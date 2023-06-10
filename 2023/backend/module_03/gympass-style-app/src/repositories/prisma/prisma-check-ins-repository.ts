@@ -8,7 +8,11 @@ class PrismaCheckInsRepository implements CheckInsRepository {
     throw new Error('Method not implemented.')
   }
 
-  findByUserIdOnDate(userId: string, date: Date): Promise<CheckIn | null> {
+  findManyByUserId(userId: string): Promise<CheckIn[]> {
+    throw new Error('Method not implemented.')
+  }
+
+  findManyByUserIdOnDate(userId: string, date: Date): Promise<CheckIn[]> {
     throw new Error('Method not implemented.')
   }
 }

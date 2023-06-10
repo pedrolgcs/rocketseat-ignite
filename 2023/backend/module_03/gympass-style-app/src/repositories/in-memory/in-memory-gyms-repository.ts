@@ -3,10 +3,10 @@ import { Gym, Prisma } from '@prisma/client'
 import { GymsRepository } from '../gyms-repository'
 
 class InMemoryGymsRepository implements GymsRepository {
-  private gyms: Gym[] = []
+  private items: Gym[] = []
 
   async findById(id: string): Promise<Gym | null> {
-    const gym = this.gyms.find((gym) => gym.id === id)
+    const gym = this.items.find((gym) => gym.id === id)
 
     if (!gym) {
       return null
@@ -25,7 +25,7 @@ class InMemoryGymsRepository implements GymsRepository {
       longitude: new Prisma.Decimal(gym.longitude.toString()),
     }
 
-    this.gyms.push(newGym)
+    this.items.push(newGym)
 
     return newGym
   }

@@ -46,10 +46,8 @@ class CreateCheckInUseCase {
       throw new Error.MaxDistance()
     }
 
-    const checkInOnSameDay = await this.checkInsRepository.findByUserIdOnDate(
-      userId,
-      new Date(),
-    )
+    const checkInOnSameDay =
+      await this.checkInsRepository.findManyByUserIdOnDate(userId, new Date())
 
     const MAX_CHECK_INS_PER_DAY = 1
 
