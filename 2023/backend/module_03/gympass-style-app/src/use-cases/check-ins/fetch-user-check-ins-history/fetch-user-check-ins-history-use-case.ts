@@ -3,7 +3,7 @@ import { CheckInsRepository } from '@/repositories'
 
 type Request = {
   userId: string
-  page: number
+  pagination: Pagination
 }
 
 type Response = {
@@ -14,11 +14,11 @@ class FetchUserCheckInsHistoryUseCase {
   constructor(private checkInsRepository: CheckInsRepository) {}
 
   async execute(request: Request): Promise<Response> {
-    const { userId, page } = request
+    const { userId, pagination } = request
 
     const checkIns = await this.checkInsRepository.findManyByUserId(
       userId,
-      page,
+      pagination,
     )
 
     return {

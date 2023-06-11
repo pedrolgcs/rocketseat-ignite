@@ -39,7 +39,10 @@ describe('[CheckIn] - Fetch user check-ins history', () => {
 
     const { checkIns } = await sut.execute({
       userId: 'user-01',
-      page: 1,
+      pagination: {
+        page: 1,
+        perPage: 20,
+      },
     })
 
     expect(checkIns).toHaveLength(2)
@@ -59,7 +62,10 @@ describe('[CheckIn] - Fetch user check-ins history', () => {
 
     const { checkIns } = await sut.execute({
       userId: 'user-01',
-      page: 2,
+      pagination: {
+        page: 2,
+        perPage: 20,
+      },
     })
 
     expect(checkIns).toHaveLength(2)
