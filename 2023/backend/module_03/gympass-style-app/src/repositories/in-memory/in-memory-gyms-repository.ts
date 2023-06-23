@@ -15,6 +15,16 @@ class InMemoryGymsRepository implements GymsRepository {
     return gym
   }
 
+  async searchMany(title: string, pagination: Pagination): Promise<Gym[]> {
+    const { page, perPage } = pagination
+
+    return this.items
+      .filter((item) =>
+        item.title.toLowerCase().includes(title.toLocaleLowerCase()),
+      )
+      .slice((page - 1) * perPage, page * perPage)
+  }
+
   async create(gym: Prisma.GymUncheckedCreateInput): Promise<Gym> {
     const newGym = {
       id: gym.id ?? crypto.randomUUID(),
