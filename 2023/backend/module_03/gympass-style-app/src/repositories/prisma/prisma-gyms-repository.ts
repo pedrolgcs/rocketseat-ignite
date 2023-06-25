@@ -1,10 +1,14 @@
 import { Gym, Prisma } from '@prisma/client'
-import { GymsRepository } from '../gyms-repository'
+import { GymsRepository, FindManyNearByParams } from '../gyms-repository'
 
 class PrismaGymsRepository implements GymsRepository {
   public items: Gym[] = []
 
   findById(id: string): Promise<Gym | null> {
+    throw new Error('Method not implemented.')
+  }
+
+  findManyNearBy(params: FindManyNearByParams): Promise<Gym[]> {
     throw new Error('Method not implemented.')
   }
 
