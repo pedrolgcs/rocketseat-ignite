@@ -4,6 +4,10 @@ import { CheckInsRepository } from '../check-ins-repository'
 class PrismaCheckInsRepository implements CheckInsRepository {
   public checkIns: CheckIn[] = []
 
+  findById(id: string): Promise<CheckIn | null> {
+    throw new Error('Method not implemented.')
+  }
+
   findManyByUserId(userId: string): Promise<CheckIn[]> {
     throw new Error('Method not implemented.')
   }
