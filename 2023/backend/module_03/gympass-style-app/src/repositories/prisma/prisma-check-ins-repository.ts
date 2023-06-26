@@ -23,6 +23,10 @@ class PrismaCheckInsRepository implements CheckInsRepository {
   create(data: Prisma.CheckInUncheckedCreateInput): Promise<CheckIn> {
     throw new Error('Method not implemented.')
   }
+
+  save(checkIn: CheckIn): Promise<CheckIn> {
+    throw new Error('Method not implemented.')
+  }
 }
 
 export { PrismaCheckInsRepository }
