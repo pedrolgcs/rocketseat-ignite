@@ -13,9 +13,23 @@ class AuthenticateUserController {
 
     const authenticateUserUserUseCase = makeAuthenticateUserUseCase()
 
-    await authenticateUserUserUseCase.execute({ email, password })
+    const { user } = await authenticateUserUserUseCase.execute({
+      email,
+      password,
+    })
 
-    return reply.status(200).send()
+    const token = await reply.jwtSign(
+      {},
+      {
+        sign: {
+          sub: user.id,
+        },
+      },
+    )
+
+    return reply.status(200).send({
+      token,
+    })
   }
 }
 
