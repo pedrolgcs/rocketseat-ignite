@@ -18,8 +18,6 @@ class SearchGymsUseCase {
 
     const gyms = await this.gymsRepository.searchMany(query, pagination)
 
-    console.log(gyms)
-
     return {
       gyms,
     }
