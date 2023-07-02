@@ -8,7 +8,7 @@ class ValidateCheckIn {
       checkInId: z.string().uuid(),
     })
 
-    const { checkInId } = paramsSchema.parse(request.query)
+    const { checkInId } = paramsSchema.parse(request.params)
 
     const validateCheckInUseCase = makeValidateCheckInUseCase()
 
