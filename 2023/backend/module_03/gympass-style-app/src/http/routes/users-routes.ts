@@ -11,19 +11,11 @@ const getUserProfileController = new GetUserProfileController()
 const authenticateUserController = new AuthenticateUserController()
 
 async function usersRoutes(app: FastifyInstance) {
-  /**
-   * Public
-   */
   app.post('/sessions', authenticateUserController.handler)
+
   app.post('/users', createUserController.handler)
 
-  /**
-   * Authenticated
-   * example: app.addHook('preHandler', auth)
-   * example: app.get('/me', { preHandler: [auth] }, getUserProfileController.handler)
-   */
-  app.addHook('onRequest', verifyJWT)
-  app.get('/me', getUserProfileController.handler)
+  app.get('/me', { onRequest: [verifyJWT] }, getUserProfileController.handler)
 }
 
 export { usersRoutes }
