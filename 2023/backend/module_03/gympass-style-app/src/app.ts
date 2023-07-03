@@ -1,5 +1,6 @@
 import fastify from 'fastify'
 import { ZodError } from 'zod'
+import fastifyCookie from '@fastify/cookie'
 import fastifyJwt from '@fastify/jwt'
 import { env } from '@/env'
 import { AppError } from '@/erros/AppError'
@@ -8,8 +9,17 @@ import { routes } from '@/http/routes'
 const app = fastify()
 
 // middlewares
+app.register(fastifyCookie)
+
 app.register(fastifyJwt, {
   secret: env.JWT_SECRET,
+  cookie: {
+    cookieName: 'refreshToken',
+    signed: false,
+  },
+  sign: {
+    expiresIn: '1m',
+  },
 })
 
 // routes

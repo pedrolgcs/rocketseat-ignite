@@ -1,28 +1,16 @@
 import { FastifyReply, FastifyRequest } from 'fastify'
-import { z } from 'zod'
-import { makeAuthenticateUserUseCase } from '@/use-cases/users'
 
-class AuthenticateUserController {
+class RefreshTokenController {
   public async handler(request: FastifyRequest, reply: FastifyReply) {
-    const authenticateBodySchema = z.object({
-      email: z.string().email(),
-      password: z.string().min(6),
-    })
+    await request.jwtVerify({ onlyCookie: true })
 
-    const { email, password } = authenticateBodySchema.parse(request.body)
-
-    const authenticateUserUserUseCase = makeAuthenticateUserUseCase()
-
-    const { user } = await authenticateUserUserUseCase.execute({
-      email,
-      password,
-    })
+    const { sub: userId } = request.user
 
     const token = await reply.jwtSign(
       {},
       {
         sign: {
-          sub: user.id,
+          sub: userId,
         },
       },
     )
@@ -31,7 +19,7 @@ class AuthenticateUserController {
       {},
       {
         sign: {
-          sub: user.id,
+          sub: userId,
           expiresIn: '7d',
         },
       },
@@ -51,4 +39,4 @@ class AuthenticateUserController {
   }
 }
 
-export { AuthenticateUserController }
+export { RefreshTokenController }
