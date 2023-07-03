@@ -5,4 +5,6 @@ declare global {
     page: number
     perPage: number
   }
+
+  type Role = 'ADMIN' | 'MEMBER'
 }

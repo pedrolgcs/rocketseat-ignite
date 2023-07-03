@@ -5,7 +5,7 @@ import {
   UserCheckInsHistoryController,
   UserMetrics,
 } from '@/http/controllers/check-ins'
-import { verifyJWT } from '@/http/middlewares/verify-jwt'
+import { verifyJWT, verifyUserRole } from '@/http/middlewares'
 
 const createCheckInController = new CreateCheckInController()
 const validateCheckInController = new ValidateCheckIn()
@@ -21,7 +21,11 @@ async function checkInsRoutes(app: FastifyInstance) {
 
   app.post('/gyms/:gymId/check-ins', createCheckInController.handler)
 
-  app.patch('/check-ins/:checkInId/validate', validateCheckInController.handler)
+  app.patch(
+    '/check-ins/:checkInId/validate',
+    { onRequest: [verifyUserRole('ADMIN')] },
+    validateCheckInController.handler,
+  )
 }
 
 export { checkInsRoutes }
