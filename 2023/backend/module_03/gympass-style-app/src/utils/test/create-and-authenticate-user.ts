@@ -1,6 +1,7 @@
 import { hash } from 'bcryptjs'
 import { FastifyInstance } from 'fastify'
 import request from 'supertest'
+import { User } from '@prisma/client'
 import { prisma } from '@/lib/prisma'
 
 type Params = {
@@ -11,6 +12,7 @@ type Params = {
 }
 
 type Response = {
+  user: User
   token: string
 }
 
@@ -22,7 +24,7 @@ async function createAndAuthenticateUser(params: Params): Promise<Response> {
     role = 'MEMBER',
   } = params
 
-  await prisma.user.create({
+  const user = await prisma.user.create({
     data: {
       name: 'Jhon Doe',
       email,
@@ -39,6 +41,7 @@ async function createAndAuthenticateUser(params: Params): Promise<Response> {
   const { token } = authResponse.body
 
   return {
+    user,
     token,
   }
 }

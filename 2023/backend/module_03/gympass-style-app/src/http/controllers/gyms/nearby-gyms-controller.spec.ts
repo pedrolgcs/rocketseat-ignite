@@ -1,6 +1,7 @@
 import request from 'supertest'
 import { describe, it, expect, beforeAll, afterAll } from 'vitest'
 import { app } from '@/app'
+import { prisma } from '@/lib/prisma'
 import { createAndAuthenticateUser } from '@/utils/test/create-and-authenticate-user'
 
 describe('[Gym - e2e] - Nearby gyms controller', () => {
@@ -15,27 +16,27 @@ describe('[Gym - e2e] - Nearby gyms controller', () => {
   it('should be able to list nearby gyms', async () => {
     const { token } = await createAndAuthenticateUser({ app, role: 'ADMIN' })
 
-    await request(app.server)
-      .post('/gyms')
-      .set('Authorization', `Bearer ${token}`)
-      .send({
-        title: 'Javascript Gym',
-        description: 'Javascript description',
-        phone: '1111111-1111',
-        latitude: -27.2092052,
-        longitude: -49.6401091,
-      })
+    await Promise.all([
+      prisma.gym.create({
+        data: {
+          title: 'Javascript Gym',
+          description: 'Javascript description',
+          phone: '1111111-1111',
+          latitude: -27.2092052,
+          longitude: -49.6401091,
+        },
+      }),
 
-    await request(app.server)
-      .post('/gyms')
-      .set('Authorization', `Bearer ${token}`)
-      .send({
-        title: 'Far Gym',
-        description: 'Far Gym description',
-        phone: '1111111-1111',
-        latitude: -27.0610928,
-        longitude: -49.5229501,
-      })
+      prisma.gym.create({
+        data: {
+          title: 'Far Gym',
+          description: 'Far Gym description',
+          phone: '1111111-1111',
+          latitude: -27.0610928,
+          longitude: -49.5229501,
+        },
+      }),
+    ])
 
     const sut = await request(app.server)
       .get('/gyms/nearby')

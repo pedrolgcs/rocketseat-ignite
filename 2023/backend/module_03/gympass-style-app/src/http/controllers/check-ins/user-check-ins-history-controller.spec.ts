@@ -28,19 +28,21 @@ describe('[CheckIn - e2e] - User history controller', () => {
       },
     })
 
-    await prisma.checkIn.create({
-      data: {
-        gym_id: gym.id,
-        user_id: user.id,
-      },
-    })
+    await Promise.all([
+      prisma.checkIn.create({
+        data: {
+          gym_id: gym.id,
+          user_id: user.id,
+        },
+      }),
 
-    await prisma.checkIn.create({
-      data: {
-        gym_id: gym.id,
-        user_id: user.id,
-      },
-    })
+      prisma.checkIn.create({
+        data: {
+          gym_id: gym.id,
+          user_id: user.id,
+        },
+      }),
+    ])
 
     const sut = await request(app.server)
       .get('/check-ins/history')
