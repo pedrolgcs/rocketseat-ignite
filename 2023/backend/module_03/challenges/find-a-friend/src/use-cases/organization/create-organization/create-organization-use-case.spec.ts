@@ -9,7 +9,7 @@ import * as Errors from './errors'
 let sut: CreateOrganizationUseCase
 let organizationRepository: InMemoryOrganizationsRepository
 
-describe('[Ong] - Create ong', () => {
+describe('[Organization] - Create organization', () => {
   beforeEach(() => {
     organizationRepository = new InMemoryOrganizationsRepository()
     sut = new CreateOrganizationUseCase(organizationRepository)
