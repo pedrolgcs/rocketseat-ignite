@@ -1,4 +1,4 @@
-src/@types/*.d.ts
+src/application/@types/*.d.ts
 
 build
 

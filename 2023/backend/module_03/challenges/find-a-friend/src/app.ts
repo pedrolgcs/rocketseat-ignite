@@ -1,9 +1,13 @@
+import 'reflect-metadata'
 import fastify from 'fastify'
 import { ZodError } from 'zod'
 import fastifyJwt from '@fastify/jwt'
-import { env } from '@/application/env'
-import { AppError } from '@/application/erros/AppError'
-import { routes } from '@/application/routes'
+import { env } from '@/env'
+import { AppError } from '@/errors/AppError'
+import { routes } from '@/routes'
+
+// providers - inverse dependency
+import '@/application/container'
 
 const app = fastify()
 
