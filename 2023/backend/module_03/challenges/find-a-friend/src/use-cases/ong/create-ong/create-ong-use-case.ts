@@ -28,9 +28,9 @@ class CreateOngUseCase {
   public async execute(request: Request): Promise<Response> {
     const { name, phone, cep, email, latitude, longitude, password } = request
 
-    const emailAlreadyExists = await this.ongRepository.findByEmail(email)
+    const emailAlreadyTaken = await this.ongRepository.findByEmail(email)
 
-    if (emailAlreadyExists) {
+    if (emailAlreadyTaken) {
       throw new Errors.EmailAlreadyUsed()
     }
 

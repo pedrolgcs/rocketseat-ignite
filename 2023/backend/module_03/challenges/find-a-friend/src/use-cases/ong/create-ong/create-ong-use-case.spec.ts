@@ -35,7 +35,7 @@ describe('[Ong] - Create ong', () => {
     )
   })
 
-  it('should be able to hash ong password upon registration', async () => {
+  it('should be able to hash password upon registration', async () => {
     const password = '123456'
 
     const { ong } = await sut.execute({
@@ -53,7 +53,7 @@ describe('[Ong] - Create ong', () => {
     expect(isPasswordCorrectlyHashed).toBeTruthy()
   })
 
-  it('should not be able to create a ong if email already exists', async () => {
+  it('should not be able to create a ong if email already used', async () => {
     const email = 'johndoe@gmail.com'
 
     await sut.execute({
