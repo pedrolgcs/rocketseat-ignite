@@ -1,7 +1,7 @@
 import { hash } from 'bcryptjs'
 import { inject, injectable } from 'tsyringe'
-import { Ong } from '@prisma/client'
-import { IOngRepository } from '@/repositories'
+import { Organization } from '@prisma/client'
+import { IOrganizationsRepository } from '@/repositories'
 import * as Errors from './errors'
 
 type Request = {
@@ -15,20 +15,22 @@ type Request = {
 }
 
 type Response = {
-  ong: Ong
+  organization: Organization
 }
 
 @injectable()
-class CreateOngUseCase {
+class CreateOrganizationUseCase {
   constructor(
-    @inject('OngRepository')
-    private ongRepository: IOngRepository,
+    @inject('OrganizationsRepository')
+    private organizationsRepository: IOrganizationsRepository,
   ) {}
 
   public async execute(request: Request): Promise<Response> {
     const { name, phone, cep, email, latitude, longitude, password } = request
 
-    const emailAlreadyTaken = await this.ongRepository.findByEmail(email)
+    const emailAlreadyTaken = await this.organizationsRepository.findByEmail(
+      email,
+    )
 
     if (emailAlreadyTaken) {
       throw new Errors.EmailAlreadyUsed()
@@ -36,7 +38,7 @@ class CreateOngUseCase {
 
     const passwordHash = await hash(password, 6)
 
-    const ong = await this.ongRepository.create({
+    const organization = await this.organizationsRepository.create({
       name,
       email,
       password_hash: passwordHash,
@@ -47,9 +49,9 @@ class CreateOngUseCase {
     })
 
     return {
-      ong,
+      organization,
     }
   }
 }
 
-export { CreateOngUseCase }
+export { CreateOrganizationUseCase }

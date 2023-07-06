@@ -1,1 +1,1 @@
-export * from './IOngRepository'
+export * from './IOrganizationsRepository'

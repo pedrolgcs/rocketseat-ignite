@@ -2,21 +2,21 @@ import 'reflect-metadata'
 
 import { compare } from 'bcryptjs'
 import { describe, it, expect, beforeEach } from 'vitest'
-import { InMemoryOngRepository } from '@/repositories/in-memory'
-import { CreateOngUseCase } from './create-ong-use-case'
+import { InMemoryOrganizationsRepository } from '@/repositories/in-memory'
+import { CreateOrganizationUseCase } from './create-organization-use-case'
 import * as Errors from './errors'
 
-let sut: CreateOngUseCase
-let ongRepository: InMemoryOngRepository
+let sut: CreateOrganizationUseCase
+let organizationRepository: InMemoryOrganizationsRepository
 
 describe('[Ong] - Create ong', () => {
   beforeEach(() => {
-    ongRepository = new InMemoryOngRepository()
-    sut = new CreateOngUseCase(ongRepository)
+    organizationRepository = new InMemoryOrganizationsRepository()
+    sut = new CreateOrganizationUseCase(organizationRepository)
   })
 
   it('should be able to create a new ong', async () => {
-    const { ong } = await sut.execute({
+    const { organization } = await sut.execute({
       name: 'John Doe',
       email: 'johndoe@gmail.com',
       cep: '59370000',
@@ -26,7 +26,7 @@ describe('[Ong] - Create ong', () => {
       phone: '11999999999',
     })
 
-    expect(ong).toEqual(
+    expect(organization).toEqual(
       expect.objectContaining({
         id: expect.any(String),
         name: 'John Doe',
@@ -38,7 +38,7 @@ describe('[Ong] - Create ong', () => {
   it('should be able to hash password upon registration', async () => {
     const password = '123456'
 
-    const { ong } = await sut.execute({
+    const { organization } = await sut.execute({
       name: 'John Doe',
       email: 'johndoe@gmail.com',
       cep: '59370000',
@@ -48,7 +48,10 @@ describe('[Ong] - Create ong', () => {
       phone: '11999999999',
     })
 
-    const isPasswordCorrectlyHashed = await compare(password, ong.password_hash)
+    const isPasswordCorrectlyHashed = await compare(
+      password,
+      organization.password_hash,
+    )
 
     expect(isPasswordCorrectlyHashed).toBeTruthy()
   })

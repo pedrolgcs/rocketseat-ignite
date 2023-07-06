@@ -1,11 +1,11 @@
 import crypto from 'node:crypto'
-import { Ong, Prisma } from '@prisma/client'
-import { IOngRepository } from '../IOngRepository'
+import { Organization, Prisma } from '@prisma/client'
+import { IOrganizationsRepository } from '../IOrganizationsRepository'
 
-class InMemoryOngRepository implements IOngRepository {
-  public items: Ong[] = []
+class InMemoryOrganizationsRepository implements IOrganizationsRepository {
+  public items: Organization[] = []
 
-  async findById(id: string): Promise<Ong | null> {
+  async findById(id: string): Promise<Organization | null> {
     const ong = this.items.find((item) => item.id === id)
 
     if (!ong) {
@@ -15,7 +15,7 @@ class InMemoryOngRepository implements IOngRepository {
     return ong
   }
 
-  async findByEmail(email: string): Promise<Ong | null> {
+  async findByEmail(email: string): Promise<Organization | null> {
     const ong = this.items.find((item) => item.email === email)
 
     if (!ong) {
@@ -25,7 +25,9 @@ class InMemoryOngRepository implements IOngRepository {
     return ong
   }
 
-  async create(data: Prisma.OngUncheckedCreateInput): Promise<Ong> {
+  async create(
+    data: Prisma.OrganizationUncheckedCreateInput,
+  ): Promise<Organization> {
     const ong = {
       id: data.id ?? crypto.randomUUID(),
       name: data.name,
@@ -44,4 +46,4 @@ class InMemoryOngRepository implements IOngRepository {
   }
 }
 
-export { InMemoryOngRepository }
+export { InMemoryOrganizationsRepository }

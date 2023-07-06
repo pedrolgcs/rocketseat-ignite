@@ -1,1 +1,1 @@
-export * from './in-memory-ong-repository'
+export * from './in-memory-organizations-repository'
