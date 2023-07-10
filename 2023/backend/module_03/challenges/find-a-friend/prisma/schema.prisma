@@ -12,6 +12,9 @@ model Organization {
   name          String
   email         String   @unique
   cep           String
+  state         String
+  city          String
+  street        String
   latitude      Decimal
   longitude     Decimal
   phone         String
@@ -26,10 +29,11 @@ model Pet {
   id                   String                @id @default(uuid())
   name                 String
   about                String
+  category             String
   age                  String
   size                 String
-  energy               String
-  indepence            String
+  energy_level         String
+  independence_level   String
   place                String
   organization_id      String
   organization         Organization          @relation(fields: [organization_id], references: [id], onDelete: Cascade)
@@ -50,10 +54,10 @@ model AdoptionRequirement {
 }
 
 model PetImage {
-  id     String @id @default(uuid())
-  name   String
-  pet_id String
-  pet    Pet    @relation(fields: [pet_id], references: [id], onDelete: Cascade)
+  id        String @id @default(uuid())
+  image_url String
+  pet_id    String
+  pet       Pet    @relation(fields: [pet_id], references: [id], onDelete: Cascade)
 
   @@map("pets_image")
 }

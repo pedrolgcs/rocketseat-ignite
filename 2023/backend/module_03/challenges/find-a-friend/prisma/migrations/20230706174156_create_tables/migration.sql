@@ -4,6 +4,9 @@ CREATE TABLE "organizations" (
     "name" TEXT NOT NULL,
     "email" TEXT NOT NULL,
     "cep" TEXT NOT NULL,
+    "state" TEXT NOT NULL,
+    "city" TEXT NOT NULL,
+    "street" TEXT NOT NULL,
     "latitude" DECIMAL(65,30) NOT NULL,
     "longitude" DECIMAL(65,30) NOT NULL,
     "phone" TEXT NOT NULL,
@@ -18,10 +21,11 @@ CREATE TABLE "pets" (
     "id" TEXT NOT NULL,
     "name" TEXT NOT NULL,
     "about" TEXT NOT NULL,
+    "category" TEXT NOT NULL,
     "age" TEXT NOT NULL,
     "size" TEXT NOT NULL,
-    "energy" TEXT NOT NULL,
-    "indepence" TEXT NOT NULL,
+    "energy_level" TEXT NOT NULL,
+    "independence_level" TEXT NOT NULL,
     "place" TEXT NOT NULL,
     "organization_id" TEXT NOT NULL,
     "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -41,7 +45,7 @@ CREATE TABLE "adoption_requirements" (
 -- CreateTable
 CREATE TABLE "pets_image" (
     "id" TEXT NOT NULL,
-    "name" TEXT NOT NULL,
+    "image_url" TEXT NOT NULL,
     "pet_id" TEXT NOT NULL,
 
     CONSTRAINT "pets_image_pkey" PRIMARY KEY ("id")

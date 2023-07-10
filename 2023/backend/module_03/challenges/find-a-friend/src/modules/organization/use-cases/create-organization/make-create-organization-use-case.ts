@@ -1,0 +1,3 @@
+function makeCreateOrganizationUseCase() {}
+
+export { makeCreateOrganizationUseCase }
