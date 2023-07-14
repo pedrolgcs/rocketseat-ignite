@@ -46,10 +46,11 @@ class CreatePetUseCase {
       organization_id,
     } = request
 
-    const checkIfOrganizationExists =
-      await this.organizationsRepository.findById(organization_id)
+    const organization = await this.organizationsRepository.findById(
+      organization_id,
+    )
 
-    if (!checkIfOrganizationExists) {
+    if (!organization) {
       throw new Error.OrganizationNotFound()
     }
 
@@ -62,7 +63,7 @@ class CreatePetUseCase {
       energy_level,
       independence_level,
       necessarySpace,
-      organization_id,
+      organization,
     })
 
     await this.petsRepository.create(pet)

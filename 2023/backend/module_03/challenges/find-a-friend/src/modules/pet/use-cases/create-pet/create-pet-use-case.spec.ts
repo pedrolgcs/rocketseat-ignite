@@ -36,6 +36,9 @@ describe('[Pet] Create pet', () => {
     expect(pet).toEqual(
       expect.objectContaining({
         id: expect.any(String),
+        organization: expect.objectContaining({
+          id: organization.id,
+        }),
       }),
     )
   })

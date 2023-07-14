@@ -1,5 +1,5 @@
 import { Pet } from '@/modules/pet/entities'
-import { PetsRepository } from '../pets-repository'
+import { PetsRepository, SearchManyParams } from '../pets-repository'
 
 class InMemoryPetsRepository implements PetsRepository {
   public items: Pet[] = []
@@ -12,6 +12,14 @@ class InMemoryPetsRepository implements PetsRepository {
     }
 
     return organization
+  }
+
+  async searchMany(params: SearchManyParams): Promise<Pet[]> {
+    const { city } = params
+
+    const pets = this.items.filter((item) => item.organization.city === city)
+
+    return pets
   }
 
   async create(organization: Pet): Promise<void> {
