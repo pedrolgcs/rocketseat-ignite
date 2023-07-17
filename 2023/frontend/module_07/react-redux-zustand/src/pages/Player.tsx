@@ -1,9 +1,17 @@
+import * as React from 'react'
 import { FiMessageCircle } from 'react-icons/fi'
 import { Header, Module, Video } from '@/components/structure'
+import { useCurrentLesson } from '@/hooks/useCurrentLesson'
 import { useAppSelector } from '@/store'
 
 function Player() {
   const modules = useAppSelector((state) => state.player.course.modules)
+
+  const { currentLesson } = useCurrentLesson()
+
+  React.useEffect(() => {
+    document.title = currentLesson.title
+  }, [currentLesson])
 
   return (
     <div className="h-screen bg-zinc-950 text-zinc-50 flex justify-center items-center">
