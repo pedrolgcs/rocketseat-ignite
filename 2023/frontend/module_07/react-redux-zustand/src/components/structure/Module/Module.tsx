@@ -1,7 +1,6 @@
 import * as Collapsible from '@radix-ui/react-collapsible'
 import { FiChevronDown } from 'react-icons/fi'
-import { useAppSelector, useAppDispatch } from '@/store'
-import { actions } from '@/store/player'
+import { usePlayer } from '@/store'
 import { Lesson } from './Lesson/Lesson'
 
 type ModuleProps = {
@@ -11,19 +10,12 @@ type ModuleProps = {
 }
 
 function Module({ moduleIndex, title, amountOfLessons }: ModuleProps) {
-  const lessons = useAppSelector(
-    (state) => state.player.course?.modules[moduleIndex].lessons,
-  )
+  const { currentModuleIndex, currentLessonIndex, course, play } = usePlayer()
 
-  const { currentLessonIndex, currentModuleIndex } = useAppSelector((state) => {
-    const { currentLessonIndex, currentModuleIndex } = state.player
-    return { currentLessonIndex, currentModuleIndex }
-  })
-
-  const dispatch = useAppDispatch()
+  const lessons = course?.modules[moduleIndex].lessons
 
   const handlePlayLesson = (moduleIndex: number, lessonIndex: number) => {
-    dispatch(actions.play([moduleIndex, lessonIndex]))
+    play([moduleIndex, lessonIndex])
   }
 
   return (

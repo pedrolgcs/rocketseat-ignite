@@ -2,21 +2,16 @@ import * as React from 'react'
 import { FiMessageCircle } from 'react-icons/fi'
 import { Header, Module, ModuleSkeleton, Video } from '@/components/structure'
 import { useCurrentLesson } from '@/hooks/useCurrentLesson'
-import { useAppSelector, useAppDispatch } from '@/store'
-import { loadCourse } from '@/store/player'
+import { usePlayer } from '@/store'
 
 function Player() {
-  const modules = useAppSelector((state) => state.player.course?.modules)
-
-  const isCouseLoading = useAppSelector((state) => state.player.isLoading)
+  const { course, isLoading, load } = usePlayer()
 
   const { currentLesson } = useCurrentLesson()
 
-  const dispatch = useAppDispatch()
-
   React.useEffect(() => {
-    dispatch(loadCourse())
-  }, [dispatch])
+    load()
+  }, [load])
 
   React.useEffect(() => {
     if (currentLesson) {
@@ -42,11 +37,11 @@ function Player() {
           </div>
 
           <aside className="w-80 border-l border-zinc-800 bg-zinc-900 absolute top-0 bottom-0 right-0 overflow-y-scroll scrollbar-thin scrollbar-track-zinc-950 scrollbar-thumb-zinc-800 divide-y-2 divide-zinc-900">
-            {isCouseLoading ? (
+            {isLoading ? (
               <ModuleSkeleton />
             ) : (
               <>
-                {modules?.map((module, index) => (
+                {course?.modules.map((module, index) => (
                   <Module
                     key={module.id}
                     moduleIndex={index}
