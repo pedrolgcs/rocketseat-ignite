@@ -1,16 +1,27 @@
 import * as React from 'react'
 import { FiMessageCircle } from 'react-icons/fi'
-import { Header, Module, Video } from '@/components/structure'
+import { Header, Module, ModuleSkeleton, Video } from '@/components/structure'
 import { useCurrentLesson } from '@/hooks/useCurrentLesson'
-import { useAppSelector } from '@/store'
+import { useAppSelector, useAppDispatch } from '@/store'
+import { loadCourse } from '@/store/player'
 
 function Player() {
-  const modules = useAppSelector((state) => state.player.course.modules)
+  const modules = useAppSelector((state) => state.player.course?.modules)
+
+  const isCouseLoading = useAppSelector((state) => state.player.isLoading)
 
   const { currentLesson } = useCurrentLesson()
 
+  const dispatch = useAppDispatch()
+
   React.useEffect(() => {
-    document.title = currentLesson.title
+    dispatch(loadCourse())
+  }, [dispatch])
+
+  React.useEffect(() => {
+    if (currentLesson) {
+      document.title = currentLesson.title
+    }
   }, [currentLesson])
 
   return (
@@ -31,14 +42,20 @@ function Player() {
           </div>
 
           <aside className="w-80 border-l border-zinc-800 bg-zinc-900 absolute top-0 bottom-0 right-0 overflow-y-scroll scrollbar-thin scrollbar-track-zinc-950 scrollbar-thumb-zinc-800 divide-y-2 divide-zinc-900">
-            {modules.map((module, index) => (
-              <Module
-                key={module.id}
-                moduleIndex={index}
-                title={module.title}
-                amountOfLessons={module.lessons.length}
-              />
-            ))}
+            {isCouseLoading ? (
+              <ModuleSkeleton />
+            ) : (
+              <>
+                {modules?.map((module, index) => (
+                  <Module
+                    key={module.id}
+                    moduleIndex={index}
+                    title={module.title}
+                    amountOfLessons={module.lessons.length}
+                  />
+                ))}
+              </>
+            )}
           </aside>
         </main>
       </div>

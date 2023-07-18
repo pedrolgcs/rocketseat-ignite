@@ -1,7 +1,6 @@
 import * as Collapsible from '@radix-ui/react-collapsible'
 import { FiChevronDown } from 'react-icons/fi'
-import { useDispatch } from 'react-redux'
-import { useAppSelector } from '@/store'
+import { useAppSelector, useAppDispatch } from '@/store'
 import { actions } from '@/store/player'
 import { Lesson } from './Lesson/Lesson'
 
@@ -13,7 +12,7 @@ type ModuleProps = {
 
 function Module({ moduleIndex, title, amountOfLessons }: ModuleProps) {
   const lessons = useAppSelector(
-    (state) => state.player.course.modules[moduleIndex].lessons,
+    (state) => state.player.course?.modules[moduleIndex].lessons,
   )
 
   const { currentLessonIndex, currentModuleIndex } = useAppSelector((state) => {
@@ -21,7 +20,7 @@ function Module({ moduleIndex, title, amountOfLessons }: ModuleProps) {
     return { currentLessonIndex, currentModuleIndex }
   })
 
-  const dispatch = useDispatch()
+  const dispatch = useAppDispatch()
 
   const handlePlayLesson = (moduleIndex: number, lessonIndex: number) => {
     dispatch(actions.play([moduleIndex, lessonIndex]))
@@ -47,21 +46,22 @@ function Module({ moduleIndex, title, amountOfLessons }: ModuleProps) {
 
       <Collapsible.Content className="group-data-[state=closed]:animate-slideUp group-data-[state=open]:animate-slideDown">
         <nav className="relative flex flex-col gap-4 p-6">
-          {lessons.map((lesson, lessonIndex) => {
-            const isCurrent =
-              moduleIndex === currentModuleIndex &&
-              lessonIndex === currentLessonIndex
+          {lessons &&
+            lessons.map((lesson, lessonIndex) => {
+              const isCurrent =
+                moduleIndex === currentModuleIndex &&
+                lessonIndex === currentLessonIndex
 
-            return (
-              <Lesson
-                key={lesson.id}
-                title={lesson.title}
-                duration={lesson.duration}
-                isCurrent={isCurrent}
-                onPlay={() => handlePlayLesson(moduleIndex, lessonIndex)}
-              />
-            )
-          })}
+              return (
+                <Lesson
+                  key={lesson.id}
+                  title={lesson.title}
+                  duration={lesson.duration}
+                  isCurrent={isCurrent}
+                  onPlay={() => handlePlayLesson(moduleIndex, lessonIndex)}
+                />
+              )
+            })}
         </nav>
       </Collapsible.Content>
     </Collapsible.Root>

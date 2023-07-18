@@ -3,9 +3,10 @@ import { player as reducer, actions } from './index'
 
 const exampleState = {
   course: {
+    id: 1,
     modules: [
       {
-        id: '1',
+        id: 1,
         title: 'Iniciando com React',
         lessons: [
           { id: 'Jai8w6K_GnY', title: 'CSS Modules', duration: '13:45' },
@@ -17,7 +18,7 @@ const exampleState = {
         ],
       },
       {
-        id: '2',
+        id: 2,
         title: 'Estrutura da aplicação',
         lessons: [
           {
@@ -32,6 +33,7 @@ const exampleState = {
   },
   currentModuleIndex: 0,
   currentLessonIndex: 0,
+  isLoading: false,
 }
 
 describe('[Redux] - Player Slice', () => {

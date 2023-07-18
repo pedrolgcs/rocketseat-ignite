@@ -1,5 +1,5 @@
 import { configureStore } from '@reduxjs/toolkit'
-import { useSelector, TypedUseSelectorHook } from 'react-redux'
+import { useSelector, TypedUseSelectorHook, useDispatch } from 'react-redux'
 import { player } from './player'
 
 const store = configureStore({
@@ -10,6 +10,10 @@ const store = configureStore({
 
 type RootState = ReturnType<typeof store.getState>
 
+type AppDispatch = typeof store.dispatch
+
 const useAppSelector: TypedUseSelectorHook<RootState> = useSelector
 
-export { store, useAppSelector }
+const useAppDispatch: () => AppDispatch = useDispatch
+
+export { store, useAppSelector, useAppDispatch }
