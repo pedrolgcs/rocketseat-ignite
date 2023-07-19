@@ -2,10 +2,16 @@ import * as React from 'react'
 import { FiMessageCircle } from 'react-icons/fi'
 import { Header, Module, ModuleSkeleton, Video } from '@/components/structure'
 import { useCurrentLesson } from '@/hooks/useCurrentLesson'
-import { usePlayer } from '@/store'
+import { useStore } from '@/store'
 
 function Player() {
-  const { course, isLoading, load } = usePlayer()
+  const { course, isLoading, load } = useStore((store) => {
+    return {
+      course: store.course,
+      isLoading: store.isLoading,
+      load: store.load,
+    }
+  })
 
   const { currentLesson } = useCurrentLesson()
 

@@ -1,4 +1,4 @@
-import { create } from 'zustand'
+import { StateCreator } from 'zustand'
 import { api } from '@/lib/axios'
 
 type Lesson = {
@@ -30,6 +30,8 @@ type Actions = {
   reset: () => void
 }
 
+export type PlayerSlice = State & Actions
+
 const initialState: State = {
   course: null,
   currentLessonIndex: 0,
@@ -37,7 +39,12 @@ const initialState: State = {
   isLoading: false,
 }
 
-const usePlayer = create<State & Actions>((set, get) => {
+/*
+  const usePlayer = create<PlayerState & PlayerActions>((set, get) => {}
+  https://docs.pmnd.rs/zustand/guides/typescript#slices-pattern
+*/
+
+const usePlayerSlice: StateCreator<PlayerSlice> = (set, get) => {
   return {
     ...initialState,
 
@@ -92,6 +99,6 @@ const usePlayer = create<State & Actions>((set, get) => {
       set(initialState)
     },
   }
-})
+}
 
-export { usePlayer }
+export { usePlayerSlice }

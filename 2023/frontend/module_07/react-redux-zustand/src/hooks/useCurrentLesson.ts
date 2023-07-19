@@ -1,10 +1,10 @@
-import { usePlayer } from '@/store'
+import { useStore } from '@/store'
 
 const useCurrentLesson = () => {
-  const { currentLesson, currentModule } = usePlayer((state) => {
-    const { currentModuleIndex, currentLessonIndex } = state
+  const { currentLesson, currentModule } = useStore((store) => {
+    const { currentModuleIndex, currentLessonIndex } = store
 
-    const currentModule = state.course?.modules[currentModuleIndex]
+    const currentModule = store.course?.modules[currentModuleIndex]
     const currentLesson = currentModule?.lessons[currentLessonIndex]
 
     return {

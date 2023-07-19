@@ -1,6 +1,6 @@
 import * as Collapsible from '@radix-ui/react-collapsible'
 import { FiChevronDown } from 'react-icons/fi'
-import { usePlayer } from '@/store'
+import { useStore } from '@/store'
 import { Lesson } from './Lesson/Lesson'
 
 type ModuleProps = {
@@ -10,7 +10,16 @@ type ModuleProps = {
 }
 
 function Module({ moduleIndex, title, amountOfLessons }: ModuleProps) {
-  const { currentModuleIndex, currentLessonIndex, course, play } = usePlayer()
+  const { currentModuleIndex, currentLessonIndex, course, play } = useStore(
+    (store) => {
+      return {
+        currentModuleIndex: store.currentModuleIndex,
+        currentLessonIndex: store.currentLessonIndex,
+        course: store.course,
+        play: store.play,
+      }
+    },
+  )
 
   const lessons = course?.modules[moduleIndex].lessons
 

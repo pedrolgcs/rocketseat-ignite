@@ -1,10 +1,15 @@
 import { FiLoader } from 'react-icons/fi'
 import ReactPlayer from 'react-player'
 import { useCurrentLesson } from '@/hooks/useCurrentLesson'
-import { usePlayer } from '@/store'
+import { useStore } from '@/store'
 
 function Video() {
-  const { isLoading, next } = usePlayer()
+  const { isLoading, next } = useStore((store) => {
+    return {
+      isLoading: store.isLoading,
+      next: store.next,
+    }
+  })
 
   const { currentLesson } = useCurrentLesson()
 
