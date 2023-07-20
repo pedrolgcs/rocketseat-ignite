@@ -1,7 +1,9 @@
 import { create } from 'zustand'
 import { usePlayerSlice, PlayerSlice } from './player/player'
 
-const useStore = create<PlayerSlice>()((...params) => ({
+type Store = PlayerSlice
+
+const useStore = create<Store>()((...params) => ({
   ...usePlayerSlice(...params),
 }))
 

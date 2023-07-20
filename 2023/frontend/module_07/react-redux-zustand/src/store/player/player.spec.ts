@@ -1,80 +1,94 @@
-import { describe, it, expect } from 'vitest'
-import { player as reducer, actions } from './index'
+import { describe, it, expect, beforeEach } from 'vitest'
+import { useStore } from '../index'
 
-const exampleState = {
-  course: {
-    id: 1,
-    modules: [
-      {
-        id: 1,
-        title: 'Iniciando com React',
-        lessons: [
-          { id: 'Jai8w6K_GnY', title: 'CSS Modules', duration: '13:45' },
-          {
-            id: 'w-DW4DhDfcw',
-            title: 'Estilização do Post',
-            duration: '10:05',
-          },
-        ],
-      },
-      {
-        id: 2,
-        title: 'Estrutura da aplicação',
-        lessons: [
-          {
-            id: 'gE48FQXRZ_o',
-            title: 'Componente: Comment',
-            duration: '13:45',
-          },
-          { id: 'Ng_Vk4tBl0g', title: 'Responsividade', duration: '10:05' },
-        ],
-      },
-    ],
-  },
-  currentModuleIndex: 0,
-  currentLessonIndex: 0,
-  isLoading: false,
+const course = {
+  id: 1,
+  modules: [
+    {
+      id: 1,
+      title: 'Iniciando com React',
+      lessons: [
+        { id: 'Jai8w6K_GnY', title: 'CSS Modules', duration: '13:45' },
+        {
+          id: 'w-DW4DhDfcw',
+          title: 'Estilização do Post',
+          duration: '10:05',
+        },
+      ],
+    },
+    {
+      id: 2,
+      title: 'Estrutura da aplicação',
+      lessons: [
+        {
+          id: 'gE48FQXRZ_o',
+          title: 'Componente: Comment',
+          duration: '13:45',
+        },
+        { id: 'Ng_Vk4tBl0g', title: 'Responsividade', duration: '10:05' },
+      ],
+    },
+  ],
 }
 
-describe('[Redux] - Player Slice', () => {
-  it('should be able to play', () => {
-    const state = reducer(exampleState, actions.play([1, 2]))
+const initialState = useStore.getState()
 
-    expect(state.currentModuleIndex).toBe(1)
-    expect(state.currentLessonIndex).toBe(2)
+describe('[Store] - Player Slice', () => {
+  beforeEach(() => {
+    useStore.setState(initialState)
+  })
+
+  it('should be able to play', () => {
+    const { play } = useStore.getState()
+
+    play([1, 1])
+
+    const { currentModuleIndex, currentLessonIndex } = useStore.getState()
+
+    expect(currentModuleIndex).toBe(1)
+    expect(currentLessonIndex).toBe(1)
   })
 
   it('should be able to play next video automatically', () => {
-    const state = reducer(exampleState, actions.next())
+    useStore.setState({ course })
 
-    expect(state.currentModuleIndex).toBe(0)
-    expect(state.currentLessonIndex).toBe(1)
+    const { next } = useStore.getState()
+
+    next()
+
+    const { currentModuleIndex, currentLessonIndex } = useStore.getState()
+
+    expect(currentModuleIndex).toBe(0)
+    expect(currentLessonIndex).toBe(1)
   })
 
   it('should be able to jump to the next module automatically', () => {
-    const state = reducer(
-      {
-        ...exampleState,
-        currentLessonIndex: 1,
-      },
-      actions.next(),
-    )
+    useStore.setState({ course, currentModuleIndex: 0, currentLessonIndex: 1 })
 
-    expect(state.currentModuleIndex).toBe(1)
-    expect(state.currentLessonIndex).toBe(0)
+    const { next } = useStore.getState()
+
+    next()
+
+    const { currentModuleIndex, currentLessonIndex } = useStore.getState()
+
+    expect(currentModuleIndex).toBe(1)
+    expect(currentLessonIndex).toBe(0)
   })
 
   it('should not update the current module and lesson index if there is no next lesson available', () => {
-    const state = reducer(
-      {
-        ...exampleState,
-        currentModuleIndex: 1,
-        currentLessonIndex: 1,
-      },
-      actions.next(),
-    )
+    const { next } = useStore.getState()
 
-    expect(state.currentModuleIndex).toBe(1)
-    expect(state.currentLessonIndex).toBe(1)
+    useStore.setState({
+      course,
+      currentModuleIndex: 1,
+      currentLessonIndex: 1,
+    })
+
+    next()
+
+    const { currentModuleIndex, currentLessonIndex } = useStore.getState()
+
+    expect(currentModuleIndex).toBe(1)
+    expect(currentLessonIndex).toBe(1)
   })
 })
