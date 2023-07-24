@@ -9,14 +9,14 @@ import {
   Category,
 } from '@/types/Pet'
 
-type PetProps = {
+export type PetProps = {
   name: string
   about: string
   category: Category
   age: Age
   size: Size
-  energy_level: EnergyLevel
-  independence_level: IndependenceLevel
+  energyLevel: EnergyLevel
+  independenceLevel: IndependenceLevel
   necessarySpace: NecessarySpace
   organization: Organization
   createdAt?: Date
@@ -78,19 +78,19 @@ class Pet extends Entity<PetProps> {
   }
 
   get energyLevel(): EnergyLevel {
-    return this.props.energy_level
+    return this.props.energyLevel
   }
 
   set energyLevel(value: EnergyLevel) {
-    this.props.energy_level = value
+    this.props.energyLevel = value
   }
 
   get independenceLevel(): IndependenceLevel {
-    return this.props.independence_level
+    return this.props.independenceLevel
   }
 
   set independenceLevel(value: IndependenceLevel) {
-    this.props.independence_level = value
+    this.props.independenceLevel = value
   }
 
   get necessarySpace(): NecessarySpace {

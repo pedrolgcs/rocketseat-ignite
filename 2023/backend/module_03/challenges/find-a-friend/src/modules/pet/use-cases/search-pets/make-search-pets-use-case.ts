@@ -1,0 +1,3 @@
+function makeSearchPetsUseCase() {}
+
+export { makeSearchPetsUseCase }
