@@ -1,4 +1,5 @@
 import crypto from 'node:crypto'
+import bcrypt from 'bcryptjs'
 import { Organization } from '@/modules/organization/entities'
 
 class OrganizationBuilder {
@@ -10,7 +11,7 @@ class OrganizationBuilder {
         name: 'name',
         email: 'organization@gmail.com',
         phone: 'phone',
-        passwordHash: 'password',
+        passwordHash: bcrypt.hashSync('password', 6),
         address: 'address',
         cep: 'cep',
         city: 'city',
@@ -38,7 +39,7 @@ class OrganizationBuilder {
   }
 
   public setPasswordHash(passwordHash: string): this {
-    this.organization.passwordHash = passwordHash
+    this.organization.passwordHash = bcrypt.hashSync(passwordHash, 6)
     return this
   }
 

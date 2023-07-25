@@ -1,0 +1,3 @@
+function makeAuthenticateOrganizationUseCase() {}
+
+export { makeAuthenticateOrganizationUseCase }
