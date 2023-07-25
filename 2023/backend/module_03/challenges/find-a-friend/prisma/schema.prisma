@@ -14,7 +14,7 @@ model Organization {
   cep           String
   state         String
   city          String
-  street        String
+  address       String
   latitude      Decimal
   longitude     Decimal
   phone         String
