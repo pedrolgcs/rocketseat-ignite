@@ -52,10 +52,18 @@ class PrismaPetsRepository implements PetsRepository {
   }
 
   async create(pet: Pet): Promise<void> {
-    const petToDomain = PrismaPetMapper.toPrisma(pet)
+    const petToPrisma = PrismaPetMapper.toPrisma(pet)
 
     await prisma.pet.create({
-      data: petToDomain,
+      data: {
+        ...petToPrisma,
+        adoptionRequirements: {
+          createMany: {
+            data: petToPrisma.adoptionRequirements,
+            skipDuplicates: true,
+          },
+        },
+      },
     })
   }
 }

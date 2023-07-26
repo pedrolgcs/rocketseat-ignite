@@ -8,6 +8,7 @@ import {
   Size,
   Category,
 } from '@/types/Pet'
+import { AdoptionRequirement } from './adoption-requirement'
 
 export type PetProps = {
   name: string
@@ -19,6 +20,7 @@ export type PetProps = {
   independenceLevel: IndependenceLevel
   necessarySpace: NecessarySpace
   organization: Organization
+  adoptionRequirements?: AdoptionRequirement[]
   createdAt?: Date
 }
 
@@ -31,6 +33,7 @@ class Pet extends Entity<PetProps> {
     return new Pet(
       {
         ...props,
+        adoptionRequirements: props.adoptionRequirements ?? [],
         createdAt: props.createdAt ?? new Date(),
       },
       id,
@@ -105,15 +108,23 @@ class Pet extends Entity<PetProps> {
     return this.props.organization
   }
 
-  set organization(value: Organization) {
+  private set organization(value: Organization) {
     this.props.organization = value
+  }
+
+  get adoptionRequirements(): AdoptionRequirement[] {
+    return this.props.adoptionRequirements || []
+  }
+
+  set adoptionRequirements(value: AdoptionRequirement[]) {
+    this.props.adoptionRequirements = value
   }
 
   get createdAt(): Date {
     return this.props.createdAt!
   }
 
-  set createdAt(value: Date) {
+  private set createdAt(value: Date) {
     this.props.createdAt = value
   }
 }

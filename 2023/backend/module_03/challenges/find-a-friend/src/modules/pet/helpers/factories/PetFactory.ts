@@ -1,6 +1,6 @@
 import { Organization } from '@/modules/organization/entities'
 import { OrganizationFactory } from '@/modules/organization/helpers/factories'
-import { Pet, PetProps } from '@/modules/pet/entities'
+import { Pet, AdoptionRequirement, PetProps } from '@/modules/pet/entities'
 import {
   Age,
   Category,
@@ -33,8 +33,9 @@ class PetFactory {
     independenceLevel,
     necessarySpace,
     size,
-    createdAt,
     organization,
+    adoptionRequirements = [],
+    createdAt,
   }: PetFields): Pet {
     return new PetBuilder(id, organization)
       .setName(name)
@@ -43,6 +44,7 @@ class PetFactory {
       .setCategory(category)
       .setEnergyLevel(energyLevel)
       .setIndependenceLevel(independenceLevel)
+      .setAdoptionRequirement(adoptionRequirements)
       .setNecessarySpace(necessarySpace)
       .setSize(size)
       .setCreatedAt(createdAt || new Date())
@@ -66,8 +68,15 @@ class PetFactory {
     const necessarySpace: NecessarySpace[] = ['small', 'medium', 'large']
 
     for (let index = 0; index < count; index++) {
+      const petId = index.toString()
+
+      const adoptionRequirement = AdoptionRequirement.create({
+        requirement: 'requirement',
+        petId,
+      })
+
       pets.push(
-        new PetBuilder(index.toString(), organization)
+        new PetBuilder(petId, organization)
           .setName(`name ${index}`)
           .setAbout(`about ${index}`)
           .setAge(age[Math.random() * age.length])
@@ -76,6 +85,7 @@ class PetFactory {
           .setIndependenceLevel(
             independenceLevel[Math.random() * independenceLevel.length],
           )
+          .setAdoptionRequirement([adoptionRequirement])
           .setNecessarySpace(
             necessarySpace[Math.random() * necessarySpace.length],
           )

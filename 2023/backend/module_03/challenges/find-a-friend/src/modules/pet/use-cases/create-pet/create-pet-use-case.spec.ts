@@ -27,9 +27,10 @@ describe('[Pet] Create pet', () => {
       category: 'cat',
       age: 'young',
       size: 'small',
-      energy_level: 'medium',
-      independence_level: 'medium',
+      energyLevel: 'medium',
+      independenceLevel: 'medium',
       necessarySpace: 'medium',
+      adoptionRequirements: ['wide space'],
       organization_id: organization.id,
     })
 
@@ -51,9 +52,10 @@ describe('[Pet] Create pet', () => {
         category: 'cat',
         age: 'young',
         size: 'small',
-        energy_level: 'medium',
-        independence_level: 'medium',
+        energyLevel: 'medium',
+        independenceLevel: 'medium',
         necessarySpace: 'medium',
+        adoptionRequirements: [],
         organization_id: 'non_exists',
       }),
     ).rejects.toBeInstanceOf(Error.OrganizationNotFound)

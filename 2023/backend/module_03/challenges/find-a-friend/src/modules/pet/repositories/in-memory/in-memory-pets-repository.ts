@@ -5,13 +5,13 @@ class InMemoryPetsRepository implements PetsRepository {
   public items: Pet[] = []
 
   async findById(id: string): Promise<Pet | null> {
-    const organization = this.items.find((item) => item.id === id)
+    const pet = this.items.find((item) => item.id === id)
 
-    if (!organization) {
+    if (!pet) {
       return null
     }
 
-    return organization
+    return pet
   }
 
   async searchMany(params: SearchManyParams): Promise<Pet[]> {
@@ -42,8 +42,8 @@ class InMemoryPetsRepository implements PetsRepository {
     return pets
   }
 
-  async create(organization: Pet): Promise<void> {
-    this.items.push(organization)
+  async create(pet: Pet): Promise<void> {
+    this.items.push(pet)
   }
 }
 

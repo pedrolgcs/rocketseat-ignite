@@ -1,6 +1,6 @@
 import * as Error from '@/errors/shared'
 import { OrganizationsRepository } from '@/modules/organization/repositories'
-import { Pet } from '@/modules/pet/entities'
+import { Pet, AdoptionRequirement } from '@/modules/pet/entities'
 import { PetsRepository } from '@/modules/pet/repositories'
 import {
   Age,
@@ -17,10 +17,11 @@ type Request = {
   category: Category
   age: Age
   size: Size
-  energy_level: EnergyLevel
-  independence_level: IndependenceLevel
+  energyLevel: EnergyLevel
+  independenceLevel: IndependenceLevel
   necessarySpace: NecessarySpace
   organization_id: string
+  adoptionRequirements: Array<string>
 }
 
 type Response = {
@@ -40,10 +41,11 @@ class CreatePetUseCase {
       category,
       age,
       size,
-      energy_level,
-      independence_level,
+      energyLevel,
+      independenceLevel,
       necessarySpace,
       organization_id,
+      adoptionRequirements,
     } = request
 
     const organization = await this.organizationsRepository.findById(
@@ -60,11 +62,20 @@ class CreatePetUseCase {
       category,
       age,
       size,
-      energy_level,
-      independence_level,
+      energyLevel,
+      independenceLevel,
       necessarySpace,
       organization,
     })
+
+    const requirements = adoptionRequirements.map((requirement) => {
+      return AdoptionRequirement.create({
+        petId: pet.id,
+        requirement,
+      })
+    })
+
+    pet.adoptionRequirements = requirements
 
     await this.petsRepository.create(pet)
 
