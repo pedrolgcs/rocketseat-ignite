@@ -3,7 +3,7 @@ import { ZodError } from 'zod'
 import fastifyJwt from '@fastify/jwt'
 import { env } from '@/env'
 import { AppError } from '@/errors/AppError'
-import { routes } from '@/routes'
+import { routes } from '@/http/routes'
 
 const app = fastify()
 

@@ -4,9 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node build/application/server.js",
+    "start": "node build/server.js",
     "build": "tsup src --out-dir build",
-    "start:dev": "tsx watch src/application/server.ts",
+    "start:dev": "tsx watch src/server.ts",
     "test": "vitest run --dir src/modules/",
     "lint": "eslint src --ext .ts --fix"
   },
