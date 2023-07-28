@@ -11,6 +11,7 @@ class PrismaPetsRepository implements PetsRepository {
       },
       include: {
         organization: true,
+        adoptionRequirements: true,
       },
     })
 
