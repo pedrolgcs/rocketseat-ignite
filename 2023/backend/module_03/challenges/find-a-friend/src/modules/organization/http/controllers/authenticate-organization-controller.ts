@@ -28,9 +28,29 @@ class AuthenticateOrganizationController {
       },
     )
 
-    return reply.status(200).send({
-      token,
-    })
+    const refreshToken = await reply.jwtSign(
+      {
+        role: 'organization',
+      },
+      {
+        sign: {
+          sub: organization.id,
+          expiresIn: '7d',
+        },
+      },
+    )
+
+    return reply
+      .status(200)
+      .setCookie('refreshToken', refreshToken, {
+        path: '/',
+        secure: true,
+        sameSite: true,
+        httpOnly: true,
+      })
+      .send({
+        token,
+      })
   }
 }
 

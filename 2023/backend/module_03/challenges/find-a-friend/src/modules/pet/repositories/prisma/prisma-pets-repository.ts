@@ -30,7 +30,10 @@ class PrismaPetsRepository implements PetsRepository {
     const pets = await prisma.pet.findMany({
       where: {
         organization: {
-          city,
+          city: {
+            equals: city,
+            mode: 'insensitive',
+          },
         },
         age: age || undefined,
         category: category || undefined,

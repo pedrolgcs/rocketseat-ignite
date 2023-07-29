@@ -10,7 +10,9 @@ class CreateOrganizationController {
       password: z.string().min(6),
       cep: z.string(),
       address: z.string(),
-      phone: z.string(),
+      phone: z.string().transform((value) => {
+        return value.replace(/\D/g, '')
+      }),
       latitude: z.number().refine((value) => {
         return Math.abs(value) <= 90
       }),

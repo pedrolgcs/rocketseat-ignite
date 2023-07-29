@@ -17,7 +17,9 @@ class InMemoryPetsRepository implements PetsRepository {
   async searchMany(params: SearchManyParams): Promise<Pet[]> {
     const { city, age, energyLevel, size, independenceLevel, category } = params
 
-    let pets = this.items.filter((item) => item.organization.city === city)
+    let pets = this.items.filter(
+      (item) => item.organization.city.toLowerCase() === city.toLowerCase(),
+    )
 
     if (age) {
       pets = pets.filter((item) => item.age === age)
