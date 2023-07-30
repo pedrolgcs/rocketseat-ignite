@@ -10,16 +10,14 @@ class PrismaPetImageMapper {
     }
   }
 
-  static toDomain(image: PrismaPetImage[]) {
-    return image.map((item) => {
-      return Image.create(
-        {
-          name: item.name,
-          petId: item.pet_id,
-        },
-        item.id,
-      )
-    })
+  static toDomain(image: PrismaPetImage) {
+    return Image.create(
+      {
+        name: image.name,
+        petId: image.pet_id,
+      },
+      image.id,
+    )
   }
 }
 
