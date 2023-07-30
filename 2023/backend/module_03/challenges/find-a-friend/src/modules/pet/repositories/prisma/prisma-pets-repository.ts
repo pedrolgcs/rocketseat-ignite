@@ -61,15 +61,7 @@ class PrismaPetsRepository implements PetsRepository {
     const petToPrisma = PrismaPetMapper.toPrisma(pet)
 
     await prisma.pet.create({
-      data: {
-        ...petToPrisma,
-        adoptionRequirements: {
-          createMany: {
-            data: petToPrisma.adoptionRequirements,
-            skipDuplicates: true,
-          },
-        },
-      },
+      data: petToPrisma,
     })
   }
 }

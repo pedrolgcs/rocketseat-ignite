@@ -3,10 +3,13 @@ import {
   AdoptionRequirement as PrismaAdoptionRequirement,
   PetImage as PrismaImage,
   Organization as PrismaOrganization,
-  Prisma,
 } from '@prisma/client'
 import { PrismaOrganizationMapper } from '@/modules/organization/mappers'
-import { Pet, AdoptionRequirement, Image } from '@/modules/pet/entities'
+import { Pet } from '@/modules/pet/entities'
+import {
+  PrismaPetAdoptionRequirements,
+  PrismaPetImageMapper,
+} from '@/modules/pet/mappers'
 import {
   Age,
   Category,
@@ -22,19 +25,10 @@ type PrismaPetWithLoadRelations = PrismaPet & {
   images?: PrismaImage[]
 }
 
-type PetDomainToPrisma = PrismaPet & {
-  adoptionRequirements: Prisma.AdoptionRequirementCreateManyPetInput[]
-}
+type PetDomainToPrisma = PrismaPet
 
 class PrismaPetMapper {
   static toPrisma(pet: Pet): PetDomainToPrisma {
-    const adoptionRequirements = pet.adoptionRequirements.map((requirement) => {
-      return {
-        id: requirement.id,
-        requirement: requirement.requirement,
-      }
-    })
-
     return {
       id: pet.id,
       name: pet.name,
@@ -46,34 +40,19 @@ class PrismaPetMapper {
       size: pet.size,
       place: pet.necessarySpace,
       organization_id: pet.organization.id,
-      adoptionRequirements,
       created_at: pet.createdAt,
     }
   }
 
   static toDomain(pet: PrismaPetWithLoadRelations): Pet {
-    const organizationToDomain = PrismaOrganizationMapper.toDomain(
-      pet.organization,
-    )
+    const organization = PrismaOrganizationMapper.toDomain(pet.organization)
 
     const adoptionRequirements = pet.adoptionRequirements?.map((item) => {
-      return AdoptionRequirement.create(
-        {
-          petId: item.pet_id,
-          requirement: item.requirement,
-        },
-        item.id,
-      )
+      return PrismaPetAdoptionRequirements.toDomain(item)
     })
 
     const images = pet.images?.map((item) => {
-      return Image.create(
-        {
-          name: item.name,
-          petId: item.pet_id,
-        },
-        item.id,
-      )
+      return PrismaPetImageMapper.toDomain(item)
     })
 
     return Pet.create(
@@ -88,7 +67,7 @@ class PrismaPetMapper {
         size: pet.size as Size,
         adoptionRequirements,
         images,
-        organization: organizationToDomain,
+        organization,
       },
       pet.id,
     )

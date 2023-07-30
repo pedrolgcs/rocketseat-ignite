@@ -1,7 +1,10 @@
 import * as Error from '@/errors/shared'
 import { OrganizationsRepository } from '@/modules/organization/repositories'
 import { Pet, AdoptionRequirement } from '@/modules/pet/entities'
-import { PetsRepository } from '@/modules/pet/repositories'
+import {
+  PetsRepository,
+  PetAdoptionRequirements,
+} from '@/modules/pet/repositories'
 import {
   Age,
   Size,
@@ -31,6 +34,7 @@ type Response = {
 class CreatePetUseCase {
   constructor(
     private petsRepository: PetsRepository,
+    private petAdoptionRequirements: PetAdoptionRequirements,
     private organizationsRepository: OrganizationsRepository,
   ) {}
 
@@ -68,16 +72,19 @@ class CreatePetUseCase {
       organization,
     })
 
-    const requirements = adoptionRequirements.map((requirement) => {
+    const petAdoptionRequirements = adoptionRequirements.map((requirement) => {
       return AdoptionRequirement.create({
         petId: pet.id,
         requirement,
       })
     })
 
-    pet.adoptionRequirements = requirements
+    pet.adoptionRequirements = petAdoptionRequirements
 
-    await this.petsRepository.create(pet)
+    await Promise.all([
+      await this.petsRepository.create(pet),
+      await this.petAdoptionRequirements.createMany(petAdoptionRequirements),
+    ])
 
     return {
       pet,

@@ -2,18 +2,27 @@ import { describe, it, expect, beforeEach } from 'vitest'
 import * as Error from '@/errors/shared'
 import { OrganizationFactory } from '@/modules/organization/helpers/factories'
 import { InMemoryOrganizationsRepository } from '@/modules/organization/repositories/in-memory'
-import { InMemoryPetsRepository } from '@/modules/pet/repositories/in-memory'
+import {
+  InMemoryPetsRepository,
+  InMemoryPetAdoptionRequirements,
+} from '@/modules/pet/repositories/in-memory'
 import { CreatePetUseCase } from './create-pet-use-case'
 
 let sut: CreatePetUseCase
 let petsRepository: InMemoryPetsRepository
+let petAdoptionRequirements: InMemoryPetAdoptionRequirements
 let organizationsRepository: InMemoryOrganizationsRepository
 
 describe('[Pet] Create pet', () => {
   beforeEach(() => {
     petsRepository = new InMemoryPetsRepository()
+    petAdoptionRequirements = new InMemoryPetAdoptionRequirements()
     organizationsRepository = new InMemoryOrganizationsRepository()
-    sut = new CreatePetUseCase(petsRepository, organizationsRepository)
+    sut = new CreatePetUseCase(
+      petsRepository,
+      petAdoptionRequirements,
+      organizationsRepository,
+    )
   })
 
   it('should be able to create a new pet', async () => {
