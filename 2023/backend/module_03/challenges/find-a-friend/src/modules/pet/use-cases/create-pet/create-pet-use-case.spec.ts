@@ -51,6 +51,8 @@ describe('[Pet] Create pet', () => {
         }),
       }),
     )
+
+    expect(pet.adoptionRequirements).toHaveLength(1)
   })
 
   it('should not be able to create a pet if organization does not exists', async () => {
