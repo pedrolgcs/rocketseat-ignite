@@ -40,7 +40,6 @@ class UploadPetImagesUseCase {
     await Promise.all(
       pet.images.map(async (image) => {
         await this.petImagesRepository.create(image)
-
         await this.storageProvider.saveFile(image.name, `pets/${petId}`)
       }),
     )

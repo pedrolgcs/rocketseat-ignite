@@ -15,8 +15,8 @@ const app = fastify()
 app.register(fastifyCookie)
 app.register(fastifyMultipart)
 app.register(fastifyStatic, {
-  root: path.resolve('tmp'),
-  prefix: '/tmp',
+  root: path.resolve('public'),
+  prefix: '/public',
   wildcard: false,
 })
 
