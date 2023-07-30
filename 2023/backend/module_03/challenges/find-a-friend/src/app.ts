@@ -1,8 +1,10 @@
+import path from 'node:path'
 import fastify from 'fastify'
 import { ZodError } from 'zod'
 import fastifyCookie from '@fastify/cookie'
 import fastifyJwt from '@fastify/jwt'
 import fastifyMultipart from '@fastify/multipart'
+import fastifyStatic from '@fastify/static'
 import { env } from '@/env'
 import { AppError } from '@/errors/AppError'
 import { routes } from '@/http/routes'
@@ -12,6 +14,11 @@ const app = fastify()
 // middlewares
 app.register(fastifyCookie)
 app.register(fastifyMultipart)
+app.register(fastifyStatic, {
+  root: path.resolve('tmp'),
+  prefix: '/tmp',
+  wildcard: false,
+})
 
 app.register(fastifyJwt, {
   secret: env.JWT_SECRET,

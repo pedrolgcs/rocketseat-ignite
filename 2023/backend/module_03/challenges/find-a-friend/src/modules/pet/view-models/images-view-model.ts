@@ -6,7 +6,7 @@ class ImagesViewModel {
       return {
         id: item.id,
         name: item.name,
-        url: `http://localhost:3333/files/${item.name}`,
+        url: `http://localhost:3333/tmp/pets/${item.petId}/${item.name}`,
       }
     })
   }
