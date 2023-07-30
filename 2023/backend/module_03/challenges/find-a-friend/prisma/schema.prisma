@@ -37,7 +37,7 @@ model Pet {
   place                String
   organization_id      String
   organization         Organization          @relation(fields: [organization_id], references: [id], onDelete: Cascade)
-  petImages            PetImage[]
+  images               PetImage[]
   adoptionRequirements AdoptionRequirement[]
   created_at           DateTime              @default(now())
 
@@ -54,10 +54,10 @@ model AdoptionRequirement {
 }
 
 model PetImage {
-  id        String @id @default(uuid())
-  image_url String
-  pet_id    String
-  pet       Pet    @relation(fields: [pet_id], references: [id], onDelete: Cascade)
+  id     String @id @default(uuid())
+  name   String
+  pet_id String
+  pet    Pet    @relation(fields: [pet_id], references: [id], onDelete: Cascade)
 
   @@map("pets_image")
 }

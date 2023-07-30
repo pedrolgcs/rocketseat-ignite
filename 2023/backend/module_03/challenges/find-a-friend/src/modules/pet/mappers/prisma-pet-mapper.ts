@@ -1,11 +1,12 @@
 import {
   Pet as PrismaPet,
   AdoptionRequirement as PrismaAdoptionRequirement,
+  PetImage as PrismaImage,
   Organization as PrismaOrganization,
   Prisma,
 } from '@prisma/client'
 import { PrismaOrganizationMapper } from '@/modules/organization/mappers'
-import { Pet, AdoptionRequirement } from '@/modules/pet/entities'
+import { Pet, AdoptionRequirement, Image } from '@/modules/pet/entities'
 import {
   Age,
   Category,
@@ -18,6 +19,7 @@ import {
 type PrismaPetWithLoadRelations = PrismaPet & {
   organization: PrismaOrganization
   adoptionRequirements?: PrismaAdoptionRequirement[]
+  images?: PrismaImage[]
 }
 
 type PetDomainToPrisma = PrismaPet & {
@@ -64,6 +66,16 @@ class PrismaPetMapper {
       )
     })
 
+    const images = pet.images?.map((item) => {
+      return Image.create(
+        {
+          name: item.name,
+          petId: item.pet_id,
+        },
+        item.id,
+      )
+    })
+
     return Pet.create(
       {
         name: pet.name,
@@ -75,6 +87,7 @@ class PrismaPetMapper {
         necessarySpace: pet.place as NecessarySpace,
         size: pet.size as Size,
         adoptionRequirements,
+        images,
         organization: organizationToDomain,
       },
       pet.id,

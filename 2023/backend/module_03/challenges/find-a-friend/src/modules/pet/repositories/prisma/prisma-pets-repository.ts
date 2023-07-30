@@ -12,6 +12,7 @@ class PrismaPetsRepository implements PetsRepository {
       include: {
         organization: true,
         adoptionRequirements: true,
+        images: true,
       },
     })
 
@@ -43,6 +44,7 @@ class PrismaPetsRepository implements PetsRepository {
       },
       include: {
         organization: true,
+        images: true,
       },
     })
 

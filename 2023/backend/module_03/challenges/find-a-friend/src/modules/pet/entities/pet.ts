@@ -9,6 +9,7 @@ import {
   Category,
 } from '@/types/Pet'
 import { AdoptionRequirement } from './adoption-requirement'
+import { Image } from './image'
 
 export type PetProps = {
   name: string
@@ -21,6 +22,7 @@ export type PetProps = {
   necessarySpace: NecessarySpace
   organization: Organization
   adoptionRequirements?: AdoptionRequirement[]
+  images?: Image[]
   createdAt?: Date
 }
 
@@ -34,6 +36,7 @@ class Pet extends Entity<PetProps> {
       {
         ...props,
         adoptionRequirements: props.adoptionRequirements ?? [],
+        images: props.images ?? [],
         createdAt: props.createdAt ?? new Date(),
       },
       id,
@@ -118,6 +121,14 @@ class Pet extends Entity<PetProps> {
 
   set adoptionRequirements(value: AdoptionRequirement[]) {
     this.props.adoptionRequirements = value
+  }
+
+  get images(): Image[] {
+    return this.props.images || []
+  }
+
+  set images(value: Image[]) {
+    this.props.images = value
   }
 
   get createdAt(): Date {

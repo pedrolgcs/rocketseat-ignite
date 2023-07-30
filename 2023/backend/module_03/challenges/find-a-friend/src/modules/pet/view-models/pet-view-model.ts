@@ -1,6 +1,7 @@
 import { OrganizationViewModel } from '@/modules/organization/view-models'
 import { Pet } from '@/modules/pet/entities'
 import { AdoptionRequirementsViewModel } from './adoption-requirements-view-model'
+import { ImagesViewModel } from './images-view-model'
 
 class PetViewModel {
   static toHTTP(pet: Pet) {
@@ -17,6 +18,7 @@ class PetViewModel {
       adoptionRequirements: AdoptionRequirementsViewModel.toHTTP(
         pet.adoptionRequirements,
       ),
+      images: ImagesViewModel.toHTTP(pet.images),
       createdAt: pet.createdAt,
     }
   }
