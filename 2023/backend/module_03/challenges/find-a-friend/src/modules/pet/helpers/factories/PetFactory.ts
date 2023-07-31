@@ -1,6 +1,11 @@
 import { Organization } from '@/modules/organization/entities'
 import { OrganizationFactory } from '@/modules/organization/helpers/factories'
-import { Pet, AdoptionRequirement, PetProps } from '@/modules/pet/entities'
+import {
+  Pet,
+  AdoptionRequirement,
+  Image,
+  PetProps,
+} from '@/modules/pet/entities'
 import {
   Age,
   Category,
@@ -35,6 +40,7 @@ class PetFactory {
     size,
     organization,
     adoptionRequirements = [],
+    images = [],
     createdAt,
   }: PetFields): Pet {
     return new PetBuilder(id, organization)
@@ -45,13 +51,14 @@ class PetFactory {
       .setEnergyLevel(energyLevel)
       .setIndependenceLevel(independenceLevel)
       .setAdoptionRequirement(adoptionRequirements)
+      .setImages(images)
       .setNecessarySpace(necessarySpace)
       .setSize(size)
       .setCreatedAt(createdAt || new Date())
       .build()
   }
 
-  static createRandomPet(count: number, organization: Organization): Pet[] {
+  static createRandomPets(count: number, organization: Organization): Pet[] {
     const pets = []
 
     const age: Age[] = ['young', 'adult', 'senior']
@@ -75,6 +82,11 @@ class PetFactory {
         petId,
       })
 
+      const image = Image.create({
+        name: 'image.jpeg',
+        petId,
+      })
+
       pets.push(
         new PetBuilder(petId, organization)
           .setName(`name ${index}`)
@@ -86,6 +98,7 @@ class PetFactory {
             independenceLevel[Math.random() * independenceLevel.length],
           )
           .setAdoptionRequirement([adoptionRequirement])
+          .setImages([image])
           .setNecessarySpace(
             necessarySpace[Math.random() * necessarySpace.length],
           )

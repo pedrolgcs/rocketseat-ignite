@@ -1,6 +1,6 @@
 import crypto from 'node:crypto'
 import { Organization } from '@/modules/organization/entities'
-import { AdoptionRequirement, Pet } from '@/modules/pet/entities'
+import { AdoptionRequirement, Image, Pet } from '@/modules/pet/entities'
 import {
   Age,
   Category,
@@ -23,7 +23,8 @@ class PetBuilder {
         energyLevel: 'high',
         independenceLevel: 'medium',
         necessarySpace: 'medium',
-        adoptionRequirement: [],
+        adoptionRequirements: [],
+        images: [],
         size: 'medium',
         organization,
       },
@@ -79,7 +80,12 @@ class PetBuilder {
   public setAdoptionRequirement(
     adoptionRequirement: AdoptionRequirement[],
   ): this {
-    this.pet.adoptionRequirement = adoptionRequirement
+    this.pet.adoptionRequirements = adoptionRequirement
+    return this
+  }
+
+  public setImages(images: Image[]): this {
+    this.pet.images = images
     return this
   }
 

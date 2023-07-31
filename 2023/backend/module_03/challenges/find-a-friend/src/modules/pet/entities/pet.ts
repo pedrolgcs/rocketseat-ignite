@@ -111,7 +111,7 @@ class Pet extends Entity<PetProps> {
     return this.props.organization
   }
 
-  private set organization(value: Organization) {
+  set organization(value: Organization) {
     this.props.organization = value
   }
 
@@ -135,7 +135,7 @@ class Pet extends Entity<PetProps> {
     return this.props.createdAt!
   }
 
-  private set createdAt(value: Date) {
+  set createdAt(value: Date) {
     this.props.createdAt = value
   }
 }
