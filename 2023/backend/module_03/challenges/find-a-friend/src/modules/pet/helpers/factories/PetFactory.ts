@@ -1,11 +1,6 @@
 import { Organization } from '@/modules/organization/entities'
 import { OrganizationFactory } from '@/modules/organization/helpers/factories'
-import {
-  Pet,
-  AdoptionRequirement,
-  Image,
-  PetProps,
-} from '@/modules/pet/entities'
+import { Pet, PetProps } from '@/modules/pet/entities'
 import {
   Age,
   Category,
@@ -14,7 +9,11 @@ import {
   NecessarySpace,
   Size,
 } from '@/types/Pet'
-import { PetBuilder } from '../builders'
+import {
+  PetBuilder,
+  AdoptionRequirementBuilder,
+  ImageBuilder,
+} from '../builders'
 
 type PetFields = PetProps & {
   id?: string
@@ -77,15 +76,12 @@ class PetFactory {
     for (let index = 0; index < count; index++) {
       const petId = index.toString()
 
-      const adoptionRequirement = AdoptionRequirement.create({
-        requirement: 'requirement',
+      const adoptionRequirement = new AdoptionRequirementBuilder(
+        undefined,
         petId,
-      })
+      ).build()
 
-      const image = Image.create({
-        name: 'image.jpeg',
-        petId,
-      })
+      const image = new ImageBuilder(undefined, petId).build()
 
       pets.push(
         new PetBuilder(petId, organization)
