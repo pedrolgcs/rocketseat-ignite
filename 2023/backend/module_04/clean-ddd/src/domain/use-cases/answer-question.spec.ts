@@ -1,8 +1,8 @@
-import { describe, it, expect, beforeEach } from 'vitest';
-import { AnswerQuestion } from './answer-question';
-import { InMemoryAnswersRepository } from '../repositories/in-memory';
+import { describe, it, expect, beforeEach } from 'vitest'
+import { InMemoryAnswersRepository } from '../repositories/in-memory'
+import { AnswerQuestion } from './answer-question'
 
-let sut: AnswerQuestion;
+let sut: AnswerQuestion
 let inMemoryAnswersRepository
 
 describe('AnswerQuestion', () => {
@@ -15,7 +15,7 @@ describe('AnswerQuestion', () => {
     const answer = await sut.execute({
       questionId: '1',
       instructorId: '1',
-      content: 'new answer'
+      content: 'new answer',
     })
 
     expect(answer.content).toBe('new answer')

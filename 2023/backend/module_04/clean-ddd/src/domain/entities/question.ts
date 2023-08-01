@@ -1,5 +1,5 @@
 import random from 'node:crypto'
-import { Slug } from './value-objects/slug';
+import { Slug } from './value-objects/slug'
 
 type QuestionProps = {
   title: string
@@ -16,7 +16,7 @@ class Question {
   public authorId: string
 
   constructor(props: QuestionProps, id?: string) {
-    this.id = id ? id : random.randomUUID()
+    this.id = id || random.randomUUID()
     this.title = props.title
     this.content = props.content
     this.slug = props.slug

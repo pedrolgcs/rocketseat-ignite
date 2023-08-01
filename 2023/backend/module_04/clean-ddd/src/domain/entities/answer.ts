@@ -13,7 +13,7 @@ class Answer {
   public questionId: string
 
   constructor(props: AnswerProps, id?: string) {
-    this.id = id ? id : random.randomUUID()
+    this.id = id || random.randomUUID()
     this.content = props.content
     this.authorId = props.authorId
     this.questionId = props.questionId

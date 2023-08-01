@@ -8,7 +8,7 @@ class Slug {
   /**
    * Receives a string and normalizes it as a slug.
    * Example: "An example title" => "an-example-title"
-   * @param text 
+   * @param text
    */
   static createFromText(text: string) {
     const slugText = text

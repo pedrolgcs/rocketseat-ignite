@@ -1,4 +1,4 @@
-import random from 'node:crypto';
+import random from 'node:crypto'
 
 type StudentProps = {
   name: string
@@ -9,7 +9,7 @@ class Student {
   public name: string
 
   constructor(props: StudentProps, id?: string) {
-    this.id = id ? id : random.randomUUID()
+    this.id = id || random.randomUUID()
     this.name = props.name
   }
 }

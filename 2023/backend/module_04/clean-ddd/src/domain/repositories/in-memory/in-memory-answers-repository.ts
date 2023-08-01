@@ -1,5 +1,5 @@
-import { Answer } from '../../entities/answer';
-import { AnswersRepository } from '../answers-repository';
+import { Answer } from '../../entities/answer'
+import { AnswersRepository } from '../answers-repository'
 
 class InMemoryAnswersRepository implements AnswersRepository {
   public items: Answer[] = []
