@@ -1,4 +1,4 @@
-import random from 'node:crypto'
+import { Entity } from '@/core/entities/entity'
 
 type AnswerProps = {
   content: string
@@ -6,17 +6,21 @@ type AnswerProps = {
   questionId: string
 }
 
-class Answer {
-  public id: string
-  public content: string
-  public authorId: string
-  public questionId: string
-
+class Answer extends Entity<AnswerProps> {
   constructor(props: AnswerProps, id?: string) {
-    this.id = id || random.randomUUID()
-    this.content = props.content
-    this.authorId = props.authorId
-    this.questionId = props.questionId
+    super(props, id)
+  }
+
+  get content(): string {
+    return this.props.content
+  }
+
+  get authorId(): string {
+    return this.props.authorId
+  }
+
+  get questionId(): string {
+    return this.props.questionId
   }
 }
 
