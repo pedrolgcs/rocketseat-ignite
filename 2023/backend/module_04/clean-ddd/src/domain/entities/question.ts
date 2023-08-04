@@ -1,3 +1,4 @@
+import dayjs from 'dayjs'
 import { Entity } from '@/core/entities/entity'
 import { UniqueEntityID } from '@/core/entities/unique-entity-id'
 import { Optional } from '@/core/types/optional'
@@ -19,12 +20,13 @@ class Question extends Entity<QuestionProps> {
   }
 
   static create(
-    props: Optional<QuestionProps, 'createdAt'>,
+    props: Optional<QuestionProps, 'createdAt' | 'slug'>,
     id?: UniqueEntityID,
   ): Question {
     const question = new Question(
       {
         ...props,
+        slug: props.slug ?? Slug.createFromText(props.title),
         createdAt: new Date(),
       },
       id,
@@ -33,24 +35,52 @@ class Question extends Entity<QuestionProps> {
     return question
   }
 
+  private touch() {
+    this.props.updatedAt = new Date()
+  }
+
   get title(): string {
     return this.props.title
+  }
+
+  set title(title: string) {
+    this.props.title = title
+    this.props.slug = Slug.createFromText(title)
+    this.touch()
   }
 
   get content(): string {
     return this.props.content
   }
 
+  set content(content: string) {
+    this.props.content = content
+    this.touch()
+  }
+
   get slug(): Slug {
     return this.props.slug
+  }
+
+  get excerpt() {
+    return this.content.substring(0, 120).trim().concat('...')
   }
 
   get bastAnswerId(): UniqueEntityID | undefined {
     return this.props.bastAnswerId
   }
 
+  set bastAnswerId(bastAnswerId: UniqueEntityID | undefined) {
+    this.props.bastAnswerId = bastAnswerId
+    this.touch()
+  }
+
   get authorId(): UniqueEntityID {
     return this.props.authorId
+  }
+
+  get isNew(): boolean {
+    return dayjs().diff(this.createdAt, 'days') <= 3
   }
 
   get createdAt(): Date {

@@ -30,8 +30,21 @@ class Answer extends Entity<AnswerProps> {
     return answer
   }
 
+  private touch() {
+    this.props.updatedAt = new Date()
+  }
+
   get content(): string {
     return this.props.content
+  }
+
+  set content(content: string) {
+    this.props.content = content
+    this.touch()
+  }
+
+  get excerpt() {
+    return this.content.substring(0, 120).trim().concat('...')
   }
 
   get authorId(): UniqueEntityID {
