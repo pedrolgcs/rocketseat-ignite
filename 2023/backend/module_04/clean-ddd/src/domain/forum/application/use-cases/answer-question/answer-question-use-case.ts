@@ -8,10 +8,14 @@ type Request = {
   content: string
 }
 
+type Response = {
+  answer: Answer
+}
+
 class AnswerQuestionUseCase {
   constructor(private answersRepository: AnswersRepository) {}
 
-  public async execute(request: Request) {
+  public async execute(request: Request): Promise<Response> {
     const { instructorId, questionId, content } = request
 
     const answer = Answer.create({
@@ -22,7 +26,9 @@ class AnswerQuestionUseCase {
 
     await this.answersRepository.create(answer)
 
-    return answer
+    return {
+      answer,
+    }
   }
 }
 
