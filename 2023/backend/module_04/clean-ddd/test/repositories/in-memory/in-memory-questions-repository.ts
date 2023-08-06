@@ -1,5 +1,5 @@
+import { QuestionsRepository } from '@/domain/forum/application/repositories'
 import { Question } from '@/domain/forum/enterprise/entities'
-import { QuestionsRepository } from '../questions-repository'
 
 class InMemoryQuestionsRepository implements QuestionsRepository {
   public items: Question[] = []
