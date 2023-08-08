@@ -3,7 +3,7 @@ import { InMemoryAnswersRepository } from '@/test/repositories/in-memory'
 import { AnswerQuestionUseCase } from './answer-question-use-case'
 
 let sut: AnswerQuestionUseCase
-let inMemoryAnswersRepository
+let inMemoryAnswersRepository: InMemoryAnswersRepository
 
 describe('AnswerQuestion', () => {
   beforeEach(() => {
@@ -19,5 +19,6 @@ describe('AnswerQuestion', () => {
     })
 
     expect(answer.content).toBe('new answer')
+    expect(inMemoryAnswersRepository.items[0].id).toEqual(answer.id)
   })
 })
