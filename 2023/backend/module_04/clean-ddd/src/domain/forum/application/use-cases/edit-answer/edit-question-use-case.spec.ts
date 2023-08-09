@@ -53,7 +53,7 @@ describe('EditQuestion', () => {
     await expect(
       sut.execute({
         authorId: 'author-1',
-        questionId: 'question-2',
+        questionId: 'non-existent',
         title: 'updated title',
         content: 'updated content',
       }),
@@ -74,7 +74,7 @@ describe('EditQuestion', () => {
 
     await expect(
       sut.execute({
-        authorId: 'author-2',
+        authorId: 'another-author',
         questionId: 'question-1',
         title: 'updated title',
         content: 'updated content',
