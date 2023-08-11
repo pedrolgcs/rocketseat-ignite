@@ -9,8 +9,8 @@ class Entity<T> {
     this.props = props
   }
 
-  get id(): string {
-    return this._id.toValue()
+  get id(): UniqueEntityID {
+    return this._id
   }
 }
 

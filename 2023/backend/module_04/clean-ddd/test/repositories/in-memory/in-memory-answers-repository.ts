@@ -5,7 +5,7 @@ class InMemoryAnswersRepository implements AnswersRepository {
   public items: Answer[] = []
 
   async findById(id: string): Promise<Answer | null> {
-    const answer = this.items.find((item) => item.id === id)
+    const answer = this.items.find((item) => item.id.toString() === id)
 
     if (!answer) {
       return null
@@ -27,7 +27,9 @@ class InMemoryAnswersRepository implements AnswersRepository {
   }
 
   async delete(answerId: string): Promise<void> {
-    const answerIndex = this.items.findIndex((item) => item.id === answerId)
+    const answerIndex = this.items.findIndex(
+      (item) => item.id.toString() === answerId,
+    )
 
     if (answerIndex >= 0) {
       this.items.splice(answerIndex, 1)

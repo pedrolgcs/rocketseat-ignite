@@ -70,7 +70,7 @@ class Question extends Entity<QuestionProps> {
     return this.props.bastAnswerId
   }
 
-  set bastAnswerId(bastAnswerId: UniqueEntityID | undefined) {
+  set bastAnswerId(bastAnswerId: UniqueEntityID) {
     this.props.bastAnswerId = bastAnswerId
     this.touch()
   }
