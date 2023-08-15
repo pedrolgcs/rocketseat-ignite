@@ -1,16 +1,16 @@
 import { Entity } from '@/core/entities/entity'
 import { UniqueEntityID } from '@/core/entities/unique-entity-id'
 
-export interface AnswerProps {
+export interface InstructorProps {
   name: string
 }
 
-class Instructor extends Entity<AnswerProps> {
-  private constructor(props: AnswerProps, id?: UniqueEntityID) {
+class Instructor extends Entity<InstructorProps> {
+  private constructor(props: InstructorProps, id?: UniqueEntityID) {
     super(props, id)
   }
 
-  static create(props: AnswerProps, id?: UniqueEntityID): Instructor {
+  static create(props: InstructorProps, id?: UniqueEntityID): Instructor {
     const instructor = new Instructor(props, id)
 
     return instructor
