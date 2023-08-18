@@ -4,7 +4,7 @@ import {
   InMemoryQuestionsRepository,
   InMemoryAnswersRepository,
 } from '@/test/repositories/in-memory'
-import { ChooseQuestionBestAnswerUseCase } from './chosse-question-best-answer-use-case'
+import { ChooseQuestionBestAnswerUseCase } from './choose-question-best-answer-use-case'
 
 let sut: ChooseQuestionBestAnswerUseCase
 let inMemoryQuestionsRepository: InMemoryQuestionsRepository
