@@ -2,7 +2,9 @@
 
 import * as RadixAvatar from '@radix-ui/react-avatar'
 
-function Avatar() {
+type AvatarProps = React.HTMLProps<HTMLDivElement>
+
+function Avatar({ className }: AvatarProps) {
   return (
     <RadixAvatar.Root className="inline-flex h-10 w-10 select-none items-center justify-center overflow-hidden rounded-full">
       <RadixAvatar.Image
