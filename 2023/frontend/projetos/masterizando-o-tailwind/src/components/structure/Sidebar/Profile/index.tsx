@@ -1,9 +1,10 @@
 import { IconLogout } from '@tabler/icons-react'
+import { Avatar } from '@/components/ui'
 
 function Profile() {
   return (
     <div className="flex items-center gap-3">
-      <div>Hello</div>
+      <Avatar />
 
       <div className="flex flex-1 flex-col truncate">
         <span className="text-sm font-semibold text-zinc-700">Pedro H.</span>
