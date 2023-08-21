@@ -1,12 +1,18 @@
 'use client'
 
 import * as RadixAvatar from '@radix-ui/react-avatar'
+import { cn } from '@/lib/tw-merge'
 
 type AvatarProps = React.HTMLProps<HTMLDivElement>
 
 function Avatar({ className }: AvatarProps) {
   return (
-    <RadixAvatar.Root className="inline-flex h-10 w-10 select-none items-center justify-center overflow-hidden rounded-full">
+    <RadixAvatar.Root
+      className={cn(
+        'inline-flex h-10 w-10 select-none items-center justify-center overflow-hidden rounded-full',
+        className,
+      )}
+    >
       <RadixAvatar.Image
         className="h-full w-full object-cover"
         src="https://github.com/pedrolgcs.png"
