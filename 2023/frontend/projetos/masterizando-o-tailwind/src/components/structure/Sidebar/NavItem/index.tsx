@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { IconChevronDown } from '@tabler/icons-react'
+// import { IconChevronDown } from '@tabler/icons-react'
 
 type NavItemProps = {
   title: string
@@ -19,7 +19,7 @@ function NavItem({ title, href, icon: Icon }: NavItemProps) {
         {title}
       </span>
 
-      <IconChevronDown className="ml-auto h-5 w-5 text-zinc-400 transition group-hover:text-violet-300" />
+      {/* <IconChevronDown className="ml-auto h-5 w-5 text-zinc-400 transition group-hover:text-violet-300" /> */}
     </a>
   )
 }

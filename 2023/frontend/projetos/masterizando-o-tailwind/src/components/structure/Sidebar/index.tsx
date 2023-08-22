@@ -1,8 +1,8 @@
-import { IconLifebuoy, IconSearch, IconSettingsCog } from '@tabler/icons-react'
+import { IconSearch } from '@tabler/icons-react'
 import { Input, Logo } from '@/components/ui'
 import { MainMenu } from './MainMenu'
-import { NavItem } from './NavItem'
 import { Profile } from './Profile'
+import { SecondaryMenu } from './SecondayMenu'
 import { UsedSpaceWidget } from './UsedSpaceWidget'
 
 function Sidebar() {
@@ -21,10 +21,7 @@ function Sidebar() {
       <MainMenu />
 
       <div className="mt-auto flex flex-col gap-6">
-        <nav className="space-y-0.5">
-          <NavItem title="Support" href="#" icon={IconLifebuoy} />
-          <NavItem title="Setting" href="#" icon={IconSettingsCog} />
-        </nav>
+        <SecondaryMenu />
 
         <UsedSpaceWidget />
 

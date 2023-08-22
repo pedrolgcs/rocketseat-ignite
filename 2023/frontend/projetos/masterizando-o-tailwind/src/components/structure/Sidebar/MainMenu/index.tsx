@@ -9,7 +9,7 @@ import {
   IconStack2,
   IconUsers,
 } from '@tabler/icons-react'
-import { NavGroup } from '../NavGroup'
+import * as NavGroup from '../NavGroup'
 import { NavItem } from '../NavItem'
 
 function MainMenu() {
@@ -17,13 +17,23 @@ function MainMenu() {
     <Accordion.Root type="single" collapsible>
       <nav className="space-y-0.5">
         <NavItem title="Home" href="#" icon={IconHome} />
+
         <NavItem title="Dashboard" href="#" icon={IconChartLine} />
-        <NavItem title="Projects" href="#" icon={IconStack2} />
+
+        <NavGroup.Root title="Projects" icon={IconStack2}>
+          <NavGroup.Item href="#">Slack</NavGroup.Item>
+          <NavGroup.Item href="#">Discord</NavGroup.Item>
+          <NavGroup.Item href="#">Telegram</NavGroup.Item>
+        </NavGroup.Root>
+
         <NavItem title="Tasks" href="#" icon={IconSquareCheck} />
-        {/* <NavItem title="Reporting" href="#" icon={IconFlag} /> */}
-        <NavGroup title="Reporting" icon={IconFlag}>
-          <p>loremlkdjsakldjaklj</p>
-        </NavGroup>
+
+        <NavGroup.Root title="Reporting" icon={IconFlag}>
+          <NavGroup.Item href="#">Overtime</NavGroup.Item>
+          <NavGroup.Item href="#">Payslip</NavGroup.Item>
+          <NavGroup.Item href="#">Timesheet</NavGroup.Item>
+        </NavGroup.Root>
+
         <NavItem title="Users" href="#" icon={IconUsers} />
       </nav>
     </Accordion.Root>
