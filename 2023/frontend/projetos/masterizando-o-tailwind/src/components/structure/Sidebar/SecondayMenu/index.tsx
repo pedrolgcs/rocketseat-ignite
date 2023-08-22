@@ -9,7 +9,9 @@ function SecondaryMenu() {
   return (
     <Accordion.Root type="single" collapsible>
       <nav className="space-y-0.5">
-        <NavItem title="Support" href="#" icon={IconLifebuoy} />
+        <NavItem href="#" icon={IconLifebuoy}>
+          Support
+        </NavItem>
 
         <NavGroup.Root title="Setting" icon={IconSettingsCog}>
           <NavGroup.Item href="#">Account</NavGroup.Item>

@@ -16,9 +16,13 @@ function MainMenu() {
   return (
     <Accordion.Root type="single" collapsible>
       <nav className="space-y-0.5">
-        <NavItem title="Home" href="#" icon={IconHome} />
+        <NavItem href="#" icon={IconHome}>
+          Home
+        </NavItem>
 
-        <NavItem title="Dashboard" href="#" icon={IconChartLine} />
+        <NavItem href="#" icon={IconChartLine}>
+          Dashboard
+        </NavItem>
 
         <NavGroup.Root title="Projects" icon={IconStack2}>
           <NavGroup.Item href="#">Slack</NavGroup.Item>
@@ -26,7 +30,9 @@ function MainMenu() {
           <NavGroup.Item href="#">Telegram</NavGroup.Item>
         </NavGroup.Root>
 
-        <NavItem title="Tasks" href="#" icon={IconSquareCheck} />
+        <NavItem href="#" icon={IconSquareCheck}>
+          Tasks
+        </NavItem>
 
         <NavGroup.Root title="Reporting" icon={IconFlag}>
           <NavGroup.Item href="#">Overtime</NavGroup.Item>
@@ -34,7 +40,9 @@ function MainMenu() {
           <NavGroup.Item href="#">Timesheet</NavGroup.Item>
         </NavGroup.Root>
 
-        <NavItem title="Users" href="#" icon={IconUsers} />
+        <NavItem href="#" icon={IconUsers}>
+          Users
+        </NavItem>
       </nav>
     </Accordion.Root>
   )
