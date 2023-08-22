@@ -9,7 +9,7 @@ function Profile() {
       <div className="flex flex-1 flex-col truncate">
         <span className="text-sm font-semibold text-zinc-700">Pedro H.</span>
         <span className="truncate text-sm text-zinc-500">
-          pedro.lg.csewqeqweqweqweqwedsadsadasdads@gmail.com
+          pedro.lg.cs@gmail.com
         </span>
       </div>
 
