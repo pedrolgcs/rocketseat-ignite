@@ -26,7 +26,7 @@ function Root({ title, icon: Icon, children }: RootProps) {
         </Accordion.Trigger>
       </Accordion.Header>
 
-      <Accordion.Content className="data-[state=open]:animate-slideDown data-[state=closed]:animate-slideUp overflow-hidden rounded">
+      <Accordion.Content className="overflow-hidden rounded data-[state=closed]:animate-slideUp data-[state=open]:animate-slideDown">
         {children}
       </Accordion.Content>
     </Accordion.Item>
