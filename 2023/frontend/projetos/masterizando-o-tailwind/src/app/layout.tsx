@@ -16,12 +16,12 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="pt-br">
+    <html lang="pt-br" className="antialiased">
       <body className={inter.className}>
         <div className="grid min-h-screen grid-cols-app">
           <Sidebar />
 
-          <main className="px-4 pb-12 pt-8">{children}</main>
+          <main className="px-5 pb-12 pt-8">{children}</main>
         </div>
       </body>
     </html>
