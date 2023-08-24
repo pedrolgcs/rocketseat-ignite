@@ -7,6 +7,7 @@
   "rules": {
     "no-case-declarations": "off",
     "camelcase": "off",
+    "@typescript-eslint/no-empty-function": "off",
     "import-helpers/order-imports": [
       "warn",
       {

@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { IconMail } from '@tabler/icons-react'
-import { Input } from '@/components/ui'
+import { Input, FileInput } from '@/components/ui'
 
 function MyDetails() {
   return (
@@ -34,6 +34,7 @@ function MyDetails() {
         id="settings-form"
         className="flex w-full flex-col divide-y divide-zinc-200 border-t border-zinc-200"
       >
+        {/* ---- Name ---- */}
         <div className="grid grid-cols-form gap-3 py-5">
           <label
             htmlFor="firstName"
@@ -53,6 +54,7 @@ function MyDetails() {
           </div>
         </div>
 
+        {/* ---- Email ---- */}
         <div className="grid grid-cols-form gap-3 py-5">
           <label htmlFor="email" className="text-sm font-medium text-zinc-700">
             Email address
@@ -70,6 +72,7 @@ function MyDetails() {
           </Input.Root>
         </div>
 
+        {/* ---- Photo ---- */}
         <div className="grid grid-cols-form gap-3 py-5">
           <label htmlFor="photo" className="text-sm font-medium text-zinc-700">
             Your photo
@@ -78,9 +81,16 @@ function MyDetails() {
             </span>
           </label>
 
-          <div></div>
+          <FileInput.Root className="flex items-start gap-5">
+            <FileInput.ImagePreview />
+            <FileInput.Trigger>
+              SVG, PNG, JPG or GIF (max. 800x400px)
+            </FileInput.Trigger>
+            <FileInput.Control />
+          </FileInput.Root>
         </div>
 
+        {/* ---- Role ---- */}
         <div className="grid grid-cols-form gap-3 py-5">
           <label htmlFor="role" className="text-sm font-medium text-zinc-700">
             Role
@@ -91,6 +101,7 @@ function MyDetails() {
           </Input.Root>
         </div>
 
+        {/* ---- Country ---- */}
         <div className="grid grid-cols-form gap-3 py-5">
           <label
             htmlFor="country"
@@ -102,6 +113,7 @@ function MyDetails() {
           <div></div>
         </div>
 
+        {/* ---- Timezone ---- */}
         <div className="grid grid-cols-form gap-3 py-5">
           <label
             htmlFor="timezone"
@@ -113,6 +125,7 @@ function MyDetails() {
           <div></div>
         </div>
 
+        {/* ---- Bio ---- */}
         <div className="grid grid-cols-form gap-3 py-5">
           <label htmlFor="bio" className="text-sm font-medium text-zinc-700">
             Bio
@@ -124,6 +137,7 @@ function MyDetails() {
           <div></div>
         </div>
 
+        {/* ---- Portfolio projects ---- */}
         <div className="grid grid-cols-form gap-3 py-5">
           <label
             htmlFor="projects"
@@ -135,7 +149,11 @@ function MyDetails() {
             </span>
           </label>
 
-          <div></div>
+          <FileInput.Root>
+            <FileInput.Trigger />
+            <FileInput.Control multiple />
+            <FileInput.FileList />
+          </FileInput.Root>
         </div>
 
         <div className="flex items-center justify-end gap-2 py-5">
