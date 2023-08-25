@@ -6,12 +6,14 @@ type FileInputContentType = {
   id: string
   files: File[]
   onFilesSelected: (files: File[], isMultiple?: boolean) => void
+  onRemoveFile: (file: File) => void
 }
 
 const defaultValue: FileInputContentType = {
   id: '',
   files: [],
   onFilesSelected: () => {},
+  onRemoveFile: () => {},
 }
 
 const FileInputContext = React.createContext<FileInputContentType>(defaultValue)
@@ -34,8 +36,14 @@ function Root(props: RootProps) {
     [],
   )
 
+  const onRemoveFile = React.useCallback((file: File) => {
+    setFiles((state) => state.filter((f) => f !== file))
+  }, [])
+
   return (
-    <FileInputContext.Provider value={{ id, files, onFilesSelected }}>
+    <FileInputContext.Provider
+      value={{ id, files, onFilesSelected, onRemoveFile }}
+    >
       <div {...props} />
     </FileInputContext.Provider>
   )
