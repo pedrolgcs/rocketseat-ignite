@@ -125,8 +125,8 @@ function MyDetails() {
             Timezone
           </label>
 
-          {/* <Select.Root name="timezone">
-            <Select.Trigger>
+          <Select.Root name="timezone">
+            <Select.Trigger id="timezone">
               <Select.Value placeholder="Select your timezone..." />
             </Select.Trigger>
 
@@ -139,8 +139,17 @@ function MyDetails() {
                   America / Sao Paulo
                 </Select.ItemText>
               </Select.Item>
+
+              <Select.Item value="Europe/London">
+                <Select.ItemText>
+                  <Select.ItemPrefix>
+                    <IconFlag />
+                  </Select.ItemPrefix>
+                  Europe / London
+                </Select.ItemText>
+              </Select.Item>
             </Select.Content>
-          </Select.Root> */}
+          </Select.Root>
         </div>
 
         {/* ---- Bio ---- */}
