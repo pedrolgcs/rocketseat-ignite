@@ -9,7 +9,7 @@ function Root(props: RootProps) {
     <div
       {...props}
       className={cn(
-        'mx-1 flex w-full items-center gap-2 rounded-lg border border-zinc-300 px-3 py-2 shadow-sm',
+        'flex w-full items-center gap-2 rounded-lg border border-zinc-300 px-3 py-2 shadow-sm',
         props.className,
       )}
     />

@@ -1,6 +1,7 @@
 import * as React from 'react'
-import { IconMail } from '@tabler/icons-react'
-import { Input, FileInput } from '@/components/ui'
+import { IconFlag, IconMail } from '@tabler/icons-react'
+import { CountrySelect } from '@/components/structure'
+import { Input, FileInput, Select } from '@/components/ui'
 
 function MyDetails() {
   return (
@@ -49,7 +50,7 @@ function MyDetails() {
             </Input.Root>
 
             <Input.Root>
-              <Input.Control defaultValue="Henrique" />
+              <Input.Control id="lastName" defaultValue="Henrique" />
             </Input.Root>
           </div>
         </div>
@@ -67,6 +68,7 @@ function MyDetails() {
             <Input.Control
               id="email"
               type="email"
+              autoComplete="email"
               defaultValue="pedro.lg.cs@gmail.com"
             />
           </Input.Root>
@@ -74,7 +76,7 @@ function MyDetails() {
 
         {/* ---- Photo ---- */}
         <div className="grid grid-cols-form gap-3 py-5">
-          <label htmlFor="photo" className="text-sm font-medium text-zinc-700">
+          <label className="text-sm font-medium text-zinc-700" htmlFor="photo">
             Your photo
             <span className="mt-0.5 block text-sm font-normal text-zinc-500">
               This will be displayed on your profile.
@@ -110,6 +112,7 @@ function MyDetails() {
             Country
           </label>
 
+          {/* <CountrySelect /> */}
           <div></div>
         </div>
 
@@ -122,7 +125,22 @@ function MyDetails() {
             Timezone
           </label>
 
-          <div></div>
+          {/* <Select.Root name="timezone">
+            <Select.Trigger>
+              <Select.Value placeholder="Select your timezone..." />
+            </Select.Trigger>
+
+            <Select.Content>
+              <Select.Item value="America/Sao_Paulo">
+                <Select.ItemText>
+                  <Select.ItemPrefix>
+                    <IconFlag />
+                  </Select.ItemPrefix>
+                  America / Sao Paulo
+                </Select.ItemText>
+              </Select.Item>
+            </Select.Content>
+          </Select.Root> */}
         </div>
 
         {/* ---- Bio ---- */}
@@ -157,8 +175,6 @@ function MyDetails() {
         </div>
 
         <div className="flex items-center justify-end gap-2 py-5">
-          <div />
-          <div />
           <div className="flex justify-end gap-3">
             <button
               type="button"

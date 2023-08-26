@@ -15,7 +15,7 @@ function Sidebar() {
           <IconSearch className="h-5 w-5 text-zinc-500" />
         </Input.Prefix>
 
-        <Input.Control placeholder="Search" />
+        <Input.Control id="search" placeholder="Search" />
       </Input.Root>
 
       <MainMenu />
