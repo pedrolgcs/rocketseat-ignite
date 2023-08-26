@@ -83,7 +83,7 @@ function MyDetails() {
             </span>
           </label>
 
-          <FileInput.Root className="flex items-start gap-5">
+          <FileInput.Root id="photo" className="flex items-start gap-5">
             <FileInput.ImagePreview />
             <FileInput.Trigger>
               SVG, PNG, JPG or GIF (max. 800x400px)
@@ -152,7 +152,9 @@ function MyDetails() {
             </span>
           </label>
 
-          <div></div>
+          <Input.Root>
+            <Input.Control id="bio" defaultValue="Born in Brazil" />
+          </Input.Root>
         </div>
 
         {/* ---- Portfolio projects ---- */}
@@ -167,13 +169,14 @@ function MyDetails() {
             </span>
           </label>
 
-          <FileInput.Root>
+          <FileInput.Root id="projects">
             <FileInput.Trigger />
             <FileInput.Control multiple />
             <FileInput.FileList />
           </FileInput.Root>
         </div>
 
+        {/* ---- Action buttons ---- */}
         <div className="flex items-center justify-end gap-2 py-5">
           <div className="flex justify-end gap-3">
             <button
