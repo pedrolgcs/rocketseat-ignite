@@ -112,7 +112,7 @@ function MyDetails() {
             Country
           </label>
 
-          {/* <CountrySelect /> */}
+          <CountrySelect />
           <div></div>
         </div>
 
