@@ -14,7 +14,7 @@ function TabItem({ value, title, isSelected }: TabItemProps) {
   return (
     <RadixTabs.Trigger
       value={value}
-      className="relative px-1 pb-4 text-sm font-medium text-zinc-500 transition hover:text-violet-700 data-[state=active]:text-violet-700"
+      className="relative px-1 pb-4 text-sm font-medium text-zinc-500 transition data-[state=active]:text-violet-700 hover:text-violet-700"
     >
       <span className="">{title}</span>
 
