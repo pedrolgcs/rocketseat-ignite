@@ -2,14 +2,12 @@
 
 import * as React from 'react'
 
-type ItemPrefixProps = {
+type ItemPrefixProps = React.ComponentProps<'div'> & {
   children: React.ReactNode
 }
 
 function ItemPrefix({ children }: ItemPrefixProps) {
-  return (
-    <div className="flex h-4 w-5 items-center justify-center">{children}</div>
-  )
+  return <div className="flex items-center justify-center">{children}</div>
 }
 
 export { ItemPrefix }

@@ -104,7 +104,7 @@ function MyDetails() {
         </div>
 
         {/* ---- Country ---- */}
-        <div className="grid grid-cols-form gap-3 py-5">
+        {/* <div className="grid grid-cols-form gap-3 py-5">
           <label
             htmlFor="country"
             className="text-sm font-medium text-zinc-700"
@@ -113,8 +113,7 @@ function MyDetails() {
           </label>
 
           <CountrySelect />
-          <div></div>
-        </div>
+        </div> */}
 
         {/* ---- Timezone ---- */}
         <div className="grid grid-cols-form gap-3 py-5">
