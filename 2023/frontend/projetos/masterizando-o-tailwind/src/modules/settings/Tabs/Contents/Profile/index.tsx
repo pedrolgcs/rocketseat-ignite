@@ -2,17 +2,10 @@ import * as React from 'react'
 import { useForm, Controller } from 'react-hook-form'
 import Flag from 'react-world-flags'
 import { Select } from '@/components/ui'
-import { countries } from '@/utils/countries'
+import { countriesSelectOptions } from '@/utils/countries'
 
 function Profile() {
   const { control, handleSubmit } = useForm()
-
-  const selectOptions = React.useMemo(() => {
-    return Object.entries(countries).map(([key, value]) => ({
-      value: key,
-      label: value,
-    }))
-  }, [])
 
   const onSubmit = (data: any) => console.log(data)
 
@@ -34,7 +27,7 @@ function Profile() {
               </Select.Trigger>
 
               <Select.Content>
-                {selectOptions.map(({ value, label }) => (
+                {countriesSelectOptions.map(({ value, label }) => (
                   <Select.Item key={value} value={value}>
                     <Select.ItemText>
                       <Select.ItemPrefix>

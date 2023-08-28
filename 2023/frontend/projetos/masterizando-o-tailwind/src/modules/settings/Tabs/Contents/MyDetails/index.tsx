@@ -1,7 +1,9 @@
 import * as React from 'react'
-import { IconFlag, IconMail } from '@tabler/icons-react'
-import { CountrySelect } from '@/components/structure'
+import { IconMail, IconWorld } from '@tabler/icons-react'
+import Flag from 'react-world-flags'
 import { Input, FileInput, Select } from '@/components/ui'
+import { countriesSelectOptions } from '@/utils/countries'
+import { timezonesSelectOptions } from '@/utils/timezones'
 
 function MyDetails() {
   return (
@@ -104,7 +106,7 @@ function MyDetails() {
         </div>
 
         {/* ---- Country ---- */}
-        {/* <div className="grid grid-cols-form gap-3 py-5">
+        <div className="grid grid-cols-form gap-3 py-5">
           <label
             htmlFor="country"
             className="text-sm font-medium text-zinc-700"
@@ -112,8 +114,29 @@ function MyDetails() {
             Country
           </label>
 
-          <CountrySelect />
-        </div> */}
+          <Select.Root name="country" autoComplete="country">
+            <Select.Trigger id="country">
+              <Select.Value placeholder="Select an option" />
+            </Select.Trigger>
+
+            <Select.Content>
+              {countriesSelectOptions.map(({ value, label }) => (
+                <Select.Item key={value} value={value}>
+                  <Select.ItemText>
+                    <Select.ItemPrefix>
+                      <Flag
+                        code={value}
+                        className="h-5 w-5 rounded-full object-cover object-center"
+                      />
+                    </Select.ItemPrefix>
+
+                    {label}
+                  </Select.ItemText>
+                </Select.Item>
+              ))}
+            </Select.Content>
+          </Select.Root>
+        </div>
 
         {/* ---- Timezone ---- */}
         <div className="grid grid-cols-form gap-3 py-5">
@@ -130,23 +153,17 @@ function MyDetails() {
             </Select.Trigger>
 
             <Select.Content>
-              <Select.Item value="America/Sao_Paulo">
-                <Select.ItemText>
-                  <Select.ItemPrefix>
-                    <IconFlag />
-                  </Select.ItemPrefix>
-                  America / Sao Paulo
-                </Select.ItemText>
-              </Select.Item>
-
-              <Select.Item value="Europe/London">
-                <Select.ItemText>
-                  <Select.ItemPrefix>
-                    <IconFlag />
-                  </Select.ItemPrefix>
-                  Europe / London
-                </Select.ItemText>
-              </Select.Item>
+              {timezonesSelectOptions.map(({ value, label }) => (
+                <Select.Item key={value} value={value}>
+                  <Select.ItemText>
+                    <Select.ItemPrefix>
+                      <IconWorld className="h-5 w-5" stroke={1} />
+                    </Select.ItemPrefix>
+                    {label.name}
+                    <Select.ItemSuffix>{label.utc}</Select.ItemSuffix>
+                  </Select.ItemText>
+                </Select.Item>
+              ))}
             </Select.Content>
           </Select.Root>
         </div>

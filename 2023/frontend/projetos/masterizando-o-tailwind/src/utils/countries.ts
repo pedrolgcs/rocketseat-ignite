@@ -250,9 +250,6 @@ const countries = {
   AX: 'Åland Islands',
 }
 
-// Country names object using 3-letter country codes to reference country name
-// ISO 3166 Alpha-3 Format: [3 letter Country Code]: [Country Name]
-// Sorted alphabetical by country name (special characters on bottom)
 const countryListAlpha3 = {
   AFG: 'Afghanistan',
   ALB: 'Albania',
@@ -505,4 +502,11 @@ const countryListAlpha3 = {
   ALA: 'Åland Islands',
 }
 
-export { countries, countryListAlpha3 }
+const countriesSelectOptions = Object.entries(countries).map(([code, name]) => {
+  return {
+    label: name,
+    value: code,
+  }
+})
+
+export { countries, countryListAlpha3, countriesSelectOptions }
