@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { IconMail, IconWorld } from '@tabler/icons-react'
 import Flag from 'react-world-flags'
-import { Input, FileInput, Select } from '@/components/ui'
+import { Input, FileInput, Select, TextEditor } from '@/components/ui'
 import { countriesSelectOptions } from '@/utils/countries'
 import { timezonesSelectOptions } from '@/utils/timezones'
 
@@ -177,9 +177,7 @@ function MyDetails() {
             </span>
           </label>
 
-          <Input.Root>
-            <Input.Control id="bio" defaultValue="Born in Brazil" />
-          </Input.Root>
+          <TextEditor />
         </div>
 
         {/* ---- Portfolio projects ---- */}
