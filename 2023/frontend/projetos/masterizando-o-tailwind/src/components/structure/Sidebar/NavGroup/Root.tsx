@@ -12,7 +12,7 @@ function Root({ title, icon: Icon, children }: RootProps) {
   return (
     <Accordion.Item
       value={title}
-      className="group flex flex-col rounded data-[state=open]:shadow-md"
+      className="group flex flex-col rounded data-[state=open]:border data-[state=open]:border-zinc-200"
     >
       <Accordion.Header>
         <Accordion.Trigger className="flex w-full items-center gap-3 px-3 py-2 hover:bg-violet-50">
