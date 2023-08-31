@@ -1,6 +1,7 @@
 'use client'
 
 import * as React from 'react'
+import { useAutoAnimate } from '@formkit/auto-animate/react'
 import { IconCloudUpload, IconTrash } from '@tabler/icons-react'
 import { formatBytes } from '@/utils/format-bytes'
 import { useFileInput } from './Root'
@@ -8,12 +9,14 @@ import { useFileInput } from './Root'
 function FileList() {
   const { files, onRemoveFile } = useFileInput()
 
+  const [parent] = useAutoAnimate()
+
   const handleRemoveFile = (file: File) => {
     onRemoveFile(file)
   }
 
   return (
-    <div className="mt-4 space-y-3">
+    <div ref={parent} className="mt-4 space-y-3">
       {files.map((file) => (
         <div
           key={file.name}
