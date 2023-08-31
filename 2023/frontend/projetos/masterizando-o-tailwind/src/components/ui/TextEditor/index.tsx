@@ -67,7 +67,7 @@ const TextEditor = ({
     editorProps: {
       attributes: {
         class:
-          'rounded-lg border border-zinc-300 px-4 py-3 font-normal text-zinc-900 outline-none max-h-48',
+          'rounded-lg border border-zinc-300 px-4 py-3 font-normal text-zinc-900 outline-none',
       },
     },
   })
