@@ -177,7 +177,10 @@ function MyDetails() {
             </span>
           </label>
 
-          <TextEditor />
+          <TextEditor
+            name="bio"
+            defaultContent="I'm a Product Designer based in Melbourne, Australia. I specialise in UX/UI design, brand strategy, and Webflow development."
+          />
         </div>
 
         {/* ---- Portfolio projects ---- */}

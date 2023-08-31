@@ -9,20 +9,38 @@ import {
   IconListNumbers,
   IconUnderline,
 } from '@tabler/icons-react'
+import { Editor } from '@tiptap/core'
 import BulletList from '@tiptap/extension-bullet-list'
 import Link from '@tiptap/extension-link'
 import ListItem from '@tiptap/extension-list-item'
 import OrderedList from '@tiptap/extension-ordered-list'
 import Underline from '@tiptap/extension-underline'
-import { useEditor, EditorContent } from '@tiptap/react'
+import { useEditor, EditorContent, Content } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
 
 type TextEditorProps = {
-  onValueChange: (value: string) => void
+  name: string
+  onChangeContent?: (value: string) => void
+  defaultContent?: Content
 }
 
-const TextEditor = ({ onValueChange }: TextEditorProps) => {
+const TextEditor = ({
+  name,
+  defaultContent,
+  onChangeContent,
+}: TextEditorProps) => {
+  const handleChangeTextEditorContent = (editor: Editor) => {
+    if (onChangeContent) onChangeContent(editor.getHTML())
+  }
+
   const editor = useEditor({
+    onCreate: ({ editor }) => {
+      handleChangeTextEditorContent(editor)
+    },
+    onUpdate: ({ editor }) => {
+      handleChangeTextEditorContent(editor)
+    },
+    content: defaultContent,
     extensions: [
       StarterKit,
       ListItem,
@@ -46,8 +64,6 @@ const TextEditor = ({ onValueChange }: TextEditorProps) => {
       }),
       Underline,
     ],
-    content:
-      "I'm a Product Designer based in Melbourne, Australia. I specialise in UX/UI design, brand strategy, and Webflow development.",
     editorProps: {
       attributes: {
         class:
@@ -132,7 +148,7 @@ const TextEditor = ({ onValueChange }: TextEditorProps) => {
         </button>
       </div>
 
-      <EditorContent editor={editor} />
+      <EditorContent editor={editor} name={name} />
     </div>
   )
 }

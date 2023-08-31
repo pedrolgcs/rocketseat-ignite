@@ -1,8 +1,6 @@
 import * as React from 'react'
 import { useForm, Controller } from 'react-hook-form'
-import Flag from 'react-world-flags'
-import { Select } from '@/components/ui'
-import { countriesSelectOptions } from '@/utils/countries'
+import { TextEditor } from '@/components/ui'
 
 function Profile() {
   const { control, handleSubmit } = useForm()
@@ -13,39 +11,16 @@ function Profile() {
     <div className="mt-8">
       <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-2">
         <Controller
-          name="country"
+          name="bio"
           control={control}
-          render={({ field: { onChange, value, name } }) => (
-            <Select.Root
-              onValueChange={onChange}
-              value={value}
+          render={({ field: { name, onChange } }) => (
+            <TextEditor
               name={name}
-              autoComplete="country"
-            >
-              <Select.Trigger>
-                <Select.Value placeholder="Select an option" />
-              </Select.Trigger>
-
-              <Select.Content>
-                {countriesSelectOptions.map(({ value, label }) => (
-                  <Select.Item key={value} value={value}>
-                    <Select.ItemText>
-                      <Select.ItemPrefix>
-                        <Flag
-                          code={value}
-                          className="h-5 w-5 rounded-full object-cover object-center"
-                        />
-                      </Select.ItemPrefix>
-
-                      {label}
-                    </Select.ItemText>
-                  </Select.Item>
-                ))}
-              </Select.Content>
-            </Select.Root>
+              onChangeContent={onChange}
+              defaultContent="I'm a Product Designer based in Melbourne, Australia. I specialise in UX/UI design, brand strategy, and Webflow development."
+            />
           )}
         />
-
         <button type="submit">cadastrar</button>
       </form>
     </div>
