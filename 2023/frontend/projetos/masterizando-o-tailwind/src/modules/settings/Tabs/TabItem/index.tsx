@@ -14,9 +14,11 @@ function TabItem({ value, title, isSelected }: TabItemProps) {
   return (
     <RadixTabs.Trigger
       value={value}
-      className="relative px-1 pb-4 text-sm font-medium text-zinc-500 transition data-[state=active]:text-violet-700 hover:text-violet-700"
+      className="group relative px-1 pb-4 text-sm font-medium text-zinc-500 outline-none transition data-[state=active]:text-violet-700 hover:text-violet-700"
     >
-      <span className="">{title}</span>
+      <span className="rounded group-focus-visible:ring-2 group-focus-visible:ring-violet-400 group-focus-visible:ring-offset-4">
+        {title}
+      </span>
 
       {isSelected && (
         <motion.div

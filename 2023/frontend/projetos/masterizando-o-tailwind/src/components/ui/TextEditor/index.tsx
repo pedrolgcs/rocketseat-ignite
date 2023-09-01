@@ -67,7 +67,7 @@ const TextEditor = ({
     editorProps: {
       attributes: {
         class:
-          'rounded-lg border border-zinc-300 px-4 py-3 font-normal text-zinc-900 outline-none',
+          'rounded-lg border border-zinc-300 px-4 py-3 font-normal text-zinc-900 outline-none focus-within:border-violet-300 focus-within:ring-2 focus-within:ring-violet-100',
       },
     },
   })
@@ -97,7 +97,7 @@ const TextEditor = ({
   }
 
   return (
-    <div className="gap- flex flex-col">
+    <div className="flex flex-col gap-2">
       <div className="flex items-center gap-1">
         <button
           type="button"
