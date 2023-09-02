@@ -3,6 +3,7 @@
 import * as React from 'react'
 import { useAutoAnimate } from '@formkit/auto-animate/react'
 import { IconCloudUpload, IconTrash } from '@tabler/icons-react'
+import { Button } from '@/components/ui'
 import { formatBytes } from '@/utils/format-bytes'
 import { useFileInput } from './Root'
 
@@ -31,24 +32,15 @@ function FileList() {
               <span className="font-medium text-zinc-700">{file.name}</span>
               <span className="text-zinc-500">{formatBytes(file.size)}</span>
             </div>
-
-            {/* Progress bar */}
-            {/* <div className="flex w-full items-center gap-3">
-              <div className="h-2 flex-1 rounded-full bg-zinc-100">
-                <div className="h-2 w-4/5 rounded-full bg-violet-600" />
-              </div>
-
-              <span className="text-sm font-medium text-zinc-700">80%</span>
-            </div> */}
           </div>
 
-          <button
+          <Button
             type="button"
-            className="rounded-md p-2 hover:bg-zinc-50"
+            variant="ghost"
             onClick={() => handleRemoveFile(file)}
           >
             <IconTrash className="h-5 w-5 text-zinc-500" />
-          </button>
+          </Button>
         </div>
       ))}
     </div>

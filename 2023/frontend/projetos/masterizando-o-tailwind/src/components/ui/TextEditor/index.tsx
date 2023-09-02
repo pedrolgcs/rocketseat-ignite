@@ -17,6 +17,7 @@ import OrderedList from '@tiptap/extension-ordered-list'
 import Underline from '@tiptap/extension-underline'
 import { useEditor, EditorContent, Content } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
+import { Button } from '@/components/ui'
 
 type TextEditorProps = {
   name: string
@@ -97,55 +98,51 @@ const TextEditor = ({
   }
 
   return (
-    <div className="flex flex-col gap-2">
+    <div className="flex flex-col gap-1">
       <div className="flex items-center gap-1">
-        <button
+        <Button
           type="button"
-          className="flex items-center justify-center rounded-md p-2 transition hover:bg-zinc-100"
+          variant="ghost"
           onClick={() => editor.chain().focus().toggleBold().run()}
         >
           <IconBold className="h-5 w-5 text-zinc-400" />
-        </button>
+        </Button>
 
-        <button
+        <Button
           type="button"
-          className="flex h-8 w-8 items-center justify-center rounded-md transition hover:bg-zinc-100"
+          variant="ghost"
           onClick={() => editor.chain().focus().toggleItalic().run()}
         >
           <IconItalic className="h-5 w-5 text-zinc-400" />
-        </button>
+        </Button>
 
-        <button
+        <Button
           type="button"
-          className="flex h-8 w-8 items-center justify-center rounded-md transition hover:bg-zinc-100"
+          variant="ghost"
           onClick={() => editor.chain().focus().toggleUnderline().run()}
         >
           <IconUnderline className="h-5 w-5 text-zinc-400" />
-        </button>
+        </Button>
 
-        <button
-          type="button"
-          className="flex h-8 w-8 items-center justify-center rounded-md transition hover:bg-zinc-100"
-          onClick={toggleLink}
-        >
+        <Button type="button" variant="ghost" onClick={toggleLink}>
           <IconLink className="h-5 w-5 text-zinc-400" />
-        </button>
+        </Button>
 
-        <button
+        <Button
           type="button"
-          className="flex h-8 w-8 items-center justify-center rounded-md transition hover:bg-zinc-100"
+          variant="ghost"
           onClick={() => editor.chain().focus().toggleBulletList().run()}
         >
           <IconList className="h-5 w-5 text-zinc-400" />
-        </button>
+        </Button>
 
-        <button
+        <Button
           type="button"
-          className="flex h-8 w-8 items-center justify-center rounded-md transition hover:bg-zinc-100"
+          variant="ghost"
           onClick={() => editor.chain().focus().toggleOrderedList().run()}
         >
           <IconListNumbers className="h-5 w-5 text-zinc-400" />
-        </button>
+        </Button>
       </div>
 
       <EditorContent editor={editor} name={name} />

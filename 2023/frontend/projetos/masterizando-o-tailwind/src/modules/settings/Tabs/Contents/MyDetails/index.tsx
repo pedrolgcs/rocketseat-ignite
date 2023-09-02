@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { IconMail, IconWorld } from '@tabler/icons-react'
 import Flag from 'react-world-flags'
-import { Input, FileInput, Select, TextEditor } from '@/components/ui'
+import { Input, FileInput, Select, TextEditor, Button } from '@/components/ui'
 import { countriesSelectOptions } from '@/utils/countries'
 import { timezonesSelectOptions } from '@/utils/timezones'
 
@@ -17,19 +17,13 @@ function MyDetails() {
         </div>
 
         <div className="flex items-center gap-2">
-          <button
-            type="button"
-            className="rounded-lg border border-zinc-300 px-4 py-2 text-sm font-semibold text-zinc-700 shadow-sm hover:bg-zinc-50"
-          >
+          <Button variant="outline" type="button">
             Cancel
-          </button>
-          <button
-            type="submit"
-            className="rounded-lg bg-violet-600 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-violet-700"
-            form="settings-form"
-          >
+          </Button>
+
+          <Button type="submit" form="settings-form">
             Save
-          </button>
+          </Button>
         </div>
       </div>
 
@@ -205,20 +199,13 @@ function MyDetails() {
         {/* ---- Action buttons ---- */}
         <div className="flex items-center justify-end gap-2 py-5">
           <div className="flex justify-end gap-3">
-            <button
-              type="button"
-              className="rounded-lg border border-zinc-300 px-4 py-2 text-sm font-semibold text-zinc-700 shadow-sm hover:bg-zinc-50"
-            >
+            <Button type="button" variant="outline">
               Cancel
-            </button>
+            </Button>
 
-            <button
-              type="submit"
-              className="rounded-lg bg-violet-600 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-violet-700"
-              form="settings-form"
-            >
+            <Button type="submit" form="settings-form">
               Save
-            </button>
+            </Button>
           </div>
         </div>
       </form>
