@@ -1,4 +1,5 @@
 import * as React from 'react'
+import Link from 'next/link'
 
 type NavItemProps = {
   href: string
@@ -8,7 +9,7 @@ type NavItemProps = {
 
 function NavItem({ href, icon: Icon, children }: NavItemProps) {
   return (
-    <a
+    <Link
       href={href}
       className="group flex items-center gap-3 rounded px-3 py-2 transition hover:bg-violet-50"
     >
@@ -17,7 +18,7 @@ function NavItem({ href, icon: Icon, children }: NavItemProps) {
       <span className="font-medium text-zinc-700 transition group-hover:text-violet-500">
         {children}
       </span>
-    </a>
+    </Link>
   )
 }
 

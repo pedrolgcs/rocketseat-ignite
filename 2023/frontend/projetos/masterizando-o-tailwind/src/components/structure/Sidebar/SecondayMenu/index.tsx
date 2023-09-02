@@ -14,7 +14,7 @@ function SecondaryMenu() {
         </NavItem>
 
         <NavGroup.Root title="Setting" icon={IconSettingsCog}>
-          <NavGroup.Item href="#">Account</NavGroup.Item>
+          <NavGroup.Item href="/settings">Account</NavGroup.Item>
           <NavGroup.Item href="#">Payments</NavGroup.Item>
         </NavGroup.Root>
       </nav>

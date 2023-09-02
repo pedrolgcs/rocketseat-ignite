@@ -1,4 +1,5 @@
 import * as React from 'react'
+import Link from 'next/link'
 
 type ItemProps = {
   children: React.ReactNode
@@ -7,12 +8,12 @@ type ItemProps = {
 
 function Item({ href, children }: ItemProps) {
   return (
-    <a
+    <Link
       href={href}
       className="block px-3 py-2 font-medium text-zinc-600 transition hover:bg-zinc-100 hover:text-zinc-800"
     >
       {children}
-    </a>
+    </Link>
   )
 }
 
