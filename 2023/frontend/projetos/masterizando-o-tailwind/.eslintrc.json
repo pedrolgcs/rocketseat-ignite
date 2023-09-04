@@ -1,8 +1,10 @@
 {
   "extends": [
     "@rocketseat/eslint-config/next",
-    "next/core-web-vitals"
+    "next/core-web-vitals",
+    "plugin:tailwindcss/recommended"
   ],
+  "root": true,
   "plugins": ["eslint-plugin-import-helpers"],
   "rules": {
     "no-case-declarations": "off",
