@@ -5,7 +5,7 @@ import { TextEditor } from '@/components/ui'
 function Profile() {
   const { control, handleSubmit } = useForm()
 
-  const onSubmit = (data: any) => console.log(data)
+  const onSubmit = (data: unknown) => console.log(data)
 
   return (
     <div className="mt-8">

@@ -23,7 +23,7 @@ function TabItem({ value, title, isSelected }: TabItemProps) {
       {isSelected && (
         <motion.div
           layoutId="active-tab"
-          className="absolute -bottom-px left-0 right-0 h-0.5 rounded-md bg-violet-700"
+          className="absolute inset-x-0 -bottom-px h-0.5 rounded-md bg-violet-700"
         />
       )}
     </RadixTabs.Trigger>

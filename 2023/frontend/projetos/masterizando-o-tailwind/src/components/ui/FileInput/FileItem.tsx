@@ -21,7 +21,7 @@ const fileItem = tv({
         container: 'border-violet-500',
       },
       error: {
-        container: 'bg-error-25 border-error-300',
+        container: 'border-error-300 bg-error-25',
         icon: 'border-error-50 bg-error-100 text-error-600',
         deleteButton: 'text-error-500 hover:text-error-700',
       },

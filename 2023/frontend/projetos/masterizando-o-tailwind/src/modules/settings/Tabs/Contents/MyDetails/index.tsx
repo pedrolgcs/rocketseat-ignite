@@ -7,7 +7,7 @@ import { timezonesSelectOptions } from '@/utils/timezones'
 
 function MyDetails() {
   return (
-    <div className="flex flex-col gap-6 ">
+    <div className="flex flex-col gap-6">
       <div className="flex items-center justify-between">
         <div className="space-y-1">
           <h2 className="text-lg font-medium text-zinc-900">Personal Info</h2>
