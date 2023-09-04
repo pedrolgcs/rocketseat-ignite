@@ -13,7 +13,7 @@ function Content({ children, ...props }: ContentProps) {
         sideOffset={8}
         side="bottom"
         position="popper"
-        className="animate-slideDownAndFade group z-10 w-[var(--radix-select-trigger-width)] rounded-lg border border-zinc-200 bg-white will-change-[opacity,transform]"
+        className="group z-10 w-[var(--radix-select-trigger-width)] animate-slideDownAndFade rounded-lg border border-zinc-200 bg-white will-change-[opacity,transform]"
       >
         <Select.Viewport className="max-h-72">{children}</Select.Viewport>
       </Select.Content>
