@@ -3,6 +3,7 @@
 import * as Collapsible from '@radix-ui/react-collapsible'
 import { IconMenu2, IconSearch } from '@tabler/icons-react'
 import { Button, Input, Logo } from '@/components/ui'
+import { cn } from '@/lib/tw-merge'
 import { MainMenu } from './MainMenu'
 import { Profile } from './Profile'
 import { SecondaryMenu } from './SecondayMenu'
@@ -10,7 +11,13 @@ import { UsedSpaceWidget } from './UsedSpaceWidget'
 
 function Sidebar() {
   return (
-    <Collapsible.Root className="z-20 flex flex-col gap-6 border border-zinc-200 bg-white p-4 lg:fixed lg:inset-x-0 lg:right-auto lg:top-0 lg:w-80 lg:border-r lg:px-5 lg:py-8 lg:data-[state=closed]:bottom-0 lg:data-[state=open]:bottom-0">
+    <Collapsible.Root
+      className={cn(
+        'z-20 flex flex-col gap-6 border border-zinc-200 bg-white p-4',
+        'lg:fixed lg:inset-x-0 lg:right-auto lg:top-0 lg:w-80 lg:border-r lg:px-5 lg:py-8 lg:data-[state=closed]:bottom-0 lg:data-[state=open]:bottom-0',
+        'dark:border-zinc-800 dark:bg-zinc-900',
+      )}
+    >
       <div className="flex items-center justify-between">
         <Logo />
 
@@ -40,7 +47,7 @@ function Sidebar() {
 
           <UsedSpaceWidget />
 
-          <div className="h-px bg-zinc-200" />
+          <div className={cn('h-px bg-zinc-200', 'dark:bg-zinc-700')} />
 
           <Profile />
         </div>

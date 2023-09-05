@@ -8,6 +8,7 @@ function Control(props: ControlProps, ref: React.Ref<HTMLInputElement>) {
     <input
       className={cn(
         'w-full border-0 bg-transparent p-0 text-zinc-900 placeholder-zinc-600 outline-none',
+        'dark:text-zinc-100 dark:placeholder-zinc-400',
         props.className,
       )}
       ref={ref}

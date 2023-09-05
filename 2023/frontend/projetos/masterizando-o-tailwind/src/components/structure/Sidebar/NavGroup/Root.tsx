@@ -1,6 +1,7 @@
 import * as React from 'react'
 import * as Accordion from '@radix-ui/react-accordion'
 import { IconChevronDown } from '@tabler/icons-react'
+import { cn } from '@/lib/tw-merge'
 
 type RootProps = React.ComponentProps<'div'> & {
   children: React.ReactNode
@@ -12,17 +13,37 @@ function Root({ title, icon: Icon, children }: RootProps) {
   return (
     <Accordion.Item
       value={title}
-      className="group flex flex-col rounded data-[state=open]:border data-[state=open]:border-zinc-200"
+      className={cn(
+        'group flex flex-col rounded data-[state=open]:border data-[state=open]:border-zinc-200',
+        'dark:data-[state=open]:border-zinc-700',
+      )}
     >
       <Accordion.Header>
-        <Accordion.Trigger className="flex w-full items-center gap-3 px-3 py-2 hover:bg-violet-50">
-          {Icon && <Icon className="h-5 w-5 text-zinc-500" />}
+        <Accordion.Trigger
+          className={cn(
+            'flex w-full items-center gap-3 px-3 py-2 hover:bg-violet-50',
+            'dark:hover:bg-zinc-800',
+          )}
+        >
+          {Icon && (
+            <Icon
+              className={cn(
+                'h-5 w-5 text-zinc-500',
+                'dark: text-zinc-100 dark:group-hover:text-violet-300',
+              )}
+            />
+          )}
 
-          <span className="font-medium text-zinc-700 transition group-hover:text-violet-500">
+          <span
+            className={cn(
+              'font-medium text-zinc-700 transition group-hover:text-violet-500',
+              'dark:text-zinc-100 dark:group-hover:text-violet-300',
+            )}
+          >
             {title}
           </span>
 
-          <IconChevronDown className="ml-auto h-5 w-5 text-zinc-400 transition group-hover:text-violet-300 group-data-[state=open]:-rotate-180" />
+          <IconChevronDown className="ml-auto h-5 w-5 text-zinc-500 transition group-hover:text-violet-300 group-data-[state=open]:-rotate-180" />
         </Accordion.Trigger>
       </Accordion.Header>
 

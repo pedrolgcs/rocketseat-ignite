@@ -1,5 +1,6 @@
 import * as React from 'react'
 import { tv, VariantProps } from 'tailwind-variants'
+import { cn } from '@/lib/tw-merge'
 
 const button = tv({
   base: [
@@ -11,7 +12,10 @@ const button = tv({
   variants: {
     variant: {
       primary: 'bg-violet-600 text-white hover:bg-violet-700',
-      ghost: 'rounded-md px-2 text-zinc-500 shadow-none hover:bg-zinc-50',
+      ghost: cn(
+        'rounded-md px-2 text-zinc-500 shadow-none hover:bg-zinc-50',
+        'dark:text-zinc-400 dark:hover:bg-zinc-800',
+      ),
       outline: 'border border-zinc-300 text-zinc-700 hover:bg-zinc-50',
     },
   },

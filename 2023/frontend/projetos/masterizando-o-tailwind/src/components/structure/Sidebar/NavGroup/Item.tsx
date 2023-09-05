@@ -2,13 +2,20 @@ import * as React from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { tv } from 'tailwind-variants'
+import { cn } from '@/lib/tw-merge'
 
 const item = tv({
-  base: 'block px-3 py-2 font-medium text-zinc-600 transition hover:bg-zinc-100 hover:text-zinc-800',
+  base: cn(
+    'block px-3 py-2 font-medium text-zinc-600 transition hover:bg-zinc-100 hover:text-zinc-800',
+    'dark: text-zinc-200 dark:hover:bg-zinc-800 dark:hover:text-violet-300',
+  ),
 
   variants: {
     variant: {
-      active: 'text-violet-500 hover:text-violet-700',
+      active: cn(
+        'text-violet-500 hover:text-violet-700',
+        'dark:text-violet-400 dark:hover:text-violet-300',
+      ),
     },
   },
 })
