@@ -27,6 +27,17 @@
           "ignoreCase": true
         }
       }
+    ],
+    "tailwindcss/classnames-order": [
+      1,
+      {
+        "callees": [
+          "classNames",
+          "clsx",
+          "cn",
+          "cva"
+        ]
+      }
     ]
   }
 }
