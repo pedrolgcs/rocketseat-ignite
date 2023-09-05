@@ -1,7 +1,7 @@
 'use client'
 
 import * as Collapsible from '@radix-ui/react-collapsible'
-import { IconMenu, IconSearch } from '@tabler/icons-react'
+import { IconMenu2, IconSearch } from '@tabler/icons-react'
 import { Button, Input, Logo } from '@/components/ui'
 import { MainMenu } from './MainMenu'
 import { Profile } from './Profile'
@@ -16,7 +16,7 @@ function Sidebar() {
 
         <Collapsible.Trigger asChild className="lg:hidden">
           <Button variant="ghost">
-            <IconMenu className="h-6 w-6" />
+            <IconMenu2 className="h-6 w-6" />
           </Button>
         </Collapsible.Trigger>
       </div>
