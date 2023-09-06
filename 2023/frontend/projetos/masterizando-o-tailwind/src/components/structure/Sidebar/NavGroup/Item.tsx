@@ -6,8 +6,8 @@ import { cn } from '@/lib/tw-merge'
 
 const item = tv({
   base: cn(
-    'block px-3 py-2 font-medium text-zinc-600 transition hover:bg-zinc-100 hover:text-zinc-800',
-    'dark: text-zinc-200 dark:hover:bg-zinc-800 dark:hover:text-violet-300',
+    'block px-3 py-2 font-medium text-zinc-500 transition hover:bg-zinc-100 hover:text-zinc-700',
+    'dark:text-zinc-200 dark:hover:bg-zinc-800 dark:hover:text-violet-300',
   ),
 
   variants: {

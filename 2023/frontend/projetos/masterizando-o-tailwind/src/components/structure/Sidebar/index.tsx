@@ -2,6 +2,7 @@
 
 import * as Collapsible from '@radix-ui/react-collapsible'
 import { IconMenu2, IconSearch } from '@tabler/icons-react'
+import { ThemeSwitcher } from '@/components/structure'
 import { Button, Input, Logo } from '@/components/ui'
 import { cn } from '@/lib/tw-merge'
 import { MainMenu } from './MainMenu'
@@ -20,6 +21,8 @@ function Sidebar() {
     >
       <div className="flex items-center justify-between">
         <Logo />
+
+        <ThemeSwitcher />
 
         <Collapsible.Trigger asChild className="lg:hidden">
           <Button variant="ghost">

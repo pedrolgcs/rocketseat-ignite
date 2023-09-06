@@ -29,7 +29,7 @@ function Root({ title, icon: Icon, children }: RootProps) {
             <Icon
               className={cn(
                 'h-5 w-5 text-zinc-500',
-                'dark: text-zinc-100 dark:group-hover:text-violet-300',
+                'dark:text-zinc-100 dark:group-hover:text-violet-300',
               )}
             />
           )}

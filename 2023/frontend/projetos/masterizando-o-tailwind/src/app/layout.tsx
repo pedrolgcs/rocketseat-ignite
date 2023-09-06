@@ -3,6 +3,7 @@ import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import { Sidebar } from '@/components/structure'
 import { cn } from '@/lib/tw-merge'
+import { ThemeProvider } from './theme-providers'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -17,20 +18,22 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="pt-br" className="antialiased">
-      <body className={inter.className}>
-        <div
-          className={cn(
-            'min-h-screen text-zinc-900 lg:grid lg:grid-cols-app',
-            'dark:bg-zinc-900 dark:text-zinc-100',
-          )}
-        >
-          <Sidebar />
+    <html lang="pt-br" className="antialiased" suppressHydrationWarning>
+      <body className={`${inter.className} duration-200`}>
+        <ThemeProvider attribute="class" defaultTheme="system">
+          <div
+            className={cn(
+              'min-h-screen text-zinc-900 lg:grid lg:grid-cols-app',
+              'dark:bg-zinc-900 dark:text-zinc-100',
+            )}
+          >
+            <Sidebar />
 
-          <main className="max-w-[100vw] p-4 lg:col-start-2 lg:px-8 lg:pb-12 lg:pt-8">
-            {children}
-          </main>
-        </div>
+            <main className="max-w-[100vw] p-4 lg:col-start-2 lg:px-8 lg:pb-12 lg:pt-8">
+              {children}
+            </main>
+          </div>
+        </ThemeProvider>
       </body>
     </html>
   )
