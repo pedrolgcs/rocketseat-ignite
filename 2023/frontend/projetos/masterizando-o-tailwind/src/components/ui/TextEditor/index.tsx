@@ -18,6 +18,7 @@ import Underline from '@tiptap/extension-underline'
 import { useEditor, EditorContent, Content } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
 import { Button } from '@/components/ui'
+import { cn } from '@/lib/tw-merge'
 
 type TextEditorProps = {
   name: string
@@ -67,8 +68,10 @@ const TextEditor = ({
     ],
     editorProps: {
       attributes: {
-        class:
+        class: cn(
           'rounded-lg border border-zinc-300 px-4 py-3 font-normal text-zinc-900 outline-none focus-within:border-violet-300 focus-within:ring-2 focus-within:ring-violet-100',
+          'dark:border-zinc-700 dark:bg-zinc-800 dark:text-zinc-100 dark:placeholder:text-zinc-400 dark:focus-within:border-violet-500 dark:focus-within:ring-violet-500/20',
+        ),
       },
     },
   })

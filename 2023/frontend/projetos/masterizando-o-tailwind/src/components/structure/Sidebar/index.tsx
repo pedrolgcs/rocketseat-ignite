@@ -15,7 +15,7 @@ function Sidebar() {
       className={cn(
         'z-20 flex flex-col gap-6 border border-zinc-200 bg-white p-4',
         'lg:fixed lg:inset-x-0 lg:right-auto lg:top-0 lg:w-80 lg:border-r lg:px-5 lg:py-8 lg:data-[state=closed]:bottom-0 lg:data-[state=open]:bottom-0',
-        'dark:border-zinc-800 dark:bg-zinc-900',
+        'dark:border-zinc-700 dark:bg-zinc-900',
       )}
     >
       <div className="flex items-center justify-between">

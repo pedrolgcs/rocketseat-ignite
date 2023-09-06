@@ -2,6 +2,7 @@ import * as React from 'react'
 import { IconMail, IconWorld } from '@tabler/icons-react'
 import Flag from 'react-world-flags'
 import { Input, FileInput, Select, TextEditor, Button } from '@/components/ui'
+import { cn } from '@/lib/tw-merge'
 import { countriesSelectOptions } from '@/utils/countries'
 import { timezonesSelectOptions } from '@/utils/timezones'
 
@@ -10,8 +11,8 @@ function MyDetails() {
     <div className="flex flex-col gap-6">
       <div className="flex flex-col justify-between gap-4 lg:flex-row lg:items-center">
         <div className="space-y-1">
-          <h2 className="text-lg font-medium text-zinc-900">Personal Info</h2>
-          <span className="text-sm text-zinc-500">
+          <h2 className="text-lg font-medium">Personal Info</h2>
+          <span className={cn('text-sm text-zinc-500', 'dark:text-zinc-400')}>
             Update your photo and personal details here.
           </span>
         </div>
@@ -29,13 +30,19 @@ function MyDetails() {
 
       <form
         id="settings-form"
-        className="flex w-full flex-col divide-y divide-zinc-200 border-t border-zinc-200"
+        className={cn(
+          'flex w-full flex-col divide-y divide-zinc-200 border-t border-zinc-200',
+          'dark:divide-zinc-700 dark:border-zinc-700',
+        )}
       >
         {/* ---- Name ---- */}
         <div className="flex flex-col gap-3 py-5 lg:grid lg:grid-cols-form">
           <label
             htmlFor="firstName"
-            className="text-sm font-medium text-zinc-700"
+            className={cn(
+              'text-sm font-medium text-zinc-700',
+              'dark:text-zinc-300',
+            )}
           >
             Name
           </label>
@@ -48,7 +55,10 @@ function MyDetails() {
             <div className="flex flex-col gap-3 lg:block">
               <label
                 htmlFor="lastName"
-                className="text-sm font-medium text-zinc-700 lg:sr-only"
+                className={cn(
+                  'text-sm font-medium text-zinc-700 lg:sr-only',
+                  'dark:text-zinc-300',
+                )}
               >
                 Last name
               </label>
@@ -62,7 +72,13 @@ function MyDetails() {
 
         {/* ---- Email ---- */}
         <div className="flex flex-col gap-3 py-5 lg:grid lg:grid-cols-form">
-          <label htmlFor="email" className="text-sm font-medium text-zinc-700">
+          <label
+            htmlFor="email"
+            className={cn(
+              'text-sm font-medium text-zinc-700',
+              'dark:text-zinc-300',
+            )}
+          >
             Email address
           </label>
 
@@ -81,7 +97,13 @@ function MyDetails() {
 
         {/* ---- Photo ---- */}
         <div className="flex flex-col gap-3 py-5 lg:grid lg:grid-cols-form">
-          <label className="text-sm font-medium text-zinc-700" htmlFor="photo">
+          <label
+            className={cn(
+              'text-sm font-medium text-zinc-700',
+              'dark:text-zinc-300',
+            )}
+            htmlFor="photo"
+          >
             Your photo
             <span className="mt-0.5 block text-sm font-normal text-zinc-500">
               This will be displayed on your profile.
@@ -90,6 +112,7 @@ function MyDetails() {
 
           <FileInput.Root id="photo" className="flex items-start gap-5">
             <FileInput.ImagePreview />
+
             <FileInput.Trigger>
               SVG, PNG, JPG or GIF (max. 800x400px)
             </FileInput.Trigger>
@@ -99,7 +122,13 @@ function MyDetails() {
 
         {/* ---- Role ---- */}
         <div className="flex flex-col gap-3 py-5 lg:grid lg:grid-cols-form">
-          <label htmlFor="role" className="text-sm font-medium text-zinc-700">
+          <label
+            htmlFor="role"
+            className={cn(
+              'text-sm font-medium text-zinc-700',
+              'dark:text-zinc-300',
+            )}
+          >
             Role
           </label>
 
@@ -112,7 +141,10 @@ function MyDetails() {
         <div className="flex flex-col gap-3 py-5 lg:grid lg:grid-cols-form">
           <label
             htmlFor="country"
-            className="text-sm font-medium text-zinc-700"
+            className={cn(
+              'text-sm font-medium text-zinc-700',
+              'dark:text-zinc-300',
+            )}
           >
             Country
           </label>
@@ -145,7 +177,10 @@ function MyDetails() {
         <div className="flex flex-col gap-3 py-5 lg:grid lg:grid-cols-form">
           <label
             htmlFor="timezone"
-            className="text-sm font-medium text-zinc-700"
+            className={cn(
+              'text-sm font-medium text-zinc-700',
+              'dark:text-zinc-300',
+            )}
           >
             Timezone
           </label>
@@ -173,7 +208,13 @@ function MyDetails() {
 
         {/* ---- Bio ---- */}
         <div className="flex flex-col gap-3 py-5 lg:grid lg:grid-cols-form">
-          <label htmlFor="bio" className="text-sm font-medium text-zinc-700">
+          <label
+            htmlFor="bio"
+            className={cn(
+              'text-sm font-medium text-zinc-700',
+              'dark:text-zinc-300',
+            )}
+          >
             Bio
             <span className="mt-0.5 block text-sm font-normal text-zinc-500">
               Write a short introduction.
@@ -190,7 +231,10 @@ function MyDetails() {
         <div className="flex flex-col gap-3 py-5 lg:grid lg:grid-cols-form">
           <label
             htmlFor="projects"
-            className="text-sm font-medium text-zinc-700"
+            className={cn(
+              'text-sm font-medium text-zinc-700',
+              'dark:text-zinc-300',
+            )}
           >
             Portfolio projects
             <span className="mt-0.5 block text-sm font-normal text-zinc-500">

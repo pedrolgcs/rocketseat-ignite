@@ -3,6 +3,7 @@
 import * as React from 'react'
 import * as ScrollArea from '@radix-ui/react-scroll-area'
 import * as RadixTabs from '@radix-ui/react-tabs'
+import { cn } from '@/lib/tw-merge'
 import * as Contents from './Contents'
 import { TabContent } from './TabContent'
 import { TabItem } from './TabItem'
@@ -30,7 +31,12 @@ function Tabs() {
     >
       <ScrollArea.Root className="w-full" type="scroll">
         <ScrollArea.Viewport className="w-full overflow-x-scroll">
-          <RadixTabs.List className="mt-6 flex w-full gap-4 border-b border-zinc-200">
+          <RadixTabs.List
+            className={cn(
+              'mt-6 flex w-full gap-4 border-b border-zinc-200',
+              'dark:border-zinc-700',
+            )}
+          >
             <TabItem
               value="my-details"
               title="My details"

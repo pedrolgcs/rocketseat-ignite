@@ -5,7 +5,7 @@ type ItemSuffixProps = React.ComponentProps<'span'> & {
 }
 
 function ItemSuffix({ children }: ItemSuffixProps) {
-  return <span className="text-zinc-500">{children}</span>
+  return <span className="text-zinc-500 dark:text-zinc-400">{children}</span>
 }
 
 export { ItemSuffix }

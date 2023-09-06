@@ -2,6 +2,7 @@ import './globals.css'
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import { Sidebar } from '@/components/structure'
+import { cn } from '@/lib/tw-merge'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -18,7 +19,12 @@ export default function RootLayout({
   return (
     <html lang="pt-br" className="antialiased">
       <body className={inter.className}>
-        <div className="min-h-screen lg:grid lg:grid-cols-app">
+        <div
+          className={cn(
+            'min-h-screen text-zinc-900 lg:grid lg:grid-cols-app',
+            'dark:bg-zinc-900 dark:text-zinc-100',
+          )}
+        >
           <Sidebar />
 
           <main className="max-w-[100vw] p-4 lg:col-start-2 lg:px-8 lg:pb-12 lg:pt-8">
