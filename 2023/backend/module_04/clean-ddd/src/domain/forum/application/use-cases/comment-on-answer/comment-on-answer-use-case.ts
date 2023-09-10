@@ -1,3 +1,4 @@
+import { Either, right } from '@/core/either'
 import { UniqueEntityID } from '@/core/entities/unique-entity-id'
 import {
   AnswersRepository,
@@ -11,9 +12,12 @@ type Request = {
   content: string
 }
 
-type Response = {
-  answerComment: AnswerComment
-}
+type Response = Either<
+  null,
+  {
+    answerComment: AnswerComment
+  }
+>
 
 class CommentOnAnswerUseCase {
   constructor(
@@ -38,9 +42,9 @@ class CommentOnAnswerUseCase {
 
     await this.answerCommentsRepository.create(answerComment)
 
-    return {
+    return right({
       answerComment,
-    }
+    })
   }
 }
 

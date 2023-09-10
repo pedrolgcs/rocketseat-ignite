@@ -1,17 +1,22 @@
+import { Either, left, right } from '@/core/either'
 import {
   QuestionsRepository,
   AnswersRepository,
 } from '@/domain/forum/application/repositories'
 import { Question } from '@/domain/forum/enterprise/entities'
+import { ResourceNotFoundError, NotAllowedError } from '../_errors'
 
 type Request = {
   answerId: string
   authorId: string
 }
 
-type Response = {
-  question: Question
-}
+type Response = Either<
+  ResourceNotFoundError | NotAllowedError,
+  {
+    question: Question
+  }
+>
 
 class ChooseQuestionBestAnswerUseCase {
   constructor(
@@ -25,7 +30,7 @@ class ChooseQuestionBestAnswerUseCase {
     const answer = await this.answersRepository.findById(answerId)
 
     if (!answer) {
-      throw new Error('Answer not found')
+      return left(new ResourceNotFoundError())
     }
 
     const question = await this.questionsRepository.findById(
@@ -33,20 +38,20 @@ class ChooseQuestionBestAnswerUseCase {
     )
 
     if (!question) {
-      throw new Error('Question not found')
+      return left(new ResourceNotFoundError())
     }
 
     if (authorId !== question.authorId.toString()) {
-      throw new Error('Not allowed')
+      return left(new NotAllowedError())
     }
 
     question.bastAnswerId = answer.id
 
     await this.questionsRepository.save(question)
 
-    return {
+    return right({
       question,
-    }
+    })
   }
 }
 

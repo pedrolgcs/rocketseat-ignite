@@ -1,3 +1,4 @@
+import { Either, right } from '@/core/either'
 import { QuestionsRepository } from '@/domain/forum/application/repositories'
 import { Question } from '@/domain/forum/enterprise/entities'
 
@@ -5,9 +6,12 @@ type Request = {
   page: number
 }
 
-type Response = {
-  questions: Question[]
-}
+type Response = Either<
+  null,
+  {
+    questions: Question[]
+  }
+>
 
 class FetchRecentQuestionsUseCase {
   constructor(private questionsRepository: QuestionsRepository) {}
@@ -19,9 +23,9 @@ class FetchRecentQuestionsUseCase {
       page,
     })
 
-    return {
+    return right({
       questions,
-    }
+    })
   }
 }
 
