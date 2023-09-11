@@ -1,10 +1,11 @@
-import { Either, right } from '@/core/either'
+import { Either, left, right } from '@/core/either'
 import { UniqueEntityID } from '@/core/entities/unique-entity-id'
 import {
   AnswersRepository,
   AnswerCommentsRepository,
 } from '@/domain/forum/application/repositories'
 import { AnswerComment } from '@/domain/forum/enterprise/entities'
+import { ResourceNotFoundError } from '../_errors'
 
 type Request = {
   authorId: string
@@ -13,7 +14,7 @@ type Request = {
 }
 
 type Response = Either<
-  null,
+  ResourceNotFoundError,
   {
     answerComment: AnswerComment
   }
@@ -31,7 +32,7 @@ class CommentOnAnswerUseCase {
     const answer = await this.answersRepository.findById(answerId)
 
     if (!answer) {
-      throw new Error('Answer not found')
+      return left(new ResourceNotFoundError())
     }
 
     const answerComment = AnswerComment.create({

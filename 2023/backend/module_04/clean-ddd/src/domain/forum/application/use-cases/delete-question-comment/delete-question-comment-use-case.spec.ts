@@ -2,6 +2,7 @@ import { describe, it, expect, beforeEach } from 'vitest'
 import { UniqueEntityID } from '@/core/entities/unique-entity-id'
 import { makeQuestionComment } from '@/test/factories'
 import { InMemoryQuestionCommentsRepository } from '@/test/repositories/in-memory'
+import { NotAllowedError } from '../_errors'
 import { DeleQuestionCommentUseCase } from './delete-question-comment-use-case'
 
 let sut: DeleQuestionCommentUseCase
@@ -42,11 +43,12 @@ describe('DeleQuestionComment', () => {
 
     await inMemoryQuestionCommentsRepository.create(newQuestionComment)
 
-    await expect(
-      sut.execute({
-        authorId: 'another-author',
-        questionCommentId: 'question-comment-1',
-      }),
-    ).rejects.toBeInstanceOf(Error)
+    const result = await sut.execute({
+      authorId: 'another-author',
+      questionCommentId: 'question-comment-1',
+    })
+
+    expect(result.isLeft()).toBe(true)
+    expect(result.value).toBeInstanceOf(NotAllowedError)
   })
 })

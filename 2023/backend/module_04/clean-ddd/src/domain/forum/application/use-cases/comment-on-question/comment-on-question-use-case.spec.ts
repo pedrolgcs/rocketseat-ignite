@@ -5,6 +5,7 @@ import {
   InMemoryQuestionsRepository,
   InMemoryQuestionCommentsRepository,
 } from '@/test/repositories/in-memory'
+import { ResourceNotFoundError } from '../_errors'
 import { CommentOnQuestionUseCase } from './comment-on-question-use-case'
 
 let sut: CommentOnQuestionUseCase
@@ -39,12 +40,13 @@ describe('CommentOnQuestion', () => {
   })
 
   it('should not be able to comment on non existent question', async () => {
-    await expect(
-      sut.execute({
-        questionId: 'non-existent-question',
-        authorId: 'author-1',
-        content: 'how are you?',
-      }),
-    ).rejects.toBeInstanceOf(Error)
+    const result = await sut.execute({
+      questionId: 'non-existent-question',
+      authorId: 'author-1',
+      content: 'how are you?',
+    })
+
+    expect(result.isLeft()).toBe(true)
+    expect(result.value).toBeInstanceOf(ResourceNotFoundError)
   })
 })

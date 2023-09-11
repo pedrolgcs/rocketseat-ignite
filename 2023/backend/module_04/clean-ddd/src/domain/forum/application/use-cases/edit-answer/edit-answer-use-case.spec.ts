@@ -2,6 +2,7 @@ import { describe, it, expect, beforeEach } from 'vitest'
 import { UniqueEntityID } from '@/core/entities/unique-entity-id'
 import { makeAnswer } from '@/test/factories'
 import { InMemoryAnswersRepository } from '@/test/repositories/in-memory'
+import { NotAllowedError, ResourceNotFoundError } from '../_errors'
 import { EditAnswerUseCase } from './edit-answer-use-case'
 
 let sut: EditAnswerUseCase
@@ -46,13 +47,14 @@ describe('EditAnswer', () => {
 
     await inMemoryAnswersRepository.create(newAnswer)
 
-    await expect(
-      sut.execute({
-        authorId: 'author-1',
-        answerId: 'non-existent',
-        content: 'updated content',
-      }),
-    ).rejects.toBeInstanceOf(Error)
+    const result = await sut.execute({
+      authorId: 'author-1',
+      answerId: 'non-existent',
+      content: 'updated content',
+    })
+
+    expect(result.isLeft()).toBe(true)
+    expect(result.value).toBeInstanceOf(ResourceNotFoundError)
   })
 
   it('should not be able to edit an answer from another user', async () => {
@@ -66,12 +68,13 @@ describe('EditAnswer', () => {
 
     await inMemoryAnswersRepository.create(newAnswer)
 
-    await expect(
-      sut.execute({
-        authorId: 'another-author',
-        answerId: 'answer-1',
-        content: 'updated content',
-      }),
-    ).rejects.toBeInstanceOf(Error)
+    const result = await sut.execute({
+      authorId: 'another-author',
+      answerId: 'answer-1',
+      content: 'updated content',
+    })
+
+    expect(result.isLeft()).toBe(true)
+    expect(result.value).toBeInstanceOf(NotAllowedError)
   })
 })
