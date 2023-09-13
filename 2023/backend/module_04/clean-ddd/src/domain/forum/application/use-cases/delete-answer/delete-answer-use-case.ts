@@ -1,5 +1,8 @@
 import { Either, left, right } from '@/core/either'
-import { AnswersRepository } from '@/domain/forum/application/repositories'
+import {
+  AnswersRepository,
+  AnswerAttachmentsRepository,
+} from '@/domain/forum/application/repositories'
 import { NotAllowedError, ResourceNotFoundError } from '../_errors'
 
 type Request = {
@@ -13,7 +16,10 @@ type Response = Either<
 >
 
 class DeleteAnswerUseCase {
-  constructor(private answersRepository: AnswersRepository) {}
+  constructor(
+    private answersRepository: AnswersRepository,
+    private answerAttachmentsRepository: AnswerAttachmentsRepository,
+  ) {}
 
   public async execute(request: Request): Promise<Response> {
     const { answerId, authorId } = request
@@ -28,7 +34,10 @@ class DeleteAnswerUseCase {
       return left(new NotAllowedError())
     }
 
-    await this.answersRepository.delete(answerId)
+    await Promise.all([
+      this.answersRepository.delete(answerId),
+      this.answerAttachmentsRepository.deleteManyByAnswerId(answerId),
+    ])
 
     return right({})
   }
