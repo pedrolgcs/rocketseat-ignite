@@ -17,10 +17,11 @@ describe('DeleteQuestion', () => {
   beforeEach(() => {
     inMemoryQuestionAttachmentsRepository =
       new InMemoryQuestionAttachmentsRepository()
-    inMemoryQuestionsRepository = new InMemoryQuestionsRepository(
+    inMemoryQuestionsRepository = new InMemoryQuestionsRepository()
+    sut = new DeleteQuestionUseCase(
+      inMemoryQuestionsRepository,
       inMemoryQuestionAttachmentsRepository,
     )
-    sut = new DeleteQuestionUseCase(inMemoryQuestionsRepository)
   })
 
   it('should be able to delete an question', async () => {
