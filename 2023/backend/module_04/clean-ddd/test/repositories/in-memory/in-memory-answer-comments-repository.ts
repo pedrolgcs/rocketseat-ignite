@@ -2,9 +2,7 @@ import { PaginationParams } from '@/core/repositories/pagination-params'
 import { AnswerCommentsRepository } from '@/domain/forum/application/repositories/answer-comments-repository'
 import { AnswerComment } from '@/domain/forum/enterprise/entities'
 
-export class InMemoryAnswerCommentsRepository
-  implements AnswerCommentsRepository
-{
+class InMemoryAnswerCommentsRepository implements AnswerCommentsRepository {
   public items: AnswerComment[] = []
 
   async findById(id: string): Promise<AnswerComment | null> {
@@ -44,3 +42,5 @@ export class InMemoryAnswerCommentsRepository
     }
   }
 }
+
+export { InMemoryAnswerCommentsRepository }
