@@ -16,7 +16,7 @@ class UniqueEntityID {
   }
 
   equals(id: UniqueEntityID): boolean {
-    return id.toValue() === this.value
+    return id.toString() === this.value
   }
 }
 
