@@ -1,3 +1,4 @@
+import { DomainEvents } from '@/core/events/domain-events'
 import { PaginationParams } from '@/core/repositories/pagination-params'
 import { AnswersRepository } from '@/domain/forum/application/repositories'
 import { Answer } from '@/domain/forum/enterprise/entities'
@@ -30,6 +31,8 @@ class InMemoryAnswersRepository implements AnswersRepository {
 
   async create(answer: Answer): Promise<void> {
     this.items.push(answer)
+
+    DomainEvents.dispatchEventsForAggregate(answer.id)
   }
 
   async save(answer: Answer): Promise<void> {
@@ -37,6 +40,8 @@ class InMemoryAnswersRepository implements AnswersRepository {
 
     if (answerIndex >= 0) {
       this.items[answerIndex] = answer
+
+      DomainEvents.dispatchEventsForAggregate(answer.id)
     }
   }
 

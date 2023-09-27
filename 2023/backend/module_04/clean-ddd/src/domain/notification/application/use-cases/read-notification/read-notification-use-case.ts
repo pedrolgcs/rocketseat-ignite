@@ -25,8 +25,6 @@ class ReadNotificationUseCase {
       notificationId,
     )
 
-    console.log(notification)
-
     if (!notification) {
       return left(new ResourceNotFoundError())
     }
