@@ -1,3 +1,4 @@
+import { DomainEvents } from '@/core/events/domain-events'
 import { PaginationParams } from '@/core/repositories/pagination-params'
 import { QuestionsRepository } from '@/domain/forum/application/repositories'
 import { Question } from '@/domain/forum/enterprise/entities'
@@ -45,6 +46,8 @@ class InMemoryQuestionsRepository implements QuestionsRepository {
 
     if (questionIndex >= 0) {
       this.items[questionIndex] = question
+
+      DomainEvents.dispatchEventsForAggregate(question.id)
     }
   }
 

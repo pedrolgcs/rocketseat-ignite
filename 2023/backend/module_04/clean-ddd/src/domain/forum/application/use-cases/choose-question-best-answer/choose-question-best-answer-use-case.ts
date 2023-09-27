@@ -45,7 +45,7 @@ class ChooseQuestionBestAnswerUseCase {
       return left(new NotAllowedError())
     }
 
-    question.bastAnswerId = answer.id
+    question.bestAnswerId = answer.id
 
     await this.questionsRepository.save(question)
 
