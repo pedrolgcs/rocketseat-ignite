@@ -7,10 +7,6 @@ export interface QuestionCommentProps extends CommentProps {
 }
 
 class QuestionComment extends Comment<QuestionCommentProps> {
-  private constructor(props: QuestionCommentProps, id?: UniqueEntityID) {
-    super(props, id)
-  }
-
   static create(
     props: Optional<QuestionCommentProps, 'createdAt'>,
     id?: UniqueEntityID,

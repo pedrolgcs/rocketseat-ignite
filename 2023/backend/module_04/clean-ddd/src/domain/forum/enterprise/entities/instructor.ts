@@ -6,10 +6,6 @@ export interface InstructorProps {
 }
 
 class Instructor extends Entity<InstructorProps> {
-  private constructor(props: InstructorProps, id?: UniqueEntityID) {
-    super(props, id)
-  }
-
   static create(props: InstructorProps, id?: UniqueEntityID): Instructor {
     const instructor = new Instructor(props, id)
 

@@ -14,10 +14,6 @@ export interface AnswerProps {
 }
 
 class Answer extends AggregateRoot<AnswerProps> {
-  private constructor(props: AnswerProps, id?: UniqueEntityID) {
-    super(props, id)
-  }
-
   static create(
     props: Optional<AnswerProps, 'createdAt' | 'attachments'>,
     id?: UniqueEntityID,

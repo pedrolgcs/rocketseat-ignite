@@ -7,10 +7,6 @@ export interface QuestionAttachmentProps {
 }
 
 class QuestionAttachment extends Entity<QuestionAttachmentProps> {
-  private constructor(props: QuestionAttachmentProps, id?: UniqueEntityID) {
-    super(props, id)
-  }
-
   static create(
     props: QuestionAttachmentProps,
     id?: UniqueEntityID,

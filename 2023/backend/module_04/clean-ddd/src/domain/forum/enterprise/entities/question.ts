@@ -18,10 +18,6 @@ export interface QuestionProps {
 }
 
 class Question extends AggregateRoot<QuestionProps> {
-  private constructor(props: QuestionProps, id?: UniqueEntityID) {
-    super(props, id)
-  }
-
   static create(
     props: Optional<QuestionProps, 'attachments' | 'createdAt' | 'slug'>,
     id?: UniqueEntityID,

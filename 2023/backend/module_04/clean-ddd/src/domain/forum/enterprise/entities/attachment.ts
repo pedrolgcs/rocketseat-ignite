@@ -7,10 +7,6 @@ export interface AttachmentProps {
 }
 
 class Attachment extends Entity<AttachmentProps> {
-  private constructor(props: AttachmentProps, id?: UniqueEntityID) {
-    super(props, id)
-  }
-
   static create(props: AttachmentProps, id?: UniqueEntityID): Attachment {
     const attachment = new Attachment(props, id)
 
