@@ -1,3 +1,4 @@
+import { DomainEvents } from '@/core/events/domain-events'
 import { PaginationParams } from '@/core/repositories/pagination-params'
 import { QuestionCommentsRepository } from '@/domain/forum/application/repositories/'
 import { QuestionComment } from '@/domain/forum/enterprise/entities'
@@ -30,6 +31,8 @@ class InMemoryQuestionCommentsRepository implements QuestionCommentsRepository {
 
   async create(questionComment: QuestionComment): Promise<void> {
     this.items.push(questionComment)
+
+    DomainEvents.dispatchEventsForAggregate(questionComment.id)
   }
 
   async delete(id: string): Promise<void> {

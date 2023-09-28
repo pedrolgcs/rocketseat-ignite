@@ -1,4 +1,4 @@
-import { Entity } from '@/core/entities/entity'
+import { AggregateRoot } from '@/core/entities/aggregate-root'
 import { UniqueEntityID } from '@/core/entities/unique-entity-id'
 
 export interface CommentProps {
@@ -8,7 +8,9 @@ export interface CommentProps {
   updatedAt?: Date
 }
 
-abstract class Comment<Props extends CommentProps> extends Entity<Props> {
+abstract class Comment<
+  Props extends CommentProps,
+> extends AggregateRoot<Props> {
   private touch() {
     this.props.updatedAt = new Date()
   }
