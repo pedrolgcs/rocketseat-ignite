@@ -1,0 +1,29 @@
+{
+  "extends": ["@rocketseat/eslint-config/node"],
+  "plugins": ["eslint-plugin-import-helpers"],
+  "rules": {
+    "camelcase": "off",
+    "no-undef": "off",
+    "no-new": "off",
+    "@typescript-eslint/no-empty-function": "off",
+    "no-useless-constructor": "off",
+    "import-helpers/order-imports": [
+      "warn",
+      {
+        "newlinesBetween": "never",
+        "groups": [
+          "/^node:/",
+          "/^@nestjs/",
+          "module",
+          "/^@[a-z]/",
+          "/^@/",
+          ["parent", "sibling", "index"]
+        ],
+        "alphabetize": {
+          "order": "asc",
+          "ignoreCase": true
+        }
+      }
+    ]
+  }
+}
