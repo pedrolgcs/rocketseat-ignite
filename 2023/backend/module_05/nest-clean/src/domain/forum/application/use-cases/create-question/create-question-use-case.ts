@@ -1,9 +1,11 @@
-import { Either, right } from '@/core/either'
+import { Injectable } from '@nestjs/common'
+import { Either, left, right } from '@/core/either'
 import { UniqueEntityID } from '@/core/entities/unique-entity-id'
 import { QuestionsRepository } from '@/domain/forum/application/repositories'
 import { Question } from '@/domain/forum/enterprise/entities'
 import { QuestionAttachment } from '@/domain/forum/enterprise/entities/question-attachment'
 import { QuestionAttachmentList } from '@/domain/forum/enterprise/entities/question-attachment-list'
+import { DuplicateResourceFound } from '../_errors'
 
 type Request = {
   authorId: string
@@ -13,12 +15,13 @@ type Request = {
 }
 
 type Response = Either<
-  null,
+  DuplicateResourceFound,
   {
     question: Question
   }
 >
 
+@Injectable()
 class CreateQuestionUseCase {
   constructor(private questionsRepository: QuestionsRepository) {}
 
@@ -30,6 +33,14 @@ class CreateQuestionUseCase {
       title,
       content,
     })
+
+    const questionAlreadyExists = await this.questionsRepository.findBySlug(
+      question.slug.value,
+    )
+
+    if (questionAlreadyExists) {
+      return left(new DuplicateResourceFound())
+    }
 
     const questionAttachments = attachmentsIds.map((attachmentId) => {
       return QuestionAttachment.create({

@@ -1,10 +1,10 @@
-import crypto from 'node:crypto'
+import { randomUUID } from 'node:crypto'
 
 class UniqueEntityID {
   private value: string
 
   constructor(value?: string) {
-    this.value = value ?? crypto.randomUUID()
+    this.value = value ?? randomUUID()
   }
 
   toString(): string {
