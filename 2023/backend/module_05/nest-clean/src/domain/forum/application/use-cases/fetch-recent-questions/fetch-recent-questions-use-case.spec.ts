@@ -35,6 +35,7 @@ describe('FetchRecentQuestions', () => {
 
     const result = await sut.execute({
       page: 1,
+      perPage: 20,
     })
 
     expect(result.isRight()).toBe(true)
@@ -58,6 +59,7 @@ describe('FetchRecentQuestions', () => {
 
     const result = await sut.execute({
       page: 2,
+      perPage: 20,
     })
 
     expect(result.isRight()).toBe(true)

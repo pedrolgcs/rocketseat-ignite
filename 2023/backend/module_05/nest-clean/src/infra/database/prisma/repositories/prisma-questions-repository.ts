@@ -42,14 +42,14 @@ class PrismaQuestionsRepository implements QuestionsRepository {
   }
 
   async findManyRecent(params: PaginationParams): Promise<Question[]> {
-    const { page } = params
+    const { page, perPage } = params
 
     const questions = await this.prisma.question.findMany({
       orderBy: {
         createdAt: 'desc',
       },
-      take: 20,
-      skip: (page - 1) * 20,
+      take: perPage,
+      skip: (page - 1) * perPage,
     })
 
     const questionsToDomain = questions.map(PrismaQuestionMapper.toDomain)

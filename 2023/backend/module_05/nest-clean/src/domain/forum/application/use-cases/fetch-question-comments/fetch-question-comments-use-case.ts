@@ -5,6 +5,7 @@ import { QuestionComment } from '@/domain/forum/enterprise/entities'
 type Request = {
   questionId: string
   page: number
+  perPage: number
 }
 
 type Response = Either<
@@ -18,11 +19,12 @@ class FetchQuestionCommentsUseCase {
   constructor(private questionCommentsRepository: QuestionCommentsRepository) {}
 
   public async execute(request: Request): Promise<Response> {
-    const { questionId, page } = request
+    const { questionId, page, perPage } = request
 
     const questionComments =
       await this.questionCommentsRepository.findManyByQuestionId(questionId, {
         page,
+        perPage,
       })
 
     return right({
