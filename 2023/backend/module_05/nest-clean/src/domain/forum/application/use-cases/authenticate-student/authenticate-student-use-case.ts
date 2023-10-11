@@ -40,7 +40,7 @@ class AuthenticateStudentUseCase {
     )
 
     if (!isPasswordValid) {
-      throw new WrongCredentialsError()
+      return left(new WrongCredentialsError())
     }
 
     const accessToken = await this.encrypter.encrypt({

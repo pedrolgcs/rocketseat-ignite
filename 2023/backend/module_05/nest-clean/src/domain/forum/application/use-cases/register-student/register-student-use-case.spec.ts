@@ -28,6 +28,19 @@ describe('RegisterStudent', () => {
     expect(inMemoryStudentsRepository.items).toHaveLength(1)
   })
 
+  it('should be able to hash student upon password', async () => {
+    const result = await sut.execute({
+      name: 'John Doe',
+      email: 'johndue@me.com',
+      password: '123456',
+    })
+
+    const hashedPassword = await fakeHasher.hash('123456')
+
+    expect(result.isRight()).toBeTruthy()
+    expect(inMemoryStudentsRepository.items[0].password).toEqual(hashedPassword)
+  })
+
   it('should not be able to register a new student with same email', async () => {
     await inMemoryStudentsRepository.create(
       makeStudent({
