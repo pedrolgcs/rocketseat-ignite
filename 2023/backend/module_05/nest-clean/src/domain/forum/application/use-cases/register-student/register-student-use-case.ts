@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common'
 import { Either, left, right } from '@/core/either'
-import { HashGenerator } from '@/domain/forum/application/container/cryptography/hash-generator'
+import { HashGenerator } from '@/domain/forum/application/cryptography/hash-generator'
 import { StudentsRepository } from '@/domain/forum/application/repositories'
 import { Student } from '@/domain/forum/enterprise/entities'
 import { StudentAlreadyExistsError } from '../_errors'

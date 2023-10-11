@@ -1,0 +1,3 @@
+class PrismaAnswerMapper {}
+
+export { PrismaAnswerMapper }

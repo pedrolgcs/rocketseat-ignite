@@ -39,6 +39,7 @@ describe('FetchQuestionAnswers', () => {
     const result = await sut.execute({
       questionId: question.id.toString(),
       page: 1,
+      perPage: 20,
     })
 
     expect(result.isRight()).toBe(true)
@@ -59,6 +60,7 @@ describe('FetchQuestionAnswers', () => {
     const result = await sut.execute({
       questionId: question.id.toString(),
       page: 2,
+      perPage: 20,
     })
 
     expect(result.isRight()).toBe(true)

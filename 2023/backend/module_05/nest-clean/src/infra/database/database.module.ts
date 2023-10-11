@@ -6,6 +6,7 @@ import {
   AnswersRepository,
   AnswerCommentsRepository,
   AnswerAttachmentsRepository,
+  StudentsRepository,
 } from '@/domain/forum/application/repositories'
 import { PrismaService } from './prisma/prisma.service'
 import {
@@ -15,6 +16,7 @@ import {
   PrismaAnswerRepository,
   PrismaAnswerCommentsRepository,
   PrismaAnswerAttachmentsRepository,
+  PrismaStudentsRepository,
 } from './prisma/repositories'
 
 @Module({
@@ -44,6 +46,10 @@ import {
       provide: AnswerAttachmentsRepository,
       useClass: PrismaAnswerAttachmentsRepository,
     },
+    {
+      provide: StudentsRepository,
+      useClass: PrismaStudentsRepository,
+    },
   ],
   exports: [
     PrismaService,
@@ -53,6 +59,7 @@ import {
     AnswersRepository,
     AnswerCommentsRepository,
     AnswerAttachmentsRepository,
+    StudentsRepository,
   ],
 })
 export class DatabaseModule {}

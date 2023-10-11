@@ -1,5 +1,5 @@
 import { describe, it, expect, beforeEach } from 'vitest'
-import { FakeHasher } from '@/test/container/cryptography/fake-hasher'
+import { FakeHasher } from '@/test/cryptography/fake-hasher'
 import { makeStudent } from '@/test/factories'
 import { InMemoryStudentsRepository } from '@/test/repositories/in-memory'
 import { StudentAlreadyExistsError } from '../_errors'

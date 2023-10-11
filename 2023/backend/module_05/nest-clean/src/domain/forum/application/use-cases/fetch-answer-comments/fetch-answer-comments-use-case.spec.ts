@@ -37,6 +37,7 @@ describe('FetchAnswerComments', () => {
     const result = await sut.execute({
       answerId: 'answer-1',
       page: 1,
+      perPage: 20,
     })
 
     expect(result.isRight()).toBe(true)
@@ -55,6 +56,7 @@ describe('FetchAnswerComments', () => {
     const result = await sut.execute({
       answerId: 'answer-1',
       page: 2,
+      perPage: 20,
     })
 
     expect(result.isRight()).toBe(true)
