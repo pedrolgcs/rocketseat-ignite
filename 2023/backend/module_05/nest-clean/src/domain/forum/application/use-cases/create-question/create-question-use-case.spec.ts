@@ -1,6 +1,8 @@
 import { describe, it, expect, beforeEach } from 'vitest'
 import { UniqueEntityID } from '@/core/entities/unique-entity-id'
+import { makeQuestion } from '@/test/factories'
 import { InMemoryQuestionsRepository } from '@/test/repositories/in-memory'
+import { QuestionAlreadyExistsError } from '../_errors'
 import { CreateQuestionUseCase } from './create-question-use-case'
 
 let sut: CreateQuestionUseCase
@@ -41,5 +43,22 @@ describe('CreateQuestion', () => {
         attachmentId: new UniqueEntityID('2'),
       }),
     ])
+  })
+
+  it('should not be able to create a question with same title', async () => {
+    await inMemoryQuestionsRepository.create(
+      makeQuestion({
+        title: 'title one',
+      }),
+    )
+    const result = await sut.execute({
+      authorId: '1',
+      title: 'title one',
+      content: 'how are you?',
+      attachmentsIds: [],
+    })
+
+    expect(result.isLeft()).toBe(true)
+    expect(result.value).toBeInstanceOf(QuestionAlreadyExistsError)
   })
 })

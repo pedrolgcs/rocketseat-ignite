@@ -5,7 +5,7 @@ import { QuestionsRepository } from '@/domain/forum/application/repositories'
 import { Question } from '@/domain/forum/enterprise/entities'
 import { QuestionAttachment } from '@/domain/forum/enterprise/entities/question-attachment'
 import { QuestionAttachmentList } from '@/domain/forum/enterprise/entities/question-attachment-list'
-import { DuplicateResourceFound } from '../_errors'
+import { QuestionAlreadyExistsError } from '../_errors'
 
 type Request = {
   authorId: string
@@ -15,7 +15,7 @@ type Request = {
 }
 
 type Response = Either<
-  DuplicateResourceFound,
+  QuestionAlreadyExistsError,
   {
     question: Question
   }
@@ -39,7 +39,7 @@ class CreateQuestionUseCase {
     )
 
     if (questionAlreadyExists) {
-      return left(new DuplicateResourceFound())
+      return left(new QuestionAlreadyExistsError(question.title))
     }
 
     const questionAttachments = attachmentsIds.map((attachmentId) => {

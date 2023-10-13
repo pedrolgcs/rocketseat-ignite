@@ -1,4 +1,10 @@
-import { Controller, Get, Query, UseGuards } from '@nestjs/common'
+import {
+  BadRequestException,
+  Controller,
+  Get,
+  Query,
+  UseGuards,
+} from '@nestjs/common'
 import { z } from 'zod'
 import { FetchRecentQuestionsUseCase } from '@/domain/forum/application/use-cases'
 import { JwtAuthGuard } from '@/infra/auth/jwt-auth.guard'
@@ -26,7 +32,7 @@ class FetchRecentQuestions {
     const result = await this.fetchRecentQuestions.execute({ page, perPage })
 
     if (result.isLeft()) {
-      throw new Error()
+      throw new BadRequestException()
     }
 
     const questionToHttp = result.value.questions.map((question) =>
