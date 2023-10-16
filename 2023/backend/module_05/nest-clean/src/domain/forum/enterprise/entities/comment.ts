@@ -5,7 +5,7 @@ export interface CommentProps {
   authorId: UniqueEntityID
   content: string
   createdAt: Date
-  updatedAt?: Date
+  updatedAt?: Date | null
 }
 
 abstract class Comment<
@@ -26,6 +26,14 @@ abstract class Comment<
   set content(content: string) {
     this.props.content = content
     this.touch()
+  }
+
+  get createdAt(): Date {
+    return this.props.createdAt
+  }
+
+  get updatedAt(): Date | null | undefined {
+    return this.props.updatedAt
   }
 }
 
