@@ -3,7 +3,7 @@ import { UniqueEntityID } from '@/core/entities/unique-entity-id'
 import { QuestionComment } from '@/domain/forum/enterprise/entities'
 
 class PrismaQuestionCommentMapper {
-  static ToDomain(raw: PrismaComment): QuestionComment {
+  static toDomain(raw: PrismaComment): QuestionComment {
     if (!raw.questionId) {
       throw new Error('Invalid comment type.')
     }

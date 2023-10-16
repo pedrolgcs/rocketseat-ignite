@@ -3,7 +3,7 @@ import { UniqueEntityID } from '@/core/entities/unique-entity-id'
 import { AnswerAttachment } from '@/domain/forum/enterprise/entities'
 
 class PrismaAnswerAttachmentMapper {
-  static ToDomain(raw: PrismaAttachment): AnswerAttachment {
+  static toDomain(raw: PrismaAttachment): AnswerAttachment {
     if (!raw.answerId) {
       throw new Error('Invalid comment type.')
     }
