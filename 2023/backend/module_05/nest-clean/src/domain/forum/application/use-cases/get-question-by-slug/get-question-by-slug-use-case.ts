@@ -1,3 +1,4 @@
+import { Injectable } from '@nestjs/common'
 import { Either, left, right } from '@/core/either'
 import { QuestionsRepository } from '@/domain/forum/application/repositories'
 import { Question } from '@/domain/forum/enterprise/entities'
@@ -14,6 +15,7 @@ type Response = Either<
   }
 >
 
+@Injectable()
 class GetQuestionBySlugUseCase {
   constructor(private questionsRepository: QuestionsRepository) {}
 

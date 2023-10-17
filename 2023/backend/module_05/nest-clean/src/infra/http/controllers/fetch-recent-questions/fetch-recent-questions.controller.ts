@@ -14,7 +14,7 @@ const queryValidationPipe = new ZodValidationPipe(pageQueryParamSchema)
 type QuerySchema = z.infer<typeof pageQueryParamSchema>
 
 @Controller('/questions')
-class FetchRecentQuestions {
+class FetchRecentQuestionsController {
   constructor(private fetchRecentQuestions: FetchRecentQuestionsUseCase) {}
 
   @Get()
@@ -37,4 +37,4 @@ class FetchRecentQuestions {
   }
 }
 
-export { FetchRecentQuestions }
+export { FetchRecentQuestionsController }
