@@ -34,7 +34,7 @@ describe('GetQuestionBySlug (e2e)', () => {
 
     const accessToken = jwt.sign({ sub: user.id.toString() })
 
-    await questionFactory.makePrismaStudent({
+    await questionFactory.makePrismaQuestion({
       title: 'Question 01',
       slug: Slug.createFromText('question-01'),
       authorId: user.id,

@@ -34,11 +34,11 @@ describe('FetchRecentQuestions (e2e)', () => {
     const accessToken = jwt.sign({ sub: user.id.toString() })
 
     await Promise.all([
-      questionFactory.makePrismaStudent({
+      questionFactory.makePrismaQuestion({
         title: 'Question 01',
         authorId: user.id,
       }),
-      questionFactory.makePrismaStudent({
+      questionFactory.makePrismaQuestion({
         title: 'Question 02',
         authorId: user.id,
       }),
