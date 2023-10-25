@@ -1,4 +1,4 @@
-import { describe, it, expect, beforeEach } from 'vitest'
+import { describe, it, expect, beforeEach, vi } from 'vitest'
 import { UniqueEntityID } from '@/core/entities/unique-entity-id'
 import { makeQuestion } from '@/test/factories'
 import { InMemoryQuestionsRepository } from '@/test/repositories/in-memory'
@@ -10,6 +10,10 @@ let inMemoryQuestionsRepository: InMemoryQuestionsRepository
 
 describe('CreateQuestion', () => {
   beforeEach(() => {
+    beforeEach(() => {
+      vi.useFakeTimers()
+    })
+
     inMemoryQuestionsRepository = new InMemoryQuestionsRepository()
     sut = new CreateQuestionUseCase(inMemoryQuestionsRepository)
   })
@@ -45,12 +49,17 @@ describe('CreateQuestion', () => {
     ])
   })
 
-  it('should not be able to create a question with same title', async () => {
+  it('should not be able to create a question with same slug', async () => {
+    const now = new Date(2023, 1, 1, 0, 0, 0, 0)
+
+    vi.setSystemTime(now)
+
     await inMemoryQuestionsRepository.create(
       makeQuestion({
         title: 'title one',
       }),
     )
+
     const result = await sut.execute({
       authorId: '1',
       title: 'title one',

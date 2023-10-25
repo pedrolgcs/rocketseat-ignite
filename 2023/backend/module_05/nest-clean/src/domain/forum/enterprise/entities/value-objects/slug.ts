@@ -24,6 +24,7 @@ class Slug {
       .replace(/_/g, '-')
       .replace(/--+/g, '-')
       .replace(/-$/g, '')
+      .concat(`-${new Date().getTime().toString()}`)
 
     return new Slug(slugText)
   }

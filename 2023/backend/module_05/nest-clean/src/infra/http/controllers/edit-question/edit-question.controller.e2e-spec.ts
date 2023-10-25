@@ -3,15 +3,16 @@ import { JwtService } from '@nestjs/jwt'
 import { Test } from '@nestjs/testing'
 import request from 'supertest'
 import { beforeAll, describe, expect, test } from 'vitest'
-import { Slug } from '@/domain/forum/enterprise/entities/value-objects/slug'
 import { AppModule } from '@/infra/app.module'
 import { DatabaseModule } from '@/infra/database/database.module'
-import { QuestionFactory, StudentFactory } from '@/test/factories'
+import { PrismaService } from '@/infra/database/prisma/prisma.service'
+import { StudentFactory, QuestionFactory } from '@/test/factories'
 
-describe('GetQuestionBySlug (e2e)', () => {
+describe('EditQuestion (e2e)', () => {
   let app: INestApplication
   let studentFactory: StudentFactory
   let questionFactory: QuestionFactory
+  let prisma: PrismaService
   let jwt: JwtService
 
   beforeAll(async () => {
@@ -22,6 +23,7 @@ describe('GetQuestionBySlug (e2e)', () => {
 
     app = moduleRef.createNestApplication()
 
+    prisma = moduleRef.get(PrismaService)
     studentFactory = moduleRef.get(StudentFactory)
     questionFactory = moduleRef.get(QuestionFactory)
     jwt = moduleRef.get(JwtService)
@@ -29,25 +31,32 @@ describe('GetQuestionBySlug (e2e)', () => {
     await app.init()
   })
 
-  test('[GET] /questions/:slug', async () => {
+  test('[PUT] /questions/:id', async () => {
     const user = await studentFactory.makePrismaStudent()
 
-    const accessToken = jwt.sign({ sub: user.id.toString() })
-
-    await questionFactory.makePrismaQuestion({
+    const question = await questionFactory.makePrismaQuestion({
       title: 'Question 01',
-      slug: Slug.create('question-01'),
+      content: 'Question content',
       authorId: user.id,
     })
 
-    const response = await request(app.getHttpServer())
-      .get('/questions/question-01')
-      .set('Authorization', `Bearer ${accessToken}`)
-      .send()
+    const accessToken = jwt.sign({ sub: user.id.toString() })
 
-    expect(response.status).toEqual(200)
-    expect(response.body).toEqual({
-      question: expect.objectContaining({ title: 'Question 01' }),
+    const response = await request(app.getHttpServer())
+      .put(`/questions/${question.id.toString()}`)
+      .set('Authorization', `Bearer ${accessToken}`)
+      .send({
+        title: 'Updated title',
+        content: 'Updated content',
+      })
+
+    const questionOnDatabase = await prisma.question.findFirst({
+      where: {
+        title: 'Updated title',
+      },
     })
+
+    expect(response.status).toEqual(204)
+    expect(questionOnDatabase).toBeTruthy()
   })
 })
