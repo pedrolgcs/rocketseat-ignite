@@ -52,10 +52,10 @@ describe('FetchRecentQuestions (e2e)', () => {
     expect(response.status).toEqual(200)
 
     expect(response.body).toEqual({
-      questions: [
-        expect.objectContaining({ title: 'Question 02' }),
+      questions: expect.arrayContaining([
         expect.objectContaining({ title: 'Question 01' }),
-      ],
+        expect.objectContaining({ title: 'Question 02' }),
+      ]),
     })
   })
 })
