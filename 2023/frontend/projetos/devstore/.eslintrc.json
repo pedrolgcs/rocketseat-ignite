@@ -1,0 +1,43 @@
+{
+  "extends": [
+    "@rocketseat/eslint-config/next",
+    "next/core-web-vitals",
+    "plugin:tailwindcss/recommended"
+  ],
+  "root": true,
+  "plugins": ["eslint-plugin-import-helpers"],
+  "rules": {
+    "no-case-declarations": "off",
+    "camelcase": "off",
+    "@typescript-eslint/no-empty-function": "off",
+    "import-helpers/order-imports": [
+      "warn",
+      {
+        "newlinesBetween": "never",
+        "groups": [
+          "/^react$/",
+          "/^next/",
+          "/^@[a-zA-Z]/",
+          "module",
+          "/^@/",
+          ["parent", "sibling", "index"]
+        ],
+        "alphabetize": {
+          "order": "asc",
+          "ignoreCase": true
+        }
+      }
+    ],
+    "tailwindcss/classnames-order": [
+      1,
+      {
+        "callees": [
+          "classNames",
+          "clsx",
+          "cn",
+          "cva"
+        ]
+      }
+    ]
+  }
+}
