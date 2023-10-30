@@ -1,9 +1,9 @@
-import database from '../db.json'
+import data from '../db.json'
 
 export async function GET() {
-  const featuredProducts = database.products.find((product) => product.featured)
+  await new Promise((resolve) => setTimeout(resolve, 1000))
 
-  return Response.json({
-    products: featuredProducts,
-  })
+  const featuredProducts = data.products.filter((product) => product.featured)
+
+  return Response.json(featuredProducts)
 }
