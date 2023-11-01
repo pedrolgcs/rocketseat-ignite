@@ -17,7 +17,7 @@ async function getFeaturedProducts(): Promise<Product[]> {
   return products
 }
 
-export default async function Home() {
+export default async function HomePage() {
   const [highlightedProduct, ...otherProducts] = await getFeaturedProducts()
 
   return (
@@ -28,7 +28,7 @@ export default async function Home() {
       )}
     >
       <Link
-        href={`/products/${highlightedProduct.slug}`}
+        href={`/product/${highlightedProduct.slug}`}
         className={cn(
           'group relative flex items-end justify-center overflow-hidden rounded-lg bg-zinc-900',
           'lg:col-span-6 lg:row-span-6',
@@ -63,7 +63,7 @@ export default async function Home() {
       {otherProducts.map((product) => (
         <Link
           key={product.slug}
-          href={`/products/${product.slug}`}
+          href={`/product/${product.slug}`}
           className={cn(
             'group relative flex items-end justify-center overflow-hidden rounded-lg bg-zinc-900',
             'lg:col-span-3 lg:row-span-3',
