@@ -2,6 +2,7 @@ import Image from 'next/image'
 import { api } from '@/data/api'
 import { Product } from '@/data/types/product'
 import { cn } from '@/lib/tw-merge'
+import { ProductSizes } from './components/product-sizes'
 
 async function getProduct(slug: string): Promise<Product> {
   const response = await api(`/products/${slug}`, {
@@ -80,35 +81,7 @@ export default async function ProductPage({ params }: ProductPage) {
           <div className={cn('mt-5 space-y-4', 'lg:mt-8')}>
             <span className="block text-2xl font-semibold">Tamanhos</span>
 
-            <div className="flex gap-2">
-              <button
-                type="button"
-                className="flex h-9 w-14 items-center justify-center rounded-full border border-zinc-700 bg-zinc-800 text-sm font-semibold transition-colors duration-300 hover:border-zinc-600 hover:bg-zinc-700"
-              >
-                P
-              </button>
-
-              <button
-                type="button"
-                className="flex h-9 w-14 items-center justify-center rounded-full border border-zinc-700 bg-zinc-800 text-sm font-semibold transition-colors duration-300 hover:border-zinc-600 hover:bg-zinc-700"
-              >
-                M
-              </button>
-
-              <button
-                type="button"
-                className="flex h-9 w-14 items-center justify-center rounded-full border border-zinc-700 bg-zinc-800 text-sm font-semibold transition-colors duration-300 hover:border-zinc-600 hover:bg-zinc-700"
-              >
-                G
-              </button>
-
-              <button
-                type="button"
-                className="flex h-9 w-14 items-center justify-center rounded-full border border-zinc-700 bg-zinc-800 text-sm font-semibold duration-300 hover:border-zinc-600 hover:bg-zinc-700"
-              >
-                GG
-              </button>
-            </div>
+            <ProductSizes sizes={product.sizes} />
           </div>
         </div>
 

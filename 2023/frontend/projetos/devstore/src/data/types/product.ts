@@ -1,3 +1,9 @@
+export type Size = {
+  label: string
+  value: string
+  available: boolean
+}
+
 export type Product = {
   id: number
   title: string
@@ -6,4 +12,5 @@ export type Product = {
   image: string
   description: string
   featured: boolean
+  sizes: Array<Size>
 }
