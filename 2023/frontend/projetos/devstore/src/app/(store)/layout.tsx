@@ -1,5 +1,6 @@
 import * as React from 'react'
 import { Header } from '@/components'
+import { cn } from '@/lib/tw-merge'
 
 export default function StoreLayout({
   children,
@@ -7,7 +8,12 @@ export default function StoreLayout({
   children: React.ReactNode
 }) {
   return (
-    <div className="mx-auto grid min-h-screen w-full max-w-[1600px] grid-rows-app gap-5 p-8">
+    <div
+      className={cn(
+        'mx-auto flex min-h-screen w-full flex-col gap-5 p-5',
+        'lg:grid lg:max-w-[1600px] lg:grid-rows-app lg:p-8',
+      )}
+    >
       <Header />
       {children}
     </div>
