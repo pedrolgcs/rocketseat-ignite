@@ -5,7 +5,13 @@ import { Product } from '@/data/types/product'
 import { cn } from '@/lib/tw-merge'
 
 async function getFeaturedProducts(): Promise<Product[]> {
-  const response = await api('/products/featured')
+  const response = await api('/products/featured', {
+    cache: 'no-store',
+    next: {
+      revalidate: 60 * 60, // 1 hour
+    },
+  })
+
   const products = await response.json()
 
   return products
