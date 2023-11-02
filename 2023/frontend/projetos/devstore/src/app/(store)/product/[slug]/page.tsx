@@ -1,6 +1,7 @@
 import Image from 'next/image'
 import { api } from '@/data/api'
 import { Product } from '@/data/types/product'
+import { RequestError } from '@/data/types/request'
 import { cn } from '@/lib/tw-merge'
 import { ProductSizes } from './components/product-sizes'
 
@@ -10,6 +11,11 @@ async function getProduct(slug: string): Promise<Product> {
       revalidate: 60 * 60, // 1 hour
     },
   })
+
+  if (!response.ok) {
+    const error: RequestError = await response.json()
+    throw new Error(error.friendlyMessage)
+  }
 
   const product = await response.json()
 

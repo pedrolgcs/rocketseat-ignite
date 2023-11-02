@@ -8,9 +8,9 @@ type ErrorProps = {
   reset: () => void
 }
 
-export default function Error({ error, reset }: ErrorProps) {
+export default function Error({ error }: ErrorProps) {
   React.useEffect(() => {
-    console.error(error) // Log the error to an error reporting service
+    console.log(error.digest)
   }, [error])
 
   return (
@@ -26,15 +26,17 @@ export default function Error({ error, reset }: ErrorProps) {
         Please try again. If the error persists, please contact support.
       </p>
 
-      <button
-        className={cn(
-          'relative rounded-lg bg-emerald-500 px-4 py-2 text-2xl font-semibold text-zinc-900',
-          'transition-colors duration-300 hover:bg-emerald-600 hover:text-zinc-300',
-        )}
-        onClick={() => reset()}
-      >
-        Try again
-      </button>
+      <div className="flex items-center justify-center gap-5">
+        <button
+          className={cn(
+            'relative rounded-lg bg-zinc-900 px-4 py-2 text-xl font-bold text-zinc-300',
+            'transition-colors duration-300 hover:bg-zinc-800 hover:text-zinc-50',
+          )}
+          onClick={() => (window.location.href = '/')}
+        >
+          Back to home
+        </button>
+      </div>
     </div>
   )
 }

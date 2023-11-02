@@ -12,6 +12,10 @@ async function getFeaturedProducts(): Promise<Product[]> {
     },
   })
 
+  if (!response.ok) {
+    throw new Error(response.statusText)
+  }
+
   const products = await response.json()
 
   return products

@@ -11,7 +11,7 @@ export default function Loading() {
     >
       <Skeleton className={cn('h-[20rem]', 'lg:col-span-2 lg:h-[88vh]')} />
 
-      <Skeleton className={cn('h-[26rem]', 'lg:h-[88vh]')} />
+      <Skeleton className={cn('h-[29rem]', 'lg:h-[88vh]')} />
     </div>
   )
 }
