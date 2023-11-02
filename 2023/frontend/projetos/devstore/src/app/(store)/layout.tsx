@@ -11,7 +11,7 @@ export default function StoreLayout({
     <div
       className={cn(
         'mx-auto flex min-h-screen w-full flex-col gap-5 p-5',
-        'lg:grid lg:max-w-[1600px] lg:grid-rows-app lg:p-8',
+        'lg:max-w-[1600px] lg:p-8',
       )}
     >
       <Header />
