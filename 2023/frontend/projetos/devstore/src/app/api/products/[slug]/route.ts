@@ -9,7 +9,7 @@ type Params = {
 }
 
 export async function GET(_: Request, { params }: Params) {
-  await new Promise((resolve) => setTimeout(resolve, 1000))
+  await new Promise((resolve) => setTimeout(resolve, 2000))
 
   const slug = z.string().parse(params.slug)
 

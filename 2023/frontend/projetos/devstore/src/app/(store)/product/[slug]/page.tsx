@@ -1,27 +1,8 @@
 import { Metadata } from 'next'
 import Image from 'next/image'
 import { ProductSizes } from '@/components'
-import { api } from '@/data/api'
-import { Product } from '@/data/types/product'
-import { RequestError } from '@/data/types/request'
+import { getFeaturedProducts, getProduct } from '@/data/request/product'
 import { cn } from '@/lib/tw-merge'
-
-async function getProduct(slug: string): Promise<Product> {
-  const response = await api(`/products/${slug}`, {
-    next: {
-      revalidate: 60 * 60, // 1 hour
-    },
-  })
-
-  if (!response.ok) {
-    const error: RequestError = await response.json()
-    throw new Error(error.friendlyMessage)
-  }
-
-  const product = await response.json()
-
-  return product
-}
 
 type ProductPageProps = {
   params: {
@@ -35,9 +16,10 @@ export function generateMetadata({ params }: ProductPageProps): Metadata {
   }
 }
 
+export const dynamic = 'force-dynamic'
+
 export async function generateStaticParams() {
-  const response = await api('/products/featured')
-  const products: Array<Product> = await response.json()
+  const products = await getFeaturedProducts()
 
   return products.map((product) => ({
     slug: product.slug,
