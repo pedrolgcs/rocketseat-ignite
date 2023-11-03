@@ -21,7 +21,6 @@ export async function getProduct(slug: string): Promise<Product> {
 
 export async function getFeaturedProducts(): Promise<Product[]> {
   const response = await api('/products/featured', {
-    cache: 'no-store',
     next: {
       revalidate: 60 * 60, // 1 hour
     },
