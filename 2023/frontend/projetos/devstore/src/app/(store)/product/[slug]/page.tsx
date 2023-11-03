@@ -1,10 +1,10 @@
 import { Metadata } from 'next'
 import Image from 'next/image'
+import { ProductSizes } from '@/components'
 import { api } from '@/data/api'
 import { Product } from '@/data/types/product'
 import { RequestError } from '@/data/types/request'
 import { cn } from '@/lib/tw-merge'
-import { ProductSizes } from './components/product-sizes'
 
 async function getProduct(slug: string): Promise<Product> {
   const response = await api(`/products/${slug}`, {
@@ -29,13 +29,9 @@ type ProductPageProps = {
   }
 }
 
-export async function generateMetadata({
-  params,
-}: ProductPageProps): Promise<Metadata> {
-  const product = await getProduct(params.slug)
-
+export function generateMetadata({ params }: ProductPageProps): Metadata {
   return {
-    title: product.title,
+    title: params.slug,
   }
 }
 
