@@ -31,7 +31,7 @@ export const useCart = create<CartContext>((set, get) => {
         (item) => item.productId === productId,
       )
 
-      if (productCartIndex) {
+      if (productCartIndex >= 0) {
         items[productCartIndex].quantity++
 
         return set({
