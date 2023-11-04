@@ -1,8 +1,8 @@
 import { Metadata } from 'next'
 import Image from 'next/image'
-import { ProductSizes } from '@/components'
 import { getFeaturedProducts, getProduct } from '@/data/request/product'
 import { cn } from '@/lib/tw-merge'
+import { ProductSizes } from './components/product-sizes'
 
 type ProductPageProps = {
   params: {
