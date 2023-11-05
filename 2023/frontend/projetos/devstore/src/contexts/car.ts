@@ -1,7 +1,7 @@
 import { create } from 'zustand'
 
 type CartItem = {
-  productId: string
+  productId: number
   quantity: number
 }
 
@@ -10,7 +10,7 @@ type State = {
 }
 
 type Actions = {
-  addToCart: (productId: string) => void
+  addToCart: (productId: number) => void
   reset: () => void
 }
 
@@ -24,7 +24,7 @@ export const useCart = create<CartContext>((set, get) => {
   return {
     ...initialState,
 
-    addToCart: (productId: string) => {
+    addToCart: (productId: number) => {
       const { items } = get()
 
       const productCartIndex = items.findIndex(
