@@ -1,7 +1,6 @@
 import Image from 'next/image'
 import Link from 'next/link'
-import { Search } from 'lucide-react'
-import { cn } from '@/lib/tw-merge'
+import { SearchForm } from '.'
 import { CartWidget } from './cart-widget'
 
 export function Header() {
@@ -12,19 +11,7 @@ export function Header() {
           devstore
         </Link>
 
-        <form
-          className={cn(
-            'hidden',
-            'md:flex md:w-[320px] md:items-center md:gap-3 md:rounded-full md:bg-zinc-900 md:px-5 md:py-3 md:ring-zinc-700',
-          )}
-        >
-          <Search className="h-5 w-5 text-zinc-500" />
-
-          <input
-            placeholder="Buscar produtos..."
-            className="flex-1 bg-transparent text-sm outline-none placeholder:text-zinc-500"
-          />
-        </form>
+        <SearchForm />
       </div>
 
       <div className="flex items-center gap-4">
