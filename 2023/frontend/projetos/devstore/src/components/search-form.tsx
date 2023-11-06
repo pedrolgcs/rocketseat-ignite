@@ -1,30 +1,38 @@
 'use client'
 
 import * as React from 'react'
-import { useRouter, useSearchParams } from 'next/navigation'
+import { useRouter } from 'next/navigation'
 import { Search } from 'lucide-react'
+import { useDebounce } from 'usehooks-ts'
+import { getProducts } from '@/data/request/product'
+import { Product } from '@/data/types/product'
 import { cn } from '@/lib/tw-merge'
 
 export function SearchForm() {
+  const [q, setQ] = React.useState<string>('')
+  const [products, setProducts] = React.useState<Product[]>([])
+
   const router = useRouter()
-  const searchParams = useSearchParams()
-  const query = searchParams.get('q')
+
+  const debouncedQuery = useDebounce<string>(q, 500)
 
   function handleSearch(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault()
 
-    const formData = new FormData(event.currentTarget)
-
-    const data = Object.fromEntries(formData)
-
-    const query = data.q
-
-    if (!query) {
+    if (!q) {
       return null
     }
 
-    router.push(`/search?q=${query}`)
+    router.push(`/search?q=${q}`)
   }
+
+  React.useEffect(() => {
+    // async function execute() {
+    //   const products = await getProducts(debouncedQuery)
+    //   setProducts(products)
+    // }
+    // execute()
+  }, [debouncedQuery])
 
   return (
     <form
@@ -37,8 +45,8 @@ export function SearchForm() {
       <Search className="h-5 w-5 text-zinc-500" />
 
       <input
-        name="q"
-        defaultValue={query ?? ''}
+        value={q}
+        onChange={(event) => setQ(event.target.value)}
         placeholder="Buscar produtos..."
         className="flex-1 bg-transparent text-sm outline-none placeholder:text-zinc-500"
       />

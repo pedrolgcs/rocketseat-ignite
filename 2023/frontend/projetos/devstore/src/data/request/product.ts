@@ -34,3 +34,19 @@ export async function getFeaturedProducts(): Promise<Product[]> {
 
   return products
 }
+
+export async function getProducts(q: string): Promise<Product[]> {
+  const response = await api(`/products/search?q=${q}`, {
+    next: {
+      revalidate: 60 * 60, // 1 hour
+    },
+  })
+
+  if (!response.ok) {
+    throw new Error(response.statusText)
+  }
+
+  const products = await response.json()
+
+  return products
+}
