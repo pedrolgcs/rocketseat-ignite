@@ -12,11 +12,21 @@ const config: Config = {
         sans: 'var(--font-inter)',
       },
 
+      gridTemplateAreas: {
+        header: ['logo empty user', 'search search search'],
+        'header-wide': ['logo search user'],
+      },
+
+      gridTemplateColumns: {
+        header: 'auto 1fr',
+        'header-wide': 'auto 1fr auto',
+      },
+
       gridTemplateRows: {
         app: 'min-content max-content',
       },
     },
   },
-  plugins: [],
+  plugins: [require('@savvywombat/tailwindcss-grid-areas')],
 }
 export default config

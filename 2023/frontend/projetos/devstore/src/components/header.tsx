@@ -1,20 +1,29 @@
 import Image from 'next/image'
 import Link from 'next/link'
+import { cn } from '@/lib/tw-merge'
 import { SearchForm } from '.'
 import { CartWidget } from './cart-widget'
 
 export function Header() {
   return (
-    <div className="flex items-center justify-between">
-      <div className="flex items-center gap-5">
-        <Link href="/" className="text-2xl font-extrabold text-white">
-          devstore
-        </Link>
+    <div
+      className={cn(
+        'grid grid-cols-header items-center gap-4 grid-areas-header',
+        'lg:grid-cols-header-wide lg:grid-areas-header-wide',
+      )}
+    >
+      <Link
+        href="/"
+        className="text-2xl font-extrabold text-white grid-in-logo"
+      >
+        devstore
+      </Link>
 
+      <div className="grid-in-search">
         <SearchForm />
       </div>
 
-      <div className="flex items-center gap-4">
+      <div className="flex items-center justify-end gap-4 grid-in-user">
         <CartWidget />
 
         <div className="h-4 w-px bg-zinc-700" />

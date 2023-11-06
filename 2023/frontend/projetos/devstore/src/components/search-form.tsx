@@ -30,8 +30,8 @@ export function SearchForm() {
     <form
       onSubmit={handleSearch}
       className={cn(
-        'hidden',
-        'md:flex md:w-[320px] md:items-center md:gap-3 md:rounded-full md:bg-zinc-900 md:px-5 md:py-3 md:ring-zinc-700',
+        'flex w-full items-center gap-3 rounded-full bg-zinc-900 px-5 py-3 ring-zinc-700',
+        'lg:w-[320px]',
       )}
     >
       <Search className="h-5 w-5 text-zinc-500" />
