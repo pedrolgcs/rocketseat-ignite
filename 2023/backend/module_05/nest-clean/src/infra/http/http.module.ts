@@ -7,6 +7,7 @@ import {
   RegisterStudentUseCase,
   EditQuestionUseCase,
   DeleteQuestionUseCase,
+  AnswerQuestionUseCase,
 } from '@/domain/forum/application/use-cases'
 import { DatabaseModule } from '@/infra/database/database.module'
 import { CryptographyModule } from '../cryptography/cryptography.module'
@@ -18,6 +19,7 @@ import {
   GetQuestionBySlugController,
   EditQuestionController,
   DeleteQuestionController,
+  AnswerQuestionController,
 } from './controllers'
 
 @Module({
@@ -30,6 +32,7 @@ import {
     GetQuestionBySlugController,
     EditQuestionController,
     DeleteQuestionController,
+    AnswerQuestionController,
   ],
   providers: [
     CreateQuestionUseCase,
@@ -39,6 +42,7 @@ import {
     GetQuestionBySlugUseCase,
     EditQuestionUseCase,
     DeleteQuestionUseCase,
+    AnswerQuestionUseCase,
   ],
 })
 export class HttpModule {}
