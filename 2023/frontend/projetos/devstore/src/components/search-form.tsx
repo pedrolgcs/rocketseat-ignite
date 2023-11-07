@@ -46,6 +46,10 @@ export function SearchForm() {
         setIsLoading(false)
       })
     }
+
+    if (!debouncedQuery) {
+      setProducts([])
+    }
   }, [debouncedQuery])
 
   return (
@@ -64,11 +68,7 @@ export function SearchForm() {
             value={q}
             onChange={(event) => setQ(event.target.value)}
             placeholder="Buscar produtos..."
-            className={cn(
-              'flex-1 bg-transparent text-sm outline-none placeholder:text-zinc-500',
-              'disabled:cursor-none disabled:text-zinc-500',
-            )}
-            disabled={isLoading}
+            className="flex-1 bg-transparent text-sm outline-none placeholder:text-zinc-500"
           />
 
           {isLoading && (
