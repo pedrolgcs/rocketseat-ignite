@@ -27,6 +27,9 @@ const config: Config = {
       },
     },
   },
-  plugins: [require('@savvywombat/tailwindcss-grid-areas')],
+  plugins: [
+    require('@savvywombat/tailwindcss-grid-areas'),
+    require('tailwind-scrollbar'),
+  ],
 }
 export default config
