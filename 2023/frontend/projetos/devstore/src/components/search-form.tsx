@@ -27,11 +27,9 @@ export function SearchForm() {
   }
 
   React.useEffect(() => {
-    // async function execute() {
-    //   const products = await getProducts(debouncedQuery)
-    //   setProducts(products)
-    // }
-    // execute()
+    if (debouncedQuery) {
+      getProducts(debouncedQuery).then((data) => setProducts(data))
+    }
   }, [debouncedQuery])
 
   return (
