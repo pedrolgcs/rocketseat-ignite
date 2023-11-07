@@ -79,7 +79,12 @@ export function SearchForm() {
 
       {products.length ? (
         <HoverCard.Portal>
-          <HoverCard.Content className="flex max-h-[600px] max-w-[500px] flex-col space-y-4 divide-y divide-zinc-800 overflow-y-scroll rounded-lg bg-zinc-900 p-4 scrollbar-thin scrollbar-track-zinc-800 scrollbar-thumb-zinc-700">
+          <HoverCard.Content
+            className={cn(
+              'flex max-h-[400px] max-w-xs flex-col space-y-4 divide-y divide-zinc-800 overflow-y-scroll rounded-lg bg-zinc-900 p-4 scrollbar-thin scrollbar-track-zinc-800 scrollbar-thumb-zinc-700',
+              'lg:max-h-[600px] lg:max-w-lg',
+            )}
+          >
             {products.map((product) => (
               <Link
                 key={product.id}
@@ -101,7 +106,12 @@ export function SearchForm() {
                     {product.title}
                   </h1>
 
-                  <p className="mt-2 leading-relaxed text-zinc-400">
+                  <p
+                    className={cn(
+                      'hidden',
+                      'md:mt-2 md:flex md:leading-relaxed md:text-zinc-400',
+                    )}
+                  >
                     {product.description}
                   </p>
                 </div>
