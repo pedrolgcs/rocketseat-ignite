@@ -65,6 +65,7 @@ export function SearchForm() {
           <Search className="h-5 w-5 text-zinc-500" />
 
           <input
+            name="q"
             value={q}
             onChange={(event) => setQ(event.target.value)}
             placeholder="Buscar produtos..."
