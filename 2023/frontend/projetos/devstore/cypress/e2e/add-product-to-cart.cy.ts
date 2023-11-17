@@ -1,8 +1,9 @@
 describe('[e2e] Add product to cart', () => {
-  it('should be able to navigate to the product page and add it to the cart', () => {
-    // sut
-    cy.visit('http://localhost:3000')
+  beforeEach(() => {
+    cy.visit('/')
+  })
 
+  it('should be able to navigate to the product page and add it to the cart', () => {
     // act
     cy.get('a[href^="/product/"]').first().click()
 
@@ -17,9 +18,6 @@ describe('[e2e] Add product to cart', () => {
   })
 
   it('should not count duplicated products on cart', () => {
-    // sut
-    cy.visit('http://localhost:3000')
-
     // act
     cy.get('a[href^="/product/"]').first().click()
 
@@ -35,9 +33,6 @@ describe('[e2e] Add product to cart', () => {
   })
 
   it('should be able tos search for a product and add it to the cart', () => {
-    // sut
-    cy.visit('http://localhost:3000')
-
     // act
     cy.get('input[name=q]').type('moletom').parent('form').submit()
 
