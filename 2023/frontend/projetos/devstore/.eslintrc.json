@@ -8,6 +8,7 @@
   "plugins": ["eslint-plugin-import-helpers"],
   "rules": {
     "no-case-declarations": "off",
+    "@typescript-eslint/no-namespace": "off",
     "camelcase": "off",
     "@typescript-eslint/no-empty-function": "off",
     "import-helpers/order-imports": [

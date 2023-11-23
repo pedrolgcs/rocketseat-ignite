@@ -1,9 +1,6 @@
 describe('[e2e] Search products', () => {
   it('should be able to search products', () => {
-    cy.visit('/')
-
-    // act
-    cy.get('input[name=q]').type('moletom').parent('form').submit()
+    cy.searchByQuery('moletom')
 
     // assert
     cy.location('pathname').should('include', '/search')
