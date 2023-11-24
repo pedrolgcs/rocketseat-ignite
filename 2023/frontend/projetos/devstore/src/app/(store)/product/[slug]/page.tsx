@@ -2,6 +2,7 @@ import { Metadata } from 'next'
 import Image from 'next/image'
 import { AddToCartButton } from '@/components'
 import { getFeaturedProducts, getProduct } from '@/data/request/product'
+import { Size } from '@/data/types/product'
 import { cn } from '@/lib/tw-merge'
 import { ProductSizes } from './components/product-sizes'
 
@@ -28,6 +29,29 @@ export async function generateStaticParams() {
 }
 
 export default async function ProductPage({ params }: ProductPageProps) {
+  const MOCK_SIZES: Array<Size> = [
+    {
+      label: 'P',
+      value: 'p',
+      available: true,
+    },
+    {
+      label: 'M',
+      value: 'm',
+      available: true,
+    },
+    {
+      label: 'G',
+      value: 'g',
+      available: false,
+    },
+    {
+      label: 'XS',
+      value: 'xs',
+      available: true,
+    },
+  ]
+
   const product = await getProduct(params.slug)
 
   return (
@@ -86,7 +110,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
           <div className={cn('mt-5 space-y-4', 'lg:mt-8')}>
             <span className="block text-2xl font-semibold">Tamanhos</span>
 
-            <ProductSizes sizes={product.sizes} />
+            <ProductSizes sizes={MOCK_SIZES} />
           </div>
         </div>
 

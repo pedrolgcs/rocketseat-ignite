@@ -10,7 +10,7 @@ export const metadata: Metadata = {
     template: '%s | devstore',
     default: 'devstore',
   },
-  metadataBase: new URL(env.NEXT_PUBLIC_APP_URL),
+  metadataBase: new URL(env.APP_URL),
 }
 
 export default function RootLayout({

@@ -12,5 +12,4 @@ export type Product = {
   image: string
   description: string
   featured: boolean
-  sizes: Array<Size>
 }

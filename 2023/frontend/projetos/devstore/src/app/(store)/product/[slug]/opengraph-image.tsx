@@ -25,10 +25,7 @@ type ImageProps = {
 export default async function OgImage({ params }: ImageProps) {
   const product = await getProduct(params.slug)
 
-  const productImageUrl = new URL(
-    product.image,
-    env.NEXT_PUBLIC_APP_URL,
-  ).toString()
+  const productImageUrl = new URL(product.image, env.APP_URL).toString()
 
   return new ImageResponse(
     (
