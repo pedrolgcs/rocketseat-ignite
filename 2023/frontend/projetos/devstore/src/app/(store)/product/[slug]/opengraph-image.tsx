@@ -1,4 +1,3 @@
-import Image from 'next/image'
 import { ImageResponse } from 'next/og'
 import colors from 'tailwindcss/colors'
 import { getProduct } from '@/data/request/product'
