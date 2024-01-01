@@ -42,7 +42,12 @@ export function AccountMenu() {
           <span>Perfil da loja</span>
         </DropdownMenuItem>
 
-        <DropdownMenuItem className={cn('text-rose-500', 'dark:text-rose-400')}>
+        <DropdownMenuItem
+          className={cn(
+            'text-rose-500 data-[highlighted]:text-rose-400',
+            'dark:text-rose-400 dark:data-[highlighted]:text-rose-300',
+          )}
+        >
           <LogOut className="mr-2 h-4 w-4" />
           <span>Sair</span>
         </DropdownMenuItem>
