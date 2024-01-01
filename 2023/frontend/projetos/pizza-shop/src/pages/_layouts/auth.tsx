@@ -5,7 +5,12 @@ import { cn } from '@/lib/utils'
 
 export function AuthLayout() {
   return (
-    <div className={cn('grid min-h-screen grid-cols-1', 'lg:grid-cols-2')}>
+    <div
+      className={cn(
+        'grid min-h-screen grid-cols-1 antialiased',
+        'lg:grid-cols-2',
+      )}
+    >
       <div
         className={cn(
           'hidden',
