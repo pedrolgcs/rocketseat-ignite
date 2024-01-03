@@ -8,10 +8,11 @@ import {
 
 import { OrderFilters } from './order-filters'
 import { OrderRow } from './order-row'
+import { OrdersPagination } from './orders-pagination'
 
 export function OrdersTable() {
   return (
-    <div className="space-y-2.5">
+    <div className="flex flex-col gap-4">
       <OrderFilters />
 
       <div className="rounded-md border">
@@ -36,6 +37,8 @@ export function OrdersTable() {
           </TableBody>
         </Table>
       </div>
+
+      <OrdersPagination totalCount={105} pageIndex={0} perPage={10} />
     </div>
   )
 }
