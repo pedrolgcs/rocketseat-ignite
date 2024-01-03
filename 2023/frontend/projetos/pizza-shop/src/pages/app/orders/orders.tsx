@@ -2,7 +2,7 @@ import { Helmet } from 'react-helmet-async'
 
 import { OrdersTable } from '@/features/orders-table'
 
-export function Orders() {
+export function OrdersPage() {
   return (
     <>
       <Helmet title="Pedidos" />

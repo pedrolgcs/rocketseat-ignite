@@ -26,7 +26,7 @@ const signInFormSchema = z.object({
 
 type SignInForm = z.infer<typeof signInFormSchema>
 
-export function SignIn() {
+export function SignInPage() {
   const { toast } = useToast()
 
   const form = useForm<SignInForm>({

@@ -33,7 +33,7 @@ const signUpFormSchema = z.object({
 
 type SignUpForm = z.infer<typeof signUpFormSchema>
 
-export function SignUp() {
+export function SignUpPage() {
   const navigate = useNavigate()
 
   const { toast } = useToast()
