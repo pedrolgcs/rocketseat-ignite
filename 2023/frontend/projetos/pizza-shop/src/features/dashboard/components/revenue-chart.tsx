@@ -94,7 +94,7 @@ export function RevenueChart() {
               tickFormatter={(value: number) => formatCurrency(value)}
             />
 
-            <CartesianGrid vertical={false} className="stroke-muted" />
+            <CartesianGrid className="stroke-muted" />
 
             <Line
               type="linear"
