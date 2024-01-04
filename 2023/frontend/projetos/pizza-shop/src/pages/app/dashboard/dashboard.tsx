@@ -1,6 +1,6 @@
 import { Helmet } from 'react-helmet-async'
 
-import { Dashboard } from '@/features/dashboard'
+import { Dashboard } from '@/features/analytics'
 
 export function DashboardPage() {
   return (
