@@ -1,6 +1,7 @@
 import { createBrowserRouter } from 'react-router-dom'
 
 import { AppLayout, AuthLayout } from './pages/_layouts'
+import { NotFoundPage } from './pages/404'
 import { DashboardPage } from './pages/app/dashboard/dashboard'
 import { OrdersPage } from './pages/app/orders/orders'
 import { SignInPage } from './pages/auth/sign-in'
@@ -34,5 +35,9 @@ export const router = createBrowserRouter([
         element: <SignUpPage />,
       },
     ],
+  },
+  {
+    path: '*',
+    element: <NotFoundPage />,
   },
 ])
