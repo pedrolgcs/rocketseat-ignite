@@ -20,6 +20,46 @@ const COLORS = [
   colors.rose[500],
 ]
 
+type RenderLabelParams = {
+  cx: number
+  cy: number
+  midAngle: number
+  innerRadius: number
+  outerRadius: number
+  value: number
+  index: number
+}
+
+const renderLabel = ({
+  cx,
+  cy,
+  midAngle,
+  innerRadius,
+  outerRadius,
+  value,
+  index,
+}: RenderLabelParams) => {
+  const RADIAN = Math.PI / 180
+  const radius = 12 + innerRadius + (outerRadius - innerRadius)
+  const x = cx + radius * Math.cos(-midAngle * RADIAN)
+  const y = cy + radius * Math.sin(-midAngle * RADIAN)
+
+  return (
+    <text
+      x={x}
+      y={y}
+      className="fill-muted-foreground text-xs"
+      textAnchor={x > cx ? 'start' : 'end'}
+      dominantBaseline="central"
+    >
+      {data[index].product.length > 12
+        ? data[index].product.substring(0, 12).concat('...')
+        : data[index].product}{' '}
+      ({value})
+    </text>
+  )
+}
+
 export function PopularProductsChart() {
   return (
     <Card className="col-span-3">
@@ -45,35 +85,7 @@ export function PopularProductsChart() {
               innerRadius={64}
               strokeWidth={8}
               labelLine={false}
-              label={({
-                cx,
-                cy,
-                midAngle,
-                innerRadius,
-                outerRadius,
-                value,
-                index,
-              }) => {
-                const RADIAN = Math.PI / 180
-                const radius = 12 + innerRadius + (outerRadius - innerRadius)
-                const x = cx + radius * Math.cos(-midAngle * RADIAN)
-                const y = cy + radius * Math.sin(-midAngle * RADIAN)
-
-                return (
-                  <text
-                    x={x}
-                    y={y}
-                    className="fill-muted-foreground text-xs"
-                    textAnchor={x > cx ? 'start' : 'end'}
-                    dominantBaseline="central"
-                  >
-                    {data[index].product.length > 12
-                      ? data[index].product.substring(0, 12).concat('...')
-                      : data[index].product}{' '}
-                    ({value})
-                  </text>
-                )
-              }}
+              label={renderLabel}
             >
               {data.map((_, index) => (
                 <Cell
