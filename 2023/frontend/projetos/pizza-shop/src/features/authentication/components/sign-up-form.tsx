@@ -1,6 +1,7 @@
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import { Link, useNavigate } from 'react-router-dom'
+import { toast } from 'sonner'
 import { z } from 'zod'
 
 import { Button } from '@/components/ui/button'
@@ -13,8 +14,6 @@ import {
   FormMessage,
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
-import { ToastAction } from '@/components/ui/toast'
-import { useToast } from '@/components/ui/use-toast'
 
 const signUpFormSchema = z.object({
   restaurantName: z
@@ -34,8 +33,6 @@ type SignUpForm = z.infer<typeof signUpFormSchema>
 export function SignUpForm() {
   const navigate = useNavigate()
 
-  const { toast } = useToast()
-
   const form = useForm<SignUpForm>({
     resolver: zodResolver(signUpFormSchema),
     defaultValues: {
@@ -47,17 +44,18 @@ export function SignUpForm() {
   })
 
   const handleSignUp = async (data: SignUpForm) => {
-    await new Promise((resolve) => setTimeout(resolve, 2000))
+    try {
+      await new Promise((resolve) => setTimeout(resolve, 2000))
 
-    toast({
-      title: 'Sucesso!',
-      description: 'Restaurante cadastrado com sucesso.',
-      action: (
-        <ToastAction altText="Login" onClick={() => navigate('/sign-in')}>
-          Login
-        </ToastAction>
-      ),
-    })
+      toast.success('Restaurante cadastrado com sucesso!', {
+        action: {
+          label: 'Login',
+          onClick: () => navigate(`/sign-in?email=${data.email}`),
+        },
+      })
+    } catch (error) {
+      toast.error('Erro ao cadastrar restaurante.')
+    }
   }
 
   return (

@@ -1,6 +1,7 @@
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import { Link } from 'react-router-dom'
+import { toast } from 'sonner'
 import { z } from 'zod'
 
 import { Button } from '@/components/ui/button'
@@ -13,8 +14,6 @@ import {
   FormMessage,
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
-import { ToastAction } from '@/components/ui/toast'
-import { useToast } from '@/components/ui/use-toast'
 
 const signInFormSchema = z.object({
   email: z
@@ -25,8 +24,6 @@ const signInFormSchema = z.object({
 type SignInForm = z.infer<typeof signInFormSchema>
 
 export function SignInForm() {
-  const { toast } = useToast()
-
   const form = useForm<SignInForm>({
     resolver: zodResolver(signInFormSchema),
     defaultValues: {
@@ -37,17 +34,13 @@ export function SignInForm() {
   const handleSignIn = async (data: SignInForm) => {
     await new Promise((resolve) => setTimeout(resolve, 2000))
 
-    toast({
-      title: 'Email enviado',
-      description: 'Enviamos um link de autenticação para seu e-mail.',
-      action: (
-        <ToastAction
-          altText="Reenviar"
-          onClick={form.handleSubmit(handleSignIn)}
-        >
-          Reenviar
-        </ToastAction>
-      ),
+    toast.success('Enviamos um link de autenticação para seu e-mail.', {
+      action: {
+        label: 'Reenviar',
+        onClick: () => {
+          handleSignIn(data)
+        },
+      },
     })
   }
 
