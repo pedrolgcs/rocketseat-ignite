@@ -15,6 +15,8 @@ import {
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 
+import { useRegisterRestaurantMutation } from '../hooks/useRegisterRestaurantMutation.ts'
+
 const signUpFormSchema = z.object({
   restaurantName: z
     .string({ required_error: 'Nome obrigatório' })
@@ -33,6 +35,8 @@ type SignUpForm = z.infer<typeof signUpFormSchema>
 export function SignUpForm() {
   const navigate = useNavigate()
 
+  const { mutateAsync: registerRestaurant } = useRegisterRestaurantMutation()
+
   const form = useForm<SignUpForm>({
     resolver: zodResolver(signUpFormSchema),
     defaultValues: {
@@ -45,7 +49,12 @@ export function SignUpForm() {
 
   const handleSignUp = async (data: SignUpForm) => {
     try {
-      await new Promise((resolve) => setTimeout(resolve, 2000))
+      await registerRestaurant({
+        restaurantName: data.restaurantName,
+        managerName: data.managerName,
+        email: data.email,
+        phone: data.phone,
+      })
 
       toast.success('Restaurante cadastrado com sucesso!', {
         action: {
