@@ -1,6 +1,6 @@
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link, useNavigate, useSearchParams } from 'react-router-dom'
 import { toast } from 'sonner'
 import { z } from 'zod'
 
@@ -35,6 +35,8 @@ type SignUpForm = z.infer<typeof signUpFormSchema>
 export function SignUpForm() {
   const navigate = useNavigate()
 
+  const [searchParams] = useSearchParams()
+
   const { mutateAsync: registerRestaurant } = useRegisterRestaurantMutation()
 
   const form = useForm<SignUpForm>({
@@ -42,7 +44,7 @@ export function SignUpForm() {
     defaultValues: {
       managerName: '',
       restaurantName: '',
-      email: '',
+      email: searchParams.get('email') ?? '',
       phone: '',
     },
   })

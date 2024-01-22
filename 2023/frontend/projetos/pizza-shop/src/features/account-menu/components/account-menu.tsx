@@ -1,38 +1,25 @@
-import { Building, ChevronDown, LogOut } from 'lucide-react'
+import { Building, LogOut } from 'lucide-react'
 
-import { cn } from '@/lib/utils'
-
-import { Button } from './ui/button'
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from './ui/dropdown-menu'
+} from '@/components/ui/dropdown-menu'
+import { cn } from '@/lib/utils'
+
+import { AccountTrigger } from './account-trigger'
+import { Profile } from './profile'
 
 export function AccountMenu() {
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger asChild>
-        <Button
-          variant="outline"
-          className={cn('group flex select-none items-center gap-2')}
-        >
-          Pizza Shop
-          <ChevronDown
-            className={cn('transition', 'group-data-[state=open]:-rotate-180')}
-          />
-        </Button>
-      </DropdownMenuTrigger>
+      <AccountTrigger />
 
       <DropdownMenuContent align="end" className="w-56">
-        <DropdownMenuLabel className="flex flex-col">
-          <span>Pedro H.</span>
-          <span className="text-xs font-normal text-muted-foreground">
-            pedro.lg.cs@gmail.com
-          </span>
+        <DropdownMenuLabel>
+          <Profile />
         </DropdownMenuLabel>
 
         <DropdownMenuSeparator />

@@ -1,6 +1,6 @@
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
-import { Link, useSearchParams } from 'react-router-dom'
+import { Link, useNavigate, useSearchParams } from 'react-router-dom'
 import { toast } from 'sonner'
 import { z } from 'zod'
 
@@ -26,6 +26,8 @@ const signInFormSchema = z.object({
 type SignInForm = z.infer<typeof signInFormSchema>
 
 export function SignInForm() {
+  const navigate = useNavigate()
+
   const [searchParams] = useSearchParams()
 
   const { mutateAsync: authenticate } = useSignInMutation()
@@ -38,16 +40,25 @@ export function SignInForm() {
   })
 
   const handleSignIn = async (data: SignInForm) => {
-    await authenticate({ email: data.email })
+    try {
+      await authenticate({ email: data.email })
 
-    toast.success('Enviamos um link de autenticação para seu e-mail.', {
-      action: {
-        label: 'Reenviar',
-        onClick: () => {
-          handleSignIn(data)
+      toast.success('Enviamos um link de autenticação para seu e-mail.', {
+        action: {
+          label: 'Reenviar',
+          onClick: () => {
+            handleSignIn(data)
+          },
         },
-      },
-    })
+      })
+    } catch (error) {
+      toast.error('Email inválido ou inexistente.', {
+        action: {
+          label: 'Novo cadastro',
+          onClick: () => navigate(`/sign-up?email=${data.email}`),
+        },
+      })
+    }
   }
 
   return (
