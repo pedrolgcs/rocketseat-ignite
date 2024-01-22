@@ -15,6 +15,8 @@ import {
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 
+import { useSignInMutation } from '../hooks/useSignInMutation'
+
 const signInFormSchema = z.object({
   email: z
     .string({ required_error: 'Email obrigatório' })
@@ -24,6 +26,8 @@ const signInFormSchema = z.object({
 type SignInForm = z.infer<typeof signInFormSchema>
 
 export function SignInForm() {
+  const { mutateAsync: authenticate } = useSignInMutation()
+
   const form = useForm<SignInForm>({
     resolver: zodResolver(signInFormSchema),
     defaultValues: {
@@ -32,7 +36,7 @@ export function SignInForm() {
   })
 
   const handleSignIn = async (data: SignInForm) => {
-    await new Promise((resolve) => setTimeout(resolve, 2000))
+    await authenticate({ email: data.email })
 
     toast.success('Enviamos um link de autenticação para seu e-mail.', {
       action: {
