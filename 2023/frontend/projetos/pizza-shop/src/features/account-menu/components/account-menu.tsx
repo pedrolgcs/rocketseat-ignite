@@ -1,4 +1,4 @@
-import { Building, LogOut } from 'lucide-react'
+import { LogOut } from 'lucide-react'
 
 import {
   DropdownMenu,
@@ -11,6 +11,7 @@ import { cn } from '@/lib/utils'
 
 import { AccountTrigger } from './account-trigger'
 import { Profile } from './profile'
+import { UserInfo } from './user-info'
 
 export function AccountMenu() {
   return (
@@ -19,14 +20,13 @@ export function AccountMenu() {
 
       <DropdownMenuContent align="end" className="w-56">
         <DropdownMenuLabel>
-          <Profile />
+          <UserInfo />
         </DropdownMenuLabel>
 
         <DropdownMenuSeparator />
 
         <DropdownMenuItem>
-          <Building className="mr-2 h-4 w-4" />
-          <span>Perfil da loja</span>
+          <Profile />
         </DropdownMenuItem>
 
         <DropdownMenuItem

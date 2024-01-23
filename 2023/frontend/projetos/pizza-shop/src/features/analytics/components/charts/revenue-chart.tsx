@@ -10,7 +10,6 @@ import {
 } from 'recharts'
 import colors from 'tailwindcss/colors'
 
-import { useTheme } from '@/components/theme/theme-provider'
 import {
   Card,
   CardContent,
@@ -18,6 +17,7 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card'
+import { useTheme } from '@/features/theme'
 import { formatCurrency } from '@/utils/formatCurrency'
 
 const data = [

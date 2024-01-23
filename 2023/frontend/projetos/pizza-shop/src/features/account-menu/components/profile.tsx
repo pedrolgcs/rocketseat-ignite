@@ -1,29 +1,10 @@
-import { Skeleton } from '@/components/ui/skeleton'
-import { useProfileQuery } from '@/hooks/useProfileQuery'
-
-function SkeletonView() {
-  return (
-    <div className="space-y-1.5">
-      <Skeleton className="h-4 w-32" />
-      <Skeleton className="h-3 w-24" />
-      <Skeleton />
-    </div>
-  )
-}
+import { Building } from 'lucide-react'
 
 export function Profile() {
-  const { data: profile, isLoading: isLoadingProfile } = useProfileQuery()
-
-  if (isLoadingProfile) {
-    return <SkeletonView />
-  }
-
   return (
-    <div className="flex flex-col">
-      <span>{profile?.name}</span>
-      <span className="text-xs font-normal text-muted-foreground">
-        {profile?.email}
-      </span>
+    <div className="flex items-center">
+      <Building className="mr-2 h-4 w-4" />
+      <span>Perfil da loja</span>
     </div>
   )
 }
