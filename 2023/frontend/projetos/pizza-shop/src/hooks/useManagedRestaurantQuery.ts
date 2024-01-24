@@ -8,5 +8,6 @@ export const useManagedRestaurantQuery = () => {
   return useQuery({
     queryKey: [USE_MANAGED_RESTAURANT_QUERY_KEY],
     queryFn: getManagedRestaurant,
+    staleTime: Infinity,
   })
 }

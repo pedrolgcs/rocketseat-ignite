@@ -11,7 +11,7 @@ function SkeletonView() {
   )
 }
 
-export function UserInfo() {
+export function UserResume() {
   const { data: profile, isLoading: isLoadingProfile } = useProfileQuery()
 
   if (isLoadingProfile) {
