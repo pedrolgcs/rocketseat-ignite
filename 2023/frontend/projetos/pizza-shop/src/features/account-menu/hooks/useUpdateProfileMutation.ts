@@ -10,22 +10,30 @@ export const useUpdateProfileMutation = () => {
 
   return useMutation({
     mutationFn: updateProfile,
-    onSuccess(_, variables) {
+    onMutate(variables) {
       const { name, description } = variables
       const cached = queryClient.getQueryData<GetManagedRestaurantResponse>([
         USE_MANAGED_RESTAURANT_QUERY_KEY,
       ])
-
-      if (!cached) return
-
-      queryClient.setQueryData<GetManagedRestaurantResponse>(
-        [USE_MANAGED_RESTAURANT_QUERY_KEY],
-        {
-          ...cached,
-          name,
-          description,
-        },
-      )
+      if (cached) {
+        queryClient.setQueryData<GetManagedRestaurantResponse>(
+          [USE_MANAGED_RESTAURANT_QUERY_KEY],
+          {
+            ...cached,
+            name,
+            description,
+          },
+        )
+      }
+      return { previousProfile: cached }
+    },
+    onError(_, __, context) {
+      if (context?.previousProfile) {
+        queryClient.setQueryData<GetManagedRestaurantResponse>(
+          [USE_MANAGED_RESTAURANT_QUERY_KEY],
+          context.previousProfile,
+        )
+      }
     },
   })
 }
