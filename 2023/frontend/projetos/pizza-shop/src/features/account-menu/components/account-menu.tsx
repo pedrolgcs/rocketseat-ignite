@@ -1,4 +1,4 @@
-import { Building, LogOut } from 'lucide-react'
+import { Building } from 'lucide-react'
 
 import { Dialog, DialogTrigger } from '@/components/ui/dialog'
 import {
@@ -11,6 +11,7 @@ import {
 import { cn } from '@/lib/utils'
 
 import { AccountTrigger } from './account-trigger'
+import { SignOut } from './sign-out'
 import { StoreProfileDialog } from './store-profile-dialog'
 import { UserResume } from './user-resume'
 
@@ -40,8 +41,7 @@ export function AccountMenu() {
               'dark:text-rose-400 dark:data-[highlighted]:text-rose-300',
             )}
           >
-            <LogOut className="mr-2 h-4 w-4" />
-            <span>Sair</span>
+            <SignOut />
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
