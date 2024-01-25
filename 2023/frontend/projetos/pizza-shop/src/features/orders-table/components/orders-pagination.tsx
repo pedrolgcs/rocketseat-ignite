@@ -48,6 +48,10 @@ export function OrdersPagination({
       </span>
 
       <PaginationContent>
+        <PaginationItem className="text-sm text-muted-foreground">
+          Página {currentPage} de {lastPage}
+        </PaginationItem>
+
         <PaginationItem>
           <Button
             variant="ghost"
