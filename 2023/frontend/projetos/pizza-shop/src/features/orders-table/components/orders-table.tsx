@@ -6,11 +6,14 @@ import {
   TableRow,
 } from '@/components/ui/table'
 
+import { useGetOrdersQuery } from '../hooks/useGetOrdersQuery'
 import { OrderFilters } from './order-filters'
 import { OrderRow } from './order-row'
 import { OrdersPagination } from './orders-pagination'
 
 export function OrdersTable() {
+  const { data: result } = useGetOrdersQuery()
+
   return (
     <div className="flex flex-col gap-4">
       <OrderFilters />
@@ -31,9 +34,10 @@ export function OrdersTable() {
           </TableHeader>
 
           <TableBody>
-            {Array.from({ length: 10 }).map((_, index) => (
-              <OrderRow key={index} />
-            ))}
+            {result &&
+              result.orders.map((order) => (
+                <OrderRow key={order.orderId} order={order} />
+              ))}
           </TableBody>
         </Table>
       </div>

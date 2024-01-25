@@ -1,4 +1,5 @@
 import './styles/global.css'
+import '@/lib/date-fns'
 
 import { QueryClientProvider } from '@tanstack/react-query'
 import { Helmet, HelmetProvider } from 'react-helmet-async'
