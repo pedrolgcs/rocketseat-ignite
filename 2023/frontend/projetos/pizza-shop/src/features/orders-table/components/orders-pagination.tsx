@@ -1,11 +1,16 @@
 import {
+  ChevronLeft,
+  ChevronRight,
+  ChevronsLeft,
+  ChevronsRight,
+} from 'lucide-react'
+import { useSearchParams } from 'react-router-dom'
+
+import { Button } from '@/components/ui/button'
+import {
   Pagination,
   PaginationContent,
-  PaginationEllipsis,
   PaginationItem,
-  PaginationLink,
-  PaginationNext,
-  PaginationPrevious,
 } from '@/components/ui/pagination'
 
 type OrdersPaginationProps = {
@@ -19,7 +24,22 @@ export function OrdersPagination({
   pageIndex,
   perPage,
 }: OrdersPaginationProps) {
-  const pages = Math.ceil(totalCount / perPage) || 1
+  const currentPage = pageIndex + 1
+
+  const [_, setSearchParams] = useSearchParams()
+
+  const lastPage = Math.ceil(totalCount / perPage)
+
+  const handlePaginate = (page: number) => {
+    if (page < 1) return
+    if (page > lastPage) return
+
+    setSearchParams((state) => {
+      state.set('page', page.toString())
+
+      return state
+    })
+  }
 
   return (
     <Pagination className="flex items-center justify-between">
@@ -29,28 +49,43 @@ export function OrdersPagination({
 
       <PaginationContent>
         <PaginationItem>
-          <PaginationPrevious href="#" />
+          <Button
+            variant="ghost"
+            onClick={() => handlePaginate(1)}
+            disabled={currentPage === 1}
+          >
+            <ChevronsLeft className="h-4 w-4" />
+          </Button>
         </PaginationItem>
 
         <PaginationItem>
-          <PaginationLink href="#">1</PaginationLink>
-        </PaginationItem>
-        <PaginationItem>
-          <PaginationLink href="#" isActive>
-            2
-          </PaginationLink>
-        </PaginationItem>
-
-        <PaginationItem>
-          <PaginationLink href="#">3</PaginationLink>
+          <Button
+            variant="ghost"
+            onClick={() => handlePaginate(currentPage - 1)}
+            disabled={currentPage === 1}
+          >
+            <ChevronLeft className="h-4 w-4" />
+          </Button>
         </PaginationItem>
 
         <PaginationItem>
-          <PaginationEllipsis />
+          <Button
+            variant="ghost"
+            onClick={() => handlePaginate(currentPage + 1)}
+            disabled={currentPage === lastPage}
+          >
+            <ChevronRight className="h-4 w-4" />
+          </Button>
         </PaginationItem>
 
         <PaginationItem>
-          <PaginationNext href="#" />
+          <Button
+            variant="ghost"
+            onClick={() => handlePaginate(lastPage)}
+            disabled={currentPage === lastPage}
+          >
+            <ChevronsRight className="h-4 w-4" />
+          </Button>
         </PaginationItem>
       </PaginationContent>
     </Pagination>

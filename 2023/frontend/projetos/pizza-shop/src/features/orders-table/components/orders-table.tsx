@@ -1,3 +1,6 @@
+import { useSearchParams } from 'react-router-dom'
+import { z } from 'zod'
+
 import {
   Table,
   TableBody,
@@ -12,7 +15,16 @@ import { OrderRow } from './order-row'
 import { OrdersPagination } from './orders-pagination'
 
 export function OrdersTable() {
-  const { data: result } = useGetOrdersQuery()
+  const [searchParams] = useSearchParams()
+
+  const pageIndex = z.coerce
+    .number()
+    .transform((page) => page - 1)
+    .parse(searchParams.get('page') ?? '1')
+
+  const { data: result } = useGetOrdersQuery({
+    pageIndex,
+  })
 
   return (
     <div className="flex flex-col gap-4">
@@ -42,7 +54,13 @@ export function OrdersTable() {
         </Table>
       </div>
 
-      <OrdersPagination totalCount={105} pageIndex={0} perPage={10} />
+      {result && (
+        <OrdersPagination
+          totalCount={result.meta.totalCount}
+          pageIndex={result.meta.pageIndex}
+          perPage={result.meta.perPage}
+        />
+      )}
     </div>
   )
 }
