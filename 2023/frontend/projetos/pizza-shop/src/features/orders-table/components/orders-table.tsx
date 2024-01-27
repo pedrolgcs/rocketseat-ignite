@@ -17,13 +17,21 @@ import { OrdersPagination } from './orders-pagination'
 export function OrdersTable() {
   const [searchParams] = useSearchParams()
 
-  const pageIndex = z.coerce
-    .number()
-    .transform((page) => page - 1)
-    .parse(searchParams.get('page') ?? '1')
+  const filterParams = {
+    orderId: z.string().optional().parse(searchParams.get('orderId')),
+    customerName: z.string().optional().parse(searchParams.get('customerName')),
+    status: z.string().optional().parse(searchParams.get('status')),
+    pageIndex: z.coerce
+      .number()
+      .transform((page) => page - 1)
+      .parse(searchParams.get('page') ?? '1'),
+  }
 
   const { data: result } = useGetOrdersQuery({
-    pageIndex,
+    pageIndex: filterParams.pageIndex,
+    orderId: filterParams.orderId,
+    customerName: filterParams.customerName,
+    status: filterParams.status,
   })
 
   return (
