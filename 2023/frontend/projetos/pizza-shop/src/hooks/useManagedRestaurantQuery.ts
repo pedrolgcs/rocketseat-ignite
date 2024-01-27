@@ -4,7 +4,7 @@ import { getManagedRestaurant } from '@/api/get-managed-restaurant'
 
 export const USE_MANAGED_RESTAURANT_QUERY_KEY = 'managed-restaurant'
 
-export type usManagedRestaurantQueryKey = [
+export type UseManagedRestaurantQueryKey = [
   typeof USE_MANAGED_RESTAURANT_QUERY_KEY,
 ]
 
