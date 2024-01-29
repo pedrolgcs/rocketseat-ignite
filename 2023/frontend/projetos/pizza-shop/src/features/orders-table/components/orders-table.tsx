@@ -18,9 +18,9 @@ export function OrdersTable() {
   const [searchParams] = useSearchParams()
 
   const filterParams = {
-    orderId: z.string().optional().parse(searchParams.get('orderId')),
-    customerName: z.string().optional().parse(searchParams.get('customerName')),
-    status: z.string().optional().parse(searchParams.get('status')),
+    orderId: z.string().nullable().parse(searchParams.get('orderId')),
+    customerName: z.string().nullable().parse(searchParams.get('customerName')),
+    status: z.string().nullable().parse(searchParams.get('status')),
     pageIndex: z.coerce
       .number()
       .transform((page) => page - 1)
