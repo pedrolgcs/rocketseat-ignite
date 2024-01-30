@@ -1,7 +1,7 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 
-import { GetManagedRestaurantResponse } from '@/api/get-managed-restaurant'
-import { USE_MANAGED_RESTAURANT_QUERY_KEY } from '@/hooks/useManagedRestaurantQuery'
+import { GetManagedRestaurantResponse } from '@/features/account-menu/api/get-managed-restaurant'
+import { USE_MANAGED_RESTAURANT_QUERY_KEY } from '@/features/account-menu/hooks/useManagedRestaurantQuery'
 
 import { updateProfile } from '../api/update-profile'
 

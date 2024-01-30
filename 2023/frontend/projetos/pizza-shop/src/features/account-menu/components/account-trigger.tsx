@@ -3,8 +3,9 @@ import { ChevronDown } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { DropdownMenuTrigger } from '@/components/ui/dropdown-menu'
 import { Skeleton } from '@/components/ui/skeleton'
-import { useManagedRestaurantQuery } from '@/hooks/useManagedRestaurantQuery'
 import { cn } from '@/lib/utils'
+
+import { useManagedRestaurantQuery } from '../hooks/useManagedRestaurantQuery'
 
 function SkeletonView() {
   return <Skeleton className="h-4 w-40" />

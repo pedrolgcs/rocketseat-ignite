@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query'
 
-import { getManagedRestaurant } from '@/api/get-managed-restaurant'
+import { getManagedRestaurant } from '@/features/account-menu/api/get-managed-restaurant'
 
 export const USE_MANAGED_RESTAURANT_QUERY_KEY = 'managed-restaurant'
 
