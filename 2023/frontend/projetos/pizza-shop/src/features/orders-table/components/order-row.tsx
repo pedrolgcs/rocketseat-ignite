@@ -8,6 +8,7 @@ import { TableCell, TableRow } from '@/components/ui/table'
 import { Order } from '@/types/order'
 import { formatCurrency } from '@/utils/formatCurrency'
 
+import { useCancelOrderMutation } from '../hooks/useCancelOrderMutation'
 import { OrderDetail } from './order-details'
 import { OrderStatus } from './order-status'
 
@@ -17,6 +18,16 @@ type OrderRowProps = {
 
 export function OrderRow({ order }: OrderRowProps) {
   const [isDetailsOpen, setIsDetailsOpen] = useState(false)
+
+  const canNotCancelOrder = ['canceled', 'delivered', 'delivering'].includes(
+    order.status,
+  )
+
+  const { mutateAsync: cancelOrder } = useCancelOrderMutation()
+
+  const handleCancelOrder = async () => {
+    await cancelOrder({ orderId: order.orderId })
+  }
 
   return (
     <TableRow>
@@ -61,7 +72,12 @@ export function OrderRow({ order }: OrderRowProps) {
       </TableCell>
 
       <TableCell>
-        <Button variant="ghost" size="xs">
+        <Button
+          variant="ghost"
+          size="xs"
+          disabled={canNotCancelOrder}
+          onClick={handleCancelOrder}
+        >
           <X className="mr-2 h-3 w-3" />
           Cancelar
         </Button>
