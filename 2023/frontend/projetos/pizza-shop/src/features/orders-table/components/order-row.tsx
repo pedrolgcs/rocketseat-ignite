@@ -8,7 +8,10 @@ import { TableCell, TableRow } from '@/components/ui/table'
 import { Order } from '@/types/order'
 import { formatCurrency } from '@/utils/formatCurrency'
 
+import { useApproveOrderMutation } from '../hooks/useApproveOrderMutation'
 import { useCancelOrderMutation } from '../hooks/useCancelOrderMutation'
+import { useDeliverOrderMutation } from '../hooks/useDeliverOrderMutation'
+import { useDispatchOrderMutation } from '../hooks/useDispatchOrderMutation'
 import { OrderDetail } from './order-details'
 import { OrderStatus } from './order-status'
 
@@ -19,14 +22,33 @@ type OrderRowProps = {
 export function OrderRow({ order }: OrderRowProps) {
   const [isDetailsOpen, setIsDetailsOpen] = useState(false)
 
-  const canNotCancelOrder = ['canceled', 'delivered', 'delivering'].includes(
-    order.status,
-  )
+  const { mutateAsync: cancelOrderFn, isPending: isCancelingOrder } =
+    useCancelOrderMutation()
+  const { mutateAsync: deliverOrderFn, isPending: isDeliveringOrder } =
+    useDeliverOrderMutation()
+  const { mutateAsync: approveOrderFn, isPending: isApprovingOrder } =
+    useApproveOrderMutation()
+  const { mutateAsync: dispatchOrderFn, isPending: isDispatchingOrder } =
+    useDispatchOrderMutation()
 
-  const { mutateAsync: cancelOrder } = useCancelOrderMutation()
+  const canNotCancelOrder =
+    ['canceled', 'delivered', 'delivering'].includes(order.status) ||
+    isCancelingOrder
 
   const handleCancelOrder = async () => {
-    await cancelOrder({ orderId: order.orderId })
+    await cancelOrderFn({ orderId: order.orderId })
+  }
+
+  const handleDeliverOrder = async () => {
+    await deliverOrderFn({ orderId: order.orderId })
+  }
+
+  const handleApproveOrder = async () => {
+    await approveOrderFn({ orderId: order.orderId })
+  }
+
+  const handleDispatchOrder = async () => {
+    await dispatchOrderFn({ orderId: order.orderId })
   }
 
   return (
@@ -65,10 +87,48 @@ export function OrderRow({ order }: OrderRowProps) {
       </TableCell>
 
       <TableCell>
-        <Button variant="outline" size="xs">
-          <ArrowRight className="mr-2 h-3 w-3" />
-          Aprovar
-        </Button>
+        {order.status === 'pending' && (
+          <Button
+            variant="outline"
+            size="xs"
+            onClick={handleApproveOrder}
+            disabled={isApprovingOrder}
+          >
+            <ArrowRight className="mr-2 h-3 w-3" />
+            Aprovar
+          </Button>
+        )}
+
+        {order.status === 'processing' && (
+          <Button
+            variant="outline"
+            size="xs"
+            onClick={handleDispatchOrder}
+            disabled={isDispatchingOrder}
+          >
+            <ArrowRight className="mr-2 h-3 w-3" />
+            Em entrega
+          </Button>
+        )}
+
+        {order.status === 'delivering' && (
+          <Button
+            variant="outline"
+            size="xs"
+            onClick={handleDeliverOrder}
+            disabled={isDeliveringOrder}
+          >
+            <ArrowRight className="mr-2 h-3 w-3" />
+            Entregue
+          </Button>
+        )}
+
+        {order.status === 'delivered' && (
+          <Button variant="outline" size="xs" disabled>
+            <ArrowRight className="mr-2 h-3 w-3" />
+            Finalizado
+          </Button>
+        )}
       </TableCell>
 
       <TableCell>
