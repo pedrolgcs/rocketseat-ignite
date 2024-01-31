@@ -3,7 +3,12 @@ import { AlertOctagon } from 'lucide-react'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { cn } from '@/lib/utils'
 
+import { useGetMonthCanceledOrdersAmountQuery } from '../../hooks/use-get-month-canceled-orders-amount-query'
+
 export function MonthCanceledOrdersAmountCard() {
+  const { data: monthCanceledOrdersAmount } =
+    useGetMonthCanceledOrdersAmountQuery()
+
   return (
     <Card>
       <CardHeader className="flex-row items-center justify-between space-y-0 pb-2">
@@ -13,15 +18,26 @@ export function MonthCanceledOrdersAmountCard() {
         <AlertOctagon className="h-5 w-5 text-muted-foreground" />
       </CardHeader>
 
-      <CardContent className="space-y-1">
-        <span className="text-2xl font-bold tracking-tight">32</span>
-        <p className="text-xs text-muted-foreground">
-          <span className={cn('text-emerald-500', 'dark:text-emerald-400')}>
-            -2%
-          </span>{' '}
-          em relação ao mês passado
-        </p>
-      </CardContent>
+      {monthCanceledOrdersAmount && (
+        <CardContent className="space-y-1">
+          <span className="text-2xl font-bold tracking-tight">
+            {monthCanceledOrdersAmount.amount.toLocaleString('pt-BR')}
+          </span>
+
+          <p className="flex gap-1 text-xs text-muted-foreground">
+            {monthCanceledOrdersAmount.diffFromLastMonth >= 0 ? (
+              <span className={cn('text-emerald-500', 'dark:text-emerald-400')}>
+                +{monthCanceledOrdersAmount.diffFromLastMonth}%
+              </span>
+            ) : (
+              <span className={cn('text-rose-500', 'dark:text-rose-400')}>
+                -{monthCanceledOrdersAmount.diffFromLastMonth}%
+              </span>
+            )}
+            em relação ao mês passado
+          </p>
+        </CardContent>
+      )}
     </Card>
   )
 }
