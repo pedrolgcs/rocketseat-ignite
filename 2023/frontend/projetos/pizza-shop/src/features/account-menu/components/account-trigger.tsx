@@ -5,7 +5,7 @@ import { DropdownMenuTrigger } from '@/components/ui/dropdown-menu'
 import { Skeleton } from '@/components/ui/skeleton'
 import { cn } from '@/lib/utils'
 
-import { useManagedRestaurantQuery } from '../hooks/useManagedRestaurantQuery'
+import { useManagedRestaurantQuery } from '../hooks/use-managed-restaurant-query'
 
 function SkeletonView() {
   return <Skeleton className="h-4 w-40" />

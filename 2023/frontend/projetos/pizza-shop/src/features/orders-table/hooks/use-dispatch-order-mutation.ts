@@ -1,14 +1,14 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 
-import { deliverOrder, DeliverOrderParams } from '../api/deliver-order'
+import { dispatchOrder, DispatchOrderParams } from '../api/dispatch-order'
 import { GetOrdersResponse } from '../api/get-orders'
-import { USE_GET_ORDERS_QUERY_KEY } from './useGetOrdersQuery'
+import { USE_GET_ORDERS_QUERY_KEY } from './use-get-orders-query'
 
-export const useDeliverOrderMutation = () => {
+export const useDispatchOrderMutation = () => {
   const queryClient = useQueryClient()
 
   return useMutation({
-    mutationFn: (params: DeliverOrderParams) => deliverOrder(params),
+    mutationFn: (params: DispatchOrderParams) => dispatchOrder(params),
     onSuccess(_, variables) {
       const { orderId } = variables
       const ordersListCache = queryClient.getQueriesData<GetOrdersResponse>({
@@ -25,7 +25,7 @@ export const useDeliverOrderMutation = () => {
             if (order.orderId === orderId) {
               return {
                 ...order,
-                status: 'delivered',
+                status: 'delivering',
               }
             }
 

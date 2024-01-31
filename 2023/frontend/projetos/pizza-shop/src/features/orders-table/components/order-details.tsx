@@ -19,7 +19,7 @@ import {
 import { cn } from '@/lib/utils'
 import { formatCurrency } from '@/utils/formatCurrency'
 
-import { useGetOrderDetailsQuery } from '../hooks/useGetOrderDetailsQuery'
+import { useGetOrderDetailsQuery } from '../hooks/use-get-order-details-query'
 import { OrderStatus } from './order-status'
 
 type OrderDetailProps = {

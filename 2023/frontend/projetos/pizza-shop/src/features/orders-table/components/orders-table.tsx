@@ -9,7 +9,7 @@ import {
   TableRow,
 } from '@/components/ui/table'
 
-import { useGetOrdersQuery } from '../hooks/useGetOrdersQuery'
+import { useGetOrdersQuery } from '../hooks/use-get-orders-query'
 import { OrderFilters } from './order-filters'
 import { OrderRow } from './order-row'
 import { OrdersPagination } from './orders-pagination'

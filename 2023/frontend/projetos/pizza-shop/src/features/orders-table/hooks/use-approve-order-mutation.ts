@@ -1,14 +1,14 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 
-import { cancelOrder, CancelOrderParams } from '../api/cancel-order'
+import { approveOrder, ApproveOrderParams } from '../api/approve-order'
 import { GetOrdersResponse } from '../api/get-orders'
-import { USE_GET_ORDERS_QUERY_KEY } from './useGetOrdersQuery'
+import { USE_GET_ORDERS_QUERY_KEY } from './use-get-orders-query'
 
-export const useCancelOrderMutation = () => {
+export const useApproveOrderMutation = () => {
   const queryClient = useQueryClient()
 
   return useMutation({
-    mutationFn: (params: CancelOrderParams) => cancelOrder(params),
+    mutationFn: (params: ApproveOrderParams) => approveOrder(params),
     onSuccess(_, variables) {
       const { orderId } = variables
       const ordersListCache = queryClient.getQueriesData<GetOrdersResponse>({
@@ -25,7 +25,7 @@ export const useCancelOrderMutation = () => {
             if (order.orderId === orderId) {
               return {
                 ...order,
-                status: 'canceled',
+                status: 'processing',
               }
             }
 

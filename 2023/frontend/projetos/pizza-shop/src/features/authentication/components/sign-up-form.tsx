@@ -15,7 +15,7 @@ import {
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 
-import { useRegisterRestaurantMutation } from '../hooks/useRegisterRestaurantMutation.ts'
+import { useRegisterRestaurantMutation } from '../hooks/use-register-restaurant-mutation.ts.ts'
 
 const signUpFormSchema = z.object({
   restaurantName: z

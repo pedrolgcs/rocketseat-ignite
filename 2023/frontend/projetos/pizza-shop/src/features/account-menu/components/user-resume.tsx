@@ -1,6 +1,6 @@
 import { Skeleton } from '@/components/ui/skeleton'
 
-import { useProfileQuery } from '../hooks/useProfileQuery'
+import { useProfileQuery } from '../hooks/use-profile-query'
 
 function SkeletonView() {
   return (

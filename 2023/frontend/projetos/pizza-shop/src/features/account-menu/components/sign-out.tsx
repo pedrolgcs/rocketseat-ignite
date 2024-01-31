@@ -2,7 +2,7 @@ import { LogOut } from 'lucide-react'
 import { useNavigate } from 'react-router-dom'
 import { toast } from 'sonner'
 
-import { useSignOutMutation } from '../hooks/useSignOutMutation'
+import { useSignOutMutation } from '../hooks/use-sign-out-mutation'
 
 export function SignOut() {
   const navigate = useNavigate()

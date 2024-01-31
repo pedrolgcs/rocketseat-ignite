@@ -15,8 +15,8 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Textarea } from '@/components/ui/textarea'
 
-import { useManagedRestaurantQuery } from '../hooks/useManagedRestaurantQuery'
-import { useUpdateProfileMutation } from '../hooks/useUpdateProfileMutation'
+import { useManagedRestaurantQuery } from '../hooks/use-managed-restaurant-query'
+import { useUpdateProfileMutation } from '../hooks/use-update-profile-mutation'
 
 const storeProfileSchema = z.object({
   name: z.string().min(1),
