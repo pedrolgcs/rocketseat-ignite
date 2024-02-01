@@ -24,11 +24,11 @@ export function MonthOrdersAmountCard() {
           <p className="flex gap-1 text-xs text-muted-foreground">
             {monthOrdersAmount.diffFromLastMonth >= 0 ? (
               <span className={cn('text-emerald-500', 'dark:text-emerald-400')}>
-                +${monthOrdersAmount.diffFromLastMonth}%
+                +{monthOrdersAmount.diffFromLastMonth}%
               </span>
             ) : (
               <span className={cn('text-rose-500', 'dark:text-rose-400')}>
-                -{monthOrdersAmount.diffFromLastMonth}%
+                {monthOrdersAmount.diffFromLastMonth}%
               </span>
             )}
             em relação ao mês passado

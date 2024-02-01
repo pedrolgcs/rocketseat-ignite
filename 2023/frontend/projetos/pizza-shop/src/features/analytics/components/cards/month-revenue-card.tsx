@@ -21,7 +21,7 @@ export function MonthRevenueCard() {
       {monthRevenue && (
         <CardContent className="space-y-1">
           <span className="text-2xl font-bold tracking-tight">
-            {formatCurrency(monthRevenue.receipt)}
+            {formatCurrency(monthRevenue.receipt / 100)}
           </span>
 
           <p className="flex gap-1 text-xs text-muted-foreground">
@@ -31,7 +31,7 @@ export function MonthRevenueCard() {
               </span>
             ) : (
               <span className={cn('text-rose-500', 'dark:text-rose-400')}>
-                -{monthRevenue.diffFromLastMonth}%
+                {monthRevenue.diffFromLastMonth}%
               </span>
             )}
             em relação ao mês passado
