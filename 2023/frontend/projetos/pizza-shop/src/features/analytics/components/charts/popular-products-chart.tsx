@@ -4,13 +4,7 @@ import colors from 'tailwindcss/colors'
 
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 
-const data = [
-  { product: 'Peperoni', amount: 75 },
-  { product: 'Mussarela', amount: 16 },
-  { product: '4 Queijos', amount: 58 },
-  { product: 'Frango', amount: 44 },
-  { product: 'Sobradinho', amount: 12 },
-]
+import { useGetPopularProductsQuery } from '../../hooks/use-get-popular-products-query'
 
 const COLORS = [
   colors.sky[500],
@@ -30,15 +24,11 @@ type RenderLabelParams = {
   index: number
 }
 
-const renderLabel = ({
-  cx,
-  cy,
-  midAngle,
-  innerRadius,
-  outerRadius,
-  value,
-  index,
-}: RenderLabelParams) => {
+const renderLabel = (
+  variables: RenderLabelParams,
+  data: { product: string; amount: number }[],
+) => {
+  const { cx, cy, midAngle, innerRadius, outerRadius, value, index } = variables
   const RADIAN = Math.PI / 180
   const radius = 12 + innerRadius + (outerRadius - innerRadius)
   const x = cx + radius * Math.cos(-midAngle * RADIAN)
@@ -61,42 +51,46 @@ const renderLabel = ({
 }
 
 export function PopularProductsChart() {
+  const { data: popularProducts } = useGetPopularProductsQuery()
+
   return (
     <Card className="col-span-3">
       <CardHeader className="pb-8">
         <div className="flex items-center justify-between">
           <CardTitle className="text-base font-medium">
-            Produtos oppulares
+            Produtos populares
           </CardTitle>
           <BarChart className="h-5 w-5 text-muted-foreground" />
         </div>
       </CardHeader>
 
       <CardContent>
-        <ResponsiveContainer width="100%" height={240}>
-          <PieChart style={{ fontSize: 12 }}>
-            <Pie
-              data={data}
-              dataKey="amount"
-              nameKey="product"
-              cx="50%"
-              cy="50%"
-              outerRadius={86}
-              innerRadius={64}
-              strokeWidth={8}
-              labelLine={false}
-              label={renderLabel}
-            >
-              {data.map((_, index) => (
-                <Cell
-                  key={`cell-${index}`}
-                  fill={COLORS[index]}
-                  className="stroke-card transition-opacity hover:opacity-80"
-                />
-              ))}
-            </Pie>
-          </PieChart>
-        </ResponsiveContainer>
+        {popularProducts && (
+          <ResponsiveContainer width="100%" height={240}>
+            <PieChart style={{ fontSize: 12 }}>
+              <Pie
+                data={popularProducts}
+                dataKey="amount"
+                nameKey="product"
+                cx="50%"
+                cy="50%"
+                outerRadius={86}
+                innerRadius={64}
+                strokeWidth={8}
+                labelLine={false}
+                label={(variables) => renderLabel(variables, popularProducts)}
+              >
+                {popularProducts.map((_, index) => (
+                  <Cell
+                    key={`cell-${index}`}
+                    fill={COLORS[index]}
+                    className="stroke-card transition-opacity hover:opacity-80"
+                  />
+                ))}
+              </Pie>
+            </PieChart>
+          </ResponsiveContainer>
+        )}
       </CardContent>
     </Card>
   )
