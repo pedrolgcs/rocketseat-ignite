@@ -5,9 +5,11 @@ import { cn } from '@/lib/utils'
 import { formatCurrency } from '@/utils/formatCurrency'
 
 import { useGetMonthRevenueQuery } from '../../hooks/use-get-month-revenue-query'
+import { CardSkeleton } from './card-skeleton'
 
 export function MonthRevenueCard() {
-  const { data: monthRevenue } = useGetMonthRevenueQuery()
+  const { data: monthRevenue, isLoading: isMonthRevenueLoading } =
+    useGetMonthRevenueQuery()
 
   return (
     <Card>
@@ -17,6 +19,12 @@ export function MonthRevenueCard() {
         </CardTitle>
         <DollarSign className="h-5 w-5 text-muted-foreground" />
       </CardHeader>
+
+      {isMonthRevenueLoading && (
+        <CardContent>
+          <CardSkeleton />
+        </CardContent>
+      )}
 
       {monthRevenue && (
         <CardContent className="space-y-1">

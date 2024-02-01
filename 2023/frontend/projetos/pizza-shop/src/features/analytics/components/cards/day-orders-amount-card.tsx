@@ -4,9 +4,11 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { cn } from '@/lib/utils'
 
 import { useGetDayOrdersAmountQuery } from '../../hooks/use-get-day-orders-amount-query'
+import { CardSkeleton } from './card-skeleton'
 
 export function DayOrdersAmountCard() {
-  const { data: dayOrdersAmount } = useGetDayOrdersAmountQuery()
+  const { data: dayOrdersAmount, isLoading: isLoadingDayOrdersAmount } =
+    useGetDayOrdersAmountQuery()
 
   return (
     <Card>
@@ -14,6 +16,12 @@ export function DayOrdersAmountCard() {
         <CardTitle className="text-base font-semibold">Pedidos (dia)</CardTitle>
         <Utensils className="h-5 w-5 text-muted-foreground" />
       </CardHeader>
+
+      {isLoadingDayOrdersAmount && (
+        <CardContent>
+          <CardSkeleton />
+        </CardContent>
+      )}
 
       {dayOrdersAmount && (
         <CardContent className="space-y-1">

@@ -4,10 +4,13 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { cn } from '@/lib/utils'
 
 import { useGetMonthCanceledOrdersAmountQuery } from '../../hooks/use-get-month-canceled-orders-amount-query'
+import { CardSkeleton } from './card-skeleton'
 
 export function MonthCanceledOrdersAmountCard() {
-  const { data: monthCanceledOrdersAmount } =
-    useGetMonthCanceledOrdersAmountQuery()
+  const {
+    data: monthCanceledOrdersAmount,
+    isLoading: isLoadingMonthCanceledOrdersAmount,
+  } = useGetMonthCanceledOrdersAmountQuery()
 
   return (
     <Card>
@@ -17,6 +20,12 @@ export function MonthCanceledOrdersAmountCard() {
         </CardTitle>
         <AlertOctagon className="h-5 w-5 text-muted-foreground" />
       </CardHeader>
+
+      {isLoadingMonthCanceledOrdersAmount && (
+        <CardContent>
+          <CardSkeleton />
+        </CardContent>
+      )}
 
       {monthCanceledOrdersAmount && (
         <CardContent className="space-y-1">

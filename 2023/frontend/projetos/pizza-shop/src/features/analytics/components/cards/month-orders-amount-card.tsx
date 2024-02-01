@@ -4,9 +4,11 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { cn } from '@/lib/utils'
 
 import { useGetMonthOrdersAmountQuery } from '../../hooks/use-get-mont-orders-amount-query'
+import { CardSkeleton } from './card-skeleton'
 
 export function MonthOrdersAmountCard() {
-  const { data: monthOrdersAmount } = useGetMonthOrdersAmountQuery()
+  const { data: monthOrdersAmount, isLoading: isLoadingMonthOrdersAmount } =
+    useGetMonthOrdersAmountQuery()
 
   return (
     <Card>
@@ -14,6 +16,12 @@ export function MonthOrdersAmountCard() {
         <CardTitle className="text-base font-semibold">Pedidos (mês)</CardTitle>
         <Utensils className="h-5 w-5 text-muted-foreground" />
       </CardHeader>
+
+      {isLoadingMonthOrdersAmount && (
+        <CardContent>
+          <CardSkeleton />
+        </CardContent>
+      )}
 
       {monthOrdersAmount && (
         <CardContent className="space-y-1">
