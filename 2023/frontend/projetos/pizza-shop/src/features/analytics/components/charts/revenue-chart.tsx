@@ -1,4 +1,6 @@
-import { format } from 'date-fns'
+import { subDays } from 'date-fns'
+import { useMemo, useState } from 'react'
+import { DateRange } from 'react-day-picker'
 import {
   CartesianGrid,
   Line,
@@ -17,42 +19,34 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card'
+import { DateRangePicker } from '@/components/ui/date-range-picker'
+import { Label } from '@/components/ui/label'
 import { useTheme } from '@/features/theme'
 import { formatCurrency } from '@/utils/formatCurrency'
 
-const data = [
-  {
-    date: new Date('2024-01-01'),
-    revenue: 1200,
-  },
-  {
-    date: new Date('2024-01-02'),
-    revenue: 200,
-  },
-  {
-    date: new Date('2024-01-03'),
-    revenue: 900,
-  },
-  {
-    date: new Date('2024-01-04'),
-    revenue: 750,
-  },
-  {
-    date: new Date('2024-01-05'),
-    revenue: 640,
-  },
-  {
-    date: new Date('2024-01-06'),
-    revenue: 250,
-  },
-  {
-    date: new Date('2024-01-07'),
-    revenue: 430,
-  },
-]
+import { useGetDailyRevenueInPeriodQuery } from '../../hooks/use-get-daily-revenue-in-period-query'
 
 export function RevenueChart() {
+  const [dateRange, setDateRange] = useState<DateRange | undefined>({
+    from: subDays(new Date(), 7),
+    to: new Date(),
+  })
+
   const { theme } = useTheme()
+
+  const { data: dailyRevenueInPeriod } = useGetDailyRevenueInPeriodQuery({
+    from: dateRange?.from,
+    to: dateRange?.to,
+  })
+
+  const chartData = useMemo(() => {
+    return dailyRevenueInPeriod?.map((chartItem) => {
+      return {
+        date: chartItem.date,
+        receipt: chartItem.receipt / 100,
+      }
+    })
+  }, [dailyRevenueInPeriod])
 
   return (
     <Card className="col-span-6">
@@ -63,47 +57,47 @@ export function RevenueChart() {
           </CardTitle>
           <CardDescription>Receita diária no período</CardDescription>
         </div>
+
+        <div className="flex items-center gap-3">
+          <Label>Período</Label>
+          <DateRangePicker date={dateRange} onDateChange={setDateRange} />
+        </div>
       </CardHeader>
 
       <CardContent>
-        <ResponsiveContainer width="100%" height={240}>
-          <LineChart data={data} style={{ fontSize: 12 }}>
-            <Tooltip
-              labelFormatter={(value: Date) => format(value, 'E dd MMM y')}
-              formatter={(value: number) => formatCurrency(value)}
-              itemStyle={{ fontSize: 16 }}
-              contentStyle={{
-                backgroundColor:
-                  theme === 'dark' ? colors.zinc[800] : colors.zinc[50],
-              }}
-            />
+        {chartData && (
+          <ResponsiveContainer width="100%" height={240}>
+            <LineChart data={chartData} style={{ fontSize: 12 }}>
+              <Tooltip
+                formatter={(value: number) => formatCurrency(value)}
+                itemStyle={{ fontSize: 16 }}
+                contentStyle={{
+                  backgroundColor:
+                    theme === 'dark' ? colors.zinc[800] : colors.zinc[50],
+                }}
+              />
 
-            <XAxis
-              dataKey="date"
-              tickLine={false}
-              axisLine={false}
-              dy={16}
-              tickFormatter={(value: Date) => format(value, 'dd/MM')}
-            />
+              <XAxis dataKey="date" tickLine={false} axisLine={false} dy={16} />
 
-            <YAxis
-              stroke="#888"
-              axisLine={false}
-              tickLine={false}
-              width={80}
-              tickFormatter={(value: number) => formatCurrency(value)}
-            />
+              <YAxis
+                stroke="#888"
+                axisLine={false}
+                tickLine={false}
+                width={80}
+                tickFormatter={(value: number) => formatCurrency(value)}
+              />
 
-            <CartesianGrid className="stroke-muted" />
+              <CartesianGrid className="stroke-muted" />
 
-            <Line
-              type="linear"
-              strokeWidth={2}
-              dataKey="revenue"
-              stroke={colors.violet[500]}
-            />
-          </LineChart>
-        </ResponsiveContainer>
+              <Line
+                type="linear"
+                strokeWidth={2}
+                dataKey="receipt"
+                stroke={colors.violet[500]}
+              />
+            </LineChart>
+          </ResponsiveContainer>
+        )}
       </CardContent>
     </Card>
   )

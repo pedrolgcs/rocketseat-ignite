@@ -5,7 +5,7 @@ import { getMonthCanceledOrdersAmount } from '../api/get-month-canceled-orders-a
 export const USE_GET_MONTH_CANCELED_ORDERS_AMOUNT_QUERY_KEY =
   'month-canceled-orders-amount'
 
-export type useGetMonthCanceledOrdersAmountQueryKey = [
+export type UseGetMonthCanceledOrdersAmountQueryKey = [
   'metrics',
   typeof USE_GET_MONTH_CANCELED_ORDERS_AMOUNT_QUERY_KEY,
 ]

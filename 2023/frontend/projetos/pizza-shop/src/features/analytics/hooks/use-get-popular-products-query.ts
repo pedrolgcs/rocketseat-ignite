@@ -4,7 +4,8 @@ import { getPopularProducts } from '../api/get-popular-products'
 
 export const USE_GET_POPULAR_PRODUCTS_QUERY_KEY = 'popular-products'
 
-export type useGetPopularProductsQueryKey = [
+export type UseGetPopularProductsQueryKey = [
+  'metrics',
   typeof USE_GET_POPULAR_PRODUCTS_QUERY_KEY,
 ]
 

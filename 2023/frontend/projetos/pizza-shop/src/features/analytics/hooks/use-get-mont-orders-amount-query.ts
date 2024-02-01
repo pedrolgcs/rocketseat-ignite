@@ -4,7 +4,7 @@ import { getMonthOrdersAmount } from '../api/get-month-orders-amount'
 
 export const USE_GET_MONTH_ORDERS_AMOUNT_QUERY_KEY = 'month-orders-amount'
 
-export type useGetMonthOrdersAmountQueryKey = [
+export type UseGetMonthOrdersAmountQueryKey = [
   'metrics',
   typeof USE_GET_MONTH_ORDERS_AMOUNT_QUERY_KEY,
 ]

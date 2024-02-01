@@ -4,7 +4,7 @@ import { getMonthRevenue } from '../api/get-month-revenue'
 
 export const USE_GET_MONTH_REVENUE_QUERY_KEY = 'month-revenue-amount'
 
-export type useGetMonthOrdersAmountQueryKey = [
+export type UseGetMonthOrdersAmountQueryKey = [
   'metrics',
   typeof USE_GET_MONTH_REVENUE_QUERY_KEY,
 ]

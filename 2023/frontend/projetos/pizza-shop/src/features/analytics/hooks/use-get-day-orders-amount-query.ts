@@ -4,7 +4,7 @@ import { getDayOrdersAmount } from '../api/get-day-orders-amount'
 
 export const USE_GET_DAY_ORDERS_AMOUNT_QUERY_KEY = 'day-orders-amount'
 
-export type useGetDayOrdersAmountQueryKey = [
+export type UseGetDayOrdersAmountQueryKey = [
   'metrics',
   typeof USE_GET_DAY_ORDERS_AMOUNT_QUERY_KEY,
 ]
