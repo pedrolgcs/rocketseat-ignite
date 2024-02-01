@@ -1,10 +1,11 @@
-import { BarChart } from 'lucide-react'
+import { BarChart, Loader2 } from 'lucide-react'
 import { Cell, Pie, PieChart, ResponsiveContainer } from 'recharts'
 import colors from 'tailwindcss/colors'
 
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 
 import { useGetPopularProductsQuery } from '../../hooks/use-get-popular-products-query'
+import { ChartLoader } from './chart-loader'
 
 const COLORS = [
   colors.sky[500],
@@ -51,7 +52,8 @@ const renderLabel = (
 }
 
 export function PopularProductsChart() {
-  const { data: popularProducts } = useGetPopularProductsQuery()
+  const { data: popularProducts, isLoading: isLoadingPopularProducts } =
+    useGetPopularProductsQuery()
 
   return (
     <Card className="col-span-3">
@@ -63,6 +65,12 @@ export function PopularProductsChart() {
           <BarChart className="h-5 w-5 text-muted-foreground" />
         </div>
       </CardHeader>
+
+      {isLoadingPopularProducts && (
+        <CardContent>
+          <ChartLoader />
+        </CardContent>
+      )}
 
       <CardContent>
         {popularProducts && (

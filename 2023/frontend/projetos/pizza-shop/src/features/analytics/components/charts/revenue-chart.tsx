@@ -25,6 +25,7 @@ import { useTheme } from '@/features/theme'
 import { formatCurrency } from '@/utils/formatCurrency'
 
 import { useGetDailyRevenueInPeriodQuery } from '../../hooks/use-get-daily-revenue-in-period-query'
+import { ChartLoader } from './chart-loader'
 
 export function RevenueChart() {
   const [dateRange, setDateRange] = useState<DateRange | undefined>({
@@ -34,10 +35,11 @@ export function RevenueChart() {
 
   const { theme } = useTheme()
 
-  const { data: dailyRevenueInPeriod } = useGetDailyRevenueInPeriodQuery({
-    from: dateRange?.from,
-    to: dateRange?.to,
-  })
+  const { data: dailyRevenueInPeriod, isLoading: isLoadingRevenueInPeriod } =
+    useGetDailyRevenueInPeriodQuery({
+      from: dateRange?.from,
+      to: dateRange?.to,
+    })
 
   const chartData = useMemo(() => {
     return dailyRevenueInPeriod?.map((chartItem) => {
@@ -63,6 +65,12 @@ export function RevenueChart() {
           <DateRangePicker date={dateRange} onDateChange={setDateRange} />
         </div>
       </CardHeader>
+
+      {isLoadingRevenueInPeriod && (
+        <CardContent>
+          <ChartLoader />
+        </CardContent>
+      )}
 
       <CardContent>
         {chartData && (
