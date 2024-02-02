@@ -20,6 +20,7 @@ import { cn } from '@/lib/utils'
 import { formatCurrency } from '@/utils/formatCurrency'
 
 import { useGetOrderDetailsQuery } from '../hooks/use-get-order-details-query'
+import { OrderDetailsSkeleton } from './order-details-skeleton'
 import { OrderStatus } from './order-status'
 
 type OrderDetailProps = {
@@ -28,7 +29,7 @@ type OrderDetailProps = {
 }
 
 export function OrderDetail({ orderId, open }: OrderDetailProps) {
-  const { data: order } = useGetOrderDetailsQuery(
+  const { data: order, isLoading: isLoadingOrder } = useGetOrderDetailsQuery(
     { orderId },
     { enabled: open },
   )
@@ -39,6 +40,8 @@ export function OrderDetail({ orderId, open }: OrderDetailProps) {
         <DialogTitle>Pedido: {orderId}</DialogTitle>
         <DialogDescription>Detalhes do pedido</DialogDescription>
       </DialogHeader>
+
+      {isLoadingOrder && <OrderDetailsSkeleton />}
 
       {order && (
         <div className="space-y-6">

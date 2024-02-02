@@ -12,6 +12,7 @@ import {
 import { useGetOrdersQuery } from '../hooks/use-get-orders-query'
 import { OrderFilters } from './order-filters'
 import { OrderRow } from './order-row'
+import { OrderRowSkeleton } from './order-row-skeleton'
 import { OrdersPagination } from './orders-pagination'
 
 export function OrdersTable() {
@@ -27,7 +28,7 @@ export function OrdersTable() {
       .parse(searchParams.get('page') ?? '1'),
   }
 
-  const { data: result } = useGetOrdersQuery({
+  const { data: result, isLoading: isLoadingOrders } = useGetOrdersQuery({
     pageIndex: filterParams.pageIndex,
     orderId: filterParams.orderId,
     customerName: filterParams.customerName,
@@ -54,6 +55,8 @@ export function OrdersTable() {
           </TableHeader>
 
           <TableBody>
+            {isLoadingOrders && <OrderRowSkeleton />}
+
             {result &&
               result.orders.map((order) => (
                 <OrderRow key={order.orderId} order={order} />
