@@ -5,6 +5,7 @@ import colors from 'tailwindcss/colors'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 
 import { useGetPopularProductsQuery } from '../../hooks/use-get-popular-products-query'
+import { ChartError } from './chart-error'
 import { ChartLoader } from './chart-loader'
 
 const COLORS = [
@@ -52,8 +53,12 @@ const renderLabel = (
 }
 
 export function PopularProductsChart() {
-  const { data: popularProducts, isLoading: isLoadingPopularProducts } =
-    useGetPopularProductsQuery()
+  const {
+    data: popularProducts,
+    isLoading: isLoadingPopularProducts,
+    isError: isErrorOnGetPopularProducts,
+    refetch: refetchPopularProducts,
+  } = useGetPopularProductsQuery()
 
   return (
     <Card className="col-span-3">
@@ -67,6 +72,10 @@ export function PopularProductsChart() {
       </CardHeader>
 
       <CardContent>
+        {isErrorOnGetPopularProducts && (
+          <ChartError retry={refetchPopularProducts} />
+        )}
+
         {isLoadingPopularProducts && <ChartLoader />}
 
         {popularProducts && (

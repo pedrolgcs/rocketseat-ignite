@@ -22,38 +22,36 @@ export function MonthOrdersAmountCard() {
         <Utensils className="h-5 w-5 text-muted-foreground" />
       </CardHeader>
 
-      {isErrorOnGetMonthOrdersAmount && (
-        <CardContent>
+      <CardContent>
+        {isErrorOnGetMonthOrdersAmount && (
           <CardError retry={refetchMonthOrdersAmount} />
-        </CardContent>
-      )}
+        )}
 
-      {isLoadingOnGetMonthOrdersAmount && (
-        <CardContent>
-          <CardSkeleton />
-        </CardContent>
-      )}
+        {isLoadingOnGetMonthOrdersAmount && <CardSkeleton />}
 
-      {monthOrdersAmount && (
-        <CardContent className="space-y-1">
-          <span className="text-2xl font-bold tracking-tight">
-            {monthOrdersAmount.amount}
-          </span>
+        {monthOrdersAmount && (
+          <div className="space-y-1">
+            <span className="text-2xl font-bold tracking-tight">
+              {monthOrdersAmount.amount}
+            </span>
 
-          <p className="flex gap-1 text-xs text-muted-foreground">
-            {monthOrdersAmount.diffFromLastMonth >= 0 ? (
-              <span className={cn('text-emerald-500', 'dark:text-emerald-400')}>
-                +{monthOrdersAmount.diffFromLastMonth}%
-              </span>
-            ) : (
-              <span className={cn('text-rose-500', 'dark:text-rose-400')}>
-                {monthOrdersAmount.diffFromLastMonth}%
-              </span>
-            )}
-            em relação ao mês passado
-          </p>
-        </CardContent>
-      )}
+            <p className="flex gap-1 text-xs text-muted-foreground">
+              {monthOrdersAmount.diffFromLastMonth >= 0 ? (
+                <span
+                  className={cn('text-emerald-500', 'dark:text-emerald-400')}
+                >
+                  +{monthOrdersAmount.diffFromLastMonth}%
+                </span>
+              ) : (
+                <span className={cn('text-rose-500', 'dark:text-rose-400')}>
+                  {monthOrdersAmount.diffFromLastMonth}%
+                </span>
+              )}
+              em relação ao mês passado
+            </p>
+          </div>
+        )}
+      </CardContent>
     </Card>
   )
 }
