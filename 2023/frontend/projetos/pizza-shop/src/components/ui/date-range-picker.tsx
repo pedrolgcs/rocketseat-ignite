@@ -16,11 +16,13 @@ import { cn } from '@/lib/utils'
 
 type DateRangePickerProps = React.ComponentProps<'div'> & {
   date: DateRange | undefined
+  maxRange?: number
   onDateChange: (date: DateRange | undefined) => void
 }
 
 export function DateRangePicker({
   date,
+  maxRange,
   onDateChange,
   className,
 }: DateRangePickerProps) {
@@ -32,7 +34,7 @@ export function DateRangePicker({
             id="date"
             variant={'outline'}
             className={cn(
-              'w-[300px] justify-start text-left font-normal',
+              'w-full justify-start text-left font-normal',
               !date && 'text-muted-foreground',
             )}
           >
@@ -55,6 +57,7 @@ export function DateRangePicker({
           <Calendar
             initialFocus
             mode="range"
+            max={maxRange}
             defaultMonth={date?.from}
             selected={date}
             onSelect={onDateChange}
