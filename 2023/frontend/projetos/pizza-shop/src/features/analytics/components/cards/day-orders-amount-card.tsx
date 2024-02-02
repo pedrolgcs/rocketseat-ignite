@@ -4,11 +4,16 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { cn } from '@/lib/utils'
 
 import { useGetDayOrdersAmountQuery } from '../../hooks/use-get-day-orders-amount-query'
+import { CardError } from './card-error'
 import { CardSkeleton } from './card-skeleton'
 
 export function DayOrdersAmountCard() {
-  const { data: dayOrdersAmount, isLoading: isLoadingDayOrdersAmount } =
-    useGetDayOrdersAmountQuery()
+  const {
+    data: dayOrdersAmount,
+    isLoading: isLoadingOnGetDayOrdersAmount,
+    isError: isErrorOnGetDayOrdersAmount,
+    refetch: refetchDayOrdersAmount,
+  } = useGetDayOrdersAmountQuery()
 
   return (
     <Card>
@@ -17,7 +22,13 @@ export function DayOrdersAmountCard() {
         <Utensils className="h-5 w-5 text-muted-foreground" />
       </CardHeader>
 
-      {isLoadingDayOrdersAmount && (
+      {isErrorOnGetDayOrdersAmount && (
+        <CardContent>
+          <CardError retry={refetchDayOrdersAmount} />
+        </CardContent>
+      )}
+
+      {isLoadingOnGetDayOrdersAmount && (
         <CardContent>
           <CardSkeleton />
         </CardContent>

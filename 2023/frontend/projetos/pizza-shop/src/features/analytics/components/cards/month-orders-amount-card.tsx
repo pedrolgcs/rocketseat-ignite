@@ -4,11 +4,16 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { cn } from '@/lib/utils'
 
 import { useGetMonthOrdersAmountQuery } from '../../hooks/use-get-mont-orders-amount-query'
+import { CardError } from './card-error'
 import { CardSkeleton } from './card-skeleton'
 
 export function MonthOrdersAmountCard() {
-  const { data: monthOrdersAmount, isLoading: isLoadingMonthOrdersAmount } =
-    useGetMonthOrdersAmountQuery()
+  const {
+    data: monthOrdersAmount,
+    isLoading: isLoadingOnGetMonthOrdersAmount,
+    isError: isErrorOnGetMonthOrdersAmount,
+    refetch: refetchMonthOrdersAmount,
+  } = useGetMonthOrdersAmountQuery()
 
   return (
     <Card>
@@ -17,7 +22,13 @@ export function MonthOrdersAmountCard() {
         <Utensils className="h-5 w-5 text-muted-foreground" />
       </CardHeader>
 
-      {isLoadingMonthOrdersAmount && (
+      {isErrorOnGetMonthOrdersAmount && (
+        <CardContent>
+          <CardError retry={refetchMonthOrdersAmount} />
+        </CardContent>
+      )}
+
+      {isLoadingOnGetMonthOrdersAmount && (
         <CardContent>
           <CardSkeleton />
         </CardContent>
