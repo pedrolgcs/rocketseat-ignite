@@ -66,13 +66,9 @@ export function PopularProductsChart() {
         </div>
       </CardHeader>
 
-      {isLoadingPopularProducts && (
-        <CardContent>
-          <ChartLoader />
-        </CardContent>
-      )}
-
       <CardContent>
+        {isLoadingPopularProducts && <ChartLoader />}
+
         {popularProducts && (
           <ResponsiveContainer width="100%" height={240}>
             <PieChart style={{ fontSize: 12 }}>

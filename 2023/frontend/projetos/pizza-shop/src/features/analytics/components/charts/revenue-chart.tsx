@@ -27,9 +27,11 @@ import { formatCurrency } from '@/utils/formatCurrency'
 import { useGetDailyRevenueInPeriodQuery } from '../../hooks/use-get-daily-revenue-in-period-query'
 import { ChartLoader } from './chart-loader'
 
+const MAX_DATE_RANGE = 7
+
 export function RevenueChart() {
   const [dateRange, setDateRange] = useState<DateRange | undefined>({
-    from: subDays(new Date(), 7),
+    from: subDays(new Date(), MAX_DATE_RANGE),
     to: new Date(),
   })
 
@@ -65,18 +67,14 @@ export function RevenueChart() {
           <DateRangePicker
             date={dateRange}
             onDateChange={setDateRange}
-            maxRange={7}
+            maxRange={MAX_DATE_RANGE}
           />
         </div>
       </CardHeader>
 
-      {isLoadingRevenueInPeriod && (
-        <CardContent>
-          <ChartLoader />
-        </CardContent>
-      )}
-
       <CardContent>
+        {isLoadingRevenueInPeriod && <ChartLoader />}
+
         {chartData && (
           <ResponsiveContainer width="100%" height={240}>
             <LineChart data={chartData} style={{ fontSize: 12 }}>
