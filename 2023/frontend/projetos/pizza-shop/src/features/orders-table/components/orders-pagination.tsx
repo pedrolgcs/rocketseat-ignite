@@ -4,7 +4,6 @@ import {
   ChevronsLeft,
   ChevronsRight,
 } from 'lucide-react'
-import { useSearchParams } from 'react-router-dom'
 
 import { Button } from '@/components/ui/button'
 import {
@@ -17,28 +16,23 @@ type OrdersPaginationProps = {
   pageIndex: number
   totalCount: number
   perPage: number
+  onPageChange: (pageIndex: number) => void
 }
 
 export function OrdersPagination({
   totalCount,
   pageIndex,
   perPage,
+  onPageChange,
 }: OrdersPaginationProps) {
   const currentPage = pageIndex + 1
-
-  const [_, setSearchParams] = useSearchParams()
 
   const lastPage = Math.ceil(totalCount / perPage)
 
   const handlePaginate = (page: number) => {
     if (page < 1) return
     if (page > lastPage) return
-
-    setSearchParams((state) => {
-      state.set('page', page.toString())
-
-      return state
-    })
+    return onPageChange(page)
   }
 
   return (
@@ -59,6 +53,7 @@ export function OrdersPagination({
             disabled={currentPage === 1}
           >
             <ChevronsLeft className="h-4 w-4" />
+            <span className="sr-only">Página Inicial</span>
           </Button>
         </PaginationItem>
 
@@ -69,6 +64,7 @@ export function OrdersPagination({
             disabled={currentPage === 1}
           >
             <ChevronLeft className="h-4 w-4" />
+            <span className="sr-only">Página Anterior</span>
           </Button>
         </PaginationItem>
 
@@ -79,6 +75,7 @@ export function OrdersPagination({
             disabled={currentPage === lastPage}
           >
             <ChevronRight className="h-4 w-4" />
+            <span className="sr-only">Próxima Página</span>
           </Button>
         </PaginationItem>
 
@@ -89,6 +86,7 @@ export function OrdersPagination({
             disabled={currentPage === lastPage}
           >
             <ChevronsRight className="h-4 w-4" />
+            <span className="sr-only">Última Página</span>
           </Button>
         </PaginationItem>
       </PaginationContent>

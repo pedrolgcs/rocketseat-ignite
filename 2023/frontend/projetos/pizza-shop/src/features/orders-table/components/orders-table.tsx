@@ -16,7 +16,7 @@ import { OrderRowSkeleton } from './order-row-skeleton'
 import { OrdersPagination } from './orders-pagination'
 
 export function OrdersTable() {
-  const [searchParams] = useSearchParams()
+  const [searchParams, setSearchParams] = useSearchParams()
 
   const filterParams = {
     orderId: z.string().nullable().parse(searchParams.get('orderId')),
@@ -34,6 +34,13 @@ export function OrdersTable() {
     customerName: filterParams.customerName,
     status: filterParams.status,
   })
+
+  const handleChangePage = (page: number) => {
+    setSearchParams((state) => {
+      state.set('page', page.toString())
+      return state
+    })
+  }
 
   return (
     <div className="flex flex-col gap-4">
@@ -70,6 +77,7 @@ export function OrdersTable() {
           totalCount={result.meta.totalCount}
           pageIndex={result.meta.pageIndex}
           perPage={result.meta.perPage}
+          onPageChange={handleChangePage}
         />
       )}
     </div>
