@@ -88,6 +88,11 @@ export function RevenueChart() {
           <ResponsiveContainer width="100%" height={240}>
             <LineChart data={chartData} style={{ fontSize: 12 }}>
               <Tooltip
+                labelFormatter={(value: string) => value}
+                labelStyle={{
+                  fontSize: 14,
+                  color: theme === 'dark' ? colors.zinc[300] : colors.zinc[800],
+                }}
                 formatter={(value: number) => formatCurrency(value)}
                 itemStyle={{ fontSize: 16 }}
                 contentStyle={{
