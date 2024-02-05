@@ -39,7 +39,10 @@ export function OrderStatus({ status }: OrderStatusProps) {
 
   return (
     <div className="flex items-center gap-2">
-      <span className={cn('h-2 w-2 rounded-full', statusMap.color)} />
+      <span
+        className={cn('h-2 w-2 rounded-full', statusMap.color)}
+        data-testid="badge"
+      />
       <span className="font-medium text-muted-foreground">
         {statusMap.label}
       </span>
