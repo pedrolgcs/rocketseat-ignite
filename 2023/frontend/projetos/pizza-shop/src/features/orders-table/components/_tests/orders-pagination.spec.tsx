@@ -6,7 +6,7 @@ import { OrdersPagination } from '../orders-pagination'
 
 const onPageChangeCallback = vi.fn()
 
-describe('[Feature] OrdersTable - OrdersPagination', () => {
+describe('[Feature OrdersTable] - OrdersPagination', () => {
   beforeEach(() => {
     onPageChangeCallback.mockClear()
   })
@@ -21,7 +21,9 @@ describe('[Feature] OrdersTable - OrdersPagination', () => {
       />,
       { wrapper: BrowserRouter },
     )
+
     const currentPageLabel = wrapper.getByText('Página 1 de 10')
+
     expect(currentPageLabel).toBeInTheDocument()
   })
 
@@ -37,10 +39,13 @@ describe('[Feature] OrdersTable - OrdersPagination', () => {
       />,
       { wrapper: BrowserRouter },
     )
+
     const nextPageButton = wrapper.getByRole('button', {
-      name: 'Próxima Página',
+      name: 'Próxima página',
     })
+
     await user.click(nextPageButton)
+
     expect(onPageChangeCallback).toHaveBeenCalledWith(2)
   })
 
@@ -58,7 +63,7 @@ describe('[Feature] OrdersTable - OrdersPagination', () => {
     )
 
     const previousPageButton = wrapper.getByRole('button', {
-      name: 'Página Anterior',
+      name: 'Página anterior',
     })
 
     await user.click(previousPageButton)
@@ -80,7 +85,7 @@ describe('[Feature] OrdersTable - OrdersPagination', () => {
     )
 
     const firstPageButton = wrapper.getByRole('button', {
-      name: 'Página Inicial',
+      name: 'Página inicial',
     })
 
     await user.click(firstPageButton)
@@ -102,7 +107,7 @@ describe('[Feature] OrdersTable - OrdersPagination', () => {
     )
 
     const lastPageButton = wrapper.getByRole('button', {
-      name: 'Última Página',
+      name: 'Última página',
     })
 
     await user.click(lastPageButton)
@@ -110,7 +115,7 @@ describe('[Feature] OrdersTable - OrdersPagination', () => {
     expect(onPageChangeCallback).toHaveBeenCalledWith(10)
   })
 
-  it('should be able to navigate to the previous page when on the first page', () => {
+  it('should not be able to navigate to the previous page when on the first page', () => {
     const wrapper = render(
       <OrdersPagination
         pageIndex={0}
@@ -122,7 +127,7 @@ describe('[Feature] OrdersTable - OrdersPagination', () => {
     )
 
     const previousPageButton = wrapper.getByRole('button', {
-      name: 'Página Anterior',
+      name: 'Página anterior',
     })
 
     expect(previousPageButton).toBeDisabled()
@@ -140,7 +145,7 @@ describe('[Feature] OrdersTable - OrdersPagination', () => {
     )
 
     const nextPageButton = wrapper.getByRole('button', {
-      name: 'Próxima Página',
+      name: 'Próxima página',
     })
 
     expect(nextPageButton).toBeDisabled()

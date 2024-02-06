@@ -53,7 +53,7 @@ export function OrdersPagination({
             disabled={currentPage === 1}
           >
             <ChevronsLeft className="h-4 w-4" />
-            <span className="sr-only">Página Inicial</span>
+            <span className="sr-only">Página inicial</span>
           </Button>
         </PaginationItem>
 
@@ -64,7 +64,7 @@ export function OrdersPagination({
             disabled={currentPage === 1}
           >
             <ChevronLeft className="h-4 w-4" />
-            <span className="sr-only">Página Anterior</span>
+            <span className="sr-only">Página anterior</span>
           </Button>
         </PaginationItem>
 
@@ -75,7 +75,7 @@ export function OrdersPagination({
             disabled={currentPage === lastPage}
           >
             <ChevronRight className="h-4 w-4" />
-            <span className="sr-only">Próxima Página</span>
+            <span className="sr-only">Próxima página</span>
           </Button>
         </PaginationItem>
 
@@ -86,7 +86,7 @@ export function OrdersPagination({
             disabled={currentPage === lastPage}
           >
             <ChevronsRight className="h-4 w-4" />
-            <span className="sr-only">Última Página</span>
+            <span className="sr-only">Última página</span>
           </Button>
         </PaginationItem>
       </PaginationContent>
