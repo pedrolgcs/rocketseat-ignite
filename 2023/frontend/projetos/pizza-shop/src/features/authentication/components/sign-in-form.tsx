@@ -78,7 +78,11 @@ export function SignInForm() {
           )}
         />
 
-        <Button disabled={form.formState.isSubmitting} className="w-full">
+        <Button
+          type="submit"
+          disabled={form.formState.isSubmitting}
+          className="w-full"
+        >
           Acessar painel
         </Button>
 
