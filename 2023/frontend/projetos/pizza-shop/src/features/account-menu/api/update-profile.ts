@@ -1,6 +1,6 @@
 import { api } from '@/lib/axios'
 
-type UpdateProfileParams = {
+export type UpdateProfileParams = {
   name: string
   description: string | null
 }

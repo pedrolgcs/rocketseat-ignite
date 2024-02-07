@@ -8,10 +8,10 @@ export const getManagedRestaurantMock = http.get<
   GetManagedRestaurantResponse
 >('/managed-restaurant', async () => {
   return HttpResponse.json({
-    id: 'mock-id',
+    id: 'custom-restaurant-id',
     name: 'Pizza Shop',
     description: 'Descrição da loja',
-    managerId: 'manager-id',
+    managerId: 'custom-use-id',
     createdAt: new Date(),
     updatedAt: null,
   })

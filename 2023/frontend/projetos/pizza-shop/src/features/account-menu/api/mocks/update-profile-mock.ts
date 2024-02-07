@@ -1,7 +1,16 @@
 import { http, HttpResponse } from 'msw'
 
-export const updateProfile = http.put('/profile', async () => {
-  return new HttpResponse(null, {
-    status: 201,
-  })
-})
+import { UpdateProfileParams } from '../update-profile'
+
+export const updateProfile = http.put<never, UpdateProfileParams>(
+  '/profile',
+  async ({ request }) => {
+    const { name } = await request.json()
+
+    if (name.match(/^[a-zA-Z ]+$/)) {
+      return new HttpResponse(null, { status: 204 })
+    }
+
+    return new HttpResponse(null, { status: 400 })
+  },
+)
