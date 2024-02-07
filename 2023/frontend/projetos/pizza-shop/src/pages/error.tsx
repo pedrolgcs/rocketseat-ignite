@@ -11,7 +11,7 @@ export function ErrorPage() {
       <p className="text-accent-foreground">
         Um erro inesperado aconteceu, abaixo você encontra mais detalhes
       </p>
-      <pre className="whitespace-pre rounded border border-muted-foreground p-4 text-accent-foreground">
+      <pre className="whitespace-pre rounded border border-muted-foreground p-4 text-accent-foreground shadow-lg shadow-slate-900">
         {error?.message || JSON.stringify(error)}
       </pre>
       <p className="text-accent-foreground">
