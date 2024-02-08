@@ -5,6 +5,8 @@ export type GetOrderDetailsParams = {
   orderId: string
 }
 
+export type GetOrderDetailsResponse = OrderDetails
+
 export async function getOrderDetails(params: GetOrderDetailsParams) {
   const { orderId } = params
   const response = await api.get<OrderDetails>(`/orders/${orderId}`)
