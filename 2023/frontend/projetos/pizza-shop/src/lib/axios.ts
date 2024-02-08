@@ -19,7 +19,7 @@ api.interceptors.response.use(
       window.location.replace('/sign-in')
     }
 
-    return error
+    throw error
   },
 )
 
