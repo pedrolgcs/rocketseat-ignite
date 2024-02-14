@@ -9,7 +9,8 @@ test('[E2E] SignIn - Success', async ({ page }) => {
   const successToast = page.getByText(
     'Enviamos um link de autenticação para seu e-mail.',
   )
-  expect(successToast).toBeVisible()
+
+  await expect(successToast).toBeVisible()
   // await page.waitForTimeout(1000)
 })
 
@@ -20,7 +21,8 @@ test('[E2E] SignIn - Wrong e-mail', async ({ page }) => {
   await page.getByRole('button', { name: 'Acessar painel' }).click()
 
   const errorToast = page.getByText('Email inválido ou inexistente.')
-  expect(errorToast).toBeVisible()
+
+  await expect(errorToast).toBeVisible()
 })
 
 test('[E2E] SignIn - Navigate to sign up ', async ({ page }) => {
@@ -28,5 +30,5 @@ test('[E2E] SignIn - Navigate to sign up ', async ({ page }) => {
 
   await page.getByRole('link', { name: 'Novo estabelecimento' }).click()
 
-  expect(page.url()).toContain('/sign-up')
+  await expect(page.url()).toContain('/sign-up')
 })

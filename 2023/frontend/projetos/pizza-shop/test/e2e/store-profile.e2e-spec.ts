@@ -17,7 +17,5 @@ test('[E2E] Update Store Profile - Success', async ({ page }) => {
 
   await page.getByRole('button', { name: 'Close' }).click()
 
-  expect(page.getByRole('button', { name: 'Updated Name' })).toBeVisible()
-
-  await page.waitForTimeout(1000)
+  await expect(page.getByRole('button', { name: 'Updated Name' })).toBeVisible()
 })

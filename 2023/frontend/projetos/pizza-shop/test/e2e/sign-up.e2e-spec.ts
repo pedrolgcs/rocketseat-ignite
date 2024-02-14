@@ -12,8 +12,7 @@ test('[E2E] SignUp - Success', async ({ page }) => {
 
   const toast = page.getByText('Restaurante cadastrado com sucesso!')
 
-  expect(toast).toBeVisible()
-  await page.waitForTimeout(1000)
+  await expect(toast).toBeVisible()
 })
 
 test('[E2E] SignUp - Error', async ({ page }) => {
@@ -28,8 +27,7 @@ test('[E2E] SignUp - Error', async ({ page }) => {
 
   const toast = page.getByText('Erro ao cadastrar restaurante.')
 
-  expect(toast).toBeVisible()
-  await page.waitForTimeout(1000)
+  await expect(toast).toBeVisible()
 })
 
 test('[E2E] SignUp - Navigate to sign in', async ({ page }) => {
