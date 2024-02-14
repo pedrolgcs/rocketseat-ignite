@@ -12,7 +12,7 @@ export const getOrdersMock = http.get<never, never, GetOrdersResponse>(
       : 0
     const customerName = searchParams.get('customerName')
     const status = searchParams.get('status')
-    const orderId = searchParams.get('oderId')
+    const orderId = searchParams.get('orderId')
 
     let filteredOrders = inMemoryOrders
 
