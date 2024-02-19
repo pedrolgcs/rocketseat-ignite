@@ -5,15 +5,8 @@
     {
       "idx": 0,
       "version": "5",
-      "when": 1708133188152,
-      "tag": "0000_fuzzy_mister_sinister",
-      "breakpoints": true
-    },
-    {
-      "idx": 1,
-      "version": "5",
-      "when": 1708133314551,
-      "tag": "0001_daily_cobalt_man",
+      "when": 1708358998763,
+      "tag": "0000_colossal_sprite",
       "breakpoints": true
     }
   ]

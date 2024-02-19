@@ -1,0 +1,14 @@
+{
+  "extends": [
+    "@rocketseat/eslint-config/node"
+  ],
+  "plugins": ["simple-import-sort"],
+  "root": true,
+  "rules": {
+    "no-case-declarations": "off",
+    "@typescript-eslint/no-namespace": "off",
+    "camelcase": "off",
+    "@typescript-eslint/no-empty-function": "off",
+    "simple-import-sort/imports": "error"
+  }
+}
