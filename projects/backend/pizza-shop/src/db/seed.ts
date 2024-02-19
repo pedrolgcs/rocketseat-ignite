@@ -1,3 +1,5 @@
+/* eslint-disable drizzle/enforce-delete-with-where */
+
 import { fakerPT_BR as faker } from '@faker-js/faker'
 import chalk from 'chalk'
 
