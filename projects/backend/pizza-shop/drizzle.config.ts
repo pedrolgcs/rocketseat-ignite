@@ -1,8 +1,8 @@
 import type { Config } from 'drizzle-kit'
 
-import { env } from './src/env'
+import { env } from '@/infra/env'
 export default {
-  schema: './src/db/schema/index.ts',
+  schema: './src/infra/db/schema/index.ts',
   out: './drizzle',
   driver: 'pg',
   dbCredentials: {
