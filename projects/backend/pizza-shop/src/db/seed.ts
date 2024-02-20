@@ -1,57 +1,74 @@
 /* eslint-disable drizzle/enforce-delete-with-where */
-
 import { fakerPT_BR as faker } from '@faker-js/faker'
 import chalk from 'chalk'
 
 import { db } from './connection'
 import { restaurants, users } from './schema'
 
-await db.delete(users)
-await db.delete(restaurants)
+async function resetDatabase() {
+  await db.delete(users)
+  await db.delete(restaurants)
 
-console.log(chalk.yellow('✓ Database reset!'))
+  console.log(chalk.yellow('✓ Database reset!'))
+}
 
-await db.insert(users).values([
-  {
-    name: faker.person.fullName(),
-    email: faker.internet.email().toLocaleLowerCase(),
-    phone: faker.phone.number(),
-    role: 'customer',
-  },
-  {
-    name: faker.person.fullName(),
-    email: faker.internet.email().toLocaleLowerCase(),
-    phone: faker.phone.number(),
-    role: 'customer',
-  },
-])
-
-console.log(chalk.yellow('✓ Created customers!'))
-
-const [manager] = await db
-  .insert(users)
-  .values([
+async function createCustomers() {
+  await db.insert(users).values([
     {
       name: faker.person.fullName(),
-      email: 'admin@admin.com',
+      email: faker.internet.email().toLocaleLowerCase(),
       phone: faker.phone.number(),
-      role: 'manager',
+      role: 'customer',
+    },
+    {
+      name: faker.person.fullName(),
+      email: faker.internet.email().toLocaleLowerCase(),
+      phone: faker.phone.number(),
+      role: 'customer',
     },
   ])
-  .returning({ id: users.id })
 
-console.log(chalk.yellow('✓ Created manager!'))
+  console.log(chalk.yellow('✓ Created customers!'))
+}
 
-await db.insert(restaurants).values([
-  {
-    name: faker.company.name(),
-    description: faker.lorem.paragraphs(1),
-    managerId: manager.id,
-  },
-])
+async function createManager() {
+  const [manager] = await db
+    .insert(users)
+    .values([
+      {
+        name: faker.person.fullName(),
+        email: 'admin@admin.com',
+        phone: faker.phone.number(),
+        role: 'manager',
+      },
+    ])
+    .returning({ id: users.id })
 
-console.log(chalk.yellow('✓ Created restaurants!'))
+  console.log(chalk.yellow('✓ Created manager!'))
 
-console.log(chalk.green('✓ Database seeded successfully!'))
+  return manager
+}
 
-process.exit()
+async function createRestaurants(managerId: string) {
+  await db.insert(restaurants).values([
+    {
+      name: faker.company.name(),
+      description: faker.lorem.paragraphs(1),
+      managerId,
+    },
+  ])
+
+  console.log(chalk.yellow('✓ Created restaurants!'))
+}
+
+try {
+  await resetDatabase()
+  await createCustomers()
+  const manager = await createManager()
+  await createRestaurants(manager.id)
+  console.log(chalk.green('✓ Database seeded successfully!'))
+} catch (error) {
+  console.log(chalk.red('✗ Database seeding failed!'))
+} finally {
+  process.exit()
+}
