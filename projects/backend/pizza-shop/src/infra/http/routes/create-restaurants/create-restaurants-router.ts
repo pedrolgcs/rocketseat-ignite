@@ -1,14 +1,29 @@
-import Elysia, { t } from 'elysia'
+import Elysia, { InternalServerError, NotFoundError } from 'elysia'
+import { z } from 'zod'
 
 import {
   makeCreateManagerUseCase,
   makeCreateRestaurantUseCase,
 } from '@/infra/factories/use-cases'
+import { ZodValidationError } from '@/infra/http/errors'
+
+const BodySchema = z.object({
+  restaurantName: z.string(),
+  managerName: z.string().email(),
+  email: z.string(),
+  phone: z.string().optional(),
+})
 
 export const createRestaurantsRouter = new Elysia().post(
   '/restaurants',
   async ({ body, set }) => {
-    const { restaurantName, managerName, email, phone } = body
+    const parseBody = BodySchema.safeParse(body)
+
+    if (!parseBody.success) {
+      throw new ZodValidationError('Validation error', parseBody.error)
+    }
+
+    const { managerName, restaurantName, email, phone } = parseBody.data
 
     const createManager = makeCreateManagerUseCase()
     const createRestaurant = makeCreateRestaurantUseCase()
@@ -19,9 +34,8 @@ export const createRestaurantsRouter = new Elysia().post(
       phone,
     })
 
-    // TODO: Handle error
     if (createManagerResult.isLeft()) {
-      return (set.status = 400)
+      return new InternalServerError()
     }
 
     const { manager } = createManagerResult.value
@@ -31,19 +45,10 @@ export const createRestaurantsRouter = new Elysia().post(
       managerId: manager.id.toString(),
     })
 
-    // TODO: Handle error
     if (createRestaurantResult.isLeft()) {
-      return (set.status = 400)
+      return new NotFoundError('Manager not found')
     }
 
     set.status = 204
-  },
-  {
-    body: t.Object({
-      restaurantName: t.String(),
-      managerName: t.String(),
-      email: t.String({ format: 'email' }),
-      phone: t.Optional(t.String()),
-    }),
   },
 )
