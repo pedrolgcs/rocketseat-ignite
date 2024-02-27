@@ -14,7 +14,7 @@ const bodySchema = z.object({
   phone: z.string().optional(),
 })
 
-export const createRestaurantsRouter = new Elysia().post(
+export const registerRestaurantsRouter = new Elysia().post(
   '/restaurants',
   async ({ body, set }) => {
     const parseBody = bodySchema.safeParse(body)

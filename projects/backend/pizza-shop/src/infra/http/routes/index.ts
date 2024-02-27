@@ -1,8 +1,8 @@
 import { Elysia, InternalServerError, NotFoundError } from 'elysia'
 
 import { UseCaseValidationError, ZodValidationError } from '../errors'
-import { createRestaurantsRouter } from './create-restaurants/create-restaurants-router'
 import { healthCheckRouter } from './health-check/health-check-router'
+import { registerRestaurantsRouter } from './register-restaurants/register-restaurants-router'
 
 export const routes = new Elysia()
   .error({
@@ -31,4 +31,4 @@ export const routes = new Elysia()
     }
   })
   .use(healthCheckRouter)
-  .use(createRestaurantsRouter)
+  .use(registerRestaurantsRouter)
