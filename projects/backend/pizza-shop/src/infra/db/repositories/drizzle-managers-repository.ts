@@ -14,6 +14,14 @@ export class DrizzleManagersRepository implements ManagersRepository {
     return DrizzleManagerMapper.toDomain(manager)
   }
 
+  async findByEmail(email: string): Promise<Manager | null> {
+    const manager = await db.query.users.findFirst({
+      where: eq(users.email, email),
+    })
+    if (!manager) return null
+    return DrizzleManagerMapper.toDomain(manager)
+  }
+
   async create(manager: Manager): Promise<void> {
     const raw = DrizzleManagerMapper.toDrizzle(manager)
     await db.insert(users).values(raw)

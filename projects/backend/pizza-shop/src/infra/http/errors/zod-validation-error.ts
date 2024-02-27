@@ -1,26 +1,30 @@
 import { ZodError } from 'zod'
 
+type Props = {
+  error: ZodError<Record<string, string>>
+}
+
 export class ZodValidationError extends Error {
-  private readonly friendlyMessage =
-    'Ocorreu um erro na validação dos dados, verifique e tente novamente'
+  private props: Props
 
-  constructor(
-    public message: string,
-    private error: ZodError<Record<string, string>>,
-  ) {
-    super(message)
-    this.error = error
+  constructor(props: Props) {
+    super('Validation error')
+    this.props = props
   }
 
-  get errors() {
-    return this.error.formErrors.fieldErrors
+  get error() {
+    return this.props.error
   }
 
-  get toResponse() {
+  get friendlyMessage() {
+    return 'Desculpe, ocorreu um problema na validação dos dados. Por favor, verifique e tente novamente.'
+  }
+
+  toHTTP() {
     return {
       message: this.message,
       friendlyMessage: this.friendlyMessage,
-      errors: this.errors,
+      error: this.error.formErrors.fieldErrors,
     }
   }
 }

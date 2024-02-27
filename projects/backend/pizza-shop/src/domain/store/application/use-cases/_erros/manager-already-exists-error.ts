@@ -4,13 +4,13 @@ type Props = {
   friendlyMessage: string
 }
 
-export class ManagerNotFoundError extends Error implements UseCaseError {
+export class ManagerAlreadyExistsError extends Error implements UseCaseError {
   private readonly props: Props
 
   constructor() {
-    super('Manager not found')
+    super('Manager already exists')
     this.props = {
-      friendlyMessage: 'Gerente não encontrado no sistema',
+      friendlyMessage: 'Gerente já cadastrado no sistema',
     }
   }
 
