@@ -8,6 +8,13 @@
       "when": 1708358998763,
       "tag": "0000_colossal_sprite",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "5",
+      "when": 1709058685635,
+      "tag": "0001_careful_snowbird",
+      "breakpoints": true
     }
   ]
 }
