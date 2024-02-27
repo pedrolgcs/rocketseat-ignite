@@ -7,7 +7,7 @@ import {
 } from '@/infra/factories/use-cases'
 import { UseCaseValidationError, ZodValidationError } from '@/infra/http/errors'
 
-const BodySchema = z.object({
+const bodySchema = z.object({
   restaurantName: z.string(),
   managerName: z.string(),
   email: z.string().email(),
@@ -17,7 +17,7 @@ const BodySchema = z.object({
 export const createRestaurantsRouter = new Elysia().post(
   '/restaurants',
   async ({ body, set }) => {
-    const parseBody = BodySchema.safeParse(body)
+    const parseBody = bodySchema.safeParse(body)
 
     if (!parseBody.success) {
       throw new ZodValidationError({ error: parseBody.error })
