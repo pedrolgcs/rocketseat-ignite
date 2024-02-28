@@ -1,0 +1,30 @@
+import { InferSelectModel } from 'drizzle-orm'
+
+import { UniqueEntityID } from '@/core/entities/unique-entity-id'
+import { UserAuthenticate } from '@/domain/store/enterprise/entities'
+
+import { authLinks } from '../schema'
+
+type DrizzleAuthLinks = InferSelectModel<typeof authLinks>
+
+export class DrizzleUserAuthenticateMapper {
+  static toDomain(raw: DrizzleAuthLinks): UserAuthenticate {
+    return UserAuthenticate.create(
+      {
+        code: raw.code,
+        userId: new UniqueEntityID(raw.id),
+        createdAt: raw.created_at,
+      },
+      new UniqueEntityID(raw.id),
+    )
+  }
+
+  static toDrizzle(user: UserAuthenticate): DrizzleAuthLinks {
+    return {
+      id: user.id.toString(),
+      code: user.code,
+      userId: user.userId.toString(),
+      created_at: user.createdAt,
+    }
+  }
+}

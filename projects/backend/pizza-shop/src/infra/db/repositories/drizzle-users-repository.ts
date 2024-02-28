@@ -10,7 +10,9 @@ import { users } from '../schema'
 export class DrizzleUsersRepository implements UsersRepository {
   async findById(id: string): Promise<User | null> {
     const user = await db.query.users.findFirst({
-      where: eq(users.id, id),
+      where: (fields, { eq }) => {
+        return eq(fields.id, id)
+      },
     })
     if (!user) return null
     return DrizzleUserMapper.toDomain(user)
@@ -18,7 +20,9 @@ export class DrizzleUsersRepository implements UsersRepository {
 
   async findByEmail(email: string): Promise<User | null> {
     const user = await db.query.users.findFirst({
-      where: eq(users.email, email),
+      where: (fields, { eq }) => {
+        return eq(fields.email, email)
+      },
     })
     if (!user) return null
     return DrizzleUserMapper.toDomain(user)

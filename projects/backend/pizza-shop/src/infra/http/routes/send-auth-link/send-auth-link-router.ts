@@ -1,7 +1,8 @@
 import Elysia from 'elysia'
 import { z } from 'zod'
 
-import { ZodValidationError } from '@/infra/http/errors'
+import { makeSendAuthenticateLinkUseCase } from '@/infra/factories/use-cases'
+import { UseCaseValidationError, ZodValidationError } from '@/infra/http/errors'
 
 const bodySchema = z.object({
   email: z.string().email(),
@@ -17,5 +18,18 @@ export const sendAuthLinkRouter = new Elysia().post(
     }
 
     const { email } = parseBody.data
+
+    const sendAuthenticateLink = makeSendAuthenticateLinkUseCase()
+
+    const result = await sendAuthenticateLink.execute({ email })
+
+    if (result.isLeft()) {
+      throw new UseCaseValidationError({
+        message: result.value.message,
+        friendlyMessage: result.value.friendlyMessage,
+      })
+    }
+
+    set.status = 204
   },
 )
