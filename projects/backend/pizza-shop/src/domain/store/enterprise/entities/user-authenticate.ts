@@ -22,8 +22,11 @@ export class UserAuthenticate extends Entity<UserAuthenticateProps> {
     )
   }
 
-  public createLink() {
-    return this.props.code
+  public createURL(to: string, baseURl: string, redirect: string) {
+    const url = new URL(to, baseURl)
+    url.searchParams.set('code', this.code)
+    url.searchParams.set('redirect', redirect)
+    return url.toString()
   }
 
   get code() {

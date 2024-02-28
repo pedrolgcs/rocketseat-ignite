@@ -7,6 +7,7 @@ import {
   UsersRepository,
 } from '@/domain/store/application/repositories'
 import { UserAuthenticate } from '@/domain/store/enterprise/entities'
+import { env } from '@/infra/env'
 
 import { UserNotFoundError } from '../_erros'
 
@@ -46,9 +47,15 @@ export class SendAuthenticateLinkUseCase {
 
     await this.usersAuthenticateRepository.create(authentication)
 
+    const authLink = authentication.createURL(
+      '/auth-links/authenticate',
+      env.API_BASE_URL,
+      env.AUTH_REDIRECT_URL,
+    )
+
     this.mailProvider.sendEmail({
       to: user.email,
-      text: `Seu link de autenticação: ${authLinkCode}`,
+      text: `Sua URL de autenticação: ${authLink.toString()}`,
     })
 
     return right({
