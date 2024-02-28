@@ -3,7 +3,7 @@ import { pgTable, text, timestamp } from 'drizzle-orm/pg-core'
 
 import { users } from './users'
 
-export const authLinks = pgTable('aith_links', {
+export const authLinks = pgTable('auth_links', {
   id: text('id')
     .$defaultFn(() => createId())
     .primaryKey(),

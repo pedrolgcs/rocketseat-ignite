@@ -1,8 +1,8 @@
 import { Either, left, right } from '@/core/either'
 import { UniqueEntityID } from '@/core/entities/unique-entity-id'
 import {
-  ManagersRepository,
   RestaurantesRepository,
+  UsersRepository,
 } from '@/domain/store/application/repositories'
 import { Restaurante } from '@/domain/store/enterprise/entities'
 
@@ -24,15 +24,15 @@ type Response = Either<
 export class CreateRestaurantUseCase {
   constructor(
     private readonly restaurantsRepository: RestaurantesRepository,
-    private readonly managersRepository: ManagersRepository,
+    private readonly usersRepository: UsersRepository,
   ) {}
 
   public async execute(request: Request): Promise<Response> {
     const { name, description, managerId } = request
 
-    const manager = await this.managersRepository.findById(managerId)
+    const manager = await this.usersRepository.findById(managerId)
 
-    if (!manager) {
+    if (!manager || manager.role !== 'manager') {
       return left(new ManagerNotFoundError())
     }
 

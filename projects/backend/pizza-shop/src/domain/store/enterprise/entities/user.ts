@@ -2,27 +2,28 @@ import { Entity } from '@/core/entities/entity'
 import type { UniqueEntityID } from '@/core/entities/unique-entity-id'
 import type { Optional } from '@/core/types/optional'
 
-export type ManagerProps = {
+export type UserProps = {
   name: string
   email: string
   phone?: string | null
+  role: 'customer' | 'manager'
   createdAt: Date
   updatedAt?: Date | null
 }
 
-export class Manager extends Entity<ManagerProps> {
+export class User extends Entity<UserProps> {
   static create(
-    props: Optional<ManagerProps, 'createdAt'>,
+    props: Optional<UserProps, 'createdAt'>,
     id?: UniqueEntityID,
-  ): Manager {
-    const manager = new Manager(
+  ): User {
+    const user = new User(
       {
         ...props,
         createdAt: props.createdAt ?? new Date(),
       },
       id,
     )
-    return manager
+    return user
   }
 
   private touch() {
@@ -39,6 +40,10 @@ export class Manager extends Entity<ManagerProps> {
 
   get phone() {
     return this.props.phone
+  }
+
+  get role() {
+    return this.props.role
   }
 
   get createdAt() {

@@ -15,6 +15,13 @@
       "when": 1709058685635,
       "tag": "0001_careful_snowbird",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "5",
+      "when": 1709122835213,
+      "tag": "0002_robust_living_lightning",
+      "breakpoints": true
     }
   ]
 }

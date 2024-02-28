@@ -1,8 +1,8 @@
 import { Either, left, right } from '@/core/either'
-import { ManagersRepository } from '@/domain/store/application/repositories'
-import { Manager } from '@/domain/store/enterprise/entities'
+import { UsersRepository } from '@/domain/store/application/repositories'
+import { User } from '@/domain/store/enterprise/entities'
 
-import { ManagerAlreadyExistsError } from '../_erros'
+import { EmailAlreadyUsedError } from '../_erros'
 
 type Request = {
   name: string
@@ -11,31 +11,32 @@ type Request = {
 }
 
 type Response = Either<
-  ManagerAlreadyExistsError,
+  EmailAlreadyUsedError,
   {
-    manager: Manager
+    manager: User
   }
 >
 
 export class CreateManagerUseCase {
-  constructor(private readonly managersRepository: ManagersRepository) {}
+  constructor(private readonly usersRepository: UsersRepository) {}
 
   public async execute(request: Request): Promise<Response> {
     const { name, email, phone } = request
 
-    const existingManager = await this.managersRepository.findByEmail(email)
+    const emailAlreadyUsed = await this.usersRepository.findByEmail(email)
 
-    if (existingManager) {
-      return left(new ManagerAlreadyExistsError())
+    if (emailAlreadyUsed) {
+      return left(new EmailAlreadyUsedError())
     }
 
-    const manager = Manager.create({
+    const manager = User.create({
       name,
       email,
       phone,
+      role: 'manager',
     })
 
-    await this.managersRepository.create(manager)
+    await this.usersRepository.create(manager)
 
     return right({ manager })
   }

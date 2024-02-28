@@ -4,13 +4,13 @@ type Props = {
   friendlyMessage: string
 }
 
-export class ManagerAlreadyExistsError extends Error implements UseCaseError {
+export class EmailAlreadyUsedError extends Error implements UseCaseError {
   private readonly props: Props
 
   constructor() {
-    super('Manager already exists')
+    super('Email already used')
     this.props = {
-      friendlyMessage: 'Gerente já cadastrado no sistema',
+      friendlyMessage: 'Email já utilizado',
     }
   }
 
