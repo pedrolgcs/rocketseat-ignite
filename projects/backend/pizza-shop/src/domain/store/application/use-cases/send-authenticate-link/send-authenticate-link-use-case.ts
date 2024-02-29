@@ -18,7 +18,7 @@ type Request = {
 type Response = Either<
   UserNotFoundError,
   {
-    auth: UserAuthenticate
+    url: string
   }
 >
 
@@ -48,7 +48,6 @@ export class SendAuthenticateLinkUseCase {
     await this.usersAuthenticateRepository.create(authentication)
 
     const authLink = authentication.createURL(
-      '/auth-links/authenticate',
       env.API_BASE_URL,
       env.AUTH_REDIRECT_URL,
     )
@@ -59,7 +58,7 @@ export class SendAuthenticateLinkUseCase {
     })
 
     return right({
-      auth: authentication,
+      url: authLink.toString(),
     })
   }
 }

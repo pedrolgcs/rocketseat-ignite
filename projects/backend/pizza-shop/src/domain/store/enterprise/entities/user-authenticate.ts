@@ -22,8 +22,9 @@ export class UserAuthenticate extends Entity<UserAuthenticateProps> {
     )
   }
 
-  public createURL(to: string, baseURl: string, redirect: string) {
-    const url = new URL(to, baseURl)
+  public createURL(baseURl: string, redirect: string) {
+    const TO_URL = '/auth-links/authenticate'
+    const url = new URL(TO_URL, baseURl)
     url.searchParams.set('code', this.code)
     url.searchParams.set('redirect', redirect)
     return url.toString()
