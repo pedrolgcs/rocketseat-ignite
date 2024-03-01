@@ -24,15 +24,15 @@ export class MailtrapMailProvider implements MailProvider {
   }
 
   sendEmail(params: SendMailParams): void {
-    const { to, subject, templateData } = params
+    const { to, subject, template } = params
 
     this.transporter.sendMail({
       from: 'Pizza Shop <pizzashop@me.com>',
       to: to.email,
       subject,
       html: pug.renderFile(
-        path.join(VIEWS_PATH, templateData.template.concat('.pug')),
-        templateData.variables,
+        path.join(VIEWS_PATH, template.file.concat('.pug')),
+        template.variables,
       ),
     })
   }

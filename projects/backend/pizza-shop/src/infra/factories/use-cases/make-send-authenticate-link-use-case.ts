@@ -9,6 +9,7 @@ export function makeSendAuthenticateLinkUseCase() {
   const usersRepository = new DrizzleUsersRepository()
   const usersAuthenticateRepository = new DrizzleUsersAuthenticateRepository()
   const smtpProvider = new MailtrapMailProvider()
+
   return new SendAuthenticateLinkUseCase(
     usersRepository,
     usersAuthenticateRepository,

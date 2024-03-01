@@ -58,8 +58,8 @@ export class SendAuthenticateLinkUseCase {
         email: user.email,
       },
       subject: 'Link de autenticação',
-      templateData: {
-        template: 'auth_template',
+      template: {
+        file: 'auth_template',
         variables: {
           name: user.name,
           link: authLink.toString(),

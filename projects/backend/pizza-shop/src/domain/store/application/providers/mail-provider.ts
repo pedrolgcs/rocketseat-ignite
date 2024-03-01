@@ -1,19 +1,20 @@
-type Auth = {
-  template: 'auth_template'
+type AuthTemplate = {
+  file: 'auth_template'
   variables: {
     link: string
     name: string
   }
 }
 
-type SignIn = {
-  template: 'signin_template'
+type SignInTemplate = {
+  file: 'reset_password_template'
   variables: {
-    name: string
+    link: string
+    email: string
   }
 }
 
-type TemplateData = Auth | SignIn
+type Template = AuthTemplate | SignInTemplate
 
 export type SendMailParams = {
   to: {
@@ -21,7 +22,7 @@ export type SendMailParams = {
     email: string
   }
   subject: string
-  templateData: TemplateData
+  template: Template
 }
 
 export abstract class MailProvider {
