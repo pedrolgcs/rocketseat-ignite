@@ -1,9 +1,14 @@
+import path from 'node:path'
+
 import nodemailer from 'nodemailer'
+import pug from 'pug'
 
 import {
   MailProvider,
   SendMailParams,
 } from '@/domain/store/application/providers'
+
+const VIEWS_PATH = path.resolve(__dirname, 'views')
 
 export class MailtrapMailProvider implements MailProvider {
   private transporter: nodemailer.Transporter
@@ -19,13 +24,16 @@ export class MailtrapMailProvider implements MailProvider {
   }
 
   sendEmail(params: SendMailParams): void {
-    const { to, text } = params
+    const { to, subject, templateData } = params
 
     this.transporter.sendMail({
       from: 'Pizza Shop <pizzashop@me.com>',
-      to,
-      subject: 'Testando o Feedget',
-      text,
+      to: to.email,
+      subject,
+      html: pug.renderFile(
+        path.join(VIEWS_PATH, templateData.template.concat('.pug')),
+        templateData.variables,
+      ),
     })
   }
 }

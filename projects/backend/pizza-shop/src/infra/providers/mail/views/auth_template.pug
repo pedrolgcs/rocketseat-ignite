@@ -1,0 +1,21 @@
+//- views/email_template.pug
+
+doctype html
+html
+  head
+    meta(charset='utf-8')
+    meta(http-equiv='X-UA-Compatible', content='IE=edge')
+    meta(name='viewport', content='width=device-width, initial-scale=1')
+    title Pizza Shop - Autenticação
+
+  body
+    div(style='font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px;')
+      h1(style='color: #f5821f;') 🍕 Pizza Shop
+      p(style='color: #333;') Olá #{name},
+      p(style='color: #333;') Você solicitou um link para autenticação na Pizza Shop. Clique no link abaixo para acessar sua conta:
+      p
+        a(href=link, style='color: #f5821f; text-decoration: none;') 
+          | Acessar minha conta
+      p(style='color: #333;') Se você não solicitou este link, ignore este e-mail.
+      p(style='color: #333;') Obrigado, 
+      p(style='color: #f5821f;') Equipe Pizza Shop

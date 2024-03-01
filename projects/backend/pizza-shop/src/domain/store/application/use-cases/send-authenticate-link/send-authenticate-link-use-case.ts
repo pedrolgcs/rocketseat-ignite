@@ -53,8 +53,18 @@ export class SendAuthenticateLinkUseCase {
     )
 
     this.mailProvider.sendEmail({
-      to: user.email,
-      text: `Sua URL de autenticação: ${authLink.toString()}`,
+      to: {
+        name: user.name,
+        email: user.email,
+      },
+      subject: 'Link de autenticação',
+      templateData: {
+        template: 'auth_template',
+        variables: {
+          name: user.name,
+          link: authLink.toString(),
+        },
+      },
     })
 
     return right({
