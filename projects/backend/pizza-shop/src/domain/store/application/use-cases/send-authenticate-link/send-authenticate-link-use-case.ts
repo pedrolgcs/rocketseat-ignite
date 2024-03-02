@@ -47,7 +47,10 @@ export class SendAuthenticateLinkUseCase {
 
     await this.usersAuthenticateRepository.create(authentication)
 
+    const toURL = '/auth-links/authenticate'
+
     const authLink = authentication.createURL(
+      toURL,
       env.API_BASE_URL,
       env.AUTH_REDIRECT_URL,
     )
