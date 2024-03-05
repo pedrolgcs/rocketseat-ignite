@@ -1,6 +1,7 @@
 import { Elysia, InternalServerError, NotFoundError } from 'elysia'
 
 import { UseCaseValidationError, ZodValidationError } from '../errors'
+import { authenticateFromLinkRouter } from './authenticate-from-link/authenticate-from-link-router'
 import { healthCheckRouter } from './health-check/health-check-router'
 import { registerRestaurantsRouter } from './register-restaurants/register-restaurants-router'
 import { sendAuthLinkRouter } from './send-auth-link/send-auth-link-router'
@@ -34,3 +35,4 @@ export const routes = new Elysia()
   .use(healthCheckRouter)
   .use(registerRestaurantsRouter)
   .use(sendAuthLinkRouter)
+  .use(authenticateFromLinkRouter)

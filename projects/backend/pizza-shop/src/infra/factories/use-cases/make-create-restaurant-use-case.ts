@@ -7,5 +7,6 @@ import {
 export function makeCreateRestaurantUseCase() {
   const restaurantsRepository = new DrizzleRestaurantsRepository()
   const usersRepository = new DrizzleUsersRepository()
+
   return new CreateRestaurantUseCase(restaurantsRepository, usersRepository)
 }

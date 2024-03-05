@@ -1,3 +1,5 @@
+import { eq } from 'drizzle-orm'
+
 import { UsersAuthenticateRepository } from '@/domain/store/application/repositories'
 import { UserAuthenticate } from '@/domain/store/enterprise/entities'
 
@@ -21,5 +23,9 @@ export class DrizzleUsersAuthenticateRepository
     })
     if (!authentication) return null
     return DrizzleUserAuthenticateMapper.toDomain(authentication)
+  }
+
+  async deleteByCode(code: string): Promise<void> {
+    await db.delete(authLinks).where(eq(authLinks.code, code))
   }
 }

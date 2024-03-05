@@ -16,6 +16,15 @@ export class DrizzleRestaurantsRepository implements RestaurantesRepository {
     return DrizzleRestaurantMapper.toDomain(restaurant)
   }
 
+  async findByManagerId(managerId: string): Promise<Restaurante[]> {
+    const restaurants = await db.query.restaurants.findMany({
+      where(fields, { eq }) {
+        return eq(fields.managerId, managerId)
+      },
+    })
+    return restaurants.map(DrizzleRestaurantMapper.toDomain)
+  }
+
   async create(restaurante: Restaurante): Promise<void> {
     const raw = DrizzleRestaurantMapper.toDrizzle(restaurante)
     await db.insert(restaurants).values(raw)

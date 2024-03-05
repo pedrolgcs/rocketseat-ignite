@@ -1,3 +1,5 @@
 export * from './create-manager/create-manager-use-case'
 export * from './create-restaurant/create-restaurant-use-case'
 export * from './send-authenticate-link/send-authenticate-link-use-case'
+export * from './authenticate-from-link/authenticate-from-link-use-case'
+export * from './delete-authenticate-link-by-code/delete-authenticate-link-by-code-use-case'

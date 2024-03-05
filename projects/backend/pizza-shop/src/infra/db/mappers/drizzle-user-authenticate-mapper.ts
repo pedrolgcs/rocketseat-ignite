@@ -12,7 +12,7 @@ export class DrizzleUserAuthenticateMapper {
     return UserAuthenticate.create(
       {
         code: raw.code,
-        userId: new UniqueEntityID(raw.id),
+        userId: new UniqueEntityID(raw.userId),
         createdAt: raw.created_at,
       },
       new UniqueEntityID(raw.id),
