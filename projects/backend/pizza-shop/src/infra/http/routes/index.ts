@@ -5,6 +5,7 @@ import { authenticateFromLinkRouter } from './authenticate-from-link/authenticat
 import { healthCheckRouter } from './health-check/health-check-router'
 import { registerRestaurantsRouter } from './register-restaurants/register-restaurants-router'
 import { sendAuthLinkRouter } from './send-auth-link/send-auth-link-router'
+import { signOutRouter } from './sign-out/sign-out-router'
 
 export const routes = new Elysia()
   .error({
@@ -36,3 +37,4 @@ export const routes = new Elysia()
   .use(registerRestaurantsRouter)
   .use(sendAuthLinkRouter)
   .use(authenticateFromLinkRouter)
+  .use(signOutRouter)

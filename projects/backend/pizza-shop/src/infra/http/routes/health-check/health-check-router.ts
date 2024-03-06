@@ -1,5 +1,11 @@
 import { Elysia } from 'elysia'
 
-export const healthCheckRouter = new Elysia().get('/health', () => {
-  return 'Healthy Check'
-})
+import { auth } from '../../plugins'
+
+export const healthCheckRouter = new Elysia()
+  .use(auth)
+  .get('/health', ({ cookie }) => {
+    console.log(cookie)
+
+    return 'Healthy Check'
+  })
