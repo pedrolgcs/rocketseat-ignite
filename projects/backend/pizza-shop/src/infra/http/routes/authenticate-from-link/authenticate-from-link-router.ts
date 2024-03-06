@@ -5,7 +5,7 @@ import {
   makeAuthenticateFromCodeUseCase,
   makeDeleteAuthenticateLinkByCodeUseCase,
 } from '@/infra/factories/use-cases'
-import { UseCaseValidationError, ZodValidationError } from '@/infra/http/errors'
+import { ZodValidationError } from '@/infra/http/errors'
 import { auth } from '@/infra/http/plugins'
 
 const querySchema = z.object({
@@ -31,10 +31,13 @@ export const authenticateFromLinkRouter = new Elysia()
     })
 
     if (authenticationFromCodeResult.isLeft()) {
-      throw new UseCaseValidationError({
-        message: authenticationFromCodeResult.value.message,
-        friendlyMessage: authenticationFromCodeResult.value.friendlyMessage,
-      })
+      const redirectURL = new URL(redirect)
+      redirectURL.searchParams.set(
+        'error',
+        authenticationFromCodeResult.value.message,
+      )
+
+      return (set.redirect = redirectURL.toString())
     }
 
     const { userId, restaurantIds } = authenticationFromCodeResult.value

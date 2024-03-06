@@ -18,7 +18,7 @@ export const routes = new Elysia()
         return error.toHTTP()
       }
       case 'USE_CASE_VALIDATION': {
-        set.status = 400
+        set.status = 400 // TODO: Get dynamic status
         return error.toHttp()
       }
       case 'NOT_FOUND': {
