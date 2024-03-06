@@ -1,7 +1,12 @@
 import { Elysia, InternalServerError, NotFoundError } from 'elysia'
 
-import { UseCaseValidationError, ZodValidationError } from '../errors'
+import {
+  UnauthorizedError,
+  UseCaseValidationError,
+  ZodValidationError,
+} from '../errors'
 import { authenticateFromLinkRouter } from './authenticate-from-link/authenticate-from-link-router'
+import { getProfile } from './get-profile/get-profile-router'
 import { healthCheckRouter } from './health-check/health-check-router'
 import { registerRestaurantsRouter } from './register-restaurants/register-restaurants-router'
 import { sendAuthLinkRouter } from './send-auth-link/send-auth-link-router'
@@ -11,6 +16,7 @@ export const routes = new Elysia()
   .error({
     ZOD_VALIDATION: ZodValidationError,
     USE_CASE_VALIDATION: UseCaseValidationError,
+    UNAUTHORIZED: UnauthorizedError,
   })
   .onError(({ error, code, set }) => {
     switch (code) {
@@ -20,6 +26,10 @@ export const routes = new Elysia()
       }
       case 'USE_CASE_VALIDATION': {
         set.status = 400 // TODO: Get dynamic status
+        return error.toHttp()
+      }
+      case 'UNAUTHORIZED': {
+        set.status = 401
         return error.toHttp()
       }
       case 'NOT_FOUND': {
@@ -38,3 +48,4 @@ export const routes = new Elysia()
   .use(sendAuthLinkRouter)
   .use(authenticateFromLinkRouter)
   .use(signOutRouter)
+  .use(getProfile)

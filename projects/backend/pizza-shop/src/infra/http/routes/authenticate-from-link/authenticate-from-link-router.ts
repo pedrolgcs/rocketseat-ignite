@@ -52,5 +52,5 @@ export const authenticateFromLinkRouter = new Elysia()
 
     await deleteAuthenticateLinkByCode.execute({ code })
 
-    set.redirect = redirect
+    // set.redirect = redirect
   })

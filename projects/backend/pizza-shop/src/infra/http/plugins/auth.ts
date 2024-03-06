@@ -5,6 +5,8 @@ import { Elysia, type Static, t } from 'elysia'
 
 import { env } from '@/infra/env'
 
+import { UnauthorizedError } from '../errors'
+
 const jwtPayload = t.Object({
   sub: t.String(),
   restaurantIds: t.Array(t.String()),
@@ -18,7 +20,7 @@ export const auth = new Elysia()
     }),
   )
   .use(cookie())
-  .derive(({ jwt, setCookie, removeCookie }) => {
+  .derive(({ jwt, setCookie, removeCookie, cookie }) => {
     return {
       signUser: async (payload: Static<typeof jwtPayload>) => {
         const token = await jwt.sign(payload)
@@ -32,6 +34,23 @@ export const auth = new Elysia()
 
       signOut: () => {
         removeCookie('auth')
+      },
+
+      getCurrentUser: async () => {
+        const authCookie = cookie.auth
+
+        const payload = await jwt.verify(authCookie)
+
+        if (!payload) {
+          throw new UnauthorizedError({
+            friendlyMessage: 'Por favor, realize o login.',
+          })
+        }
+
+        return {
+          userId: payload.sub,
+          restaurantIds: payload.restaurantIds,
+        }
       },
     }
   })

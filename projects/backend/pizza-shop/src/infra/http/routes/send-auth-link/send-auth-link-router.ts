@@ -31,5 +31,9 @@ export const sendAuthLinkRouter = new Elysia().post(
     }
 
     set.status = 204
+
+    return {
+      url: result.value.url,
+    }
   },
 )
