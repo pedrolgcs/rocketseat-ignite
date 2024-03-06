@@ -23,7 +23,7 @@ type Response = Either<
   }
 >
 
-export class AuthenticateFromLinkUseCase {
+export class AuthenticateFromCodeUseCase {
   constructor(
     private readonly usersAuthenticateRepository: UsersAuthenticateRepository,
     private readonly restaurantsRepository: RestaurantesRepository,

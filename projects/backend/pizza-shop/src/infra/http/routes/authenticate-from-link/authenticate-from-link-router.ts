@@ -2,7 +2,7 @@ import { Elysia } from 'elysia'
 import { z } from 'zod'
 
 import {
-  makeAuthenticateFromLinkUseCase,
+  makeAuthenticateFromCodeUseCase,
   makeDeleteAuthenticateLinkByCodeUseCase,
 } from '@/infra/factories/use-cases'
 import { UseCaseValidationError, ZodValidationError } from '@/infra/http/errors'
@@ -24,20 +24,20 @@ export const authenticateFromLinkRouter = new Elysia()
 
     const { code, redirect } = parseQuery.data
 
-    const authenticateFromLink = makeAuthenticateFromLinkUseCase()
+    const authenticateFromCode = makeAuthenticateFromCodeUseCase()
 
-    const authenticationFromLinkResult = await authenticateFromLink.execute({
+    const authenticationFromCodeResult = await authenticateFromCode.execute({
       code,
     })
 
-    if (authenticationFromLinkResult.isLeft()) {
+    if (authenticationFromCodeResult.isLeft()) {
       throw new UseCaseValidationError({
-        message: authenticationFromLinkResult.value.message,
-        friendlyMessage: authenticationFromLinkResult.value.friendlyMessage,
+        message: authenticationFromCodeResult.value.message,
+        friendlyMessage: authenticationFromCodeResult.value.friendlyMessage,
       })
     }
 
-    const { userId, restaurantIds } = authenticationFromLinkResult.value
+    const { userId, restaurantIds } = authenticationFromCodeResult.value
 
     const token = await jwt.sign({
       sub: userId,

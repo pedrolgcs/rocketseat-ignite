@@ -1,5 +1,5 @@
 export * from './make-create-manager-use-case'
 export * from './make-create-restaurant-use-case'
 export * from './make-send-authenticate-link-use-case'
-export * from './make-authenticate-from-link-use-case'
+export * from './make-authenticate-from-code-use-case'
 export * from './make-delete-authenticate-link-by-code-use-case'
