@@ -26,7 +26,7 @@ export const routes = new Elysia()
         return error.toHTTP()
       }
       case 'USE_CASE_VALIDATION': {
-        set.status = 400 // TODO: Get dynamic status
+        set.status = 422
         return error.toHttp()
       }
       case 'UNAUTHORIZED': {
