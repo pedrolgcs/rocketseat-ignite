@@ -18,10 +18,8 @@ export const users = pgTable('users', {
   updated_at: timestamp('updated_at'),
 })
 
-export const usersRelations = relations(users, ({ many }) => {
+export const usersRelations = relations(users, ({ one }) => {
   return {
-    restaurants: many(restaurants, {
-      relationName: 'restaurant_manager',
-    }),
+    restaurant: one(restaurants),
   }
 })

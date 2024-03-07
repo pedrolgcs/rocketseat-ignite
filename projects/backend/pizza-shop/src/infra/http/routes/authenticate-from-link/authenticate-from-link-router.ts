@@ -40,11 +40,11 @@ export const authenticateFromLinkRouter = new Elysia()
       return (set.redirect = redirectURL.toString())
     }
 
-    const { userId, restaurantIds } = authenticationFromCodeResult.value
+    const { userId, restaurantId } = authenticationFromCodeResult.value
 
     await signUser({
       sub: userId,
-      restaurantIds,
+      restaurantId: restaurantId || undefined,
     })
 
     const deleteAuthenticateLinkByCode =

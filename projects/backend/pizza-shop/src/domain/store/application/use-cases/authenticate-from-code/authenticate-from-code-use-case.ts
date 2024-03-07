@@ -19,7 +19,7 @@ type Response = Either<
   AuthenticationCodeNotFoundError | AuthenticationCodeExpiredError,
   {
     userId: string
-    restaurantIds: string[]
+    restaurantId: string | null
   }
 >
 
@@ -48,17 +48,13 @@ export class AuthenticateFromCodeUseCase {
       return left(new AuthenticationCodeExpiredError())
     }
 
-    const restaurants = await this.restaurantsRepository.findByManagerId(
+    const restaurant = await this.restaurantsRepository.findByManagerId(
       userAuthentication.userId.toString(),
-    )
-
-    const restaurantIds = restaurants?.map((restaurant) =>
-      restaurant.id.toString(),
     )
 
     return right({
       userId: userAuthentication.userId.toString(),
-      restaurantIds,
+      restaurantId: restaurant?.id.toString() ?? null,
     })
   }
 }
