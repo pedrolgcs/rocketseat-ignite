@@ -10,12 +10,12 @@ export type RestaurantProps = {
   updatedAt?: Date | null
 }
 
-export class Restaurante extends Entity<RestaurantProps> {
+export class Restaurant extends Entity<RestaurantProps> {
   static create(
     props: Optional<RestaurantProps, 'createdAt'>,
     id?: UniqueEntityID,
   ) {
-    return new Restaurante(
+    return new Restaurant(
       {
         ...props,
         createdAt: props.createdAt ?? new Date(),

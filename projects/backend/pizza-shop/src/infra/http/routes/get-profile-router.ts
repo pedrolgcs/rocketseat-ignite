@@ -4,7 +4,7 @@ import { makeGetUserUseCase } from '@/infra/factories/use-cases'
 import { UseCaseValidationError } from '@/infra/http/errors'
 import { auth } from '@/infra/http/plugins'
 
-import { UserPresenter } from '../../presenters'
+import { UserPresenter } from '../presenters'
 
 export const getProfile = new Elysia()
   .use(auth)

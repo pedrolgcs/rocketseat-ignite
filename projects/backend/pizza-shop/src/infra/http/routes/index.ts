@@ -5,12 +5,13 @@ import {
   UseCaseValidationError,
   ZodValidationError,
 } from '../errors'
-import { authenticateFromLinkRouter } from './authenticate-from-link/authenticate-from-link-router'
-import { getProfile } from './get-profile/get-profile-router'
-import { healthCheckRouter } from './health-check/health-check-router'
-import { registerRestaurantsRouter } from './register-restaurants/register-restaurants-router'
-import { sendAuthLinkRouter } from './send-auth-link/send-auth-link-router'
-import { signOutRouter } from './sign-out/sign-out-router'
+import { authenticateFromLinkRouter } from './authenticate-from-link-router'
+import { getManagedRestaurantRouter } from './get-managed-restaurant.router'
+import { getProfile } from './get-profile-router'
+import { healthCheckRouter } from './health-check-router'
+import { registerRestaurantsRouter } from './register-restaurants-router'
+import { sendAuthLinkRouter } from './send-auth-link-router'
+import { signOutRouter } from './sign-out-router'
 
 export const routes = new Elysia()
   .error({
@@ -49,3 +50,4 @@ export const routes = new Elysia()
   .use(authenticateFromLinkRouter)
   .use(signOutRouter)
   .use(getProfile)
+  .use(getManagedRestaurantRouter)

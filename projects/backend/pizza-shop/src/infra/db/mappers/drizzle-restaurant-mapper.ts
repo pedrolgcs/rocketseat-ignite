@@ -1,15 +1,15 @@
 import { InferSelectModel } from 'drizzle-orm'
 
 import { UniqueEntityID } from '@/core/entities/unique-entity-id'
-import { Restaurante } from '@/domain/store/enterprise/entities'
+import { Restaurant } from '@/domain/store/enterprise/entities'
 
 import { restaurants } from '../schema'
 
 type DrizzleRestaurant = InferSelectModel<typeof restaurants>
 
 export class DrizzleRestaurantMapper {
-  static toDomain(raw: DrizzleRestaurant): Restaurante {
-    return Restaurante.create(
+  static toDomain(raw: DrizzleRestaurant): Restaurant {
+    return Restaurant.create(
       {
         name: raw.name,
         description: raw.description,
@@ -21,7 +21,7 @@ export class DrizzleRestaurantMapper {
     )
   }
 
-  static toDrizzle(restaurant: Restaurante): DrizzleRestaurant {
+  static toDrizzle(restaurant: Restaurant): DrizzleRestaurant {
     return {
       id: restaurant.id.toString(),
       name: restaurant.name,

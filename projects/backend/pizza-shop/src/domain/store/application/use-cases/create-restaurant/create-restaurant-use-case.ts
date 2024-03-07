@@ -1,10 +1,10 @@
 import { Either, left, right } from '@/core/either'
 import { UniqueEntityID } from '@/core/entities/unique-entity-id'
 import {
-  RestaurantesRepository,
+  RestaurantsRepository,
   UsersRepository,
 } from '@/domain/store/application/repositories'
-import { Restaurante } from '@/domain/store/enterprise/entities'
+import { Restaurant } from '@/domain/store/enterprise/entities'
 
 import { ManagerNotFoundError } from '../_erros'
 
@@ -17,13 +17,13 @@ type Request = {
 type Response = Either<
   ManagerNotFoundError,
   {
-    restaurante: Restaurante
+    restaurant: Restaurant
   }
 >
 
 export class CreateRestaurantUseCase {
   constructor(
-    private readonly restaurantsRepository: RestaurantesRepository,
+    private readonly restaurantsRepository: RestaurantsRepository,
     private readonly usersRepository: UsersRepository,
   ) {}
 
@@ -36,7 +36,7 @@ export class CreateRestaurantUseCase {
       return left(new ManagerNotFoundError())
     }
 
-    const restaurant = Restaurante.create({
+    const restaurant = Restaurant.create({
       name,
       description,
       managerId: new UniqueEntityID(managerId),
@@ -44,6 +44,6 @@ export class CreateRestaurantUseCase {
 
     await this.restaurantsRepository.create(restaurant)
 
-    return right({ restaurante: restaurant })
+    return right({ restaurant })
   }
 }

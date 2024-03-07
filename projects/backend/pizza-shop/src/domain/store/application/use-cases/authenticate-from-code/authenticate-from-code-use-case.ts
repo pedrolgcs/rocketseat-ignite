@@ -2,7 +2,7 @@ import dayjs from 'dayjs'
 
 import { Either, left, right } from '@/core/either'
 import {
-  RestaurantesRepository,
+  RestaurantsRepository,
   UsersAuthenticateRepository,
 } from '@/domain/store/application/repositories'
 
@@ -26,7 +26,7 @@ type Response = Either<
 export class AuthenticateFromCodeUseCase {
   constructor(
     private readonly usersAuthenticateRepository: UsersAuthenticateRepository,
-    private readonly restaurantsRepository: RestaurantesRepository,
+    private readonly restaurantsRepository: RestaurantsRepository,
   ) {}
 
   public async execute(params: Request): Promise<Response> {
