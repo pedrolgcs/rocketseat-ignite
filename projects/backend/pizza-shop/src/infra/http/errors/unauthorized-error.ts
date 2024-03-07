@@ -8,7 +8,7 @@ export class UnauthorizedError extends Error {
   constructor(props: Props) {
     super('Unauthorized')
     this.props = {
-      friendlyMessage: props.friendlyMessage ?? 'Por favor, realize o login.',
+      friendlyMessage: props.friendlyMessage ?? 'Não autorizado.',
     }
   }
 
