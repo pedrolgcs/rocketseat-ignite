@@ -29,6 +29,13 @@
       "when": 1709743833887,
       "tag": "0003_certain_malice",
       "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "5",
+      "when": 1710342862965,
+      "tag": "0004_hot_joseph",
+      "breakpoints": true
     }
   ]
 }
