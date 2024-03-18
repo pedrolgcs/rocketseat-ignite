@@ -29,6 +29,16 @@ export class Order extends Entity<OrderProps> {
     )
   }
 
+  private touch() {
+    this.props.updatedAt = new Date()
+  }
+
+  approve() {
+    if (this.props.status !== 'pending') throw new Error('Order not pending')
+    this.props.status = 'processing'
+    this.touch()
+  }
+
   get customerId() {
     return this.props.customerId
   }

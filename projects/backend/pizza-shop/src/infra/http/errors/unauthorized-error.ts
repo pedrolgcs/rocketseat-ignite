@@ -1,3 +1,5 @@
+import { Optional } from '@/core/types/optional'
+
 type Props = {
   friendlyMessage: string
 }
@@ -5,7 +7,7 @@ type Props = {
 export class UnauthorizedError extends Error {
   private props: Props
 
-  constructor(props: Props) {
+  constructor(props: Optional<Props, 'friendlyMessage'>) {
     super('Unauthorized')
     this.props = {
       friendlyMessage: props.friendlyMessage ?? 'Não autorizado.',

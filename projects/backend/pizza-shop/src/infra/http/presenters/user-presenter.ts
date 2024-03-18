@@ -1,6 +1,6 @@
 import { User } from '@/domain/store/enterprise/entities'
 
-class UserPresenter {
+export class UserPresenter {
   static toHTTP(user: User) {
     return {
       id: user.id.toString(),
@@ -9,9 +9,7 @@ class UserPresenter {
       phone: user.phone,
       role: user.role,
       created_at: user.createdAt,
-      updated_at: user.updatedAt,
+      updated_at: user.updatedAt ? user.updatedAt : undefined,
     }
   }
 }
-
-export { UserPresenter }

@@ -1,14 +1,18 @@
 import { Entity } from '@/core/entities/entity'
 import type { UniqueEntityID } from '@/core/entities/unique-entity-id'
+import { Optional } from '@/core/types/optional'
+
+import { Product } from './product'
 
 export type OrderItemProps = {
   orderId: UniqueEntityID
   productId: UniqueEntityID | null
   priceInCents: number
   quantity: number
+  product?: Product
 }
 
-export class OrderItem extends Entity<OrderItemProps> {
+export class OrderItem extends Entity<Optional<OrderItemProps, 'product'>> {
   static create(props: OrderItemProps, id?: UniqueEntityID) {
     return new OrderItem(props, id)
   }
@@ -27,5 +31,9 @@ export class OrderItem extends Entity<OrderItemProps> {
 
   get quantity() {
     return this.props.quantity
+  }
+
+  get product() {
+    return this.props.product
   }
 }

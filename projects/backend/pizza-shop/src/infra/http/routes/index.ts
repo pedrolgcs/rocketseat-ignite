@@ -5,8 +5,10 @@ import {
   UseCaseValidationError,
   ZodValidationError,
 } from '../errors'
+import { approveOrderRouter } from './approve-order-router'
 import { authenticateFromLinkRouter } from './authenticate-from-link-router'
 import { getManagedRestaurantRouter } from './get-managed-restaurant.router'
+import { getOrderDetailsRouter } from './get-order-details'
 import { getProfile } from './get-profile-router'
 import { healthCheckRouter } from './health-check-router'
 import { registerRestaurantsRouter } from './register-restaurants-router'
@@ -51,3 +53,5 @@ export const routes = new Elysia()
   .use(signOutRouter)
   .use(getProfile)
   .use(getManagedRestaurantRouter)
+  .use(getOrderDetailsRouter)
+  .use(approveOrderRouter)
