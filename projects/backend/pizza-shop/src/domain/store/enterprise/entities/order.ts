@@ -34,7 +34,9 @@ export class Order extends Entity<OrderProps> {
   }
 
   approve() {
-    if (this.props.status !== 'pending') throw new Error('Order not pending')
+    if (this.props.status !== 'pending') {
+      throw new Error('Order status must be pending to approve')
+    }
     this.props.status = 'processing'
     this.touch()
   }

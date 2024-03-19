@@ -47,9 +47,12 @@ export const auth = new Elysia()
           })
         }
 
+        const isManager = !!payload.restaurantId
+
         return {
           userId: payload.sub,
           restaurantId: payload.restaurantId,
+          isManager,
         }
       },
     }
