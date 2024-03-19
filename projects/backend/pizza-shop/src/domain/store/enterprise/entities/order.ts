@@ -41,6 +41,30 @@ export class Order extends Entity<OrderProps> {
     this.touch()
   }
 
+  delivering() {
+    if (this.props.status !== 'processing') {
+      throw new Error('Order status must be processing to deliver')
+    }
+    this.props.status = 'delivering'
+    this.touch()
+  }
+
+  deliver() {
+    if (this.props.status !== 'delivering') {
+      throw new Error('Order status must be delivering to deliver')
+    }
+    this.props.status = 'delivered'
+    this.touch()
+  }
+
+  cancel() {
+    if (this.props.status !== 'pending' && this.props.status !== 'processing') {
+      throw new Error('Order status must be pending or processing to cancel')
+    }
+    this.props.status = 'canceled'
+    this.touch()
+  }
+
   get customerId() {
     return this.props.customerId
   }

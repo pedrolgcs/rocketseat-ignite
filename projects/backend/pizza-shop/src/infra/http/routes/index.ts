@@ -7,6 +7,9 @@ import {
 } from '../errors'
 import { approveOrderRouter } from './approve-order-router'
 import { authenticateFromLinkRouter } from './authenticate-from-link-router'
+import { cancelOrderRouter } from './cancel-order-router'
+import { deliverOrderRouter } from './deliver-order-router'
+import { deliveringOrderRouter } from './delivering-order-router'
 import { getManagedRestaurantRouter } from './get-managed-restaurant.router'
 import { getOrderDetailsRouter } from './get-order-details'
 import { getProfile } from './get-profile-router'
@@ -55,3 +58,6 @@ export const routes = new Elysia()
   .use(getManagedRestaurantRouter)
   .use(getOrderDetailsRouter)
   .use(approveOrderRouter)
+  .use(cancelOrderRouter)
+  .use(deliverOrderRouter)
+  .use(deliveringOrderRouter)
