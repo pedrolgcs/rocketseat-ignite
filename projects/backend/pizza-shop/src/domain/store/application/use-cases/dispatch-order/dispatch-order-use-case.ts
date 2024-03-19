@@ -16,7 +16,7 @@ type Response = Either<
   }
 >
 
-export class DeliveringOrderUseCase {
+export class DispatchOrderUseCase {
   constructor(private readonly ordersRepository: OrdersRepository) {}
 
   public async execute(params: Request): Promise<Response> {

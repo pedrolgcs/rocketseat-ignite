@@ -1,7 +1,7 @@
 import { Elysia } from 'elysia'
 import { z } from 'zod'
 
-import { makeDeliveringOrderUseCase } from '@/infra/factories/use-cases'
+import { makeDispatchOrderUseCase } from '@/infra/factories/use-cases'
 
 import {
   UnauthorizedError,
@@ -14,9 +14,9 @@ const paramsSchema = z.object({
   id: z.string(),
 })
 
-export const deliveringOrderRouter = new Elysia()
+export const dispatchOrderRouter = new Elysia()
   .use(auth)
-  .post('/orders/:id/delivering', async ({ set, params, getCurrentUser }) => {
+  .post('/orders/:id/dispatch', async ({ set, params, getCurrentUser }) => {
     const { restaurantId } = await getCurrentUser()
 
     if (!restaurantId) {
@@ -31,17 +31,17 @@ export const deliveringOrderRouter = new Elysia()
 
     const { id } = parseParams.data
 
-    const deliveringOrderUseCase = makeDeliveringOrderUseCase()
+    const dispatchOrderUseCase = makeDispatchOrderUseCase()
 
-    const deliveringOrderResult = await deliveringOrderUseCase.execute({
+    const dispatchOrderResult = await dispatchOrderUseCase.execute({
       orderId: id,
       managedRestaurantId: restaurantId,
     })
 
-    if (deliveringOrderResult.isLeft()) {
+    if (dispatchOrderResult.isLeft()) {
       throw new UseCaseValidationError({
-        message: deliveringOrderResult.value.message,
-        friendlyMessage: deliveringOrderResult.value.friendlyMessage,
+        message: dispatchOrderResult.value.message,
+        friendlyMessage: dispatchOrderResult.value.friendlyMessage,
       })
     }
 

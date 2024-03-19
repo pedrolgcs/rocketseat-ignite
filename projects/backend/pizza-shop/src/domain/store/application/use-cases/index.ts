@@ -6,6 +6,6 @@ export * from './delete-authenticate-link-by-code/delete-authenticate-link-by-co
 export * from './get-restaurant-by-id/get-restaurant-by-id-use-case'
 export * from './get-order-details-by-id/get-order-details-by-id-use-case'
 export * from './approve-order/approve-order-use-case'
-export * from './delivering-order/delivering-order-use-case'
+export * from './dispatch-order/dispatch-order-use-case'
 export * from './deliver-order/deliver-order-use-case'
 export * from './cancel-order/cancel-order-use-case'
