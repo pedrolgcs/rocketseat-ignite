@@ -2,6 +2,7 @@ import { Elysia, InternalServerError, NotFoundError } from 'elysia'
 
 import {
   UnauthorizedError,
+  UnexpectedError,
   UseCaseValidationError,
   ZodValidationError,
 } from '../errors'
@@ -12,7 +13,8 @@ import { deliverOrderRouter } from './deliver-order-router'
 import { dispatchOrderRouter } from './dispatch-order-router'
 import { getManagedRestaurantRouter } from './get-managed-restaurant.router'
 import { getOrderDetailsRouter } from './get-order-details'
-import { getProfile } from './get-profile-router'
+import { getOrdersRouter } from './get-orders'
+import { getProfileRouter } from './get-profile-router'
 import { healthCheckRouter } from './health-check-router'
 import { registerRestaurantsRouter } from './register-restaurants-router'
 import { sendAuthLinkRouter } from './send-auth-link-router'
@@ -23,6 +25,7 @@ export const routes = new Elysia()
     ZOD_VALIDATION: ZodValidationError,
     USE_CASE_VALIDATION: UseCaseValidationError,
     UNAUTHORIZED: UnauthorizedError,
+    UNEXPECTED: UnexpectedError,
   })
   .onError(({ error, code, set }) => {
     switch (code) {
@@ -36,6 +39,10 @@ export const routes = new Elysia()
       }
       case 'UNAUTHORIZED': {
         set.status = 401
+        return error.toHttp()
+      }
+      case 'UNEXPECTED': {
+        set.status = 500
         return error.toHttp()
       }
       case 'NOT_FOUND': {
@@ -54,10 +61,11 @@ export const routes = new Elysia()
   .use(sendAuthLinkRouter)
   .use(authenticateFromLinkRouter)
   .use(signOutRouter)
-  .use(getProfile)
+  .use(getProfileRouter)
   .use(getManagedRestaurantRouter)
   .use(getOrderDetailsRouter)
   .use(approveOrderRouter)
   .use(cancelOrderRouter)
   .use(deliverOrderRouter)
   .use(dispatchOrderRouter)
+  .use(getOrdersRouter)

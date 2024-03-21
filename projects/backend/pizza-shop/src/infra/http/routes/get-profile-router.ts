@@ -6,7 +6,7 @@ import { auth } from '@/infra/http/plugins'
 
 import { UserPresenter } from '../presenters'
 
-export const getProfile = new Elysia()
+export const getProfileRouter = new Elysia()
   .use(auth)
   .get('/me', async ({ getCurrentUser }) => {
     const { userId } = await getCurrentUser()

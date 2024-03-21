@@ -1,7 +1,7 @@
 import { ZodError } from 'zod'
 
 type Props = {
-  error: ZodError<Record<string, string>>
+  error: ZodError<Record<string, unknown>>
 }
 
 export class ZodValidationError extends Error {

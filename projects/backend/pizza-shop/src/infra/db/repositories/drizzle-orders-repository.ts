@@ -1,7 +1,11 @@
-import { eq } from 'drizzle-orm'
+import { and, count, eq, getTableColumns, ilike } from 'drizzle-orm'
 
+import { Pagination } from '@/domain/store/application/@types/pagination'
 import { OrdersRepository } from '@/domain/store/application/repositories'
-import type { OrderWithRelations } from '@/domain/store/application/repositories/orders-repository'
+import type {
+  FetchByRestaurantIdParams,
+  OrderWithRelations,
+} from '@/domain/store/application/repositories/orders-repository'
 import { Order } from '@/domain/store/enterprise/entities'
 
 import { db } from '../connection'
@@ -10,9 +14,54 @@ import {
   DrizzleOrderMapper,
   DrizzleUserMapper,
 } from '../mappers'
-import { orders } from '../schema'
+import { orders, users } from '../schema'
 
 export class DrizzleOrdersRepository implements OrdersRepository {
+  async fetchByRestaurantId(
+    params: FetchByRestaurantIdParams,
+  ): Promise<Pagination<Order>> {
+    const { restaurantId, perPage, pageIndex, customerName, orderId, status } =
+      params
+
+    const orderTableColumns = getTableColumns(orders)
+
+    const baseQuery = db
+      .select(orderTableColumns)
+      .from(orders)
+      .innerJoin(users, eq(users.id, orders.customerId))
+      .where(
+        and(
+          eq(orders.restaurantId, restaurantId),
+          orderId ? ilike(orders.id, `%${orderId}%`) : undefined,
+          status ? eq(orders.id, status) : undefined,
+          customerName ? ilike(users.name, `%${customerName}%`) : undefined,
+        ),
+      )
+
+    const [amountOfOrdersQuery, filteredOrdersQuery] = await Promise.all([
+      db.select({ count: count() }).from(baseQuery.as('baseQuery')),
+      db
+        .select()
+        .from(baseQuery.as('baseQuery'))
+        .offset(pageIndex * perPage)
+        .limit(perPage),
+    ])
+
+    const amountOfOrders = amountOfOrdersQuery[0].count
+    const filteredOrders = filteredOrdersQuery.map((order) =>
+      DrizzleOrderMapper.toDomain(order),
+    )
+
+    return {
+      items: filteredOrders,
+      meta: {
+        pageIndex,
+        perPage,
+        totalCount: amountOfOrders,
+      },
+    }
+  }
+
   async findById(id: string): Promise<Order | null> {
     const raw = await db.query.orders.findFirst({
       where(fields, { eq }) {
