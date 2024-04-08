@@ -1,8 +1,7 @@
 import { Either, right } from '@/core/either'
+import { Pagination } from '@/domain/store/application/@types/pagination'
 import { OrdersRepository } from '@/domain/store/application/repositories'
 import { Order, OrderStatus } from '@/domain/store/enterprise/entities'
-
-import { Pagination } from '../../@types/pagination'
 
 type Request = {
   restaurantId: string
