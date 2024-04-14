@@ -3,7 +3,7 @@ import { z } from 'zod'
 
 import { makeFetchOrdersByRestaurantIdUseCase } from '@/infra/factories/use-cases'
 import { auth } from '@/infra/http/plugins'
-import { OrderPresenter } from '@/infra/http/presenters'
+import { OrderPresenter, UserPresenter } from '@/infra/http/presenters'
 
 import {
   UnauthorizedError,
@@ -57,9 +57,15 @@ export const getOrdersRouter = new Elysia()
     }
 
     const payload = {
-      orders: fetchOrdersByRestaurantIdResult.value.items.map(
-        OrderPresenter.toHTTP,
-      ),
+      orders: fetchOrdersByRestaurantIdResult.value.items.map((item) => {
+        const orderToResponse = OrderPresenter.toHTTP(item.order)
+        const customerToResponse = UserPresenter.toHTTP(item.customer)
+
+        return {
+          ...orderToResponse,
+          customer: customerToResponse,
+        }
+      }),
       meta: fetchOrdersByRestaurantIdResult.value.meta,
     }
 

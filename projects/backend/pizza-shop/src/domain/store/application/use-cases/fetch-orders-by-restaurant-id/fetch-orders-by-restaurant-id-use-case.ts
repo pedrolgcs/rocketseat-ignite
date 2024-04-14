@@ -1,7 +1,8 @@
 import { Either, right } from '@/core/either'
 import { Pagination } from '@/domain/store/application/@types/pagination'
 import { OrdersRepository } from '@/domain/store/application/repositories'
-import { Order, OrderStatus } from '@/domain/store/enterprise/entities'
+import type { OrderWithCustomer } from '@/domain/store/application/repositories/orders-repository'
+import { OrderStatus } from '@/domain/store/enterprise/entities'
 
 type Request = {
   restaurantId: string
@@ -12,7 +13,7 @@ type Request = {
   pageIndex: number
 }
 
-type Response = Either<null, Pagination<Order>>
+type Response = Either<null, Pagination<OrderWithCustomer>>
 
 export class FetchOrdersByRestaurantIdUseCase {
   constructor(private readonly ordersRepository: OrdersRepository) {}

@@ -13,6 +13,11 @@ export type OrderWithRelations = {
   orderItems: OrderItem[]
 }
 
+export type OrderWithCustomer = {
+  order: Order
+  customer: User
+}
+
 export type FetchByRestaurantIdParams = {
   restaurantId: string
   perPage: number
@@ -25,7 +30,7 @@ export type FetchByRestaurantIdParams = {
 export abstract class OrdersRepository {
   abstract fetchByRestaurantId(
     params: FetchByRestaurantIdParams,
-  ): Promise<Pagination<Order>>
+  ): Promise<Pagination<OrderWithCustomer>>
 
   abstract findById(id: string): Promise<Order | null>
   abstract findByIdWithRelations(id: string): Promise<OrderWithRelations | null>

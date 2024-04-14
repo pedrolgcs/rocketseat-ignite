@@ -1,9 +1,10 @@
-import { and, count, eq, getTableColumns, ilike } from 'drizzle-orm'
+import { and, count, eq, getTableColumns, ilike, sql } from 'drizzle-orm'
 
 import { Pagination } from '@/domain/store/application/@types/pagination'
 import { OrdersRepository } from '@/domain/store/application/repositories'
 import type {
   FetchByRestaurantIdParams,
+  OrderWithCustomer,
   OrderWithRelations,
 } from '@/domain/store/application/repositories/orders-repository'
 import { Order } from '@/domain/store/enterprise/entities'
@@ -19,14 +20,22 @@ import { orders, users } from '../schema'
 export class DrizzleOrdersRepository implements OrdersRepository {
   async fetchByRestaurantId(
     params: FetchByRestaurantIdParams,
-  ): Promise<Pagination<Order>> {
+  ): Promise<Pagination<OrderWithCustomer>> {
     const { restaurantId, perPage, pageIndex, customerName, orderId, status } =
       params
 
     const orderTableColumns = getTableColumns(orders)
+    const customerTableColumns = getTableColumns(users)
 
     const baseQuery = db
-      .select(orderTableColumns)
+      .select({
+        ...orderTableColumns,
+        customer: {
+          ...customerTableColumns,
+          id: sql<string>`${users.id}`.as('user_id'),
+          created_at: sql<string>`${users.created_at}`.as('user_created_at'),
+        },
+      })
       .from(orders)
       .innerJoin(users, eq(users.id, orders.customerId))
       .where(
@@ -48,12 +57,22 @@ export class DrizzleOrdersRepository implements OrdersRepository {
     ])
 
     const amountOfOrders = amountOfOrdersQuery[0].count
-    const filteredOrders = filteredOrdersQuery.map((order) =>
-      DrizzleOrderMapper.toDomain(order),
-    )
+
+    const items = filteredOrdersQuery.map((order) => {
+      const orderToDomain = DrizzleOrderMapper.toDomain(order)
+      const userToDomain = DrizzleUserMapper.toDomain({
+        ...order.customer,
+        created_at: new Date(order.customer.created_at),
+      })
+
+      return {
+        order: orderToDomain,
+        customer: userToDomain,
+      }
+    })
 
     return {
-      items: filteredOrders,
+      items,
       meta: {
         pageIndex,
         perPage,
