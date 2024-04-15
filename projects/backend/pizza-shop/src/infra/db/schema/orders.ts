@@ -28,7 +28,7 @@ export const orders = pgTable('orders', {
     }),
   status: orderStatusEnum('status').default('pending').notNull(),
   totalInCents: integer('total_in_cents').notNull(),
-  created_at: timestamp('created_at').notNull().defaultNow(),
+  createdAt: timestamp('created_at').notNull().defaultNow(),
 })
 
 export const ordersRelations = relations(orders, ({ one, many }) => {

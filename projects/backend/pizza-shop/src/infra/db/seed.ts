@@ -155,7 +155,7 @@ async function createOrders(
         'delivered',
         'canceled',
       ]),
-      created_at: faker.date.recent({ days: 40 }),
+      createdAt: faker.date.recent({ days: 40 }),
     })
   }
 

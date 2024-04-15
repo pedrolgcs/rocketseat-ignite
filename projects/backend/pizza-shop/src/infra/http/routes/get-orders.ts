@@ -56,16 +56,18 @@ export const getOrdersRouter = new Elysia()
       throw new UnexpectedError({})
     }
 
-    const payload = {
-      orders: fetchOrdersByRestaurantIdResult.value.items.map((item) => {
-        const orderToResponse = OrderPresenter.toHTTP(item.order)
-        const customerToResponse = UserPresenter.toHTTP(item.customer)
+    const orders = fetchOrdersByRestaurantIdResult.value.items.map((item) => {
+      const orderToResponse = OrderPresenter.toHTTP(item.order)
+      const customerToResponse = UserPresenter.toHTTP(item.customer)
 
-        return {
-          ...orderToResponse,
-          customer: customerToResponse,
-        }
-      }),
+      return {
+        ...orderToResponse,
+        customer: customerToResponse,
+      }
+    })
+
+    const payload = {
+      orders,
       meta: fetchOrdersByRestaurantIdResult.value.meta,
     }
 

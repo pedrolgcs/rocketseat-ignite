@@ -17,8 +17,8 @@ export const products = pgTable('products', {
     .references(() => restaurants.id, {
       onDelete: 'cascade',
     }),
-  created_at: timestamp('created_at').notNull().defaultNow(),
-  updated_at: timestamp('updated_at'),
+  createdAt: timestamp('created_at').notNull().defaultNow(),
+  updatedAt: timestamp('updated_at'),
 })
 
 export const productsRelations = relations(products, ({ one, many }) => {

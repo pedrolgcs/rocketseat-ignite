@@ -15,8 +15,8 @@ export class DrizzleUserMapper {
         email: raw.email,
         phone: raw.phone,
         role: raw.role,
-        createdAt: raw.created_at,
-        updatedAt: raw.updated_at,
+        createdAt: raw.createdAt,
+        updatedAt: raw.updatedAt,
       },
       new UniqueEntityID(raw.id),
     )
@@ -29,8 +29,8 @@ export class DrizzleUserMapper {
       email: user.email,
       phone: user.phone ?? null,
       role: user.role,
-      created_at: user.createdAt,
-      updated_at: user.updatedAt ?? null,
+      createdAt: user.createdAt,
+      updatedAt: user.updatedAt ?? null,
     }
   }
 }

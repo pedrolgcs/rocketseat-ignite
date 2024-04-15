@@ -6,7 +6,7 @@ export class OrderPresenter {
       id: order.id.toString(),
       status: order.status,
       totalInCents: order.totalInCents,
-      created_at: order.createdAt,
+      createdAt: order.createdAt,
     }
   }
 }

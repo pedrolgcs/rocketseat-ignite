@@ -15,8 +15,8 @@ export const users = pgTable('users', {
   email: text('email').notNull().unique(),
   phone: text('phone'),
   role: userRoleEnum('role').default('customer').notNull(),
-  created_at: timestamp('created_at').notNull().defaultNow(),
-  updated_at: timestamp('updated_at'),
+  createdAt: timestamp('created_at').notNull().defaultNow(),
+  updatedAt: timestamp('updated_at'),
 })
 
 export const usersRelations = relations(users, ({ one, many }) => {

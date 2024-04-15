@@ -6,7 +6,7 @@ export class RestaurantPresenter {
       id: restaurant.id.toString(),
       name: restaurant.name,
       description: restaurant.description,
-      created_at: restaurant.createdAt,
+      createdAt: restaurant.createdAt,
     }
   }
 }

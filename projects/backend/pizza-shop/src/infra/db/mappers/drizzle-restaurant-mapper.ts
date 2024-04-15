@@ -14,8 +14,8 @@ export class DrizzleRestaurantMapper {
         name: raw.name,
         description: raw.description,
         managerId: raw.managerId ? new UniqueEntityID(raw.managerId) : null,
-        createdAt: raw.created_at,
-        updatedAt: raw.updated_at,
+        createdAt: raw.createdAt,
+        updatedAt: raw.updatedAt,
       },
       new UniqueEntityID(raw.id),
     )
@@ -27,8 +27,8 @@ export class DrizzleRestaurantMapper {
       name: restaurant.name,
       description: restaurant.description || null,
       managerId: restaurant.managerId ? restaurant.managerId.toString() : null,
-      created_at: restaurant.createdAt,
-      updated_at: restaurant.updatedAt || null,
+      createdAt: restaurant.createdAt,
+      updatedAt: restaurant.updatedAt || null,
     }
   }
 }

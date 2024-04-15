@@ -1,4 +1,4 @@
-import { and, count, eq, getTableColumns, ilike, sql } from 'drizzle-orm'
+import { and, count, desc, eq, getTableColumns, ilike, sql } from 'drizzle-orm'
 
 import { Pagination } from '@/domain/store/application/@types/pagination'
 import { OrdersRepository } from '@/domain/store/application/repositories'
@@ -33,7 +33,7 @@ export class DrizzleOrdersRepository implements OrdersRepository {
         customer: {
           ...customerTableColumns,
           id: sql<string>`${users.id}`.as('user_id'),
-          created_at: sql<string>`${users.created_at}`.as('user_created_at'),
+          createdAt: sql<string>`${users.createdAt}`.as('user_createdAt'),
         },
       })
       .from(orders)
@@ -53,7 +53,19 @@ export class DrizzleOrdersRepository implements OrdersRepository {
         .select()
         .from(baseQuery.as('baseQuery'))
         .offset(pageIndex * perPage)
-        .limit(perPage),
+        .limit(perPage)
+        .orderBy((fields) => {
+          return [
+            sql`CASE ${fields.status} 
+              WHEN 'pending' THEN 1 
+              WHEN 'processing' THEN 2 
+              WHEN 'delivering' THEN 3 
+              WHEN 'delivered' THEN 4 
+              WHEN 'canceled' THEN 99 
+              END`,
+            desc(fields.createdAt),
+          ]
+        }),
     ])
 
     const amountOfOrders = amountOfOrdersQuery[0].count
@@ -62,7 +74,7 @@ export class DrizzleOrdersRepository implements OrdersRepository {
       const orderToDomain = DrizzleOrderMapper.toDomain(order)
       const userToDomain = DrizzleUserMapper.toDomain({
         ...order.customer,
-        created_at: new Date(order.customer.created_at),
+        createdAt: new Date(order.customer.createdAt),
       })
 
       return {

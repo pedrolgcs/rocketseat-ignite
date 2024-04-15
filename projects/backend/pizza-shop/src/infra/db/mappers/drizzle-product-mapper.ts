@@ -15,8 +15,8 @@ export class DrizzleProductMapper {
         description: raw.description,
         priceInCents: raw.priceInCents,
         restaurantId: new UniqueEntityID(raw.restaurantId),
-        createdAt: raw.created_at,
-        updatedAt: raw.updated_at,
+        createdAt: raw.createdAt,
+        updatedAt: raw.updatedAt,
       },
       new UniqueEntityID(raw.id),
     )
@@ -29,8 +29,8 @@ export class DrizzleProductMapper {
       description: product.description || null,
       priceInCents: product.priceInCents,
       restaurantId: product.restaurantId.toString(),
-      created_at: product.createdAt,
-      updated_at: product.updatedAt || null,
+      createdAt: product.createdAt,
+      updatedAt: product.updatedAt || null,
     }
   }
 }

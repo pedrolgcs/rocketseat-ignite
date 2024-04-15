@@ -15,7 +15,7 @@ export class DrizzleOrderMapper {
         restaurantId: new UniqueEntityID(raw.restaurantId),
         status: raw.status,
         totalInCents: raw.totalInCents,
-        createdAt: raw.created_at,
+        createdAt: raw.createdAt,
       },
       new UniqueEntityID(raw.id),
     )
@@ -28,7 +28,7 @@ export class DrizzleOrderMapper {
       restaurantId: order.restaurantId.toString(),
       status: order.status,
       totalInCents: order.totalInCents,
-      created_at: order.createdAt,
+      createdAt: order.createdAt,
     }
   }
 }
