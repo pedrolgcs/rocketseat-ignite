@@ -1,9 +1,21 @@
-import { and, count, desc, eq, getTableColumns, ilike, sql } from 'drizzle-orm'
+import {
+  and,
+  count,
+  desc,
+  eq,
+  getTableColumns,
+  gte,
+  ilike,
+  sql,
+  sum,
+} from 'drizzle-orm'
 
 import { Pagination } from '@/domain/store/application/@types/pagination'
 import { OrdersRepository } from '@/domain/store/application/repositories'
 import type {
   FetchByRestaurantIdParams,
+  GetMonthsRevenueParams,
+  GetMonthsRevenueResponse,
   OrderWithCustomer,
   OrderWithRelations,
 } from '@/domain/store/application/repositories/orders-repository'
@@ -137,6 +149,28 @@ export class DrizzleOrdersRepository implements OrdersRepository {
       customer,
       orderItems,
     }
+  }
+
+  async getMonthsRevenue(
+    params: GetMonthsRevenueParams,
+  ): Promise<GetMonthsRevenueResponse> {
+    const { restaurantId, dateStart } = params
+
+    const raw = await db
+      .select({
+        monthWithYear: sql<string>`TO_CHAR(${orders.createdAt}, 'YYYY-MM')`,
+        revenue: sum(orders.totalInCents).mapWith(Number),
+      })
+      .from(orders)
+      .where(
+        and(
+          eq(orders.restaurantId, restaurantId),
+          gte(orders.createdAt, dateStart),
+        ),
+      )
+      .groupBy(sql`TO_CHAR(${orders.createdAt}, 'YYYY-MM')`)
+
+    return raw
   }
 
   async update(order: Order): Promise<void> {

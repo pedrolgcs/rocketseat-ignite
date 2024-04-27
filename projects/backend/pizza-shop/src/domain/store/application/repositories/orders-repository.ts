@@ -27,6 +27,16 @@ export type FetchByRestaurantIdParams = {
   pageIndex: number
 }
 
+export type GetMonthsRevenueParams = {
+  restaurantId: string
+  dateStart: Date
+}
+
+export type GetMonthsRevenueResponse = {
+  monthWithYear: string
+  revenue: number
+}[]
+
 export abstract class OrdersRepository {
   abstract fetchByRestaurantId(
     params: FetchByRestaurantIdParams,
@@ -35,4 +45,7 @@ export abstract class OrdersRepository {
   abstract findById(id: string): Promise<Order | null>
   abstract findByIdWithRelations(id: string): Promise<OrderWithRelations | null>
   abstract update(order: Order): Promise<void>
+  abstract getMonthsRevenue(
+    params: GetMonthsRevenueParams,
+  ): Promise<GetMonthsRevenueResponse>
 }

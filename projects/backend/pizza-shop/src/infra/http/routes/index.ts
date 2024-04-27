@@ -12,6 +12,7 @@ import { cancelOrderRouter } from './cancel-order-router'
 import { deliverOrderRouter } from './deliver-order-router'
 import { dispatchOrderRouter } from './dispatch-order-router'
 import { getManagedRestaurantRouter } from './get-managed-restaurant.router'
+import { getMonthRevenue } from './get-month-revenue'
 import { getOrderDetailsRouter } from './get-order-details'
 import { getOrdersRouter } from './get-orders'
 import { getProfileRouter } from './get-profile-router'
@@ -69,3 +70,4 @@ export const routes = new Elysia()
   .use(deliverOrderRouter)
   .use(dispatchOrderRouter)
   .use(getOrdersRouter)
+  .use(getMonthRevenue)
