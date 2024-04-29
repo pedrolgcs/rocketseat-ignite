@@ -16,6 +16,7 @@ import { getMonthRevenue } from './get-month-revenue'
 import { getOrderDetailsRouter } from './get-order-details'
 import { getOrdersRouter } from './get-orders'
 import { getProfileRouter } from './get-profile-router'
+import { getTodayOrdersAmount } from './get-today-orders-amount'
 import { healthCheckRouter } from './health-check-router'
 import { registerRestaurantsRouter } from './register-restaurants-router'
 import { sendAuthLinkRouter } from './send-auth-link-router'
@@ -71,3 +72,4 @@ export const routes = new Elysia()
   .use(dispatchOrderRouter)
   .use(getOrdersRouter)
   .use(getMonthRevenue)
+  .use(getTodayOrdersAmount)

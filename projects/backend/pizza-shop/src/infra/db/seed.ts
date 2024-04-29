@@ -121,7 +121,7 @@ async function createOrders(
   const orderItemsToInsert: (typeof orderItems.$inferInsert)[] = []
   const [customer1, customer2] = customers
 
-  for (let i = 0; i < 20; i++) {
+  for (let i = 0; i < 100; i++) {
     const orderId = createId()
 
     const orderProducts = faker.helpers.arrayElements(productsList, {

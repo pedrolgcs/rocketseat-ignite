@@ -16,6 +16,8 @@ import type {
   FetchByRestaurantIdParams,
   GetMonthsRevenueParams,
   GetMonthsRevenueResponse,
+  GetOrdersPerDayParams,
+  GetOrdersPerDayResponse,
   OrderWithCustomer,
   OrderWithRelations,
 } from '@/domain/store/application/repositories/orders-repository'
@@ -169,6 +171,28 @@ export class DrizzleOrdersRepository implements OrdersRepository {
         ),
       )
       .groupBy(sql`TO_CHAR(${orders.createdAt}, 'YYYY-MM')`)
+
+    return raw
+  }
+
+  async getOrdersPerDay(
+    params: GetOrdersPerDayParams,
+  ): Promise<GetOrdersPerDayResponse> {
+    const { restaurantId, startFrom } = params
+
+    const raw = await db
+      .select({
+        dayWithMonthAndYear: sql<string>`TO_CHAR(${orders.createdAt}, 'YYYY-MM-DD')`,
+        amount: count(),
+      })
+      .from(orders)
+      .where(
+        and(
+          eq(orders.restaurantId, restaurantId),
+          gte(orders.createdAt, startFrom),
+        ),
+      )
+      .groupBy(sql`TO_CHAR(${orders.createdAt}, 'YYYY-MM-DD')`)
 
     return raw
   }
