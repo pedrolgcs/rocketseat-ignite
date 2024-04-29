@@ -14,6 +14,8 @@ import { Pagination } from '@/domain/store/application/@types/pagination'
 import { OrdersRepository } from '@/domain/store/application/repositories'
 import type {
   FetchByRestaurantIdParams,
+  GetMonthCanceledOrdersParams,
+  GetMonthCanceledOrdersResponse,
   GetMonthsRevenueParams,
   GetMonthsRevenueResponse,
   GetOrdersPerDayParams,
@@ -195,6 +197,29 @@ export class DrizzleOrdersRepository implements OrdersRepository {
         ),
       )
       .groupBy(sql`TO_CHAR(${orders.createdAt}, 'YYYY-MM-DD')`)
+
+    return raw
+  }
+
+  async getCanceledOrdersPerMonth(
+    params: GetMonthCanceledOrdersParams,
+  ): Promise<GetMonthCanceledOrdersResponse> {
+    const { startFrom, restaurantId } = params
+
+    const raw = await db
+      .select({
+        monthWithYear: sql<string>`TO_CHAR(${orders.createdAt}, 'YYYY-MM')`,
+        amount: count(),
+      })
+      .from(orders)
+      .where(
+        and(
+          eq(orders.restaurantId, restaurantId),
+          eq(orders.status, 'canceled'),
+          gte(orders.createdAt, startFrom),
+        ),
+      )
+      .groupBy(sql`TO_CHAR(${orders.createdAt}, 'YYYY-MM')`)
 
     return raw
   }
