@@ -47,6 +47,16 @@ export type GetOrdersPerDayResponse = {
   amount: number
 }[]
 
+export type GetOrdersPerMonthParams = {
+  restaurantId: string
+  startFrom: Date
+}
+
+export type GetOrdersPerMonthResponse = {
+  monthWithYear: string
+  amount: number
+}[]
+
 export abstract class OrdersRepository {
   abstract fetchByRestaurantId(
     params: FetchByRestaurantIdParams,
@@ -61,6 +71,10 @@ export abstract class OrdersRepository {
   abstract getOrdersPerDay(
     params: GetOrdersPerDayParams,
   ): Promise<GetOrdersPerDayResponse>
+
+  abstract getOrdersPerMonth(
+    params: GetOrdersPerMonthParams,
+  ): Promise<GetOrdersPerMonthResponse>
 
   abstract update(order: Order): Promise<void>
 }
