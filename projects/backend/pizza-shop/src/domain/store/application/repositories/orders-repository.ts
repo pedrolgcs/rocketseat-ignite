@@ -2,6 +2,7 @@ import {
   Order,
   OrderItem,
   OrderStatus,
+  Product,
   User,
 } from '@/domain/store/enterprise/entities'
 
@@ -67,6 +68,11 @@ export type GetMonthCanceledOrdersResponse = {
   amount: number
 }[]
 
+export type GetPopularProductsByRestaurantResponse = {
+  product: Product
+  amount: number
+}[]
+
 export abstract class OrdersRepository {
   abstract fetchByRestaurantId(
     params: FetchByRestaurantIdParams,
@@ -89,6 +95,10 @@ export abstract class OrdersRepository {
   abstract getCanceledOrdersPerMonth(
     params: GetMonthCanceledOrdersParams,
   ): Promise<GetMonthCanceledOrdersResponse>
+
+  abstract getPopularProductsByRestaurant(
+    restaurantId: string,
+  ): Promise<GetPopularProductsByRestaurantResponse>
 
   abstract update(order: Order): Promise<void>
 }

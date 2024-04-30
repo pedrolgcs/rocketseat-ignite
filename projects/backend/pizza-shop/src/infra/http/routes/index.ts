@@ -17,6 +17,7 @@ import { getMonthOrdersAmount } from './get-month-orders-amount'
 import { getMonthRevenue } from './get-month-revenue'
 import { getOrderDetailsRouter } from './get-order-details'
 import { getOrdersRouter } from './get-orders'
+import { getPopularProducts } from './get-popular-products'
 import { getProfileRouter } from './get-profile-router'
 import { getTodayOrdersAmount } from './get-today-orders-amount'
 import { healthCheckRouter } from './health-check-router'
@@ -77,3 +78,4 @@ export const routes = new Elysia()
   .use(getTodayOrdersAmount)
   .use(getMonthOrdersAmount)
   .use(getMonthCanceledOrdersAmount)
+  .use(getPopularProducts)

@@ -22,6 +22,7 @@ import type {
   GetOrdersPerDayResponse,
   GetOrdersPerMonthParams,
   GetOrdersPerMonthResponse,
+  GetPopularProductsByRestaurantResponse,
   OrderWithCustomer,
   OrderWithRelations,
 } from '@/domain/store/application/repositories/orders-repository'
@@ -31,9 +32,10 @@ import { db } from '../connection'
 import {
   DrizzleOrderItemMapper,
   DrizzleOrderMapper,
+  DrizzleProductMapper,
   DrizzleUserMapper,
 } from '../mappers'
-import { orders, users } from '../schema'
+import { orderItems, orders, products, users } from '../schema'
 
 export class DrizzleOrdersRepository implements OrdersRepository {
   async fetchByRestaurantId(
@@ -244,6 +246,39 @@ export class DrizzleOrdersRepository implements OrdersRepository {
       .groupBy(sql`TO_CHAR(${orders.createdAt}, 'YYYY-MM')`)
 
     return raw
+  }
+
+  async getPopularProductsByRestaurant(
+    restaurantId: string,
+  ): Promise<GetPopularProductsByRestaurantResponse> {
+    const productTableColumns = getTableColumns(products)
+
+    const raw = await db
+      .select({
+        product: {
+          ...productTableColumns,
+        },
+        amount: sum(orderItems.quantity).mapWith(Number),
+      })
+      .from(orderItems)
+      .leftJoin(orders, eq(orders.id, orderItems.orderId))
+      .leftJoin(products, eq(products.id, orderItems.productId))
+      .where(eq(orders.restaurantId, restaurantId))
+      .groupBy(products.id)
+      .orderBy((fields) => desc(fields.amount))
+      .limit(5)
+
+    const productsToDomain = []
+
+    for (const rawProduct of raw) {
+      if (!rawProduct.product) continue
+      productsToDomain.push({
+        product: DrizzleProductMapper.toDomain(rawProduct.product),
+        amount: rawProduct.amount,
+      })
+    }
+
+    return productsToDomain
   }
 
   async update(order: Order): Promise<void> {
