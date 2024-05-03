@@ -73,6 +73,12 @@ export type GetPopularProductsByRestaurantResponse = {
   amount: number
 }[]
 
+export type GetOrdersInPeriodParams = {
+  startDate: Date
+  endDate: Date
+  restaurantId: string
+}
+
 export abstract class OrdersRepository {
   abstract fetchByRestaurantId(
     params: FetchByRestaurantIdParams,
@@ -99,6 +105,8 @@ export abstract class OrdersRepository {
   abstract getPopularProductsByRestaurant(
     restaurantId: string,
   ): Promise<GetPopularProductsByRestaurantResponse>
+
+  abstract getOrdersInPeriod(params: GetOrdersInPeriodParams): Promise<Order[]>
 
   abstract update(order: Order): Promise<void>
 }

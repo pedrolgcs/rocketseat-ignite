@@ -11,15 +11,16 @@ import { authenticateFromLinkRouter } from './authenticate-from-link-router'
 import { cancelOrderRouter } from './cancel-order-router'
 import { deliverOrderRouter } from './deliver-order-router'
 import { dispatchOrderRouter } from './dispatch-order-router'
+import { getDailyRevenueInPeriod } from './get-daily-revenue-in-period'
 import { getManagedRestaurantRouter } from './get-managed-restaurant.router'
-import { getMonthCanceledOrdersAmount } from './get-month-canceled-orders-amount'
-import { getMonthOrdersAmount } from './get-month-orders-amount'
-import { getMonthRevenue } from './get-month-revenue'
-import { getOrderDetailsRouter } from './get-order-details'
-import { getOrdersRouter } from './get-orders'
-import { getPopularProducts } from './get-popular-products'
+import { getMonthCanceledOrdersAmount } from './get-month-canceled-orders-amount-router'
+import { getMonthOrdersAmount } from './get-month-orders-amount-router'
+import { getMonthRevenue } from './get-month-revenue-router'
+import { getOrderDetailsRouter } from './get-order-details-router'
+import { getOrdersRouter } from './get-orders-router'
+import { getPopularProducts } from './get-popular-products-router'
 import { getProfileRouter } from './get-profile-router'
-import { getTodayOrdersAmount } from './get-today-orders-amount'
+import { getTodayOrdersAmount } from './get-today-orders-amount-router'
 import { healthCheckRouter } from './health-check-router'
 import { registerRestaurantsRouter } from './register-restaurants-router'
 import { sendAuthLinkRouter } from './send-auth-link-router'
@@ -79,3 +80,4 @@ export const routes = new Elysia()
   .use(getMonthOrdersAmount)
   .use(getMonthCanceledOrdersAmount)
   .use(getPopularProducts)
+  .use(getDailyRevenueInPeriod)

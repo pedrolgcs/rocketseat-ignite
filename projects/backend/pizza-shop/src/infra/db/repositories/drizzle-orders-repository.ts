@@ -6,6 +6,7 @@ import {
   getTableColumns,
   gte,
   ilike,
+  lte,
   sql,
   sum,
 } from 'drizzle-orm'
@@ -18,6 +19,7 @@ import type {
   GetMonthCanceledOrdersResponse,
   GetMonthsRevenueParams,
   GetMonthsRevenueResponse,
+  GetOrdersInPeriodParams,
   GetOrdersPerDayParams,
   GetOrdersPerDayResponse,
   GetOrdersPerMonthParams,
@@ -279,6 +281,24 @@ export class DrizzleOrdersRepository implements OrdersRepository {
     }
 
     return productsToDomain
+  }
+
+  async getOrdersInPeriod(params: GetOrdersInPeriodParams): Promise<Order[]> {
+    const { startDate, endDate, restaurantId } = params
+
+    const raw = await db
+      .select()
+      .from(orders)
+      .where(
+        and(
+          eq(orders.restaurantId, restaurantId),
+          gte(orders.createdAt, startDate),
+          lte(orders.createdAt, endDate),
+        ),
+      )
+      .orderBy(orders.createdAt)
+
+    return raw.map(DrizzleOrderMapper.toDomain)
   }
 
   async update(order: Order): Promise<void> {
