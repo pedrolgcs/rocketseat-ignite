@@ -29,8 +29,9 @@ export class GetDailyRevenueInPeriodUseCase {
 
     const from = dayjs(startDate).startOf('day')
     const to = dayjs(endDate).endOf('day')
+    const diffInDays = to.diff(from, 'days')
 
-    if (to.diff(from, 'days') > 7) {
+    if (diffInDays > 7) {
       return left(new InvalidRevenueDateRangeError())
     }
 
@@ -43,7 +44,7 @@ export class GetDailyRevenueInPeriodUseCase {
       restaurantId,
     })
 
-    const ordersGropedByDay = Object.groupBy(ordersInPeriod, (order) => {
+    const groupedOrdersByDay = Object.groupBy(ordersInPeriod, (order) => {
       const date = dayjs(order.createdAt)
       const utcMinutes = date.utcOffset()
       const dateWithUTCOffset = date.add(utcMinutes, 'minutes')
@@ -51,14 +52,21 @@ export class GetDailyRevenueInPeriodUseCase {
       return dateWithUTCOffset.format('YYYY-MM-DD')
     })
 
-    const ordersRevenueByDay = Object.entries(ordersGropedByDay).map(
-      ([date, orders]) => ({
-        date,
-        revenue: orders
-          ? orders.reduce((acc, order) => acc + order.totalInCents, 0)
-          : 0,
-      }),
+    const datesBetweenFromAndTo = Array.from(
+      { length: diffInDays + 1 },
+      (_, index) => from.add(index, 'days').format('YYYY-MM-DD'),
     )
+
+    const ordersRevenueByDay = datesBetweenFromAndTo.map((date) => {
+      const dayOrders = groupedOrdersByDay[date]
+      const revenue =
+        dayOrders?.reduce((acc, order) => acc + order.totalInCents, 0) || 0
+
+      return {
+        date,
+        revenue,
+      }
+    })
 
     return right({ orders: ordersRevenueByDay })
   }
