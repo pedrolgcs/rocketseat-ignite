@@ -38,7 +38,10 @@ export const getOrderDetailsRouter = new Elysia()
 
     const getOrderDetails = makeGetOrderDetailsByIdUseCase()
 
-    const getOrderDetailsResult = await getOrderDetails.execute({ orderId: id })
+    const getOrderDetailsResult = await getOrderDetails.execute({
+      orderId: id,
+      restaurantId,
+    })
 
     if (getOrderDetailsResult.isLeft()) {
       throw new UseCaseValidationError({
