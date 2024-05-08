@@ -1,6 +1,6 @@
 import { z } from 'zod'
 
-import { roleSchema } from '../roles'
+import { roleSchema } from '../role'
 
 export const userSchema = z.object({
   role: roleSchema,
