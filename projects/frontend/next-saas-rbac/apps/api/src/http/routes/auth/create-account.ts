@@ -5,6 +5,8 @@ import { z } from 'zod'
 
 import { prisma } from '@/lib/prisma'
 
+import { BadRequestError } from '../_errors/bad-request-error'
+
 const bodySchema = z.object({
   name: z.string(),
   email: z.string().email(),
@@ -20,9 +22,6 @@ export async function createAccount(app: FastifyInstance) {
         summary: 'Create an new account',
         body: bodySchema,
         response: {
-          400: z.object({
-            message: z.string(),
-          }),
           201: z.object({}),
         },
       },
@@ -37,9 +36,7 @@ export async function createAccount(app: FastifyInstance) {
       })
 
       if (userWithSameEmail) {
-        return reply.status(400).send({
-          message: 'user with same e-mail already exists.',
-        })
+        throw new BadRequestError('user with same e-mail already exists.')
       }
 
       const passwordHash = await hash(password, 6)

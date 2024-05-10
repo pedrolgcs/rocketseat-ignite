@@ -10,6 +10,7 @@ import {
   ZodTypeProvider,
 } from 'fastify-type-provider-zod'
 
+import { errorhandler } from './error-handler'
 import { routes } from './routes'
 
 const app = fastify().withTypeProvider<ZodTypeProvider>()
@@ -42,6 +43,9 @@ app.register(fastifySwaggerUI, {
 app.register(fastifyJWT, {
   secret: 'my-jwt-secret',
 })
+
+// Errors
+app.setErrorHandler(errorhandler)
 
 // routes
 app.register(routes)
