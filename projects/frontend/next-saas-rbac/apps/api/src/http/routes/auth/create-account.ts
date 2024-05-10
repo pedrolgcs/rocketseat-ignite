@@ -19,6 +19,12 @@ export async function createAccount(app: FastifyInstance) {
         tags: ['Auth'],
         summary: 'Create an new account',
         body: bodySchema,
+        response: {
+          400: z.object({
+            message: z.string(),
+          }),
+          201: z.object({}),
+        },
       },
     },
     async (request, reply) => {
