@@ -7,5 +7,6 @@ import { getProfile } from './auth/get-profile'
 export async function routes(app: FastifyInstance) {
   createAccount(app)
   authenticateWithPassword(app)
+
   getProfile(app)
 }
