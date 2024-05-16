@@ -10,6 +10,8 @@ import {
   ZodTypeProvider,
 } from 'fastify-type-provider-zod'
 
+import { removeOldTokensJob } from '@/jobs/remove-old-tokens'
+
 import { errorhandler } from './error-handler'
 import { routes } from './routes'
 
@@ -51,5 +53,7 @@ app.setErrorHandler(errorhandler)
 app.register(routes)
 
 app.listen({ port: 3333 }).then(() => {
+  removeOldTokensJob.start()
+
   console.log('🚀 HTTP Server running on http://localhost:3333')
 })
