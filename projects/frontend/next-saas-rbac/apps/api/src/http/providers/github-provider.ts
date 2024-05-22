@@ -1,8 +1,6 @@
+import { env } from '@saas/env'
 import { z } from 'zod'
 
-const CLIENT_ID = 'Ov23liEdqyTXisP7k4xm'
-const CLIENT_SECRET = '9701249e4127204710c5aec3deeb4348e8833c96'
-const REDIRECT_URI = 'http://localhost:3000/api/auth/callback'
 const OAUTH_URL = 'https://github.com/login/oauth/authorize'
 const USER_OAUTH_URL = 'https://api.github.com/user'
 
@@ -11,9 +9,15 @@ const USER_OAUTH_URL = 'https://api.github.com/user'
 export class GithubProvider {
   private static async getAuthorizationURL(code: string) {
     const githubOAuthURL = new URL(OAUTH_URL)
-    githubOAuthURL.searchParams.set('client_id', CLIENT_ID)
-    githubOAuthURL.searchParams.set('client_secret', CLIENT_SECRET)
-    githubOAuthURL.searchParams.set('redirect_uri', REDIRECT_URI)
+    githubOAuthURL.searchParams.set('client_id', env.GITHUB_OAUTH_CLIENT_ID)
+    githubOAuthURL.searchParams.set(
+      'client_secret',
+      env.GITHUB_OAUTH_CLIENT_SECRET,
+    )
+    githubOAuthURL.searchParams.set(
+      'redirect_uri',
+      env.GITHUB_OAUTH__CLIENT_REDIRECT_URI,
+    )
     githubOAuthURL.searchParams.set('code', code)
 
     return githubOAuthURL

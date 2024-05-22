@@ -2,6 +2,7 @@ import fastifyCors from '@fastify/cors'
 import fastifyJWT from '@fastify/jwt'
 import fastifySwagger from '@fastify/swagger'
 import fastifySwaggerUI from '@fastify/swagger-ui'
+import { env } from '@saas/env'
 import { fastify } from 'fastify'
 import {
   jsonSchemaTransform,
@@ -32,7 +33,15 @@ app.register(fastifySwagger, {
       description: 'Full-stack SaaS app with multi-tenant & RBAC.',
       version: '1.0.0',
     },
-    servers: [],
+    components: {
+      securitySchemes: {
+        bearerAuth: {
+          type: 'http',
+          scheme: 'bearer',
+          bearerFormat: 'JWT',
+        },
+      },
+    },
   },
   transform: jsonSchemaTransform,
 })
@@ -43,7 +52,7 @@ app.register(fastifySwaggerUI, {
 
 // JWT
 app.register(fastifyJWT, {
-  secret: 'my-jwt-secret',
+  secret: env.JWT_SECRET,
 })
 
 // Errors
@@ -52,7 +61,7 @@ app.setErrorHandler(errorhandler)
 // routes
 app.register(routes)
 
-app.listen({ port: 3333 }).then(() => {
+app.listen({ port: env.SERVER_PORT }).then(() => {
   removeOldTokensJob.start()
 
   console.log('🚀 HTTP Server running on http://localhost:3333')
