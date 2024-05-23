@@ -7,16 +7,18 @@ import { getProfile } from './auth/get-profile'
 import { requestPasswordRecovery } from './auth/request-password-recovery'
 import { resetPassword } from './auth/reset-password'
 import { createOrganization } from './orgs/create-organization'
+import { getMembership } from './orgs/get-membership'
 
 export async function routes(app: FastifyInstance) {
   // auth
+  getProfile(app)
   createAccount(app)
   authenticateWithPassword(app)
   requestPasswordRecovery(app)
   authenticateWithGithub(app)
   resetPassword(app)
-  getProfile(app)
 
   // orgs
   createOrganization(app)
+  getMembership(app)
 }

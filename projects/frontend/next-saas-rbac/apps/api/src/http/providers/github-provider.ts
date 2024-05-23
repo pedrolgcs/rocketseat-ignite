@@ -1,10 +1,10 @@
 import { env } from '@saas/env'
 import { z } from 'zod'
 
-const OAUTH_URL = 'https://github.com/login/oauth/authorize'
+const OAUTH_URL = 'https://github.com/login/oauth/access_token'
 const USER_OAUTH_URL = 'https://api.github.com/user'
 
-// 'https://github.com/login/oauth/authorize?client_id=Ov23liEdqyTXisP7k4xm&scope=user:email'
+// 'https://github.com/login/oauth/authorize?client_id=Ov23liEdqyTXisP7k4xm&scope=user:email&redirect_uri=http://localhost:3000/api/auth/callback'
 
 export class GithubProvider {
   private static async getAuthorizationURL(code: string) {
