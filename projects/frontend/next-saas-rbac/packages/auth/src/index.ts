@@ -1,8 +1,8 @@
 import {
   AbilityBuilder,
-  CreateAbility,
+  type CreateAbility,
   createMongoAbility,
-  MongoAbility,
+  type MongoAbility,
 } from '@casl/ability'
 import { z } from 'zod'
 
@@ -18,7 +18,9 @@ import {
 
 export * from './models'
 export * from './subjects'
+export * from './role'
 
+// group all subjects
 const appAbilitiesSchema = z.union([
   userSubject,
   projectSubject,
@@ -43,6 +45,7 @@ export function defineAbilityFor(user: User) {
     throw new Error(`Permissions for role ${user.role} is not defined.`)
   }
 
+  // apply rules for user
   permissionsForRole(user, builder)
 
   const ability = builder.build({
@@ -50,6 +53,10 @@ export function defineAbilityFor(user: User) {
       return subject.__typename
     },
   })
+
+  // bind methods
+  ability.can = ability.can.bind(ability)
+  ability.cannot = ability.cannot.bind(ability)
 
   return ability
 }

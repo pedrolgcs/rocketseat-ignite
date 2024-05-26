@@ -10,6 +10,7 @@ import { createOrganization } from './orgs/create-organization'
 import { getMembership } from './orgs/get-membership'
 import { getOrganization } from './orgs/get-organization'
 import { getOrganizations } from './orgs/get-organizations'
+import { updateOrganization } from './orgs/update-organization'
 
 export async function routes(app: FastifyInstance) {
   // auth
@@ -24,5 +25,6 @@ export async function routes(app: FastifyInstance) {
   getOrganization(app)
   getOrganizations(app)
   createOrganization(app)
+  updateOrganization(app)
   getMembership(app)
 }
