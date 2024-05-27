@@ -170,4 +170,4 @@ async function seed() {
   ])
 }
 
-seed().then(() => prisma.$disconnect())
+seed().then(() => console.log('Done!'))
