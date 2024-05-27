@@ -11,6 +11,7 @@ import { getMembership } from './orgs/get-membership'
 import { getOrganization } from './orgs/get-organization'
 import { getOrganizations } from './orgs/get-organizations'
 import { shutdownOrganization } from './orgs/shutdown-organizations'
+import { transferOrganization } from './orgs/transfer-organization'
 import { updateOrganization } from './orgs/update-organization'
 
 export async function routes(app: FastifyInstance) {
@@ -29,4 +30,5 @@ export async function routes(app: FastifyInstance) {
   updateOrganization(app)
   getMembership(app)
   shutdownOrganization(app)
+  transferOrganization(app)
 }
