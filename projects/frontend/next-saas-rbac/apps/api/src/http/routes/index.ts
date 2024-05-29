@@ -13,6 +13,8 @@ import { getOrganizations } from './orgs/get-organizations'
 import { shutdownOrganization } from './orgs/shutdown-organizations'
 import { transferOrganization } from './orgs/transfer-organization'
 import { updateOrganization } from './orgs/update-organization'
+import { createProject } from './projects/create-project'
+import { deleteProject } from './projects/delete-project'
 
 export async function routes(app: FastifyInstance) {
   // auth
@@ -31,4 +33,8 @@ export async function routes(app: FastifyInstance) {
   getMembership(app)
   shutdownOrganization(app)
   transferOrganization(app)
+
+  // projects
+  createProject(app)
+  deleteProject(app)
 }
