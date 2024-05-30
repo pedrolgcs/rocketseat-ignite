@@ -16,6 +16,7 @@ import { updateOrganization } from './orgs/update-organization'
 import { createProject } from './projects/create-project'
 import { deleteProject } from './projects/delete-project'
 import { getProject } from './projects/get-project'
+import { getProjects } from './projects/get-projects'
 
 export async function routes(app: FastifyInstance) {
   // auth
@@ -39,4 +40,5 @@ export async function routes(app: FastifyInstance) {
   createProject(app)
   deleteProject(app)
   getProject(app)
+  getProjects(app)
 }
