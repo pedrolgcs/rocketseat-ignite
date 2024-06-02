@@ -7,6 +7,7 @@ import { getProfile } from './auth/get-profile'
 import { requestPasswordRecovery } from './auth/request-password-recovery'
 import { resetPassword } from './auth/reset-password'
 import { getMembers } from './members/get-members'
+import { removeMember } from './members/remove-member'
 import { updateMember } from './members/update-member'
 import { createOrganization } from './orgs/create-organization'
 import { getMembership } from './orgs/get-membership'
@@ -47,4 +48,5 @@ export async function routes(app: FastifyInstance) {
   // members
   getMembers(app)
   updateMember(app)
+  removeMember(app)
 }
