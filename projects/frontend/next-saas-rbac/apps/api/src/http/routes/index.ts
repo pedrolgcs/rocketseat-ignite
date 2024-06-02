@@ -6,6 +6,7 @@ import { createAccount } from './auth/create-account'
 import { getProfile } from './auth/get-profile'
 import { requestPasswordRecovery } from './auth/request-password-recovery'
 import { resetPassword } from './auth/reset-password'
+import { createInvite } from './invites/create-invite'
 import { getMembers } from './members/get-members'
 import { removeMember } from './members/remove-member'
 import { updateMember } from './members/update-member'
@@ -49,4 +50,7 @@ export async function routes(app: FastifyInstance) {
   getMembers(app)
   updateMember(app)
   removeMember(app)
+
+  // invites
+  createInvite(app)
 }
