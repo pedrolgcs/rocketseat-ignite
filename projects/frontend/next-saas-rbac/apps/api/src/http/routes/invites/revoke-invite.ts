@@ -4,23 +4,25 @@ import { z } from 'zod'
 
 import { auth } from '@/http/middlewares/auth'
 import { prisma } from '@/lib/prisma'
+import { getUserPermissions } from '@/utils/get-user-permissions'
 
 import { BadRequestError } from '../_errors/bad-request-error'
 
 const paramsSchema = z.object({
+  slug: z.string(),
   inviteId: z.string().uuid(),
 })
 
-export async function acceptInvite(app: FastifyInstance) {
+export async function revokeInvite(app: FastifyInstance) {
   app
     .withTypeProvider<ZodTypeProvider>()
     .register(auth)
-    .post(
-      '/invites/:inviteId/accept',
+    .delete(
+      '/organizations/:slug/invites/:inviteId',
       {
         schema: {
           tags: ['Invites'],
-          summary: 'Accept an invite',
+          summary: 'Revoke an invite',
           params: paramsSchema,
           security: [{ bearerAuth: [] }],
           response: {
@@ -29,13 +31,23 @@ export async function acceptInvite(app: FastifyInstance) {
         },
       },
       async (request, reply) => {
+        const { inviteId, slug } = request.params
+
         const { id: userId } = await request.getCurrentUser()
 
-        const { inviteId } = request.params
+        const { membership, organization } =
+          await request.getUserMembership(slug)
+
+        const { cannot } = getUserPermissions(userId, membership.role)
+
+        if (cannot('delete', 'Invite')) {
+          throw new BadRequestError('you are not allowed to delete an invite')
+        }
 
         const invite = await prisma.invite.findUnique({
           where: {
             id: inviteId,
+            organizationId: organization.id,
           },
         })
 
@@ -43,30 +55,7 @@ export async function acceptInvite(app: FastifyInstance) {
           throw new BadRequestError('invite not found or expired')
         }
 
-        const user = await prisma.user.findUnique({
-          where: {
-            id: userId,
-          },
-        })
-
-        if (!user) {
-          throw new BadRequestError('user not found')
-        }
-
-        if (invite.email !== user.email) {
-          throw new BadRequestError('this invite belongs to another user')
-        }
-
-        await prisma.$transaction([
-          prisma.member.create({
-            data: {
-              userId,
-              organizationId: invite.organizationId,
-              role: invite.role,
-            },
-          }),
-          prisma.invite.delete({ where: { id: inviteId } }),
-        ])
+        await prisma.invite.delete({ where: { id: inviteId } })
 
         return reply.status(204).send()
       },
