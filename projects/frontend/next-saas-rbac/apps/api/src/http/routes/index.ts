@@ -7,6 +7,7 @@ import { getProfile } from './auth/get-profile'
 import { requestPasswordRecovery } from './auth/request-password-recovery'
 import { resetPassword } from './auth/reset-password'
 import { getOrganizationBilling } from './billing/get-organization-billing'
+import { healthCheck } from './health-check'
 import { acceptInvite } from './invites/accept-invite'
 import { createInvite } from './invites/create-invite'
 import { getInvite } from './invites/get-invite'
@@ -30,6 +31,8 @@ import { getProject } from './projects/get-project'
 import { getProjects } from './projects/get-projects'
 
 export async function routes(app: FastifyInstance) {
+  healthCheck(app)
+
   // auth
   getProfile(app)
   createAccount(app)
