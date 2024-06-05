@@ -33,7 +33,8 @@
     "@types/node": "^20.12.9",
     "dotenv-cli": "^7.4.2",
     "prisma": "^5.13.0",
-    "tsx": "^4.9.3"
+    "tsx": "^4.9.3",
+    "vitest": "^1.6.0"
   },
   "eslintConfig": {
     "extends": [
