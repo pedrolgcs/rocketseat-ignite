@@ -3,7 +3,7 @@ import { afterAll, beforeAll, describe, expect, it } from 'vitest'
 
 import { app } from '@/http/app'
 
-describe('[Auth] - Sign in', () => {
+describe('[App] - Health Check', () => {
   beforeAll(async () => {
     await app.ready()
   })

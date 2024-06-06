@@ -5,6 +5,8 @@ import { PrismaClient } from '@prisma/client'
 import { env } from '@saas/env'
 import { afterAll, beforeAll } from 'vitest'
 
+import { resetPrismaClientInstance } from '@/lib/prisma'
+
 const prisma = new PrismaClient()
 
 function generateUniqueDatabaseURL(schemaId: string) {
@@ -18,11 +20,14 @@ function generateUniqueDatabaseURL(schemaId: string) {
 const schemaId = randomUUID()
 
 beforeAll(async () => {
+  console.log('beforeAll')
   const databaseURL = generateUniqueDatabaseURL(schemaId)
 
   process.env.DATABASE_URL = databaseURL
 
-  execSync('pnpm db:deploy')
+  resetPrismaClientInstance()
+
+  execSync('pnpm prisma migrate deploy')
 })
 
 afterAll(async () => {
