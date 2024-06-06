@@ -4,10 +4,12 @@ import { hash } from 'bcryptjs'
 
 import { prisma } from '@/lib/prisma'
 
-export async function makeAccount(overrides: Partial<User> = {}, id?: string) {
-  const passwordHash = await hash(overrides.passwordHash ?? '123456', 3)
+type Overrides = Partial<Omit<User, 'passwordHash'> & { password?: string }>
 
-  const account = prisma.user.create({
+export async function makeAccount(overrides: Overrides = {}, id?: string) {
+  const passwordHash = await hash(overrides.password ?? '123456', 3)
+
+  const account = await prisma.user.create({
     data: {
       id: id ?? undefined,
       name: overrides.name ?? faker.person.fullName(),

@@ -1,4 +1,5 @@
 import request from 'supertest'
+import { makeAccount } from 'test/factories/make-account'
 import { afterAll, beforeAll, describe, expect, it } from 'vitest'
 
 import { app } from '@/http/app'
@@ -13,8 +14,7 @@ describe('[Auth] - Authenticate with Password', () => {
   })
 
   it('should be able to authenticate with password', async () => {
-    await request(app.server).post('/users').send({
-      name: 'Pedro Henrique',
+    await makeAccount({
       email: 'pedro@gmail.com',
       password: '123456',
     })
