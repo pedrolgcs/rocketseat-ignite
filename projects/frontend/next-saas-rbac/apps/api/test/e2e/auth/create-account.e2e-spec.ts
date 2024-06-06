@@ -13,12 +13,12 @@ describe('[Auth] - Create Account', () => {
   })
 
   it('should be able to create a new account', async () => {
-    const response = await request(app.server).post('/users').send({
+    const sut = await request(app.server).post('/users').send({
       name: 'Pedro Henrique',
       email: 'pedro@gmail.com',
       password: '123456',
     })
 
-    expect(response.statusCode).toEqual(201)
+    expect(sut.statusCode).toEqual(201)
   })
 })
