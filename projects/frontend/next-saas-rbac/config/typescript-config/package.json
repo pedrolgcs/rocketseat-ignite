@@ -1,7 +1,7 @@
 {
   "name": "@saas/tsconfig",
   "version": "0.0.0",
-  "files": ["library.json", "node.json"],
+  "files": ["library.json", "node.json", "nextjs.json"],
   "private": true,
   "license": "MIT",
   "publishConfig": {
