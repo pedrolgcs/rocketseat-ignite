@@ -6,7 +6,7 @@ import { cookies } from 'next/headers'
 import { redirect } from 'next/navigation'
 import { z } from 'zod'
 
-import { signInWithPassword } from '@/http/requests'
+import { signInWithPassword } from './http/sign-in-with-password'
 
 const signInWithEmailAndPasswordSchema = z.object({
   email: z
