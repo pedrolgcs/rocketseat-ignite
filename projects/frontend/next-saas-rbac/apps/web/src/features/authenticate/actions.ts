@@ -1,12 +1,14 @@
 'use server'
 
+import { env } from '@saas/env'
 import { HTTPError } from 'ky'
 import { cookies } from 'next/headers'
+import { redirect } from 'next/navigation'
 import { z } from 'zod'
 
 import { signInWithPassword } from '@/http/requests'
 
-const signInSchema = z.object({
+const signInWithEmailAndPasswordSchema = z.object({
   email: z
     .string()
     .email({ message: 'Please, provide a valid email address.' }),
@@ -14,7 +16,9 @@ const signInSchema = z.object({
 })
 
 export async function signInWithEmailAndPassword(data: FormData) {
-  const result = signInSchema.safeParse(Object.fromEntries(data))
+  const result = signInWithEmailAndPasswordSchema.safeParse(
+    Object.fromEntries(data),
+  )
 
   if (!result.success) {
     const errors = result.error.flatten().fieldErrors
@@ -64,4 +68,17 @@ export async function signInWithEmailAndPassword(data: FormData) {
     message: null,
     errors: null,
   }
+}
+
+export async function signInWithGithub() {
+  const githubSignInURL = new URL('login/oauth/authorize', 'https://github.com')
+
+  githubSignInURL.searchParams.set('client_id', env.GITHUB_OAUTH_CLIENT_ID)
+  githubSignInURL.searchParams.set(
+    'redirect_uri',
+    env.GITHUB_OAUTH__CLIENT_REDIRECT_URI,
+  )
+  githubSignInURL.searchParams.set('scope', 'user')
+
+  redirect(githubSignInURL.toString())
 }
