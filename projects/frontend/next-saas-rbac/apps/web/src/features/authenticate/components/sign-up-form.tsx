@@ -14,6 +14,7 @@ import { useFormState } from '@/hooks/use-form-state'
 
 import { signUp } from '../actions'
 import { GithubOauth } from './github-oauth'
+import { InputErro } from './ui/input-error'
 
 export function SignUpForm() {
   const router = useRouter()
@@ -42,22 +43,14 @@ export function SignUpForm() {
           <Label htmlFor="name">Name</Label>
           <Input name="name" type="text" id="name" />
 
-          {state.errors?.name && (
-            <p className="text-xs font-medium text-red-500 dark:text-red-400">
-              {state.errors.name[0]}
-            </p>
-          )}
+          {state.errors?.name && <InputErro error={state.errors.name[0]} />}
         </div>
 
         <div className="space-y-1">
           <Label htmlFor="email">E-mail</Label>
           <Input name="email" type="email" id="email" />
 
-          {state.errors?.email && (
-            <p className="text-xs font-medium text-red-500 dark:text-red-400">
-              {state.errors.email[0]}
-            </p>
-          )}
+          {state.errors?.email && <InputErro error={state.errors.email[0]} />}
         </div>
 
         <div className="space-y-1">
@@ -65,9 +58,7 @@ export function SignUpForm() {
           <Input name="password" type="password" id="password" />
 
           {state.errors?.password && (
-            <p className="text-xs font-medium text-red-500 dark:text-red-400">
-              {state.errors.password[0]}
-            </p>
+            <InputErro error={state.errors.password[0]} />
           )}
         </div>
 
@@ -80,9 +71,7 @@ export function SignUpForm() {
           />
 
           {state.errors?.password_confirmation && (
-            <p className="text-xs font-medium text-red-500 dark:text-red-400">
-              {state.errors.password_confirmation[0]}
-            </p>
+            <InputErro error={state.errors.password_confirmation[0]} />
           )}
         </div>
 
