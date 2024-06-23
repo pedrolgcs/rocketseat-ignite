@@ -3,6 +3,7 @@
 import { AlertTriangle, Loader2 } from 'lucide-react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
+import { toast } from 'sonner'
 
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
 import { Button } from '@/components/ui/button'
@@ -11,16 +12,18 @@ import { Label } from '@/components/ui/label'
 import { Separator } from '@/components/ui/separator'
 import { useFormState } from '@/hooks/use-form-state'
 
-import { signInWithEmailAndPassword } from '../actions'
+import { signUp } from '../actions'
 import { GithubOauth } from './github-oauth'
 
-export function SignInForm() {
+export function SignUpForm() {
   const router = useRouter()
 
-  const [state, handleSubmit, isPending] = useFormState(
-    signInWithEmailAndPassword,
-    () => router.push('/'),
-  )
+  function onSuccessForm() {
+    toast.success('Sign up successful!')
+    router.push('/auth/sign-in')
+  }
+
+  const [state, handleSubmit, isPending] = useFormState(signUp, onSuccessForm)
 
   return (
     <div className="space-y-4">
@@ -34,6 +37,17 @@ export function SignInForm() {
             </AlertDescription>
           </Alert>
         )}
+
+        <div className="space-y-1">
+          <Label htmlFor="name">Name</Label>
+          <Input name="name" type="text" id="name" />
+
+          {state.errors?.name && (
+            <p className="text-xs font-medium text-red-500 dark:text-red-400">
+              {state.errors.name[0]}
+            </p>
+          )}
+        </div>
 
         <div className="space-y-1">
           <Label htmlFor="email">E-mail</Label>
@@ -50,18 +64,26 @@ export function SignInForm() {
           <Label htmlFor="password">Password</Label>
           <Input name="password" type="password" id="password" />
 
-          {state.errors?.email && (
+          {state.errors?.password && (
             <p className="text-xs font-medium text-red-500 dark:text-red-400">
-              {state.errors.email[0]}
+              {state.errors.password[0]}
             </p>
           )}
+        </div>
 
-          <Link
-            href="/auth/forgot-password"
-            className="text-xs font-medium text-foreground hover:underline"
-          >
-            Forgot Password?
-          </Link>
+        <div className="space-y-1">
+          <Label htmlFor="password_confirmation">Confirm your password</Label>
+          <Input
+            name="password_confirmation"
+            type="password"
+            id="password_confirmation"
+          />
+
+          {state.errors?.password_confirmation && (
+            <p className="text-xs font-medium text-red-500 dark:text-red-400">
+              {state.errors.password_confirmation[0]}
+            </p>
+          )}
         </div>
 
         {isPending ? (
@@ -69,19 +91,19 @@ export function SignInForm() {
             <Loader2 className="mr-2 h-4 w-4 animate-spin" />
           </Button>
         ) : (
-          <Button type="submit" className="w-full" disabled={isPending}>
-            Sign in with e-mail
+          <Button type="submit" className="w-full ">
+            Create account
           </Button>
         )}
 
         <Button variant="link" className="w-full" size="sm" asChild>
-          <Link href="/auth/sign-up">Create new account</Link>
+          <Link href="/auth/sign-in">Already registered? Sign in</Link>
         </Button>
       </form>
 
       <Separator />
 
-      <GithubOauth label="Sign in with github" />
+      <GithubOauth label="Sign up with github" />
     </div>
   )
 }

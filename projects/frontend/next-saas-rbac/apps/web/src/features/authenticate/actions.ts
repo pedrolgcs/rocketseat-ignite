@@ -7,6 +7,7 @@ import { redirect } from 'next/navigation'
 import { z } from 'zod'
 
 import { signInWithPassword } from './http/sign-in-with-password'
+import { signUp as signUpRequest } from './http/sign-up'
 
 const signInWithEmailAndPasswordSchema = z.object({
   email: z
@@ -14,6 +15,24 @@ const signInWithEmailAndPasswordSchema = z.object({
     .email({ message: 'Please, provide a valid email address.' }),
   password: z.string().min(1, { message: 'Please, provide a password.' }),
 })
+
+const signUpSchema = z
+  .object({
+    name: z.string().refine((value) => value.split(' ').length > 1, {
+      message: 'Please, provide your full name.',
+    }),
+    email: z
+      .string()
+      .email({ message: 'Please, provide a valid email address.' }),
+    password: z
+      .string()
+      .min(6, { message: 'Password should be at least 6 characters' }),
+    password_confirmation: z.string(),
+  })
+  .refine((data) => data.password === data.password_confirmation, {
+    message: 'Passwords confirmation does not match.',
+    path: ['password_confirmation'],
+  })
 
 export async function signInWithEmailAndPassword(data: FormData) {
   const result = signInWithEmailAndPasswordSchema.safeParse(
@@ -81,4 +100,52 @@ export async function signInWithGithub() {
   githubSignInURL.searchParams.set('scope', 'user')
 
   redirect(githubSignInURL.toString())
+}
+
+export async function signUp(data: FormData) {
+  const result = signUpSchema.safeParse(Object.fromEntries(data))
+
+  if (!result.success) {
+    const errors = result.error.flatten().fieldErrors
+
+    return {
+      success: false,
+      message: null,
+      errors,
+    }
+  }
+
+  const { name, email, password } = result.data
+
+  try {
+    await signUpRequest({
+      name,
+      email,
+      password,
+    })
+  } catch (error) {
+    if (error instanceof HTTPError) {
+      const { message } = await error.response.json()
+
+      return {
+        success: false,
+        message,
+        errors: null,
+      }
+    }
+
+    console.error(error)
+
+    return {
+      success: false,
+      message: 'Something went wrong. Please, try again later.',
+      errors: null,
+    }
+  }
+
+  return {
+    success: true,
+    message: null,
+    errors: null,
+  }
 }
