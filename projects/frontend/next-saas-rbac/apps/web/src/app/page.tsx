@@ -1,7 +1,13 @@
-export default function Home() {
+import { auth } from '@/features/authenticate'
+
+export default async function Home() {
+  const { user } = await auth()
+
+  console.log(user)
+
   return (
     <div>
-      <h1>hello world</h1>
+      <pre>{JSON.stringify(user, null, 2)}</pre>
     </div>
   )
 }
