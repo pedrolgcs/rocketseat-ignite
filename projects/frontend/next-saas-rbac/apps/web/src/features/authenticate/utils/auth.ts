@@ -21,5 +21,6 @@ export async function auth() {
     console.error(error)
   }
 
+  // redirect to api router
   redirect('/api/auth/sign-out')
 }
