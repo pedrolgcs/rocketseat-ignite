@@ -1,4 +1,4 @@
-import { ChevronDown, LogOut } from 'lucide-react'
+import { AlertTriangle, ChevronDown, LogOut } from 'lucide-react'
 
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import {
@@ -8,7 +8,7 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
 
-import { auth } from '../utils/auth'
+import { useGetProfile } from '../hooks/use-get-profile'
 
 function getInitials(name: string) {
   return name
@@ -19,19 +19,34 @@ function getInitials(name: string) {
 }
 
 export async function ProfileButton() {
-  const { user } = await auth()
+  const { data, error } = await useGetProfile()
+
+  if (error) {
+    return (
+      <div className="flex items-center">
+        <AlertTriangle className="size-4 text-rose-400 dark:text-rose-300" />
+        <p className="ml-2 text-sm font-medium text-rose-400 dark:text-rose-300">
+          Failed on fetching profile, please refresh the page
+        </p>
+      </div>
+    )
+  }
 
   return (
     <DropdownMenu>
       <DropdownMenuTrigger className="flex items-center gap-3 outline-none">
         <div className="flex flex-col items-end">
-          <span className="text-sm font-medium">{user.name}</span>
-          <span className="text-xs text-muted-foreground">{user.email}</span>
+          <span className="text-sm font-medium">{data?.user.name}</span>
+          <span className="text-xs text-muted-foreground">
+            {data?.user.email}
+          </span>
         </div>
 
         <Avatar className="size-8">
-          {user.avatarUrl && <AvatarImage src={user.avatarUrl} />}
-          <AvatarFallback>{getInitials(user.name ?? 'DF')}</AvatarFallback>
+          {data?.user.avatarUrl && <AvatarImage src={data.user.avatarUrl} />}
+          <AvatarFallback>
+            {getInitials(data?.user.name ?? 'DF')}
+          </AvatarFallback>
         </Avatar>
 
         <ChevronDown className="size-4 text-muted-foreground" />

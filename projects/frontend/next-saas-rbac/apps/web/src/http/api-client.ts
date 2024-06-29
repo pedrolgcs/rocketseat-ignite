@@ -1,6 +1,7 @@
 import { getCookie } from 'cookies-next'
 import type { CookiesFn } from 'cookies-next/lib/types'
 import ky from 'ky'
+import { redirect } from 'next/navigation'
 
 export const api = ky.create({
   prefixUrl: 'http://localhost:3333',
@@ -19,6 +20,13 @@ export const api = ky.create({
 
         if (token) {
           request.headers.set('Authorization', `Bearer ${token}`)
+        }
+      },
+    ],
+    afterResponse: [
+      (request, options, response) => {
+        if (response.status === 401) {
+          redirect('/api/auth/sign-out')
         }
       },
     ],

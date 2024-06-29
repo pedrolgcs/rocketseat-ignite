@@ -1,6 +1,6 @@
 import { Role } from '@saas/auth'
 
-import { api } from '@/http/api-client'
+import { api } from '../api-client'
 
 export type GetOrganizationsResponse = {
   organizations: {

@@ -1,0 +1,26 @@
+import { Role } from '@saas/auth'
+
+import { api } from '../api-client'
+
+export type GetMembershipParams = {
+  organizationSlug: string
+}
+
+export type GetMembershipResponse = {
+  membership: {
+    id: string
+    organizationId: string
+    role: Role
+    userId: string
+  }
+}
+
+export async function getMembership(params: GetMembershipParams) {
+  const { organizationSlug } = params
+
+  const result = await api
+    .get(`organizations/${organizationSlug}/membership`)
+    .json<GetMembershipResponse>()
+
+  return result
+}
