@@ -27,6 +27,7 @@ export async function getMembership(app: FastifyInstance) {
                 id: z.string(),
                 organizationId: z.string(),
                 role: roleSchema,
+                userId: z.string().uuid(),
               }),
             }),
           },
@@ -42,6 +43,7 @@ export async function getMembership(app: FastifyInstance) {
             id: membership.id,
             organizationId: membership.organizationId,
             role: membership.role,
+            userId: membership.userId,
           },
         })
       },
