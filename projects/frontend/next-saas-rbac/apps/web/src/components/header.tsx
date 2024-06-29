@@ -7,7 +7,7 @@ import { ProfileButton } from '@/features/authenticate'
 import {
   OrganizationSwitcher,
   OrganizationSwitcherSkeleton,
-} from '@/features/organizations'
+} from '@/features/select-project'
 
 export function Header() {
   return (

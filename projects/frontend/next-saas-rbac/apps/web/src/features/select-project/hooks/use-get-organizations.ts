@@ -5,10 +5,8 @@ import {
   type GetOrganizationsResponse,
 } from '../http/get-organizations'
 
-export async function useGetOrganizations() {
-  const result = await useQuery<GetOrganizationsResponse>({
+export function useGetOrganizations() {
+  return useQuery<GetOrganizationsResponse>({
     httpRequest: getOrganizations,
   })
-
-  return result
 }

@@ -1,19 +1,29 @@
 import type { NextRequest } from 'next/server'
+import { NextResponse } from 'next/server'
 
-import { authMiddleware } from './middlewares/auth-middleware'
+import { authMiddleware, authRoutes } from './middlewares/auth-middleware'
+import { organizationProjectMiddleware } from './middlewares/organization-project-middleware'
 import {
   signInMiddleware,
   signInRoutes,
 } from './middlewares/sign-in-middleware'
 
 export function middleware(request: NextRequest) {
+  const response = NextResponse.next()
+
   const { pathname } = request.nextUrl
 
   if (signInRoutes.test(pathname)) {
     return signInMiddleware(request)
   }
 
-  return authMiddleware(request)
+  if (authRoutes.test(pathname)) {
+    authMiddleware(request, response)
+  }
+
+  organizationProjectMiddleware(request, response)
+
+  return response
 }
 
 export const config = {
@@ -25,24 +35,6 @@ export const config = {
      * - _next/image (image optimization files)
      * - favicon.ico (favicon file)
      */
-    {
-      source: '/((?!api|_next/static|_next/image|favicon.ico).*)',
-      missing: [
-        { type: 'header', key: 'next-router-prefetch' },
-        { type: 'header', key: 'purpose', value: 'prefetch' },
-      ],
-    },
-    {
-      source: '/((?!api|_next/static|_next/image|favicon.ico).*)',
-      has: [
-        { type: 'header', key: 'next-router-prefetch' },
-        { type: 'header', key: 'purpose', value: 'prefetch' },
-      ],
-    },
-    {
-      source: '/((?!api|_next/static|_next/image|favicon.ico).*)',
-      has: [{ type: 'header', key: 'x-present' }],
-      missing: [{ type: 'header', key: 'x-missing', value: 'prefetch' }],
-    },
+    '/((?!api|_next/static|_next/image|favicon.ico).*)',
   ],
 }
