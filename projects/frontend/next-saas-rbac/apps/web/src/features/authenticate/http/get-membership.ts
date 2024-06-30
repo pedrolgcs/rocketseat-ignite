@@ -1,6 +1,6 @@
 import { Role } from '@saas/auth'
 
-import { api } from '../api-client'
+import { api } from '@/http/api-client'
 
 export type GetMembershipParams = {
   organizationSlug: string

@@ -5,14 +5,11 @@ import { Suspense } from 'react'
 import rocketseatIcon from '@/assets/rocketseat-icon.svg'
 import { ProfileButton } from '@/features/authenticate'
 import {
-  OrganizationSwitcher,
-  OrganizationSwitcherSkeleton,
-} from '@/features/select-project'
-import { ability } from '@/utils/auth'
+  SelectProject,
+  SelectProjectSkeleton,
+} from '@/features/select-current-project'
 
 export async function Header() {
-  const permissions = await ability()
-
   return (
     <div className="mx-auto flex max-w-[1200px] items-center justify-between">
       <div className="flex items-center gap-3">
@@ -26,10 +23,8 @@ export async function Header() {
 
         <Slash className="size-3 -rotate-[24deg] text-border" />
 
-        <Suspense fallback={<OrganizationSwitcherSkeleton />}>
-          <OrganizationSwitcher />
-
-          {permissions?.can('get', 'Project') && <p>Projects</p>}
+        <Suspense fallback={<SelectProjectSkeleton />}>
+          <SelectProject />
         </Suspense>
       </div>
 

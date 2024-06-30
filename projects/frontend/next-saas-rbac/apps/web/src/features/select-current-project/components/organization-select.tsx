@@ -16,11 +16,11 @@ import { Skeleton } from '@/components/ui/skeleton'
 
 import { useGetOrganizations } from '../hooks/use-get-organizations'
 
-export function OrganizationSwitcherSkeleton() {
+export function OrganizationSelectSkeleton() {
   return <Skeleton className="h-5 w-36" />
 }
 
-export async function OrganizationSwitcher() {
+export async function OrganizationSelect() {
   const organizationSlugInCookie = cookies().get('@saas:org')?.value
 
   const { data, isError } = await useGetOrganizations()
