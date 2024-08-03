@@ -18,7 +18,7 @@ export function middleware(request: NextRequest) {
   }
 
   if (authRoutes.test(pathname)) {
-    authMiddleware(request, response)
+    return authMiddleware(request, response)
   }
 
   organizationProjectMiddleware(request, response)
