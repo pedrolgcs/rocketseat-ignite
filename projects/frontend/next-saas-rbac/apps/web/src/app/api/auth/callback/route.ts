@@ -24,7 +24,6 @@ export async function GET(request: NextRequest) {
     cookies().set('@saas:token', token, {
       path: '/',
       maxAge: 60 * 60 * 24 * 7, // 7 days
-      httpOnly: true,
     })
 
     const redirectUrl = request.nextUrl.clone()
@@ -34,7 +33,7 @@ export async function GET(request: NextRequest) {
     return NextResponse.redirect(redirectUrl)
   } catch (error) {
     if (error instanceof HTTPError) {
-      const { message } = await error.response.json()
+      const { message } = await error.response.json<{ message: string }>()
 
       return NextResponse.json({ message }, { status: error.response.status })
     }

@@ -3,7 +3,7 @@ export default function AppLayout({
   sheet,
 }: Readonly<{
   children: React.ReactNode
-  sheet?: React.ReactNode
+  sheet: React.ReactNode
 }>) {
   return (
     <>

@@ -1,5 +1,7 @@
+'use client'
+
+import { getCookie } from 'cookies-next'
 import { AlertTriangle, ChevronsUpDown, PlusCircle } from 'lucide-react'
-import { cookies } from 'next/headers'
 import Link from 'next/link'
 
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
@@ -14,20 +16,24 @@ import {
 } from '@/components/ui/dropdown-menu'
 import { Skeleton } from '@/components/ui/skeleton'
 
-import { useGetOrganizations } from '../hooks/use-get-organizations'
+import { useGetOrganizationsQuery } from '../hooks/use-get-organizations'
 
-export function OrganizationSelectSkeleton() {
+function OrganizationSwitcherSkeleton() {
   return <Skeleton className="h-5 w-36" />
 }
 
-export async function OrganizationSelect() {
-  const organizationSlugInCookie = cookies().get('@saas:org')?.value
+export function OrganizationSwitcher() {
+  const organizationSlugInCookie = getCookie('@saas:org')
 
-  const { data, isError } = await useGetOrganizations()
+  const { data, isError, isLoading } = useGetOrganizationsQuery()
 
   const selectedOrganization = data?.organizations.find(
     (organization) => organization.slug === organizationSlugInCookie,
   )
+
+  if (isLoading) {
+    return <OrganizationSwitcherSkeleton />
+  }
 
   if (isError) {
     return (

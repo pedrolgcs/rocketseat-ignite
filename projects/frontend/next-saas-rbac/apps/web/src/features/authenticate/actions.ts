@@ -60,11 +60,10 @@ export async function signInWithEmailAndPassword(data: FormData) {
     cookies().set('@saas:token', token, {
       path: '/',
       maxAge: 60 * 60 * 24 * 7, // 7 days
-      httpOnly: true,
     })
   } catch (error) {
     if (error instanceof HTTPError) {
-      const { message } = await error.response.json()
+      const { message } = await error.response.json<{ message: string }>()
 
       return {
         success: false,
@@ -125,7 +124,7 @@ export async function signUp(data: FormData) {
     })
   } catch (error) {
     if (error instanceof HTTPError) {
-      const { message } = await error.response.json()
+      const { message } = await error.response.json<{ message: string }>()
 
       return {
         success: false,

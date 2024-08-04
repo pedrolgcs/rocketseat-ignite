@@ -18,7 +18,13 @@ export function middleware(request: NextRequest) {
   }
 
   if (authRoutes.test(pathname)) {
-    return authMiddleware(request, response)
+    const token = authMiddleware(request)
+
+    if (!token) {
+      return NextResponse.redirect(
+        new URL('/auth/sign-in', request.url).toString(),
+      )
+    }
   }
 
   organizationProjectMiddleware(request, response)
