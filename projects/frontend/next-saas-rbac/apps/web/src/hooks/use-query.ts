@@ -18,7 +18,9 @@ type Params<T> = {
 
 type Response<T> = Success<T> | Error
 
-export async function useQuery<T>(params: Params<T>): Promise<Response<T>> {
+export async function useServerQuery<T>(
+  params: Params<T>,
+): Promise<Response<T>> {
   const { httpRequest } = params
 
   try {

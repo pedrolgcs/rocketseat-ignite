@@ -19,7 +19,12 @@ import { Skeleton } from '@/components/ui/skeleton'
 import { useGetOrganizationsQuery } from '../hooks/use-get-organizations'
 
 function OrganizationSwitcherSkeleton() {
-  return <Skeleton className="h-5 w-36" />
+  return (
+    <>
+      <Skeleton className="size-5 rounded-full" />
+      <Skeleton className="h-5 w-36" />
+    </>
+  )
 }
 
 export function OrganizationSwitcher() {
@@ -51,7 +56,7 @@ export function OrganizationSwitcher() {
       <DropdownMenuTrigger className="flex w-[168px] items-center gap-2 rounded p-1 text-sm font-medium outline-none focus-visible:ring-2 focus-visible:ring-primary">
         {selectedOrganization ? (
           <>
-            <Avatar className="mr-2 size-4">
+            <Avatar className="size-4">
               {selectedOrganization.avatarUrl && (
                 <AvatarImage src={selectedOrganization.avatarUrl} />
               )}

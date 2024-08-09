@@ -7,6 +7,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
+import { Skeleton } from '@/components/ui/skeleton'
 
 import { useGetProfile } from '../hooks/use-get-profile'
 
@@ -16,6 +17,10 @@ function getInitials(name: string) {
     .map((word) => word.charAt(0).toUpperCase())
     .slice(0, 2)
     .join('')
+}
+
+export function ProfileButtonSkeleton() {
+  return <Skeleton className="h-8 w-8 rounded-full" />
 }
 
 export async function ProfileButton() {

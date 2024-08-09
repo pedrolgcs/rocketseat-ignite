@@ -13,18 +13,11 @@ export type UseGetOrderDetailsQueryKey = [
   GetProjectsParams,
 ]
 
-type Options = {
-  enabled: boolean
-}
-
-export function useGetProjectsQuery(
-  params: GetProjectsParams,
-  options: Options,
-) {
+export function useGetProjectsQuery(params: GetProjectsParams) {
   return useQuery<GetProjectsResponse>({
     queryKey: [USE_GET_PROJECTS_QUERY_KEY, params],
     queryFn: () => getProjects(params),
     staleTime: Infinity,
-    enabled: options.enabled,
+    enabled: !!params.organizationSlug,
   })
 }

@@ -1,14 +1,9 @@
 import { SlashIcon } from 'lucide-react'
 
-import { Skeleton } from '@/components/ui/skeleton'
 import { ability } from '@/features/authenticate'
 
 import { OrganizationSwitcher } from './organization-switcher'
 import { ProjectSwitcher } from './project-switcher'
-
-export function SelectProjectSkeleton() {
-  return <Skeleton className="h-5 w-36" />
-}
 
 export async function SelectProject() {
   const permissions = await ability()

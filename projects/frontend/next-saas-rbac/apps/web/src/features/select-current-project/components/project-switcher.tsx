@@ -23,23 +23,23 @@ import { Skeleton } from '@/components/ui/skeleton'
 import { useGetProjectsQuery } from '../hooks/use-get-projects'
 
 function ProjectSwitcherSkeleton() {
-  return <Skeleton className="h-5 w-36" />
+  return (
+    <>
+      <Skeleton className="size-5 rounded-full" />
+      <Skeleton className="h-5 w-36" />
+    </>
+  )
 }
 
 export function ProjectSwitcher() {
   const { slug: orgSlug, project: projectSlug } = useParams<{
     slug: string
-    project?: string
+    project: string
   }>()
 
-  const { data, error, isLoading } = useGetProjectsQuery(
-    {
-      organizationSlug: orgSlug,
-    },
-    {
-      enabled: !!orgSlug,
-    },
-  )
+  const { data, error, isLoading } = useGetProjectsQuery({
+    organizationSlug: orgSlug,
+  })
 
   const selectedProject = data?.projects.find(
     (project) => project.slug === projectSlug,
@@ -65,7 +65,7 @@ export function ProjectSwitcher() {
       <DropdownMenuTrigger className="flex w-[168px] items-center gap-2 rounded p-1 text-sm font-medium outline-none focus-visible:ring-2 focus-visible:ring-primary">
         {selectedProject ? (
           <>
-            <Avatar className="mr-2 size-4">
+            <Avatar className="size-4">
               {selectedProject.avatarUrl && (
                 <AvatarImage src={selectedProject.avatarUrl} />
               )}

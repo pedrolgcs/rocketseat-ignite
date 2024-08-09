@@ -14,9 +14,7 @@ function getCurrentOrganization() {
 async function getCurrentMembership() {
   const currentOrganization = getCurrentOrganization()
 
-  if (!currentOrganization) {
-    return null
-  }
+  if (!currentOrganization) return null
 
   const { membership } = await getMembership({
     organizationSlug: currentOrganization,
@@ -26,15 +24,19 @@ async function getCurrentMembership() {
 }
 
 export async function ability() {
-  const membership = await getCurrentMembership()
+  try {
+    const membership = await getCurrentMembership()
 
-  if (!membership) return null
+    if (!membership) return null
 
-  const ability = defineAbilityFor({
-    __typename: 'User',
-    id: membership.userId,
-    role: membership.role,
-  })
+    const ability = defineAbilityFor({
+      __typename: 'User',
+      id: membership.userId,
+      role: membership.role,
+    })
 
-  return ability
+    return ability
+  } catch (error) {
+    return null
+  }
 }
