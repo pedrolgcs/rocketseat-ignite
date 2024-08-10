@@ -13,11 +13,7 @@ export function useFormState(
 ) {
   const [isPending, startTransition] = useTransition()
 
-  const [formState, setFormState] = useState<{
-    success: boolean
-    message: string | null
-    errors: Record<string, string[]> | null
-  }>(() => {
+  const [formState, setFormState] = useState<FormState>(() => {
     if (initialState) return initialState
 
     return {

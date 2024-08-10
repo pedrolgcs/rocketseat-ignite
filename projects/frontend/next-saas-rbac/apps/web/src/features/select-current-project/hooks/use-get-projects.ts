@@ -8,7 +8,7 @@ import {
 
 export const USE_GET_PROJECTS_QUERY_KEY = 'organization-projects'
 
-export type UseGetOrderDetailsQueryKey = [
+export type UseGetProjectsQueryKey = [
   typeof USE_GET_PROJECTS_QUERY_KEY,
   GetProjectsParams,
 ]

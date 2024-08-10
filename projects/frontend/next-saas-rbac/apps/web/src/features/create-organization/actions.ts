@@ -3,7 +3,7 @@
 import { HTTPError } from 'ky'
 import { z } from 'zod'
 
-import { createOrganization as createOrganizationRequest } from './http/create-organization'
+import { createOrganization } from './http/create-organization'
 
 const createOrganizationSchema = z
   .object({
@@ -55,7 +55,7 @@ export async function createOrganizationAction(data: FormData) {
   const { name, domain, shouldAttachUsersByDomain } = result.data
 
   try {
-    await createOrganizationRequest({
+    await createOrganization({
       name,
       domain,
       shouldAttachUsersByDomain,

@@ -1,18 +1,16 @@
 import { defineAbilityFor } from '@saas/auth'
 import { cookies } from 'next/headers'
 
+import { getCurrentOrganization } from '@/utils/get-current-organization'
+
 import { getMembership } from '../http/get-membership'
 
 export function isAuthenticated() {
   return !!cookies().get('@saas:token')?.value
 }
 
-function getCurrentOrganization() {
-  return cookies().get('@saas:org')?.value ?? null
-}
-
 async function getCurrentMembership() {
-  const currentOrganization = getCurrentOrganization()
+  const currentOrganization = await getCurrentOrganization()
 
   if (!currentOrganization) return null
 

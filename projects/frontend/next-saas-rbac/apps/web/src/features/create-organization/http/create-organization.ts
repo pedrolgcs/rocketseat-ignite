@@ -6,7 +6,7 @@ export type CreateOrganizationParams = {
   shouldAttachUsersByDomain: boolean
 }
 
-export type GetMembershipResponse = void
+export type CreateOrganizationResponse = void
 
 export async function createOrganization(params: CreateOrganizationParams) {
   const { name, domain, shouldAttachUsersByDomain } = params
@@ -19,7 +19,7 @@ export async function createOrganization(params: CreateOrganizationParams) {
         shouldAttachUsersByDomain,
       },
     })
-    .json<GetMembershipResponse>()
+    .json<CreateOrganizationResponse>()
 
   return result
 }

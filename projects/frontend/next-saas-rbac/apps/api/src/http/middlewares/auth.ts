@@ -4,6 +4,7 @@ import { fastifyPlugin } from 'fastify-plugin'
 import type { JwtToken } from '@/@types/token'
 import { prisma } from '@/lib/prisma'
 
+import { BadRequestError } from '../routes/_errors/bad-request-error'
 import { UnauthorizedError } from '../routes/_errors/unautorized-error'
 
 export const auth = fastifyPlugin(async (app: FastifyInstance) => {
@@ -22,6 +23,16 @@ export const auth = fastifyPlugin(async (app: FastifyInstance) => {
 
     request.getUserMembership = async (slug: string) => {
       const { id: userId } = await request.getCurrentUser()
+
+      const findOrganization = await prisma.organization.findUnique({
+        where: {
+          slug,
+        },
+      })
+
+      if (!findOrganization) {
+        throw new BadRequestError('organization not found.')
+      }
 
       const member = await prisma.member.findFirst({
         where: {
