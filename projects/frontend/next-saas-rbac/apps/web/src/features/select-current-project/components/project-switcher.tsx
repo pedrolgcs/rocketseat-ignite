@@ -19,10 +19,11 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
 import { Skeleton } from '@/components/ui/skeleton'
+import { useAbility } from '@/hooks/use-ability'
 
 import { useGetProjectsQuery } from '../hooks/use-get-projects'
 
-function ProjectSwitcherSkeleton() {
+export function ProjectSwitcherSkeleton() {
   return (
     <>
       <Skeleton className="size-5 rounded-full" />
@@ -37,7 +38,9 @@ export function ProjectSwitcher() {
     project: string
   }>()
 
-  const { data, error, isLoading } = useGetProjectsQuery({
+  const { ability } = useAbility()
+
+  const { data, error } = useGetProjectsQuery({
     organizationSlug: orgSlug,
   })
 
@@ -45,9 +48,7 @@ export function ProjectSwitcher() {
     (project) => project.slug === projectSlug,
   )
 
-  if (isLoading) {
-    return <ProjectSwitcherSkeleton />
-  }
+  const canCreateProjects = ability?.can('create', 'Project')
 
   if (error) {
     return (
@@ -104,10 +105,16 @@ export function ProjectSwitcher() {
         <DropdownMenuSeparator />
 
         <DropdownMenuItem asChild>
-          <Link href={`/org/${orgSlug}/create-project`}>
-            <PlusCircleIcon className="mr-2 size-4" />
-            Create new
-          </Link>
+          {canCreateProjects ? (
+            <Link href={`/org/${orgSlug}/create-project`}>
+              <PlusCircleIcon className="mr-2 size-4" />
+              Create new
+            </Link>
+          ) : (
+            <p className="text-xs font-medium text-muted-foreground">
+              You don't have permission to create projects
+            </p>
+          )}
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>

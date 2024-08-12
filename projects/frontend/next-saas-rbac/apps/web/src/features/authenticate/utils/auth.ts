@@ -1,12 +1,12 @@
 import { defineAbilityFor } from '@saas/auth'
-import { cookies } from 'next/headers'
 
+import { getCookie } from '@/lib/cookies'
 import { getCurrentOrganization } from '@/utils/get-current-organization'
 
 import { getMembership } from '../http/get-membership'
 
 export function isAuthenticated() {
-  return !!cookies().get('@saas:token')?.value
+  return getCookie('@saas:token')
 }
 
 async function getCurrentMembership() {
