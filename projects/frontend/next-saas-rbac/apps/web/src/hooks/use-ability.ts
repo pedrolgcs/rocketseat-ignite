@@ -13,6 +13,8 @@ export function useAbility() {
     }
 
     getAbility()
+
+    return () => setAbility(null)
   }, [])
 
   return { ability }
