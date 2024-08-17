@@ -1,4 +1,4 @@
-export default function AppLayout({
+export default function Layout({
   children,
   sheet,
 }: Readonly<{
