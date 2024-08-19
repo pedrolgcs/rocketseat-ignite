@@ -1,5 +1,10 @@
 import { InterceptedSheetContent } from '@/components/intercepted-sheet-content'
-import { Sheet, SheetHeader, SheetTitle } from '@/components/ui/sheet'
+import {
+  Sheet,
+  SheetDescription,
+  SheetHeader,
+  SheetTitle,
+} from '@/components/ui/sheet'
 import { CreateOrganizationForm } from '@/features/create-organization/'
 
 export default function CreateOrganization() {
@@ -8,6 +13,7 @@ export default function CreateOrganization() {
       <InterceptedSheetContent>
         <SheetHeader>
           <SheetTitle>Create organization</SheetTitle>
+          <SheetDescription>Fill in the organization details</SheetDescription>
         </SheetHeader>
 
         <div className="py-4">

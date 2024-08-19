@@ -1,5 +1,10 @@
 import { InterceptedSheetContent } from '@/components/intercepted-sheet-content'
-import { Sheet, SheetHeader, SheetTitle } from '@/components/ui/sheet'
+import {
+  Sheet,
+  SheetDescription,
+  SheetHeader,
+  SheetTitle,
+} from '@/components/ui/sheet'
 import { CreateProjectForm } from '@/features/create-project'
 
 export default function CreateProject() {
@@ -8,6 +13,7 @@ export default function CreateProject() {
       <InterceptedSheetContent>
         <SheetHeader>
           <SheetTitle>Create project</SheetTitle>
+          <SheetDescription>Fill in the project details</SheetDescription>
         </SheetHeader>
 
         <div className="py-4">

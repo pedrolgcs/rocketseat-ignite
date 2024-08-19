@@ -8,30 +8,22 @@ import { Button } from '@/components/ui/button'
 import { Checkbox } from '@/components/ui/checkbox'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
-import {
-  USE_GET_ORGANIZATIONS_QUERY_KEY,
-  UseGetOrganizationsQueryKey,
-} from '@/features/select-current-project'
 import { useFormState } from '@/hooks/use-form-state'
-import { queryClient } from '@/lib/react-query'
+import { useGetCurrentOrganization } from '@/hooks/use-get-current-organization'
 
-import { createOrganizationAction } from '../actions'
+import { updateOrganizationAction } from '../actions'
 import { InputErro } from './ui/input-error'
 
-export function CreateOrganizationForm() {
+export function UpdateOrganizationForm() {
+  const { slug } = useGetCurrentOrganization()
+
+  function onSuccessForm() {
+    toast.success('Success on update organization!')
+  }
+
   const [state, handleSubmit, isPending] = useFormState(
-    createOrganizationAction,
-    () => {
-      toast.success('Success on create organization!')
-
-      const getOrganizationsKey: UseGetOrganizationsQueryKey = [
-        USE_GET_ORGANIZATIONS_QUERY_KEY,
-      ]
-
-      queryClient.refetchQueries({
-        queryKey: getOrganizationsKey,
-      })
-    },
+    updateOrganizationAction,
+    onSuccessForm,
   )
 
   return (
@@ -96,7 +88,7 @@ export function CreateOrganizationForm() {
           </Button>
         ) : (
           <Button type="submit" className="w-full ">
-            Save organization
+            Update organization
           </Button>
         )}
       </form>

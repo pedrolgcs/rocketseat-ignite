@@ -7,7 +7,7 @@ import {
 
 export const USE_GET_ORGANIZATIONS_QUERY_KEY = 'organizations'
 
-export type UseGetOrderDetailsQueryKey = [
+export type UseGetOrganizationsQueryKey = [
   typeof USE_GET_ORGANIZATIONS_QUERY_KEY,
 ]
 
