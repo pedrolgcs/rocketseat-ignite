@@ -9,7 +9,7 @@ import {
 } from '@/components/ui/dropdown-menu'
 import { Skeleton } from '@/components/ui/skeleton'
 
-import { useGetProfile } from '../hooks/use-get-profile'
+import { useGetProfile } from '../http/hooks/use-get-profile'
 
 function getInitials(name: string) {
   return name

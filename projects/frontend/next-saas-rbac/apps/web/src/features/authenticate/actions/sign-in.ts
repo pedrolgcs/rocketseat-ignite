@@ -4,7 +4,7 @@ import { HTTPError } from 'ky'
 import { cookies } from 'next/headers'
 import { z } from 'zod'
 
-import { signInWithPassword } from '../http/sign-in-with-password'
+import { signInWithPassword } from '../http/requests/sign-in-with-password'
 
 const schema = z.object({
   email: z

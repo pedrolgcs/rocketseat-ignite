@@ -3,7 +3,7 @@
 import { HTTPError } from 'ky'
 import { z } from 'zod'
 
-import { signUp as signUpRequest } from '../http/sign-up'
+import { signUp as signUpRequest } from '../http/requests/sign-up'
 
 const signUpSchema = z
   .object({
