@@ -8,11 +8,11 @@ import { Button } from '@/components/ui/button'
 import { Checkbox } from '@/components/ui/checkbox'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
+import { useFormState } from '@/hooks/use-form-state'
 import {
   USE_GET_ORGANIZATIONS_QUERY_KEY,
-  UseGetOrganizationsQueryKey,
-} from '@/features/select-current-project'
-import { useFormState } from '@/hooks/use-form-state'
+  type UseGetOrganizationsQueryKey,
+} from '@/http/hooks/use-get-organizations'
 import { queryClient } from '@/lib/react-query'
 
 import { createOrganizationAction } from '../actions/create-organization'
