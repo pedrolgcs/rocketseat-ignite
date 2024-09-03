@@ -22,18 +22,23 @@ export function useShutdownOrganizationMutation() {
         USE_GET_ORGANIZATIONS_QUERY_KEY,
       ]
 
-      const organizationsCache =
-        queryClient.getQueryData<GetOrganizationsResponse>(getOrganizationsKey)
+      queryClient.setQueriesData<GetOrganizationsResponse>(
+        {
+          queryKey: getOrganizationsKey,
+          exact: true,
+        },
+        (cache) => {
+          if (!cache) return
 
-      if (!organizationsCache) return
+          const updatedOrganizationsCache = cache.organizations.filter(
+            (organization) => organization.slug !== params.organizationSlug,
+          )
 
-      const updatedOrganizationsCache = organizationsCache.organizations.filter(
-        (organization) => organization.slug !== params.organizationSlug,
+          return {
+            organizations: updatedOrganizationsCache,
+          }
+        },
       )
-
-      queryClient.setQueryData(getOrganizationsKey, {
-        organizations: updatedOrganizationsCache,
-      })
     },
   })
 }
