@@ -8,23 +8,65 @@ import { Button } from '@/components/ui/button'
 import { Checkbox } from '@/components/ui/checkbox'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
+import {
+  USE_GET_ORGANIZATIONS_QUERY_KEY,
+  type UseGetOrganizationsQueryKey,
+} from '@/features/select-current-project'
 import { useFormState } from '@/hooks/use-form-state'
-import { useGetCurrentOrganization } from '@/hooks/use-get-current-organization'
+import {
+  USE_GET_ORGANIZATION_BY_SLUG_QUERY_KEY,
+  useGetOrganizationBySlugQuery,
+  type UseGetOrganizationBySlugQueryKey,
+} from '@/http/hooks/queries/use-get-organization-by-slug'
+import { queryClient } from '@/lib/react-query'
 
 import { updateOrganizationAction } from '../actions'
 import { InputErro } from './ui/input-error'
+import { UpdateOrganizationSkeleton } from './update-organization-skeleton'
 
-export function UpdateOrganizationForm() {
-  const { slug } = useGetCurrentOrganization()
+type UpdateOrganizationFormProps = {
+  slug: string
+}
 
-  function onSuccessForm() {
-    toast.success('Success on update organization!')
-  }
+export function UpdateOrganizationForm({ slug }: UpdateOrganizationFormProps) {
+  const { data, isError, isLoading } = useGetOrganizationBySlugQuery({ slug })
 
   const [state, handleSubmit, isPending] = useFormState(
     updateOrganizationAction,
-    onSuccessForm,
+    () => {
+      toast.success('Success on update organization!')
+
+      const getOrganizationBySlugKey: UseGetOrganizationBySlugQueryKey = [
+        USE_GET_ORGANIZATION_BY_SLUG_QUERY_KEY,
+        slug,
+      ]
+
+      queryClient.refetchQueries({
+        queryKey: getOrganizationBySlugKey,
+      })
+
+      const getOrganizationsKey: UseGetOrganizationsQueryKey = [
+        USE_GET_ORGANIZATIONS_QUERY_KEY,
+      ]
+
+      queryClient.refetchQueries({
+        queryKey: getOrganizationsKey,
+      })
+    },
   )
+
+  if (isLoading) return <UpdateOrganizationSkeleton />
+
+  if (isError) {
+    return (
+      <div className="flex items-center">
+        <AlertTriangle className="size-4 text-rose-400 dark:text-rose-300" />
+        <p className="ml-2 text-sm font-medium text-rose-400 dark:text-rose-300">
+          Failed on fetching organization
+        </p>
+      </div>
+    )
+  }
 
   return (
     <div className="space-y-4">
@@ -41,7 +83,12 @@ export function UpdateOrganizationForm() {
 
         <div className="space-y-1">
           <Label htmlFor="name">Organization name</Label>
-          <Input name="name" type="text" id="name" />
+          <Input
+            name="name"
+            type="text"
+            id="name"
+            defaultValue={data?.organization.name}
+          />
 
           {state.errors?.name && <InputErro error={state.errors.name[0]} />}
         </div>
@@ -54,6 +101,7 @@ export function UpdateOrganizationForm() {
             id="domain"
             inputMode="url"
             placeholder="example.com"
+            defaultValue={data?.organization.domain || ''}
           />
 
           {state.errors?.domain && <InputErro error={state.errors.domain[0]} />}
@@ -64,6 +112,7 @@ export function UpdateOrganizationForm() {
             <Checkbox
               name="shouldAttachUsersByDomain"
               id="shouldAttachUsersByDomain"
+              defaultChecked={data?.organization.shouldAttachUsersByDomain}
             />
             <label htmlFor="shouldAttachUsersByDomain" className="space-y-1">
               <span className="text-sm font-medium leading-none">

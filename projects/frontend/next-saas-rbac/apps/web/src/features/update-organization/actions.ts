@@ -5,7 +5,7 @@ import { z } from 'zod'
 
 import { getCurrentOrganization } from '@/utils/get-current-organization'
 
-import { updateOrganization } from './http/create-organization'
+import { updateOrganization } from './http/update-organization'
 
 const updateOrganizationSchema = z
   .object({
