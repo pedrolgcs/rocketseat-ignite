@@ -1,78 +1,139 @@
 'use client'
 
+import { zodResolver } from '@hookform/resolvers/zod'
 import { AlertTriangle, Loader2 } from 'lucide-react'
+import { Controller, useForm } from 'react-hook-form'
 import { toast } from 'sonner'
+import { z } from 'zod'
 
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
 import { Button } from '@/components/ui/button'
 import { Checkbox } from '@/components/ui/checkbox'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
-import { useFormState } from '@/hooks/use-form-state'
-import {
-  USE_GET_ORGANIZATIONS_QUERY_KEY,
-  type UseGetOrganizationsQueryKey,
-} from '@/http/hooks/use-get-organizations'
-import { queryClient } from '@/lib/react-query'
 
-import { createOrganizationAction } from '../actions/create-organization'
+import { useCreateOrganizationMutation } from '../http/hooks/use-create-organization-mutation'
 import { InputErro } from './ui/input-error'
 
-export function CreateOrganizationForm() {
-  const [state, handleSubmit, isPending] = useFormState(
-    createOrganizationAction,
-    () => {
-      toast.success('Success on create organization!')
-
-      const getOrganizationsKey: UseGetOrganizationsQueryKey = [
-        USE_GET_ORGANIZATIONS_QUERY_KEY,
-      ]
-
-      queryClient.refetchQueries({
-        queryKey: getOrganizationsKey,
-      })
+const createOrganizationSchema = z
+  .object({
+    name: z
+      .string()
+      .min(4, { message: 'Please, include at least 4 characters.' }),
+    domain: z
+      .string()
+      .nullable()
+      .refine(
+        (value) => {
+          if (!value) return true
+          const domainRegex = /^[a-zA-Z0-9.-]+.[a-zA-Z]{2,}$/
+          return domainRegex.test(value)
+        },
+        { message: 'Please, provide a valid domain.' },
+      ),
+    shouldAttachUsersByDomain: z
+      .union([z.literal('on'), z.literal('off'), z.boolean()])
+      .transform((value) => value === 'on' || value === true)
+      .default(false),
+  })
+  .refine(
+    (data) => {
+      if (data.shouldAttachUsersByDomain === true && !data.domain) {
+        return false
+      }
+      return true
+    },
+    {
+      message: 'Domain is required when auto-join is enabled',
+      path: ['domain'],
     },
   )
 
+type CreateOrganizationSchema = z.infer<typeof createOrganizationSchema>
+
+export function CreateOrganizationForm() {
+  const {
+    mutate: createOrganization,
+    isPending: isPedingOnCreateOrganization,
+    isError: isErrorOnCreateOrganization,
+    error: errorOnCreateOrganization,
+  } = useCreateOrganizationMutation()
+
+  const { handleSubmit, register, control, formState } =
+    useForm<CreateOrganizationSchema>({
+      resolver: zodResolver(createOrganizationSchema),
+    })
+
+  const handleCreateOrganization = (data: CreateOrganizationSchema) => {
+    const { name, domain, shouldAttachUsersByDomain } = data
+
+    createOrganization(
+      {
+        name,
+        domain,
+        shouldAttachUsersByDomain,
+      },
+      {
+        onSuccess: () => toast.success('Create organization successful!'),
+      },
+    )
+  }
+
   return (
     <div className="space-y-4">
-      <form onSubmit={handleSubmit} className="space-y-4">
-        {!state.success && state.message && (
+      <form
+        onSubmit={handleSubmit(handleCreateOrganization)}
+        className="space-y-4"
+      >
+        {isErrorOnCreateOrganization && (
           <Alert variant="destructive">
             <AlertTriangle className="size-4" />
             <AlertTitle>Create organization failed</AlertTitle>
             <AlertDescription>
-              <p>{state.message}</p>
+              <p>{errorOnCreateOrganization.message}</p>
             </AlertDescription>
           </Alert>
         )}
 
         <div className="space-y-1">
           <Label htmlFor="name">Organization name</Label>
-          <Input name="name" type="text" id="name" />
+          <Input type="text" id="name" {...register('name')} />
 
-          {state.errors?.name && <InputErro error={state.errors.name[0]} />}
+          {formState.errors.name?.message && (
+            <InputErro error={formState.errors.name.message} />
+          )}
         </div>
 
         <div className="space-y-1">
           <Label htmlFor="domain">E-mail domain</Label>
           <Input
-            name="domain"
             type="text"
             id="domain"
             inputMode="url"
             placeholder="example.com"
+            {...register('domain')}
           />
 
-          {state.errors?.domain && <InputErro error={state.errors.domain[0]} />}
+          {formState.errors.domain?.message && (
+            <InputErro error={formState.errors.domain.message} />
+          )}
         </div>
 
         <div className="space-y-1">
           <div className="flex items-center space-x-2">
-            <Checkbox
+            <Controller
+              control={control}
               name="shouldAttachUsersByDomain"
-              id="shouldAttachUsersByDomain"
+              render={({ field }) => (
+                <Checkbox
+                  name="shouldAttachUsersByDomain"
+                  id="shouldAttachUsersByDomain"
+                  checked={field.value}
+                  onCheckedChange={field.onChange}
+                />
+              )}
             />
+
             <label htmlFor="shouldAttachUsersByDomain" className="space-y-1">
               <span className="text-sm font-medium leading-none">
                 Auth-join new members
@@ -85,13 +146,15 @@ export function CreateOrganizationForm() {
             to this organization
           </p>
 
-          {state.errors?.shouldAttachUsersByDomain && (
-            <InputErro error={state.errors.shouldAttachUsersByDomain[0]} />
+          {formState.errors.shouldAttachUsersByDomain?.message && (
+            <InputErro
+              error={formState.errors.shouldAttachUsersByDomain.message}
+            />
           )}
         </div>
 
-        {isPending ? (
-          <Button type="submit" className="w-full" disabled={isPending}>
+        {isPedingOnCreateOrganization ? (
+          <Button type="submit" className="w-full" disabled>
             <Loader2 className="mr-2 h-4 w-4 animate-spin" />
           </Button>
         ) : (
