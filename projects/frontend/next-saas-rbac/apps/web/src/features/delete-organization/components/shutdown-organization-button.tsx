@@ -26,15 +26,22 @@ export function ShutdownOrganizationButton() {
   const { slug } = useGetCurrentOrganization()
 
   const {
-    mutateAsync: shutdownOrganization,
+    mutate: shutdownOrganization,
     isPending,
     error,
   } = useShutdownOrganizationMutation()
 
-  const handleShutdownOrganization = async () => {
+  const handleShutdownOrganization = () => {
     if (!slug) return
-    await shutdownOrganization({ organizationSlug: slug })
-    router.push('/')
+
+    shutdownOrganization(
+      { organizationSlug: slug },
+      {
+        onSuccess: () => {
+          router.push('/')
+        },
+      },
+    )
   }
 
   return (
