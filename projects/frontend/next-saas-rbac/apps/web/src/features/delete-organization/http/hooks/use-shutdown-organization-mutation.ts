@@ -3,7 +3,7 @@ import { useMutation, useQueryClient } from '@tanstack/react-query'
 import {
   USE_GET_ORGANIZATIONS_QUERY_KEY,
   type UseGetOrganizationsQueryKey,
-} from '@/features/select-current-project'
+} from '@/http/hooks/use-get-organizations'
 import type { GetOrganizationsResponse } from '@/http/requests/get-organizations'
 
 import {

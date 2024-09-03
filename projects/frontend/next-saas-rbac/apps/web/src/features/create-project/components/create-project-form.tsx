@@ -27,7 +27,7 @@ export function CreateProjectForm() {
       if (organizationSlug) {
         const projectsQueryKey: UseGetProjectsQueryKey = [
           'organization-projects',
-          { organizationSlug },
+          organizationSlug,
         ]
 
         queryClient.refetchQueries({

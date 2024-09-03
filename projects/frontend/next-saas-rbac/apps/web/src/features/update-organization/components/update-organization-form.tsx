@@ -1,63 +1,98 @@
 'use client'
 
+import { zodResolver } from '@hookform/resolvers/zod'
 import { AlertTriangle, Loader2 } from 'lucide-react'
-import { toast } from 'sonner'
+import { Controller, useForm } from 'react-hook-form'
+import { z } from 'zod'
 
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
 import { Button } from '@/components/ui/button'
 import { Checkbox } from '@/components/ui/checkbox'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
-import {
-  USE_GET_ORGANIZATIONS_QUERY_KEY,
-  type UseGetOrganizationsQueryKey,
-} from '@/features/select-current-project'
-import { useFormState } from '@/hooks/use-form-state'
-import {
-  USE_GET_ORGANIZATION_BY_SLUG_QUERY_KEY,
-  useGetOrganizationBySlugQuery,
-  type UseGetOrganizationBySlugQueryKey,
-} from '@/http/hooks/use-get-organization-by-slug'
-import { queryClient } from '@/lib/react-query'
+import { useGetOrganizationBySlugQuery } from '@/http/hooks/use-get-organization-by-slug'
+import { cn } from '@/lib/utils'
 
-import { updateOrganizationAction } from '../actions/update-organization'
+import { useUpdateOrganizationMutation } from '../http/hooks/use-update-organization-mutation'
 import { InputErro } from './ui/input-error'
-import { UpdateOrganizationSkeleton } from './update-organization-skeleton'
+
+const updateOrganizationSchema = z
+  .object({
+    name: z
+      .string()
+      .min(4, { message: 'Please, include at least 4 characters.' }),
+    domain: z
+      .string()
+      .nullable()
+      .refine(
+        (value) => {
+          if (!value) return true
+          const domainRegex = /^[a-zA-Z0-9.-]+.[a-zA-Z]{2,}$/
+          return domainRegex.test(value)
+        },
+        { message: 'Please, provide a valid domain.' },
+      ),
+    shouldAttachUsersByDomain: z
+      .union([z.literal('on'), z.literal('off'), z.boolean()])
+      .transform((value) => value === 'on' || value === true)
+      .default(false),
+  })
+  .refine(
+    (data) => {
+      if (data.shouldAttachUsersByDomain === true && !data.domain) {
+        return false
+      }
+      return true
+    },
+    {
+      message: 'Domain is required when auto-join is enabled',
+      path: ['domain'],
+    },
+  )
+
+type UpdateOrganization = z.infer<typeof updateOrganizationSchema>
 
 type UpdateOrganizationFormProps = {
   slug: string
 }
 
 export function UpdateOrganizationForm({ slug }: UpdateOrganizationFormProps) {
-  const { data, isError, isLoading } = useGetOrganizationBySlugQuery({ slug })
+  const {
+    data: organizationData,
+    isLoading: isLoadingOnGetOrganization,
+    isError: isErrorOnGetOrganization,
+  } = useGetOrganizationBySlugQuery({ slug })
 
-  const [state, handleSubmit, isPending] = useFormState(
-    updateOrganizationAction,
-    () => {
-      toast.success('Success on update organization!')
+  const {
+    mutate: updateOrganizationMutate,
+    isError: isErrorOnUpdateOrganization,
+    isPending: isPendingOnUpdateOrganization,
+    error,
+  } = useUpdateOrganizationMutation()
 
-      const getOrganizationBySlugKey: UseGetOrganizationBySlugQueryKey = [
-        USE_GET_ORGANIZATION_BY_SLUG_QUERY_KEY,
-        slug,
-      ]
+  const { handleSubmit, register, control, formState } =
+    useForm<UpdateOrganization>({
+      resolver: zodResolver(updateOrganizationSchema),
+      values: {
+        name: organizationData?.organization.name || '',
+        domain: organizationData?.organization.domain || '',
+        shouldAttachUsersByDomain:
+          organizationData?.organization.shouldAttachUsersByDomain || false,
+      },
+    })
 
-      queryClient.refetchQueries({
-        queryKey: getOrganizationBySlugKey,
-      })
+  const handleUpdateOrganization = (data: UpdateOrganization) => {
+    const { name, domain, shouldAttachUsersByDomain } = data
 
-      const getOrganizationsKey: UseGetOrganizationsQueryKey = [
-        USE_GET_ORGANIZATIONS_QUERY_KEY,
-      ]
+    updateOrganizationMutate({
+      name,
+      organizationSlug: slug,
+      domain,
+      shouldAttachUsersByDomain,
+    })
+  }
 
-      queryClient.refetchQueries({
-        queryKey: getOrganizationsKey,
-      })
-    },
-  )
-
-  if (isLoading) return <UpdateOrganizationSkeleton />
-
-  if (isError) {
+  if (isErrorOnGetOrganization) {
     return (
       <div className="flex items-center">
         <AlertTriangle className="size-4 text-rose-400 dark:text-rose-300" />
@@ -69,51 +104,70 @@ export function UpdateOrganizationForm({ slug }: UpdateOrganizationFormProps) {
   }
 
   return (
-    <div className="space-y-4">
-      <form onSubmit={handleSubmit} className="space-y-4">
-        {!state.success && state.message && (
+    <div
+      className={cn(
+        'space-y-4',
+        isLoadingOnGetOrganization && 'animate-pulse cursor-wait',
+      )}
+    >
+      <form
+        onSubmit={handleSubmit(handleUpdateOrganization)}
+        className="space-y-4"
+      >
+        {isErrorOnUpdateOrganization && (
           <Alert variant="destructive">
             <AlertTriangle className="size-4" />
             <AlertTitle>Create organization failed</AlertTitle>
             <AlertDescription>
-              <p>{state.message}</p>
+              <p>{error.message}</p>
             </AlertDescription>
           </Alert>
         )}
 
-        <div className="space-y-1">
+        <div className="space-y-2">
           <Label htmlFor="name">Organization name</Label>
           <Input
-            name="name"
             type="text"
             id="name"
-            defaultValue={data?.organization.name}
+            placeholder="name of your organization"
+            {...register('name')}
           />
 
-          {state.errors?.name && <InputErro error={state.errors.name[0]} />}
+          {formState.errors.name?.message && (
+            <InputErro error={formState.errors.name.message} />
+          )}
         </div>
 
-        <div className="space-y-1">
+        <div className="space-y-2">
           <Label htmlFor="domain">E-mail domain</Label>
           <Input
-            name="domain"
             type="text"
-            id="domain"
             inputMode="url"
+            id="domain"
             placeholder="example.com"
-            defaultValue={data?.organization.domain || ''}
+            {...register('domain')}
           />
 
-          {state.errors?.domain && <InputErro error={state.errors.domain[0]} />}
+          {formState.errors.domain?.message && (
+            <InputErro error={formState.errors.domain.message} />
+          )}
         </div>
 
-        <div className="space-y-1">
+        <div className="space-y-2">
           <div className="flex items-center space-x-2">
-            <Checkbox
+            <Controller
+              control={control}
               name="shouldAttachUsersByDomain"
-              id="shouldAttachUsersByDomain"
-              defaultChecked={data?.organization.shouldAttachUsersByDomain}
+              render={({ field }) => (
+                <Checkbox
+                  name="shouldAttachUsersByDomain"
+                  id="shouldAttachUsersByDomain"
+                  checked={field.value}
+                  onCheckedChange={field.onChange}
+                />
+              )}
             />
+
             <label htmlFor="shouldAttachUsersByDomain" className="space-y-1">
               <span className="text-sm font-medium leading-none">
                 Auth-join new members
@@ -126,13 +180,15 @@ export function UpdateOrganizationForm({ slug }: UpdateOrganizationFormProps) {
             to this organization
           </p>
 
-          {state.errors?.shouldAttachUsersByDomain && (
-            <InputErro error={state.errors.shouldAttachUsersByDomain[0]} />
+          {formState.errors.shouldAttachUsersByDomain?.message && (
+            <InputErro
+              error={formState.errors.shouldAttachUsersByDomain.message}
+            />
           )}
         </div>
 
-        {isPending ? (
-          <Button type="submit" className="w-full" disabled={isPending}>
+        {isPendingOnUpdateOrganization ? (
+          <Button type="submit" className="w-full" disabled>
             <Loader2 className="mr-2 h-4 w-4 animate-spin" />
           </Button>
         ) : (

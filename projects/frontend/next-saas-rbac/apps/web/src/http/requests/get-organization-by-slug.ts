@@ -2,6 +2,10 @@ import { Role } from '@saas/auth'
 
 import { api } from '../api-client'
 
+export type GetOrganizationBySlugParams = {
+  slug: string
+}
+
 export type GetOrganizationBySlugResponse = {
   organization: {
     slug: string
@@ -12,10 +16,6 @@ export type GetOrganizationBySlugResponse = {
     shouldAttachUsersByDomain: boolean
     avatarUrl?: string | null
   }
-}
-
-export type GetOrganizationBySlugParams = {
-  slug: string
 }
 
 export async function getOrganizationBySlug(

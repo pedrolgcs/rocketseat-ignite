@@ -1,5 +1,3 @@
-import { Suspense } from 'react'
-
 import {
   Card,
   CardContent,
@@ -9,10 +7,7 @@ import {
 } from '@/components/ui/card'
 import { ability } from '@/features/authenticate'
 import { ShutdownOrganizationButton } from '@/features/delete-organization'
-import {
-  UpdateOrganization,
-  UpdateOrganizationSkeleton,
-} from '@/features/update-organization'
+import { UpdateOrganization } from '@/features/update-organization'
 
 export default async function SettingsPage() {
   const permissions = await ability()
@@ -36,9 +31,7 @@ export default async function SettingsPage() {
             </CardHeader>
 
             <CardContent>
-              <Suspense fallback={<UpdateOrganizationSkeleton />}>
-                <UpdateOrganization />
-              </Suspense>
+              <UpdateOrganization />
             </CardContent>
           </Card>
         )}
