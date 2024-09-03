@@ -15,8 +15,7 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
 import { Skeleton } from '@/components/ui/skeleton'
-
-import { useGetOrganizationsQuery } from '../hooks/use-get-organizations'
+import { useGetOrganizationsQuery } from '@/http/hooks/use-get-organizations'
 
 function OrganizationSwitcherSkeleton() {
   return (

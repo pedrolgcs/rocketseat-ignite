@@ -3,7 +3,7 @@ import { useQuery } from '@tanstack/react-query'
 import {
   getOrganizations,
   type GetOrganizationsResponse,
-} from '@/http/requests/get-organizations'
+} from '../requests/get-organizations'
 
 export const USE_GET_ORGANIZATIONS_QUERY_KEY = 'organizations'
 

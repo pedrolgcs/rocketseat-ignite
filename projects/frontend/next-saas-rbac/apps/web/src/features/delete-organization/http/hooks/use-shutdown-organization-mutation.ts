@@ -9,7 +9,7 @@ import type { GetOrganizationsResponse } from '@/http/requests/get-organizations
 import {
   shutdownOrganization,
   ShutdownOrganizationParams,
-} from '../http/shutdown-organization'
+} from '../requests/shutdown-organization'
 
 export function useShutdownOrganizationMutation() {
   const queryClient = useQueryClient()

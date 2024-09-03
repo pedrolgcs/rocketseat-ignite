@@ -4,7 +4,7 @@ import {
   getProjects,
   type GetProjectsParams,
   type GetProjectsResponse,
-} from '../http/get-projects'
+} from '../requests/get-projects'
 
 export const USE_GET_PROJECTS_QUERY_KEY = 'organization-projects'
 

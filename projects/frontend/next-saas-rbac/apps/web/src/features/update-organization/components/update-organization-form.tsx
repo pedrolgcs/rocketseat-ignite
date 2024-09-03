@@ -17,7 +17,7 @@ import {
   USE_GET_ORGANIZATION_BY_SLUG_QUERY_KEY,
   useGetOrganizationBySlugQuery,
   type UseGetOrganizationBySlugQueryKey,
-} from '@/http/hooks/queries/use-get-organization-by-slug'
+} from '@/http/hooks/use-get-organization-by-slug'
 import { queryClient } from '@/lib/react-query'
 
 import { updateOrganizationAction } from '../actions/update-organization'

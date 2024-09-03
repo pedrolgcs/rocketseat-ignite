@@ -4,7 +4,7 @@ import {
   getOrganizationBySlug,
   type GetOrganizationBySlugParams,
   type GetOrganizationBySlugResponse,
-} from '../../requests/get-organization-by-slug'
+} from '../requests/get-organization-by-slug'
 
 export const USE_GET_ORGANIZATION_BY_SLUG_QUERY_KEY = 'organization'
 
