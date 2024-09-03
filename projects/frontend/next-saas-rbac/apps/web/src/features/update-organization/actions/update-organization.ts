@@ -3,9 +3,11 @@
 import { HTTPError } from 'ky'
 import { z } from 'zod'
 
-import { createOrganization } from './http/create-organization'
+import { getCurrentOrganization } from '@/utils/get-current-organization'
 
-const createOrganizationSchema = z
+import { updateOrganization } from '../http/update-organization'
+
+const schema = z
   .object({
     name: z
       .string()
@@ -39,8 +41,8 @@ const createOrganizationSchema = z
     },
   )
 
-export async function createOrganizationAction(data: FormData) {
-  const result = createOrganizationSchema.safeParse(Object.fromEntries(data))
+export async function updateOrganizationAction(data: FormData) {
+  const result = schema.safeParse(Object.fromEntries(data))
 
   if (!result.success) {
     const errors = result.error.flatten().fieldErrors
@@ -54,11 +56,22 @@ export async function createOrganizationAction(data: FormData) {
 
   const { name, domain, shouldAttachUsersByDomain } = result.data
 
+  const organizationSlug = await getCurrentOrganization()
+
+  if (!organizationSlug) {
+    return {
+      success: false,
+      message: 'Organizations slug not found.',
+      errors: null,
+    }
+  }
+
   try {
-    await createOrganization({
+    await updateOrganization({
       name,
-      domain: domain || null,
+      domain,
       shouldAttachUsersByDomain,
+      organizationSlug,
     })
   } catch (error) {
     if (error instanceof HTTPError) {

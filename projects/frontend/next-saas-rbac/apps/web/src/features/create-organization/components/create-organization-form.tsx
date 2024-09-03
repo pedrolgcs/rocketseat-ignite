@@ -15,7 +15,7 @@ import {
 import { useFormState } from '@/hooks/use-form-state'
 import { queryClient } from '@/lib/react-query'
 
-import { createOrganizationAction } from '../actions'
+import { createOrganizationAction } from '../actions/create-organization'
 import { InputErro } from './ui/input-error'
 
 export function CreateOrganizationForm() {

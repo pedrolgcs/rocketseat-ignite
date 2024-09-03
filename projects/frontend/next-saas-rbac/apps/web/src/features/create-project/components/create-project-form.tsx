@@ -13,7 +13,7 @@ import type { UseGetProjectsQueryKey } from '@/features/select-current-project'
 import { useFormState } from '@/hooks/use-form-state'
 import { queryClient } from '@/lib/react-query'
 
-import { createProjectAction } from '../actions'
+import { createProjectAction } from '../actions/create-project'
 import { InputErro } from './ui/input-error'
 
 export function CreateProjectForm() {

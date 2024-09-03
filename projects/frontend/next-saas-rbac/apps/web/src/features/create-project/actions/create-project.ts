@@ -5,7 +5,7 @@ import { z } from 'zod'
 
 import { getCurrentOrganization } from '@/utils/get-current-organization'
 
-import { createProject } from './http/create-projects'
+import { createProject } from '../http/create-projects'
 
 const createProjectSchema = z.object({
   name: z

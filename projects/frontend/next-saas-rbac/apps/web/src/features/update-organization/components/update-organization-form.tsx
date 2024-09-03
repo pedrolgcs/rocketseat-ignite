@@ -20,7 +20,7 @@ import {
 } from '@/http/hooks/queries/use-get-organization-by-slug'
 import { queryClient } from '@/lib/react-query'
 
-import { updateOrganizationAction } from '../actions'
+import { updateOrganizationAction } from '../actions/update-organization'
 import { InputErro } from './ui/input-error'
 import { UpdateOrganizationSkeleton } from './update-organization-skeleton'
 
