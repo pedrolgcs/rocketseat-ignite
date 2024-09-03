@@ -12,7 +12,7 @@ import { Label } from '@/components/ui/label'
 import { Separator } from '@/components/ui/separator'
 import { useFormState } from '@/hooks/use-form-state'
 
-import { signUp } from '../actions'
+import { signUpAction } from '../actions/sign-up'
 import { GithubOauth } from './github-oauth'
 import { InputErro } from './ui/input-error'
 
@@ -24,7 +24,10 @@ export function SignUpForm() {
     router.push('/auth/sign-in')
   }
 
-  const [state, handleSubmit, isPending] = useFormState(signUp, onSuccessForm)
+  const [state, handleSubmit, isPending] = useFormState(
+    signUpAction,
+    onSuccessForm,
+  )
 
   return (
     <div className="space-y-4">

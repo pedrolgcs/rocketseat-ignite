@@ -11,16 +11,15 @@ import { Label } from '@/components/ui/label'
 import { Separator } from '@/components/ui/separator'
 import { useFormState } from '@/hooks/use-form-state'
 
-import { signInWithEmailAndPassword } from '../actions'
+import { signInAction } from '../actions/sign-in'
 import { GithubOauth } from './github-oauth'
 import { InputErro } from './ui/input-error'
 
 export function SignInForm() {
   const router = useRouter()
 
-  const [state, handleSubmit, isPending] = useFormState(
-    signInWithEmailAndPassword,
-    () => router.push('/'),
+  const [state, handleSubmit, isPending] = useFormState(signInAction, () =>
+    router.push('/'),
   )
 
   return (
