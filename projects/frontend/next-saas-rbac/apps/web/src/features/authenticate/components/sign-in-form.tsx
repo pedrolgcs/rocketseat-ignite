@@ -1,53 +1,76 @@
 'use client'
 
+import { zodResolver } from '@hookform/resolvers/zod'
 import { AlertTriangle, Loader2 } from 'lucide-react'
 import Link from 'next/link'
-import { useRouter } from 'next/navigation'
+import { useAction } from 'next-safe-action/hooks'
+import { useForm } from 'react-hook-form'
+import { z } from 'zod'
 
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Separator } from '@/components/ui/separator'
-import { useFormState } from '@/hooks/use-form-state'
 
 import { signInAction } from '../actions/sign-in'
 import { GithubOauth } from './github-oauth'
 import { InputErro } from './ui/input-error'
 
-export function SignInForm() {
-  const router = useRouter()
+const signInFormSchema = z.object({
+  email: z
+    .string()
+    .email({ message: 'Please, provide a valid email address.' }),
+  password: z.string().min(1, { message: 'Please, provide a password.' }),
+})
 
-  const [state, handleSubmit, isPending] = useFormState(signInAction, () =>
-    router.push('/'),
-  )
+type SignInForm = z.infer<typeof signInFormSchema>
+
+export function SignInForm() {
+  const { hasErrored, result, isPending, executeAsync } =
+    useAction(signInAction)
+
+  const { register, handleSubmit, formState } = useForm<SignInForm>({
+    resolver: zodResolver(signInFormSchema),
+  })
+
+  const handleSignIn = async (data: SignInForm) => {
+    const { email, password } = data
+
+    await executeAsync({
+      email,
+      password,
+    })
+  }
 
   return (
     <div className="space-y-4">
-      <form onSubmit={handleSubmit} className="space-y-4">
-        {!state.success && state.message && (
+      <form onSubmit={handleSubmit(handleSignIn)} className="space-y-4">
+        {hasErrored && (
           <Alert variant="destructive">
             <AlertTriangle className="size-4" />
             <AlertTitle>Sign in failed</AlertTitle>
             <AlertDescription>
-              <p>{state.message}</p>
+              <p>{result.serverError}</p>
             </AlertDescription>
           </Alert>
         )}
 
-        <div className="space-y-1">
+        <div className="space-y-2">
           <Label htmlFor="email">E-mail</Label>
-          <Input name="email" type="email" id="email" />
+          <Input type="email" id="email" {...register('email')} />
 
-          {state.errors?.email && <InputErro error={state.errors.email[0]} />}
+          {formState.errors.email?.message && (
+            <InputErro error={formState.errors.email?.message} />
+          )}
         </div>
 
-        <div className="space-y-1">
+        <div className="space-y-2">
           <Label htmlFor="password">Password</Label>
-          <Input name="password" type="password" id="password" />
+          <Input type="password" id="password" {...register('password')} />
 
-          {state.errors?.password && (
-            <InputErro error={state.errors.password[0]} />
+          {formState.errors.password?.message && (
+            <InputErro error={formState.errors.password.message} />
           )}
 
           <Link
