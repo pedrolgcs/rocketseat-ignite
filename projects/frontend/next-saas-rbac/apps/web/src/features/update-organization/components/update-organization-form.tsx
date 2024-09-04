@@ -118,9 +118,7 @@ export function UpdateOrganizationForm({ slug }: UpdateOrganizationFormProps) {
           <Alert variant="destructive">
             <AlertTriangle className="size-4" />
             <AlertTitle>Update organization failed</AlertTitle>
-            <AlertDescription>
-              <p>{error.message}</p>
-            </AlertDescription>
+            <AlertDescription>{error.message}</AlertDescription>
           </Alert>
         )}
 
