@@ -117,7 +117,7 @@ export function UpdateOrganizationForm({ slug }: UpdateOrganizationFormProps) {
         {isErrorOnUpdateOrganization && (
           <Alert variant="destructive">
             <AlertTriangle className="size-4" />
-            <AlertTitle>Create organization failed</AlertTitle>
+            <AlertTitle>Update organization failed</AlertTitle>
             <AlertDescription>
               <p>{error.message}</p>
             </AlertDescription>
