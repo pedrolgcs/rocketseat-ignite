@@ -12,9 +12,12 @@ import { ShutdownOrganizationButton } from './shutdown-organization-button'
 export async function ShutdownOrganization() {
   const permissions = await ability()
 
-  const canShutDownOrganization = permissions?.can('delete', 'Organization')
+  const cannotShutDownOrganization = permissions?.cannot(
+    'delete',
+    'Organization',
+  )
 
-  if (!canShutDownOrganization) {
+  if (cannotShutDownOrganization) {
     return (
       <Card>
         <CardHeader>
