@@ -19,7 +19,11 @@ export async function getMembership(params: GetMembershipParams) {
   const { organizationSlug } = params
 
   const result = await api
-    .get(`organizations/${organizationSlug}/membership`)
+    .get(`organizations/${organizationSlug}/membership`, {
+      next: {
+        tags: [`${organizationSlug}_membership`],
+      },
+    })
     .json<GetMembershipResponse>()
 
   return result

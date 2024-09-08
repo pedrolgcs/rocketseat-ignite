@@ -1,4 +1,4 @@
-import { useServerQuery } from '@/hooks/use-query'
+import { useServerQuery } from '@/hooks/use-server-query'
 
 import { getProfile, type GetProfileResponse } from '../requests/get-profile'
 
