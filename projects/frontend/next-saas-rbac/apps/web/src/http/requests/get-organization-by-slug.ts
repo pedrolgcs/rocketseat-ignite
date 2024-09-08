@@ -24,7 +24,11 @@ export async function getOrganizationBySlug(
   const { slug } = params
 
   const result = await api
-    .get(`organizations/${slug}`)
+    .get(`organizations/${slug}`, {
+      next: {
+        tags: [`organizations_${slug}`],
+      },
+    })
     .json<GetOrganizationBySlugResponse>()
 
   return result

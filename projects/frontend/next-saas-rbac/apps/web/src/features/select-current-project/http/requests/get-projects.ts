@@ -27,7 +27,11 @@ export async function getProjects(params: GetProjectsParams) {
   const { organizationSlug } = params
 
   const result = await api
-    .get(`organizations/${organizationSlug}/projects`)
+    .get(`organizations/${organizationSlug}/projects`, {
+      next: {
+        tags: [`${organizationSlug}_projects`],
+      },
+    })
     .json<GetProjectsResponse>()
 
   return result
