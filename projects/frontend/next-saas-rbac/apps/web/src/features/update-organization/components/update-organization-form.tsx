@@ -3,6 +3,7 @@
 import { zodResolver } from '@hookform/resolvers/zod'
 import { AlertTriangle, Loader2 } from 'lucide-react'
 import { Controller, useForm } from 'react-hook-form'
+import { toast } from 'sonner'
 import { z } from 'zod'
 
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
@@ -67,7 +68,7 @@ export function UpdateOrganizationForm({ slug }: UpdateOrganizationFormProps) {
     mutate: updateOrganizationMutate,
     isError: isErrorOnUpdateOrganization,
     isPending: isPendingOnUpdateOrganization,
-    error,
+    error: errorOnUpdateOrganization,
   } = useUpdateOrganizationMutation()
 
   const { handleSubmit, register, control, formState } =
@@ -84,12 +85,19 @@ export function UpdateOrganizationForm({ slug }: UpdateOrganizationFormProps) {
   const handleUpdateOrganization = (data: UpdateOrganization) => {
     const { name, domain, shouldAttachUsersByDomain } = data
 
-    updateOrganizationMutate({
-      name,
-      organizationSlug: slug,
-      domain,
-      shouldAttachUsersByDomain,
-    })
+    updateOrganizationMutate(
+      {
+        name,
+        organizationSlug: slug,
+        domain,
+        shouldAttachUsersByDomain,
+      },
+      {
+        onSuccess: () => {
+          toast.success('Update organization successful!')
+        },
+      },
+    )
   }
 
   if (isErrorOnGetOrganization) {
@@ -118,7 +126,9 @@ export function UpdateOrganizationForm({ slug }: UpdateOrganizationFormProps) {
           <Alert variant="destructive">
             <AlertTriangle className="size-4" />
             <AlertTitle>Update organization failed</AlertTitle>
-            <AlertDescription>{error.message}</AlertDescription>
+            <AlertDescription>
+              {errorOnUpdateOrganization.message}
+            </AlertDescription>
           </Alert>
         )}
 
