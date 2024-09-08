@@ -6,7 +6,7 @@ import {
   CardTitle,
 } from '@/components/ui/card'
 import { ability } from '@/features/authenticate'
-import { ShutdownOrganizationButton } from '@/features/delete-organization'
+import { ShutdownOrganization } from '@/features/shutdown-organization'
 import { UpdateOrganization } from '@/features/update-organization'
 
 export default async function SettingsPage() {
@@ -14,7 +14,6 @@ export default async function SettingsPage() {
 
   const canUpdateOrganization = permissions?.can('update', 'Organization')
   const canGetBilling = permissions?.can('get', 'Billing')
-  const canShutDownOrganization = permissions?.can('delete', 'Organization')
 
   return (
     <div className="space-y-4">
@@ -49,20 +48,7 @@ export default async function SettingsPage() {
           </Card>
         )}
 
-        {canShutDownOrganization && (
-          <Card>
-            <CardHeader>
-              <CardTitle>Shutdown organization</CardTitle>
-              <CardDescription>
-                This will delete all organization data including all projects.
-                You cannot undo this action.
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <ShutdownOrganizationButton />
-            </CardContent>
-          </Card>
-        )}
+        <ShutdownOrganization />
       </div>
     </div>
   )
