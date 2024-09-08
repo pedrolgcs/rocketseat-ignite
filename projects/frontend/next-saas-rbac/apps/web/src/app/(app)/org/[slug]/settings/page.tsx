@@ -1,19 +1,8 @@
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from '@/components/ui/card'
-import { ability } from '@/features/authenticate'
+import { Billing } from '@/features/billing'
 import { ShutdownOrganization } from '@/features/shutdown-organization'
 import { UpdateOrganization } from '@/features/update-organization'
 
 export default async function SettingsPage() {
-  const permissions = await ability()
-
-  const canGetBilling = permissions?.can('get', 'Billing')
-
   return (
     <div className="space-y-4">
       <h1 className="text-2xl font-bold">Settings</h1>
@@ -21,18 +10,7 @@ export default async function SettingsPage() {
       <div className="space-y-4">
         <UpdateOrganization />
 
-        {canGetBilling && (
-          <Card>
-            <CardHeader>
-              <CardTitle>Billing</CardTitle>
-              <CardDescription>Update your billing details</CardDescription>
-            </CardHeader>
-
-            <CardContent>
-              <div>Billing</div>
-            </CardContent>
-          </Card>
-        )}
+        <Billing />
 
         <ShutdownOrganization />
       </div>
