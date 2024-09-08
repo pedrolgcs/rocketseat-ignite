@@ -5,7 +5,7 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card'
-import { ability } from '@/features/authenticate'
+import { ability } from '@/modules/users/authenticate'
 import { getCurrentOrganization } from '@/utils/get-current-organization'
 
 import { UpdateOrganizationForm } from './update-organization-form'

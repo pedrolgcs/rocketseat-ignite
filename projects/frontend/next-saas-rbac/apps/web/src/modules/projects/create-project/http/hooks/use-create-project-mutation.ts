@@ -3,7 +3,7 @@ import { useMutation, useQueryClient } from '@tanstack/react-query'
 import {
   USE_GET_PROJECTS_QUERY_KEY,
   type UseGetProjectsQueryKey,
-} from '@/features/select-current-project'
+} from '@/modules/projects/select-current-project'
 
 import { createProject, CreateProjectParams } from '../requests/create-projects'
 

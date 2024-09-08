@@ -1,5 +1,5 @@
 import { Header } from '@/components/header'
-import { CreateOrganizationForm } from '@/features/create-organization'
+import { CreateOrganizationForm } from '@/modules/organization/create-organization'
 
 export default function CreateOrganizationPage() {
   return (

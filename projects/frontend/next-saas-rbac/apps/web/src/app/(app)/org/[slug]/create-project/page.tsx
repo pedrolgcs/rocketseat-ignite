@@ -1,7 +1,7 @@
 import { redirect } from 'next/navigation'
 
-import { ability } from '@/features/authenticate'
-import { CreateProjectForm } from '@/features/create-project'
+import { CreateProjectForm } from '@/modules/projects/create-project'
+import { ability } from '@/modules/users/authenticate'
 
 export default async function CreateProject() {
   const permissions = await ability()

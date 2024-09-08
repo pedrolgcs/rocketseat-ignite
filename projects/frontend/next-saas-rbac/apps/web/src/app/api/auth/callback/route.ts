@@ -2,7 +2,7 @@ import { HTTPError } from 'ky'
 import { cookies } from 'next/headers'
 import { type NextRequest, NextResponse } from 'next/server'
 
-import { signInWithGithub } from '@/features/authenticate/http/sign-in-with-github'
+import { signInWithGithub } from '@/modules/users/authenticate'
 
 export async function GET(request: NextRequest) {
   const searchParams = request.nextUrl.searchParams

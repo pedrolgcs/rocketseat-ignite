@@ -5,7 +5,7 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card'
-import { ability } from '@/features/authenticate'
+import { ability } from '@/modules/users/authenticate'
 
 import { ShutdownOrganizationButton } from './shutdown-organization-button'
 

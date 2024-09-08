@@ -1,5 +1,5 @@
-import { ability } from '@/features/authenticate'
 import { cn } from '@/lib/utils'
+import { ability } from '@/modules/users/authenticate'
 import { getCurrentOrganization } from '@/utils/get-current-organization'
 
 import { NavLink } from './nav-link'

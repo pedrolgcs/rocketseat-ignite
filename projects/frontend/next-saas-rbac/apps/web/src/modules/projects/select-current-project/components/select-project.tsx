@@ -1,6 +1,6 @@
 import { SlashIcon } from 'lucide-react'
 
-import { ability } from '@/features/authenticate'
+import { ability } from '@/modules/users/authenticate'
 
 import { OrganizationSwitcher } from './organization-switcher'
 import { ProjectSwitcher } from './project-switcher'

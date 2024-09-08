@@ -1,7 +1,7 @@
 import type { AppAbility } from '@saas/auth'
 import { useEffect, useState } from 'react'
 
-import { ability as _ability } from '@/features/authenticate'
+import { ability as _ability } from '@/modules/users/authenticate'
 
 export function useAbility() {
   const [ability, setAbility] = useState<AppAbility | null>(null)

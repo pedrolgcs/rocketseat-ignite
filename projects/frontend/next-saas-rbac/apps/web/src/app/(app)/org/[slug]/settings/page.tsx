@@ -1,6 +1,6 @@
-import { Billing } from '@/features/billing'
-import { ShutdownOrganization } from '@/features/shutdown-organization'
-import { UpdateOrganization } from '@/features/update-organization'
+import { Billing } from '@/modules/organization/billing'
+import { ShutdownOrganization } from '@/modules/organization/shutdown-organization'
+import { UpdateOrganization } from '@/modules/organization/update-organization'
 
 export default async function SettingsPage() {
   return (

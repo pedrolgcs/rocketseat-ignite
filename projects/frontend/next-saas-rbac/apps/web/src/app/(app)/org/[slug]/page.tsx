@@ -1,4 +1,4 @@
-import { ability } from '@/features/authenticate'
+import { ability } from '@/modules/users/authenticate'
 
 export default async function OrganizationProject() {
   const permissions = await ability()

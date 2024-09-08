@@ -5,7 +5,7 @@ import {
   SheetHeader,
   SheetTitle,
 } from '@/components/ui/sheet'
-import { CreateOrganizationForm } from '@/features/create-organization/'
+import { CreateOrganizationForm } from '@/modules/organization/create-organization'
 
 export default function CreateOrganization() {
   return (

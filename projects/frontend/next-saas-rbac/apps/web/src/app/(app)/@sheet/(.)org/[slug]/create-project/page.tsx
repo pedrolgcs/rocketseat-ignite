@@ -5,7 +5,7 @@ import {
   SheetHeader,
   SheetTitle,
 } from '@/components/ui/sheet'
-import { CreateProjectForm } from '@/features/create-project'
+import { CreateProjectForm } from '@/modules/projects/create-project'
 
 export default function CreateProject() {
   return (

@@ -4,9 +4,12 @@ import Link from 'next/link'
 import { Suspense } from 'react'
 
 import rocketseatIcon from '@/assets/rocketseat-icon.svg'
-import { ProfileButton, ProfileButtonSkeleton } from '@/features/authenticate'
-import { SelectProject } from '@/features/select-current-project'
-import { ThemeSwitcher } from '@/features/theme'
+import { SelectProject } from '@/modules/projects/select-current-project'
+import { ThemeSwitcher } from '@/modules/styles/theme'
+import {
+  ProfileButton,
+  ProfileButtonSkeleton,
+} from '@/modules/users/authenticate'
 
 import { Separator } from './ui/separator'
 

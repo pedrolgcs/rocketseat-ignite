@@ -1,4 +1,4 @@
-import { SignInForm } from '@/features/authenticate'
+import { SignInForm } from '@/modules/users/authenticate'
 
 export default function SignInPage() {
   return <SignInForm />
