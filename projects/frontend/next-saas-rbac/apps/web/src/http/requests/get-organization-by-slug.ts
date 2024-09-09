@@ -23,8 +23,6 @@ export async function getOrganizationBySlug(
 ) {
   const { slug } = params
 
-  await new Promise((resolve) => setTimeout(resolve, 3000))
-
   const result = await api
     .get(`organizations/${slug}`, {
       next: {
