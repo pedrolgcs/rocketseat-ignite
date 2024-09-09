@@ -5,12 +5,20 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card'
+import { Separator } from '@/components/ui/separator'
 import { ability } from '@/modules/users/authenticate'
+import { getCurrentOrganization } from '@/utils/get-current-organization'
+
+import { BillingTable } from './billing-table'
 
 export async function Billing() {
   const permissions = await ability()
 
+  const currentOrganization = await getCurrentOrganization()
+
   const cannotGetBilling = permissions?.cannot('get', 'Billing')
+
+  if (!currentOrganization) return null
 
   if (cannotGetBilling) {
     return (
@@ -33,11 +41,15 @@ export async function Billing() {
     <Card>
       <CardHeader>
         <CardTitle>Billing</CardTitle>
-        <CardDescription>Update your billing details</CardDescription>
+        <CardDescription>
+          Information about your organization costs
+        </CardDescription>
       </CardHeader>
 
       <CardContent>
-        <div>Billing</div>
+        <Separator />
+
+        <BillingTable slug={currentOrganization} />
       </CardContent>
     </Card>
   )
