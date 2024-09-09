@@ -1,18 +1,11 @@
 import { cn } from '@/lib/utils'
-import { ability } from '@/modules/users/authenticate'
 import { getCurrentOrganization } from '@/utils/get-current-organization'
 
 import { NavLink } from './nav-link'
 import { Button } from './ui/button'
 
 export async function Tabs() {
-  const permissions = await ability()
-
   const currentOrganization = await getCurrentOrganization()
-
-  const canUpdateOrganization = permissions?.can('update', 'Organization')
-  const canGetBilling = permissions?.can('get', 'Billing')
-  const canGetMembers = permissions?.can('get', 'User')
 
   return (
     <div className="border-b py-4 ">
@@ -29,39 +22,33 @@ export async function Tabs() {
           <NavLink href={`/org/${currentOrganization}`}>Projects</NavLink>
         </Button>
 
-        {canGetMembers && (
-          <Button
-            variant="ghost"
-            size="sm"
-            className={cn(
-              'border border-transparent text-muted-foreground',
-              'data-[current=true]:border-input data-[current=true]:text-foreground',
-            )}
-            disabled={!canGetMembers}
-            asChild
-          >
-            <NavLink href={`/org/${currentOrganization}/members`}>
-              Members
-            </NavLink>
-          </Button>
-        )}
+        <Button
+          variant="ghost"
+          size="sm"
+          className={cn(
+            'border border-transparent text-muted-foreground',
+            'data-[current=true]:border-input data-[current=true]:text-foreground',
+          )}
+          asChild
+        >
+          <NavLink href={`/org/${currentOrganization}/members`}>
+            Members
+          </NavLink>
+        </Button>
 
-        {(canUpdateOrganization || canGetBilling) && (
-          <Button
-            variant="ghost"
-            size="sm"
-            className={cn(
-              'border border-transparent text-muted-foreground',
-              'data-[current=true]:border-input data-[current=true]:text-foreground',
-            )}
-            disabled={!canUpdateOrganization && !canGetBilling}
-            asChild
-          >
-            <NavLink href={`/org/${currentOrganization}/settings`}>
-              Settings & Billing
-            </NavLink>
-          </Button>
-        )}
+        <Button
+          variant="ghost"
+          size="sm"
+          className={cn(
+            'border border-transparent text-muted-foreground',
+            'data-[current=true]:border-input data-[current=true]:text-foreground',
+          )}
+          asChild
+        >
+          <NavLink href={`/org/${currentOrganization}/settings`}>
+            Settings & Billing
+          </NavLink>
+        </Button>
       </nav>
     </div>
   )
