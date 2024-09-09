@@ -1,5 +1,6 @@
 'use client'
 
+import { Skeleton } from '@/components/ui/skeleton'
 import {
   Table,
   TableBody,
@@ -24,7 +25,14 @@ export function BillingTable({ slug }: BillingTableProps) {
   } = useGetBillingQuery({ slug })
 
   if (isLoadingOnGetBilling) {
-    return <p>Loading...</p>
+    return (
+      <div className="flex flex-col gap-3">
+        <Skeleton className="h-10 w-full" />
+        <Skeleton className="h-10 w-full" />
+        <Skeleton className="h-10 w-full" />
+        <Skeleton className="h-14 w-full" />
+      </div>
+    )
   }
 
   if (isErrorOnGetBilling) {
