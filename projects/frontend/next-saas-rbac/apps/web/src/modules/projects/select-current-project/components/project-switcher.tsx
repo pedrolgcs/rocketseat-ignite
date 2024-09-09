@@ -20,8 +20,7 @@ import {
 } from '@/components/ui/dropdown-menu'
 import { Skeleton } from '@/components/ui/skeleton'
 import { useAbility } from '@/hooks/use-ability'
-
-import { useGetProjectsQuery } from '../http/hooks/use-get-projects'
+import { useGetProjectsQuery } from '@/http/hooks/use-get-projects'
 
 export function ProjectSwitcherSkeleton() {
   return (

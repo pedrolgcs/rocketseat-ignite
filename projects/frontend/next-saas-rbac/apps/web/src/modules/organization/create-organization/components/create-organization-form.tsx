@@ -11,8 +11,8 @@ import { Button } from '@/components/ui/button'
 import { Checkbox } from '@/components/ui/checkbox'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
+import { useCreateOrganizationMutation } from '@/http/hooks/use-create-organization-mutation'
 
-import { useCreateOrganizationMutation } from '../http/hooks/use-create-organization-mutation'
 import { InputErro } from './ui/input-error'
 
 const createOrganizationSchema = z

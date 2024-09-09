@@ -12,8 +12,8 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Textarea } from '@/components/ui/textarea'
 import { useGetCurrentOrganization } from '@/hooks/use-get-current-organization'
+import { useCreateProjectMutation } from '@/http/hooks/use-create-project-mutation'
 
-import { useCreateProjectMutation } from '../http/hooks/use-create-project-mutation'
 import { InputErro } from './ui/input-error'
 
 const createProjectSchema = z.object({

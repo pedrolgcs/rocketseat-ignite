@@ -4,9 +4,8 @@ import { cookies } from 'next/headers'
 import { redirect } from 'next/navigation'
 import { z } from 'zod'
 
+import { signInWithPassword } from '@/http/requests/sign-in-with-password'
 import { actionClient } from '@/lib/safe-action'
-
-import { signInWithPassword } from '../http/requests/sign-in-with-password'
 
 const schema = z.object({
   email: z

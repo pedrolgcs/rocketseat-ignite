@@ -1,9 +1,8 @@
 import { defineAbilityFor } from '@saas/auth'
 
+import { getMembership } from '@/http/requests/get-membership'
 import { getCookie } from '@/lib/cookies'
 import { getCurrentOrganization } from '@/utils/get-current-organization'
-
-import { getMembership } from '../http/requests/get-membership'
 
 export function isAuthenticated() {
   return getCookie('@saas:token')

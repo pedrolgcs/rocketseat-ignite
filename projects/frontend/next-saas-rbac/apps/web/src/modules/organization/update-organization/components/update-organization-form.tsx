@@ -12,9 +12,9 @@ import { Checkbox } from '@/components/ui/checkbox'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { useGetOrganizationBySlugQuery } from '@/http/hooks/use-get-organization-by-slug'
+import { useUpdateOrganizationMutation } from '@/http/hooks/use-update-organization-mutation'
 import { cn } from '@/lib/utils'
 
-import { useUpdateOrganizationMutation } from '../http/hooks/use-update-organization-mutation'
 import { InputErro } from './ui/input-error'
 
 const updateOrganizationSchema = z

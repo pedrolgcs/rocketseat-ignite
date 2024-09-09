@@ -17,8 +17,7 @@ import {
 } from '@/components/ui/alert-dialog'
 import { Button } from '@/components/ui/button'
 import { useGetCurrentOrganization } from '@/hooks/use-get-current-organization'
-
-import { useShutdownOrganizationMutation } from '../http/hooks/use-shutdown-organization-mutation'
+import { useShutdownOrganizationMutation } from '@/http/hooks/use-shutdown-organization-mutation'
 
 export function ShutdownOrganizationButton() {
   const router = useRouter()
