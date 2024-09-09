@@ -7,9 +7,11 @@ export default async function OrganizationProject() {
 
   if (!canGetProjects) {
     return (
-      <p className="text-md font-medium text-muted-foreground">
-        You don't have permission to view projects
-      </p>
+      <div className="space-y-4 py-4">
+        <p className="text-md font-medium text-muted-foreground">
+          You don't have permission to view projects
+        </p>
+      </div>
     )
   }
 
