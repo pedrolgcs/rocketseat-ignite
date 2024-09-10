@@ -59,7 +59,7 @@ type UpdateOrganizationFormProps = {
 
 export function UpdateOrganizationForm({ slug }: UpdateOrganizationFormProps) {
   const {
-    data: organizationData,
+    data: organization,
     isLoading: isLoadingOnGetOrganization,
     isError: isErrorOnGetOrganization,
   } = useGetOrganizationBySlugQuery({ slug })
@@ -75,10 +75,10 @@ export function UpdateOrganizationForm({ slug }: UpdateOrganizationFormProps) {
     useForm<UpdateOrganization>({
       resolver: zodResolver(updateOrganizationSchema),
       values: {
-        name: organizationData?.organization.name || '',
-        domain: organizationData?.organization.domain || '',
+        name: organization?.name || '',
+        domain: organization?.domain || '',
         shouldAttachUsersByDomain:
-          organizationData?.organization.shouldAttachUsersByDomain || false,
+          organization?.shouldAttachUsersByDomain || false,
       },
     })
 

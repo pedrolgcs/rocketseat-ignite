@@ -3,7 +3,7 @@ import { Role } from '@saas/auth'
 import { api } from '@/http/api-client'
 
 export type GetMembershipParams = {
-  organizationSlug: string
+  slug: string
 }
 
 export type GetMembershipResponse = {
@@ -16,12 +16,12 @@ export type GetMembershipResponse = {
 }
 
 export async function getMembership(params: GetMembershipParams) {
-  const { organizationSlug } = params
+  const { slug } = params
 
   const result = await api
-    .get(`organizations/${organizationSlug}/membership`, {
+    .get(`organizations/${slug}/membership`, {
       next: {
-        tags: [`${organizationSlug}_membership`],
+        tags: [`${slug}_membership`],
       },
     })
     .json<GetMembershipResponse>()

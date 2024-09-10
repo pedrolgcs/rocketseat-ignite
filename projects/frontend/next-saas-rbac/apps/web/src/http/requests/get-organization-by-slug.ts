@@ -13,6 +13,7 @@ export type GetOrganizationBySlugResponse = {
     name: string
     role: Role
     domain?: string | null
+    ownerId: string
     shouldAttachUsersByDomain: boolean
     avatarUrl?: string | null
   }

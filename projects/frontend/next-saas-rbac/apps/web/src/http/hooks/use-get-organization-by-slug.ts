@@ -22,5 +22,8 @@ export function useGetOrganizationBySlugQuery(
     queryFn: () => getOrganizationBySlug({ slug }),
     staleTime: Infinity,
     enabled: !!slug,
+    select(data) {
+      return data.organization
+    },
   })
 }
