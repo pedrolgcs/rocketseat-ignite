@@ -1,11 +1,10 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 
+import { createProject, CreateProjectParams } from '../requests/create-projects'
 import {
   USE_GET_PROJECTS_QUERY_KEY,
   type UseGetProjectsQueryKey,
-} from '@/modules/projects/select-current-project'
-
-import { createProject, CreateProjectParams } from '../requests/create-projects'
+} from './use-get-projects'
 
 export function useCreateProjectMutation() {
   const queryClient = useQueryClient()
