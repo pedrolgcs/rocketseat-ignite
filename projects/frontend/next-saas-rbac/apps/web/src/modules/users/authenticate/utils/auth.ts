@@ -14,7 +14,7 @@ async function getCurrentMembership() {
   if (!currentOrganization) return null
 
   const { membership } = await getMembership({
-    organizationSlug: currentOrganization,
+    slug: currentOrganization,
   })
 
   return membership

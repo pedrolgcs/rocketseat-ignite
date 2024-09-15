@@ -1,3 +1,5 @@
+'use client'
+
 import { AlertTriangle, ChevronDown, LogOut } from 'lucide-react'
 
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
@@ -18,14 +20,14 @@ function getInitials(name: string) {
     .join('')
 }
 
-export function ProfileButtonSkeleton() {
-  return <Skeleton className="h-8 w-8 rounded-full" />
-}
+export function ProfileButton() {
+  const {
+    data: profile,
+    isError: isErrorOnGetProfile,
+    isLoading: isLoadingOnGetProfile,
+  } = useGetProfile()
 
-export async function ProfileButton() {
-  const { data, error } = await useGetProfile()
-
-  if (error) {
+  if (isErrorOnGetProfile) {
     return (
       <div className="flex items-center">
         <AlertTriangle className="size-4 text-rose-400 dark:text-rose-300" />
@@ -36,20 +38,26 @@ export async function ProfileButton() {
     )
   }
 
+  if (isLoadingOnGetProfile) {
+    return <Skeleton className="h-8 w-8 rounded-full" />
+  }
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger className="flex items-center gap-3 outline-none">
         <div className="flex flex-col items-end">
-          <span className="text-sm font-medium">{data?.user.name}</span>
+          <span className="text-sm font-medium">{profile?.user.name}</span>
           <span className="text-xs text-muted-foreground">
-            {data?.user.email}
+            {profile?.user.email}
           </span>
         </div>
 
         <Avatar className="size-8">
-          {data?.user.avatarUrl && <AvatarImage src={data.user.avatarUrl} />}
+          {profile?.user.avatarUrl && (
+            <AvatarImage src={profile.user.avatarUrl} />
+          )}
           <AvatarFallback>
-            {getInitials(data?.user.name ?? 'DF')}
+            {getInitials(profile?.user.name ?? 'DF')}
           </AvatarFallback>
         </Avatar>
 

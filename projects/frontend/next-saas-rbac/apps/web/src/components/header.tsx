@@ -1,15 +1,11 @@
 import { Slash } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
-import { Suspense } from 'react'
 
 import rocketseatIcon from '@/assets/rocketseat-icon.svg'
 import { SelectProject } from '@/modules/projects/select-current-project'
 import { ThemeSwitcher } from '@/modules/styles/theme'
-import {
-  ProfileButton,
-  ProfileButtonSkeleton,
-} from '@/modules/users/authenticate'
+import { ProfileButton } from '@/modules/users/authenticate'
 
 import { Separator } from './ui/separator'
 
@@ -37,9 +33,7 @@ export async function Header() {
 
         <Separator orientation="vertical" className="h-5" />
 
-        <Suspense fallback={<ProfileButtonSkeleton />}>
-          <ProfileButton />
-        </Suspense>
+        <ProfileButton />
       </div>
     </div>
   )

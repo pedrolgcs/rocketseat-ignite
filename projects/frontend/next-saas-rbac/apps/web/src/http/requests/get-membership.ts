@@ -22,6 +22,7 @@ export async function getMembership(params: GetMembershipParams) {
     .get(`organizations/${slug}/membership`, {
       next: {
         tags: [`${slug}_membership`],
+        revalidate: 60 * 60, // 1 hour
       },
     })
     .json<GetMembershipResponse>()
