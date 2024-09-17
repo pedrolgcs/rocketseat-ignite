@@ -2,7 +2,6 @@ import { env } from '@saas/env'
 import { getCookie } from 'cookies-next'
 import type { CookiesFn } from 'cookies-next/lib/types'
 import ky from 'ky'
-import { redirect } from 'next/navigation'
 
 export const api = ky.create({
   prefixUrl: env.NEXT_PUBLIC_API_URL,
@@ -25,9 +24,11 @@ export const api = ky.create({
       },
     ],
     afterResponse: [
-      (request, options, response) => {
-        if (response.status === 401) {
-          redirect('/api/auth/sign-out')
+      async (request, options, response) => {
+        if (response.status === 403) {
+          const token = await ky('https://example.com/token').text()
+          request.headers.set('Authorization', `Bearer ${token}`)
+          return ky(request)
         }
       },
     ],

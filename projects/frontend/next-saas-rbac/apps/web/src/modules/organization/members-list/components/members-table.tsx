@@ -18,6 +18,7 @@ export function MembersTable({ slug }: MembersTableProps) {
     data: members,
     isLoading: isLoadingOnGetMembers,
     isError: isErrorOnGetMembers,
+    error: errorOnGetMembers,
   } = useGetMembersQuery({ slug })
 
   const { data: membership } = useGetMembershipQuery({ slug })
@@ -28,8 +29,10 @@ export function MembersTable({ slug }: MembersTableProps) {
     return <h1>Loading...</h1>
   }
 
+  console.log(errorOnGetMembers)
+
   if (isErrorOnGetMembers) {
-    return <h1>Error...</h1>
+    return <h1>{errorOnGetMembers.message}...</h1>
   }
 
   return (
@@ -50,7 +53,7 @@ export function MembersTable({ slug }: MembersTableProps) {
             </TableCell>
 
             <TableCell className="py-2.5">
-              <div className="flex flex-col">
+              <div className="flex flex-col gap-1">
                 <div className="inline-flex items-center gap-2 font-medium">
                   <span>{member.name}</span>
                   {member.userId === membership?.userId && <span>(me)</span>}
