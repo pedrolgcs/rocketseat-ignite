@@ -13,15 +13,19 @@ export async function MembersList() {
 
   if (cannotGetMembers) {
     return (
-      <p className="text-sm font-medium text-muted-foreground">
-        You don't have permission to vew members
-      </p>
+      <div className="space-y-4">
+        <h2 className="text-lg font-semibold">List of members</h2>
+
+        <p className="text-sm font-medium text-muted-foreground">
+          You don't have permission to vew members
+        </p>
+      </div>
     )
   }
 
   return (
-    <div className="space-y-2">
-      <h2 className="text-lg font-semibold">Members</h2>
+    <div className="space-y-4">
+      <h2 className="text-lg font-semibold">List of members</h2>
 
       <div className="rounded border">
         <MembersTable slug={currentOrganization} />

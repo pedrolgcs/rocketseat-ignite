@@ -128,13 +128,13 @@ async function seed() {
     createOrganization({
       name: 'Acme Inc (member)',
       slug: 'acme-member',
-      ownerId: johnDoe.id,
+      ownerId: randomOne.id,
     }),
 
     createOrganization({
       name: 'Acme Inc (billing)',
       slug: 'acme-billing',
-      ownerId: johnDoe.id,
+      ownerId: randomTwo.id,
     }),
   ])
 
