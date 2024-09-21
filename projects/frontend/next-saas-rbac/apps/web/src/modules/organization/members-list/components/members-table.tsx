@@ -5,6 +5,7 @@ import { organizationSchema } from '@saas/auth'
 import { ArrowLeftRightIcon, CrownIcon } from 'lucide-react'
 import { useMemo } from 'react'
 
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
 import { Avatar, AvatarImage } from '@/components/ui/avatar'
 import { Button } from '@/components/ui/button'
 import { Skeleton } from '@/components/ui/skeleton'
@@ -41,17 +42,20 @@ export function MembersTable({ slug }: MembersTableProps) {
   if (isLoadingOnGetMembers) {
     return (
       <div className="space-y-1">
-        <Skeleton className="h-16 w-full border" />
-        <Skeleton className="h-16 w-full border" />
-        <Skeleton className="h-16 w-full border" />
-        <Skeleton className="h-16 w-full border" />
-        <Skeleton className="h-16 w-full border" />
+        <Skeleton className="h-14 w-full border" />
+        <Skeleton className="h-14 w-full border" />
+        <Skeleton className="h-14 w-full border" />
       </div>
     )
   }
 
   if (isErrorOnGetMembers) {
-    return <h1>{errorOnGetMembers.message}...</h1>
+    return (
+      <Alert variant="destructive" className="space-y-1">
+        <AlertTitle>Ops! Something went wrong</AlertTitle>
+        <AlertDescription>{errorOnGetMembers?.message}</AlertDescription>
+      </Alert>
+    )
   }
 
   return (
