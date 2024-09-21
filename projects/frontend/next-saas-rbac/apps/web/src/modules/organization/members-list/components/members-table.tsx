@@ -1,10 +1,14 @@
 'use client'
 
 import { AvatarFallback } from '@radix-ui/react-avatar'
-import { CrownIcon } from 'lucide-react'
+import { organizationSchema } from '@saas/auth'
+import { ArrowLeftRightIcon, CrownIcon } from 'lucide-react'
+import { useMemo } from 'react'
 
 import { Avatar, AvatarImage } from '@/components/ui/avatar'
+import { Button } from '@/components/ui/button'
 import { Table, TableBody, TableCell, TableRow } from '@/components/ui/table'
+import { useAbility } from '@/hooks/use-ability'
 import { useGetMembersQuery } from '@/http/hooks/use-get-members'
 import { useGetMembershipQuery } from '@/http/hooks/use-get-membership'
 import { useGetOrganizationBySlugQuery } from '@/http/hooks/use-get-organization-by-slug'
@@ -14,6 +18,8 @@ type MembersTableProps = {
 }
 
 export function MembersTable({ slug }: MembersTableProps) {
+  const { ability } = useAbility()
+
   const {
     data: members,
     isLoading: isLoadingOnGetMembers,
@@ -25,11 +31,15 @@ export function MembersTable({ slug }: MembersTableProps) {
 
   const { data: organization } = useGetOrganizationBySlugQuery({ slug })
 
+  const canTransferOwnership = useMemo(() => {
+    if (!organization) return null
+    const authOrganization = organizationSchema.parse(organization)
+    return ability?.can('transfer_ownership', authOrganization)
+  }, [organization, ability])
+
   if (isLoadingOnGetMembers) {
     return <h1>Loading...</h1>
   }
-
-  console.log(errorOnGetMembers)
 
   if (isErrorOnGetMembers) {
     return <h1>{errorOnGetMembers.message}...</h1>
@@ -71,7 +81,14 @@ export function MembersTable({ slug }: MembersTableProps) {
             </TableCell>
 
             <TableCell className="py-2.5">
-              <div className="flex items-center"></div>
+              <div className="flex items-center justify-end gap-2">
+                {canTransferOwnership && (
+                  <Button size="sm" variant="ghost">
+                    <ArrowLeftRightIcon className="mr-2 size-4" />
+                    Transfer ownership
+                  </Button>
+                )}
+              </div>
             </TableCell>
           </TableRow>
         ))}
