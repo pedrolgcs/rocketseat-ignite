@@ -7,6 +7,7 @@ import { useMemo } from 'react'
 
 import { Avatar, AvatarImage } from '@/components/ui/avatar'
 import { Button } from '@/components/ui/button'
+import { Skeleton } from '@/components/ui/skeleton'
 import { Table, TableBody, TableCell, TableRow } from '@/components/ui/table'
 import { useAbility } from '@/hooks/use-ability'
 import { useGetMembersQuery } from '@/http/hooks/use-get-members'
@@ -38,7 +39,15 @@ export function MembersTable({ slug }: MembersTableProps) {
   }, [organization, ability])
 
   if (isLoadingOnGetMembers) {
-    return <h1>Loading...</h1>
+    return (
+      <div className="space-y-1">
+        <Skeleton className="h-16 w-full border" />
+        <Skeleton className="h-16 w-full border" />
+        <Skeleton className="h-16 w-full border" />
+        <Skeleton className="h-16 w-full border" />
+        <Skeleton className="h-16 w-full border" />
+      </div>
+    )
   }
 
   if (isErrorOnGetMembers) {
