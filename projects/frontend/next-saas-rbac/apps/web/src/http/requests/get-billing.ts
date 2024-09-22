@@ -27,6 +27,7 @@ export async function getBilling(params: GetBillingParams) {
     .get(`organizations/${slug}/billing`, {
       next: {
         tags: [`${slug}_billing`],
+        revalidate: 60 * 60, // 1 hour
       },
     })
     .json<GetBillingResponse>()

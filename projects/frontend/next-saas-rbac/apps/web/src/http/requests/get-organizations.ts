@@ -18,6 +18,7 @@ export async function getOrganizations() {
     .get('organizations', {
       next: {
         tags: ['organizations'],
+        revalidate: 60 * 60, // 1 hour
       },
     })
     .json<GetOrganizationsResponse>()

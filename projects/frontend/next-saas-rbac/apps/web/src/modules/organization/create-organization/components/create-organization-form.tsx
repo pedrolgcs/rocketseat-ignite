@@ -54,7 +54,7 @@ type CreateOrganizationSchema = z.infer<typeof createOrganizationSchema>
 export function CreateOrganizationForm() {
   const {
     mutate: createOrganization,
-    isPending: isPedingOnCreateOrganization,
+    isPending: isPendingOnCreateOrganization,
     isError: isErrorOnCreateOrganization,
     error: errorOnCreateOrganization,
   } = useCreateOrganizationMutation()
@@ -153,7 +153,7 @@ export function CreateOrganizationForm() {
           )}
         </div>
 
-        {isPedingOnCreateOrganization ? (
+        {isPendingOnCreateOrganization ? (
           <Button type="submit" className="w-full" disabled>
             <Loader2 className="mr-2 h-4 w-4 animate-spin" />
           </Button>

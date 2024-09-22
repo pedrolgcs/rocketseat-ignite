@@ -2,18 +2,20 @@
 
 import { AvatarFallback } from '@radix-ui/react-avatar'
 import { organizationSchema } from '@saas/auth'
-import { ArrowLeftRightIcon, CrownIcon } from 'lucide-react'
+import { CrownIcon } from 'lucide-react'
 import { useMemo } from 'react'
 
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
 import { Avatar, AvatarImage } from '@/components/ui/avatar'
-import { Button } from '@/components/ui/button'
 import { Skeleton } from '@/components/ui/skeleton'
 import { Table, TableBody, TableCell, TableRow } from '@/components/ui/table'
 import { useAbility } from '@/hooks/use-ability'
 import { useGetMembersQuery } from '@/http/hooks/use-get-members'
 import { useGetMembershipQuery } from '@/http/hooks/use-get-membership'
 import { useGetOrganizationBySlugQuery } from '@/http/hooks/use-get-organization-by-slug'
+
+import { RemoveMember } from './remove-member'
+import { TransferOwnership } from './transfer-ownership'
 
 type MembersTableProps = {
   slug: string
@@ -38,6 +40,11 @@ export function MembersTable({ slug }: MembersTableProps) {
     const authOrganization = organizationSchema.parse(organization)
     return ability?.can('transfer_ownership', authOrganization)
   }, [organization, ability])
+
+  const canDeleteMember = useMemo(() => {
+    if (!membership) return null
+    return ability?.can('delete', 'User')
+  }, [membership, ability])
 
   if (isLoadingOnGetMembers) {
     return (
@@ -96,10 +103,19 @@ export function MembersTable({ slug }: MembersTableProps) {
             <TableCell className="py-2.5">
               <div className="flex items-center justify-end gap-2">
                 {canTransferOwnership && (
-                  <Button size="sm" variant="ghost">
-                    <ArrowLeftRightIcon className="mr-2 size-4" />
-                    Transfer ownership
-                  </Button>
+                  <TransferOwnership
+                    me={membership?.userId}
+                    member={member}
+                    organizationSlug={slug}
+                  />
+                )}
+
+                {canDeleteMember && (
+                  <RemoveMember
+                    me={membership?.userId}
+                    member={member}
+                    organizationSlug={slug}
+                  />
                 )}
               </div>
             </TableCell>

@@ -30,6 +30,7 @@ export async function getProjects(params: GetProjectsParams) {
     .get(`organizations/${organizationSlug}/projects`, {
       next: {
         tags: [`${organizationSlug}_projects`],
+        revalidate: 60 * 60, // 1 hour
       },
     })
     .json<GetProjectsResponse>()

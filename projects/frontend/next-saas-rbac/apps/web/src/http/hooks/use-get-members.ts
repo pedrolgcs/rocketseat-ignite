@@ -4,7 +4,7 @@ import { getMembers, GetMembersParams } from '../requests/get-members'
 
 export const USE_GET_ORGANIZATION_MEMBERS_QUERY_KEY = 'organization-members'
 
-export type UseGetOrganizationsQueryKey = [
+export type UseGetOrganizationMembersQueryKey = [
   typeof USE_GET_ORGANIZATION_MEMBERS_QUERY_KEY,
   slug: string,
 ]

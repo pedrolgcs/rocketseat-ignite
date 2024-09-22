@@ -13,7 +13,7 @@ export async function getProfile() {
   const result = await api
     .get('profile', {
       next: {
-        revalidate: 3600, // 1 hour
+        revalidate: 60 * 60, // 1 hour
         tags: ['profile'],
       },
     })

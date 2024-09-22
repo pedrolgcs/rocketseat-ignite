@@ -15,7 +15,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
         defaultTheme="dark"
         disableTransitionOnChange
       >
-        <Toaster position="top-right" richColors duration={2000} />
+        <Toaster position="top-right" richColors duration={3000} />
         {children}
       </ThemeProvider>
       <ReactQueryDevtools initialIsOpen={false} />

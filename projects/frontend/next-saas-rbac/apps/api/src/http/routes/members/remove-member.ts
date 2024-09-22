@@ -6,6 +6,7 @@ import { auth } from '@/http/middlewares/auth'
 import { prisma } from '@/lib/prisma'
 import { getUserPermissions } from '@/utils/get-user-permissions'
 
+import { BadRequestError } from '../_errors/bad-request-error'
 import { UnauthorizedError } from '../_errors/unautorized-error'
 
 const paramsSchema = z.object({
@@ -37,6 +38,12 @@ export async function removeMember(app: FastifyInstance) {
 
         const { membership, organization } =
           await request.getUserMembership(slug)
+
+        if (memberId === organization.ownerId) {
+          throw new BadRequestError(
+            `you're not allowed to remove owner from the organization, please transfer ownership first.`,
+          )
+        }
 
         const { cannot } = getUserPermissions(userId, membership.role)
 
