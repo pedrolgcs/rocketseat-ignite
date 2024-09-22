@@ -42,9 +42,8 @@ export function MembersTable({ slug }: MembersTableProps) {
   }, [organization, ability])
 
   const canDeleteMember = useMemo(() => {
-    if (!membership) return null
     return ability?.can('delete', 'User')
-  }, [membership, ability])
+  }, [ability])
 
   if (isLoadingOnGetMembers) {
     return (
