@@ -17,6 +17,7 @@ import { useRemoveMemberMutation } from '@/http/hooks/use-remove-member-mutation
 
 type RemoveMemberProps = {
   me?: string
+  ownerId?: string
   member: {
     id: string
     userId: string
@@ -28,6 +29,7 @@ export function RemoveMember({
   me,
   member,
   organizationSlug,
+  ownerId,
 }: RemoveMemberProps) {
   const { mutate: removeMember, isPending: isPendingOnRemoveMember } =
     useRemoveMemberMutation()
@@ -57,7 +59,11 @@ export function RemoveMember({
   return (
     <AlertDialog>
       <AlertDialogTrigger asChild>
-        <Button size="sm" variant="destructive" disabled={me === member.userId}>
+        <Button
+          size="sm"
+          variant="destructive"
+          disabled={me === member.userId || member.userId === ownerId}
+        >
           <UserMinusIcon className="mr-2 size-4" />
           Remove
         </Button>

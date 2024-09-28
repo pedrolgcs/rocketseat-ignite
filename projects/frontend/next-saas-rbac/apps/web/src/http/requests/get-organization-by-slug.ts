@@ -27,7 +27,8 @@ export async function getOrganizationBySlug(
   const result = await api
     .get(`organizations/${slug}`, {
       next: {
-        tags: [`organizations_${slug}`],
+        tags: [`${slug}_organization`],
+        revalidate: 60 * 60, // 1 hour
       },
     })
     .json<GetOrganizationBySlugResponse>()

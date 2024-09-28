@@ -16,6 +16,7 @@ import { useGetOrganizationBySlugQuery } from '@/http/hooks/use-get-organization
 
 import { RemoveMember } from './remove-member'
 import { TransferOwnership } from './transfer-ownership'
+import { UpdateMemberRole } from './update-member-role'
 
 type MembersTableProps = {
   slug: string
@@ -43,6 +44,10 @@ export function MembersTable({ slug }: MembersTableProps) {
 
   const canDeleteMember = useMemo(() => {
     return ability?.can('delete', 'User')
+  }, [ability])
+
+  const canUpdateMemberRole = useMemo(() => {
+    return ability?.can('update', 'User')
   }, [ability])
 
   if (isLoadingOnGetMembers) {
@@ -106,6 +111,16 @@ export function MembersTable({ slug }: MembersTableProps) {
                     me={membership?.userId}
                     member={member}
                     organizationSlug={slug}
+                    ownerId={organization?.ownerId}
+                  />
+                )}
+
+                {canUpdateMemberRole && (
+                  <UpdateMemberRole
+                    member={member}
+                    ownerId={organization?.ownerId}
+                    me={membership?.userId}
+                    organizationSlug={slug}
                   />
                 )}
 
@@ -114,6 +129,7 @@ export function MembersTable({ slug }: MembersTableProps) {
                     me={membership?.userId}
                     member={member}
                     organizationSlug={slug}
+                    ownerId={organization?.ownerId}
                   />
                 )}
               </div>
