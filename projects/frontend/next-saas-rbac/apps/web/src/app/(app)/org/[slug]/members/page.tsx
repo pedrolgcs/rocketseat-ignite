@@ -1,4 +1,4 @@
-import { InviteMembers } from '@/modules/organization/invite-members'
+import { Invites } from '@/modules/organization/invites'
 import { MembersList } from '@/modules/organization/members-list'
 
 export default async function MembersPage() {
@@ -7,7 +7,7 @@ export default async function MembersPage() {
       <h1 className="text-2xl font-bold">Members</h1>
 
       <div className="space-y-4">
-        <InviteMembers />
+        <Invites />
 
         <MembersList />
       </div>

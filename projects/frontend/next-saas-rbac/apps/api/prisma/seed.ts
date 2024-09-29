@@ -1,5 +1,5 @@
 import { faker } from '@faker-js/faker'
-import { PrismaClient } from '@prisma/client'
+import { PrismaClient, type Role } from '@prisma/client'
 import { hash } from 'bcryptjs'
 
 const prisma = new PrismaClient()
@@ -84,7 +84,7 @@ async function createProject(organizationId: string, ownerId: string) {
 async function createMember(
   organizationId: string,
   userId: string,
-  role: 'ADMIN' | 'MEMBER' | 'BILLING',
+  role: Role,
 ) {
   const member = await prisma.member.create({
     data: {
@@ -95,6 +95,24 @@ async function createMember(
   })
 
   return member
+}
+
+async function createInvite(
+  organizationId: string,
+  email: string,
+  role: Role,
+  authorId: string,
+) {
+  const invite = await prisma.invite.create({
+    data: {
+      email,
+      organizationId,
+      role,
+      authorId,
+    },
+  })
+
+  return invite
 }
 
 async function seed() {
@@ -168,6 +186,29 @@ async function seed() {
     createMember(billingOrg.id, randomOne.id, 'MEMBER'),
     createMember(billingOrg.id, randomTwo.id, 'ADMIN'),
   ])
+
+  for (let i = 0; i < 10; i++) {
+    await Promise.all([
+      createInvite(
+        adminOrg.id,
+        faker.internet.email().toLocaleLowerCase(),
+        faker.helpers.arrayElement(['ADMIN', 'BILLING', 'MEMBER']),
+        johnDoe.id,
+      ),
+      createInvite(
+        memberOrg.id,
+        faker.internet.email().toLocaleLowerCase(),
+        faker.helpers.arrayElement(['ADMIN', 'BILLING', 'MEMBER']),
+        randomOne.id,
+      ),
+      createInvite(
+        billingOrg.id,
+        faker.internet.email().toLocaleLowerCase(),
+        faker.helpers.arrayElement(['ADMIN', 'BILLING', 'MEMBER']),
+        randomTwo.id,
+      ),
+    ])
+  }
 }
 
 seed().then(() => console.log('Done!'))
