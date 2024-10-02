@@ -52,49 +52,60 @@ export function InvitesList({ organization }: InvitesListProps) {
   }
 
   return (
-    <div className="space-y-2">
+    <div className="space-y-4">
       <h2 className="text-lg font-semibold">Invites</h2>
-      <Table>
-        <TableBody>
-          {invites?.map((invite) => (
-            <TableRow key={invite.id}>
-              <TableCell className="py-2.5">
-                <span className="flex items-center gap-4 text-muted-foreground">
-                  <MailIcon className="size-4 text-muted-foreground" />
-                  {invite.email}
-                </span>
-              </TableCell>
 
-              <TableCell className="py-2.5">
-                <div className="flex justify-end">
-                  <span className="font-semibold text-muted-foreground">
-                    {dayjs().to(invite.createdAt)}
+      <div className="rounded border">
+        <Table>
+          <TableBody>
+            {invites?.map((invite) => (
+              <TableRow key={invite.id}>
+                <TableCell className="py-2.5">
+                  <span className="flex items-center gap-4 text-muted-foreground">
+                    <MailIcon className="size-4 text-muted-foreground" />
+                    {invite.email}
                   </span>
-                </div>
-              </TableCell>
+                </TableCell>
 
-              <TableCell className="py-2.5" style={{ width: 100 }}>
-                <div className="flex justify-end">
-                  <span className="font-semibold text-foreground">
-                    {invite.role}
-                  </span>
-                </div>
-              </TableCell>
+                <TableCell className="py-2.5">
+                  <div className="flex justify-end">
+                    <span className="text-xs font-semibold text-muted-foreground">
+                      sent {dayjs().to(invite.createdAt)}
+                    </span>
+                  </div>
+                </TableCell>
 
-              <TableCell className="py-2.5" style={{ width: 170 }}>
-                <div className="flex justify-end">
-                  {canDeleteInvite && (
-                    <RevokeInvite
-                      inviteId={invite.id}
-                      organizationSlug={organization}
-                    />
-                  )}
-                </div>
-              </TableCell>
-            </TableRow>
-          ))}
-        </TableBody>
-      </Table>
+                <TableCell className="py-2.5" style={{ width: 100 }}>
+                  <div className="flex justify-end">
+                    <span className="font-semibold text-foreground">
+                      {invite.role}
+                    </span>
+                  </div>
+                </TableCell>
+
+                <TableCell className="py-2.5" style={{ width: 170 }}>
+                  <div className="flex justify-end">
+                    {canDeleteInvite && (
+                      <RevokeInvite
+                        inviteId={invite.id}
+                        organizationSlug={organization}
+                      />
+                    )}
+                  </div>
+                </TableCell>
+              </TableRow>
+            ))}
+
+            {invites?.length === 0 && (
+              <TableRow>
+                <TableCell className="border text-center text-muted-foreground">
+                  No invites found
+                </TableCell>
+              </TableRow>
+            )}
+          </TableBody>
+        </Table>
+      </div>
     </div>
   )
 }

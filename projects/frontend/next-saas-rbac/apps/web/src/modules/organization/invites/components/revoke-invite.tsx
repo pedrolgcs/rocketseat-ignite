@@ -44,7 +44,7 @@ export function RevokeInvite({
   if (isPendingOnRevokeInvite) {
     return (
       <Button size="sm" variant="destructive" disabled>
-        <Loader2Icon className="size-4 animate-spin" />
+        <Loader2Icon className="mr-2 size-4 animate-spin" /> Revoke invite
       </Button>
     )
   }
