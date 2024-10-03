@@ -8,7 +8,9 @@ export type CreateMemberInviteParams = {
   organization: string
 }
 
-export type CreateMemberInviteResponse = void
+export type CreateMemberInviteResponse = {
+  inviteId: string
+}
 
 export async function createMemberInvite(params: CreateMemberInviteParams) {
   const { email, role, organization } = params
