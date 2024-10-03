@@ -2,7 +2,7 @@
 
 import { zodResolver } from '@hookform/resolvers/zod'
 import { type Role, roleSchema } from '@saas/auth'
-import { LoaderCircleIcon } from 'lucide-react'
+import { LoaderCircleIcon, UserPlusIcon } from 'lucide-react'
 import { Controller, useForm } from 'react-hook-form'
 import { toast } from 'sonner'
 import { z } from 'zod'
@@ -109,7 +109,10 @@ export function CreateInviteForm({ organization }: CreateInviteProps) {
           {isPendingOnCreateInvite ? (
             <LoaderCircleIcon className="size-4 animate-spin" />
           ) : (
-            'Sent invite'
+            <div className="flex items-center gap-2">
+              <UserPlusIcon className="size-4" />
+              Sent invite
+            </div>
           )}
         </Button>
       </div>
