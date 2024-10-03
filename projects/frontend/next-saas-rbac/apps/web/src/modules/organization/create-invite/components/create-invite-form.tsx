@@ -70,6 +70,7 @@ export function CreateInviteForm({ organization }: CreateInviteProps) {
             type="email"
             id="email"
             placeholder="john@example.com"
+            autoComplete="email"
             {...register('email')}
           />
 
