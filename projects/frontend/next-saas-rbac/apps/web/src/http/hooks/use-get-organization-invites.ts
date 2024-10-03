@@ -7,7 +7,7 @@ import {
 
 export const USE_GET_ORGANIZATION_INVITES = 'organization-invites'
 
-export type UseGetOrganizationBySlugQueryKey = [
+export type UseGetOrganizationInvitesQueryKey = [
   typeof USE_GET_ORGANIZATION_INVITES,
   slug: string,
 ]
