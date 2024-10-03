@@ -16,7 +16,7 @@ export async function createMemberInvite(params: CreateMemberInviteParams) {
   const { email, role, organization } = params
 
   const result = await api
-    .post(`/organizations/${organization}/members/invites`, {
+    .post(`organizations/${organization}/invites`, {
       json: {
         email,
         role,

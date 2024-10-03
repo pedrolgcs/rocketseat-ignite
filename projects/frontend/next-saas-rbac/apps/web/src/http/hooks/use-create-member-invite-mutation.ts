@@ -18,7 +18,7 @@ export function useCreateMemberInviteMutation() {
     onSuccess(_, params) {
       const getOrganizationInvitesKey: UseGetOrganizationInvitesQueryKey = [
         USE_GET_ORGANIZATION_INVITES,
-        params.email,
+        params.organization,
       ]
 
       queryClient.refetchQueries({

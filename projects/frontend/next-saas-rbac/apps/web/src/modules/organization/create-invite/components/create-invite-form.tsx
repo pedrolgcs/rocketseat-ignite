@@ -64,7 +64,7 @@ export function CreateInviteForm({ organization }: CreateInviteProps) {
 
   return (
     <form onSubmit={handleSubmit(handleCreateInvite)} className="space-y-4">
-      <div className="flex items-center gap-4">
+      <div className="flex items-start gap-4">
         <div className="space-y-1">
           <Input
             type="email"
@@ -78,14 +78,14 @@ export function CreateInviteForm({ organization }: CreateInviteProps) {
           )}
         </div>
 
-        <div className="w-32 space-y-1">
+        <div className="w-44 space-y-1">
           <Controller
             control={control}
             name="role"
             render={({ field }) => (
-              <Select onValueChange={field.onChange} defaultValue={ROLES[0]}>
+              <Select onValueChange={field.onChange} defaultValue={field.value}>
                 <SelectTrigger className="w-full" id="role">
-                  <SelectValue placeholder="Select" />
+                  <SelectValue placeholder="Role" />
                 </SelectTrigger>
 
                 <SelectContent>
