@@ -1,3 +1,10 @@
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/card'
 import { ability } from '@/modules/users/authenticate'
 import { getCurrentOrganization } from '@/utils/get-current-organization'
 
@@ -13,23 +20,30 @@ export async function MembersList() {
 
   if (cannotGetMembers) {
     return (
-      <div className="space-y-4">
-        <h2 className="text-lg font-semibold">List of members</h2>
+      <Card>
+        <CardHeader>
+          <CardTitle>List of members</CardTitle>
+        </CardHeader>
 
-        <p className="text-sm font-medium text-muted-foreground">
-          You don't have permission to vew members
-        </p>
-      </div>
+        <CardContent>
+          <p className="text-md font-medium text-muted-foreground">
+            You don't have permission to view members
+          </p>
+        </CardContent>
+      </Card>
     )
   }
 
   return (
-    <div className="space-y-4">
-      <h2 className="text-lg font-semibold">List of members</h2>
+    <Card>
+      <CardHeader>
+        <CardTitle>List of members</CardTitle>
+        <CardDescription>List of organization members</CardDescription>
+      </CardHeader>
 
-      <div className="rounded border">
+      <CardContent>
         <MembersTable slug={currentOrganization} />
-      </div>
-    </div>
+      </CardContent>
+    </Card>
   )
 }

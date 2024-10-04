@@ -10,7 +10,7 @@ import { getCurrentOrganization } from '@/utils/get-current-organization'
 
 import { InvitesTable } from './invites-table'
 
-export async function ListInvites() {
+export async function InvitesList() {
   const permissions = await ability()
 
   const currentOrganization = await getCurrentOrganization()

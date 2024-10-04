@@ -1,5 +1,5 @@
 import { CreateInvite } from '@/modules/organization/create-invite'
-import { ListInvites } from '@/modules/organization/list-invites'
+import { InvitesList } from '@/modules/organization/invites-list'
 import { MembersList } from '@/modules/organization/members-list'
 
 export default async function MembersPage() {
@@ -10,7 +10,7 @@ export default async function MembersPage() {
       <div className="space-y-4">
         <CreateInvite />
 
-        <ListInvites />
+        <InvitesList />
 
         <MembersList />
       </div>
