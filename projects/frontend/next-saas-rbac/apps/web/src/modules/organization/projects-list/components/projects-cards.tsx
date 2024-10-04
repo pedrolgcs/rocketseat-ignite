@@ -60,9 +60,11 @@ export function ProjectsCards({ organization }: ProjectsTableProps) {
   return (
     <div className="grid grid-cols-2 gap-4">
       {projects?.map((project) => (
-        <Card key={project.id}>
+        <Card key={project.id} className="flex flex-col justify-between">
           <CardHeader>
-            <CardTitle>{project.name}</CardTitle>
+            <CardTitle className="text-xl font-semibold">
+              {project.name}
+            </CardTitle>
             <CardDescription className="line-clamp-2 leading-relaxed">
               {project.description}
             </CardDescription>
