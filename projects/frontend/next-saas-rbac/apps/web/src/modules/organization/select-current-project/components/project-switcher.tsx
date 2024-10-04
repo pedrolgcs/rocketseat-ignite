@@ -3,6 +3,7 @@
 import {
   AlertTriangleIcon,
   ChevronsUpDownIcon,
+  LoaderCircleIcon,
   PlusCircleIcon,
 } from 'lucide-react'
 import Link from 'next/link'
@@ -39,22 +40,27 @@ export function ProjectSwitcher() {
 
   const { ability } = useAbility()
 
-  const { data, error } = useGetProjectsQuery({
+  const {
+    data: projects,
+    isLoading: isLoadingOnGetProjects,
+    isError: isErrorOnGetProjects,
+    error: errorOnGetProjects,
+  } = useGetProjectsQuery({
     organizationSlug: orgSlug,
   })
 
-  const selectedProject = data?.projects.find(
+  const selectedProject = projects?.find(
     (project) => project.slug === projectSlug,
   )
 
   const canCreateProjects = ability?.can('create', 'Project')
 
-  if (error) {
+  if (isErrorOnGetProjects) {
     return (
       <div className="flex items-center">
         <AlertTriangleIcon className="size-4 text-rose-400 dark:text-rose-300" />
         <p className="ml-2 text-sm font-medium text-rose-400 dark:text-rose-300">
-          Failed on fetching organizations
+          {errorOnGetProjects.message}
         </p>
       </div>
     )
@@ -74,7 +80,12 @@ export function ProjectSwitcher() {
             <span className="truncate text-left">{selectedProject.name}</span>
           </>
         ) : (
-          <span className="text-muted-foreground">Select projects</span>
+          <>
+            <span className="text-muted-foreground">Select projects</span>
+            {isLoadingOnGetProjects && (
+              <LoaderCircleIcon className="ml-2 size-4 animate-spin text-muted-foreground" />
+            )}
+          </>
         )}
 
         <ChevronsUpDownIcon className="ml-auto size-4 text-muted-foreground" />
@@ -88,7 +99,7 @@ export function ProjectSwitcher() {
       >
         <DropdownMenuGroup>
           <DropdownMenuLabel>Projects</DropdownMenuLabel>
-          {data?.projects.map((project) => (
+          {projects?.map((project) => (
             <DropdownMenuItem key={project.id} asChild>
               <Link href={`/org/${orgSlug}/project/${project.slug}`}>
                 <Avatar className="mr-2 size-4">

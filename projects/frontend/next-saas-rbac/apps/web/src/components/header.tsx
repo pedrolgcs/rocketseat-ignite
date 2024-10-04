@@ -3,7 +3,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 
 import rocketseatIcon from '@/assets/rocketseat-icon.svg'
-import { SelectProject } from '@/modules/projects/select-current-project'
+import { SelectProject } from '@/modules/organization/select-current-project'
 import { ThemeSwitcher } from '@/modules/styles/theme'
 import { ProfileButton } from '@/modules/users/authenticate'
 

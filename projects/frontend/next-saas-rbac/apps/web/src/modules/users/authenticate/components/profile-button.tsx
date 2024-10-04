@@ -10,7 +10,7 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
 import { Skeleton } from '@/components/ui/skeleton'
-import { useGetProfile } from '@/http/hooks/use-get-profile'
+import { useGetProfileQuery } from '@/http/hooks/use-get-profile'
 
 function getInitials(name: string) {
   return name
@@ -25,7 +25,7 @@ export function ProfileButton() {
     data: profile,
     isError: isErrorOnGetProfile,
     isLoading: isLoadingOnGetProfile,
-  } = useGetProfile()
+  } = useGetProfileQuery()
 
   if (isErrorOnGetProfile) {
     return (

@@ -26,6 +26,8 @@ export type GetProjectsResponse = {
 export async function getProjects(params: GetProjectsParams) {
   const { organizationSlug } = params
 
+  await new Promise((resolve) => setTimeout(resolve, 3000))
+
   const result = await api
     .get(`organizations/${organizationSlug}/projects`, {
       next: {

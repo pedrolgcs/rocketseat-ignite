@@ -1,6 +1,6 @@
 import { redirect } from 'next/navigation'
 
-import { CreateProjectForm } from '@/modules/projects/create-project'
+import { CreateProjectForm } from '@/modules/organization/create-project'
 import { ability } from '@/modules/users/authenticate'
 
 export default async function CreateProject() {
