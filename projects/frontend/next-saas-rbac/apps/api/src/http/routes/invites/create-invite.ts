@@ -4,6 +4,7 @@ import type { ZodTypeProvider } from 'fastify-type-provider-zod'
 import { z } from 'zod'
 
 import { auth } from '@/http/middlewares/auth'
+import { Nodemailer } from '@/lib/nodemailer/index'
 import { prisma } from '@/lib/prisma'
 import { getUserPermissions } from '@/utils/get-user-permissions'
 
@@ -11,6 +12,7 @@ import { BadRequestError } from '../_errors/bad-request-error'
 import { UnauthorizedError } from '../_errors/unautorized-error'
 
 const bodySchema = z.object({
+  name: z.string(),
   email: z.string().email(),
   role: roleSchema,
 })
@@ -42,7 +44,7 @@ export async function createInvite(app: FastifyInstance) {
       async (request, reply) => {
         const { slug } = request.params
 
-        const { email, role } = request.body
+        const { email, role, name } = request.body
 
         const { id: userId } = await request.getCurrentUser()
 
@@ -103,6 +105,25 @@ export async function createInvite(app: FastifyInstance) {
             organizationId: organization.id,
             authorId: userId,
           },
+        })
+
+        const mailProvider = new Nodemailer('MAILTRAP')
+
+        mailProvider.sendEmail({
+          to: {
+            name,
+            email,
+          },
+          template: {
+            file: 'send-member-invite',
+            variables: {
+              name,
+              organization: organization.name,
+              role,
+              link: `http://localhost:3000/org/${organization.slug}/invites/${invite.id}`,
+            },
+          },
+          subject: `You have been invited to join ${organization.name}`,
         })
 
         return reply.status(201).send({ inviteId: invite.id })
