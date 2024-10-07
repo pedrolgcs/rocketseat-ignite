@@ -21,6 +21,7 @@ import { useCreateMemberInviteMutation } from '@/http/hooks/use-create-member-in
 import { InputErro } from './ui/input-error'
 
 const createInviteSchema = z.object({
+  name: z.string(),
   email: z
     .string()
     .min(4, { message: 'Please, include at least 4 characters.' }),
@@ -47,6 +48,7 @@ export function CreateInviteForm({ organization }: CreateInviteProps) {
   const handleCreateInvite = (data: CreateInviteSchema) => {
     createMemberInvite(
       {
+        name: data.name,
         email: data.email,
         role: data.role,
         organization,
@@ -65,6 +67,19 @@ export function CreateInviteForm({ organization }: CreateInviteProps) {
   return (
     <form onSubmit={handleSubmit(handleCreateInvite)} className="space-y-4">
       <div className="flex items-start gap-4">
+        <div className="space-y-1">
+          <Input
+            id="name"
+            placeholder="John Doe"
+            autoComplete="name"
+            {...register('name')}
+          />
+
+          {formState.errors.name?.message && (
+            <InputErro error={formState.errors.name.message} />
+          )}
+        </div>
+
         <div className="space-y-1">
           <Input
             type="email"

@@ -118,7 +118,7 @@ export async function createInvite(app: FastifyInstance) {
               name,
               organization: organization.name,
               role,
-              link: `http://localhost:3000/org/${organization.slug}/invites/${invite.id}`,
+              link: `http://localhost:3000/invite/${invite.id}`,
             },
           },
           subject: `You have been invited to join ${organization.name}`,

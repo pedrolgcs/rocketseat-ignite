@@ -22,6 +22,10 @@ export async function ShutdownOrganization() {
       <Card>
         <CardHeader>
           <CardTitle>Shutdown organization</CardTitle>
+          <CardDescription>
+            This will delete all organization data including all projects. You
+            cannot undo this action.
+          </CardDescription>
         </CardHeader>
         <CardContent>
           <p className="text-md font-medium text-muted-foreground">
