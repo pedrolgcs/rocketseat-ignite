@@ -1,50 +1,34 @@
 import path from 'node:path'
 
+import { env } from '@saas/env'
 import nodemailer from 'nodemailer'
 import pug from 'pug'
 
+import { MailtrapProvider } from './providers/mailtrap'
+import { SESProvider } from './providers/ses'
+import type { Templates } from './views'
+
 const VIEWS_PATH = path.resolve(__dirname, 'views')
 
-const PROVIDERS = {
-  MAILTRAP: {
-    host: 'sandbox.smtp.mailtrap.io',
-    port: 2525,
-    auth: {
-      user: '74839e351b1aee',
-      pass: '92828c40ae0eca',
-    },
-  },
-  SES: {},
-}
-
-type Providers = keyof typeof PROVIDERS
-
-type SendMemberInvite = {
-  file: 'send-member-invite'
-  variables: {
-    link: string
-    organization: string
-    name: string
-    role: string
-  }
-}
-
-type Template = SendMemberInvite
-
-export type SendMailParams = {
+type SendMailParams = {
   to: {
     name: string
     email: string
   }
   subject: string
-  template: Template
+  template: Templates
 }
 
-export class Nodemailer {
+const providers = {
+  ses: SESProvider,
+  mailtrap: MailtrapProvider,
+}
+
+class Provider {
   private transporter: nodemailer.Transporter
 
-  constructor(provider: Providers) {
-    this.transporter = nodemailer.createTransport(PROVIDERS[provider])
+  constructor() {
+    this.transporter = new providers[env.MAIL_PROVIDER]().transporter
   }
 
   sendEmail(params: SendMailParams): void {
@@ -61,3 +45,5 @@ export class Nodemailer {
     })
   }
 }
+
+export const mailClient = new Provider()

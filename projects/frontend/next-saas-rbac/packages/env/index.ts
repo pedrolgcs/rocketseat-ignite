@@ -9,6 +9,7 @@ export const env = createEnv({
     GITHUB_OAUTH_CLIENT_ID: z.string(),
     GITHUB_OAUTH_CLIENT_SECRET: z.string(),
     GITHUB_OAUTH__CLIENT_REDIRECT_URI: z.string().url(),
+    MAIL_PROVIDER: z.enum(['mailtrap', 'ses']),
   },
 
   client: {},
@@ -26,5 +27,6 @@ export const env = createEnv({
     GITHUB_OAUTH_CLIENT_ID: process.env.GITHUB_OAUTH_CLIENT_ID,
     GITHUB_OAUTH_CLIENT_SECRET: process.env.GITHUB_OAUTH_CLIENT_SECRET,
     NEXT_PUBLIC_API_URL: process.env.NEXT_PUBLIC_API_URL,
+    MAIL_PROVIDER: process.env.MAIL_PROVIDER,
   },
 })

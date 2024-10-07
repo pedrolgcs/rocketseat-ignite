@@ -4,7 +4,7 @@ import type { ZodTypeProvider } from 'fastify-type-provider-zod'
 import { z } from 'zod'
 
 import { auth } from '@/http/middlewares/auth'
-import { Nodemailer } from '@/lib/nodemailer/index'
+import { mailClient } from '@/lib/nodemailer'
 import { prisma } from '@/lib/prisma'
 import { getUserPermissions } from '@/utils/get-user-permissions'
 
@@ -107,9 +107,7 @@ export async function createInvite(app: FastifyInstance) {
           },
         })
 
-        const mailProvider = new Nodemailer('MAILTRAP')
-
-        mailProvider.sendEmail({
+        mailClient.sendEmail({
           to: {
             name,
             email,
