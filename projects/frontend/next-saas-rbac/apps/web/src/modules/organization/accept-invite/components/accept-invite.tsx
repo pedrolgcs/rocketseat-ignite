@@ -1,12 +1,14 @@
 'use client'
 
-import { CheckIcon, LoaderCircleIcon } from 'lucide-react'
+import { CheckIcon, LoaderCircleIcon, LogInIcon } from 'lucide-react'
+import { useRouter } from 'next/navigation'
 
-import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
+import { useIsAuthenticated } from '@/hooks/use-is-authenticated'
 import { useGetOrganizationInvite } from '@/http/hooks/use-get-organization-invite'
+import { setCookie } from '@/lib/cookies'
 import dayjs from '@/lib/day-js'
 
 type InviteProps = {
@@ -14,6 +16,8 @@ type InviteProps = {
 }
 
 export function AcceptInvite({ id }: InviteProps) {
+  const router = useRouter()
+
   const {
     data: invite,
     isLoading: isLoadingOnGetInvite,
@@ -21,6 +25,13 @@ export function AcceptInvite({ id }: InviteProps) {
     error: errorOnGetInvite,
     refetch: getInvite,
   } = useGetOrganizationInvite({ id })
+
+  const { authenticated } = useIsAuthenticated()
+
+  const handleNavigateToLogin = async () => {
+    await setCookie('@saas:invited-id', id)
+    router.push(`/auth/sign-in?email=${invite?.email}`)
+  }
 
   if (isLoadingOnGetInvite) {
     return (
@@ -48,13 +59,15 @@ export function AcceptInvite({ id }: InviteProps) {
 
   if (isErrorOnGetInvite) {
     return (
-      <Alert variant="destructive" className="w-full max-w-sm space-y-4">
-        <AlertTitle>Ops! Something went wrong</AlertTitle>
-        <AlertDescription>{errorOnGetInvite?.message}</AlertDescription>
+      <div className="flex flex-col gap-4">
+        <p className="text-md font-medium leading-relaxed text-muted-foreground">
+          {errorOnGetInvite.message}
+        </p>
+
         <Button className="w-full" onClick={() => getInvite()}>
           Try again
         </Button>
-      </Alert>
+      </div>
     )
   }
 
@@ -91,9 +104,21 @@ export function AcceptInvite({ id }: InviteProps) {
           </div>
         </div>
 
-        <Button className="w-full">
-          <CheckIcon className="mr-2 h-4 w-4" /> Accept Invitation
-        </Button>
+        {!authenticated && (
+          <Button
+            type="button"
+            className="w-full"
+            onClick={handleNavigateToLogin}
+          >
+            <LogInIcon className="mr-2 h-4 w-4" /> Sign in to accept the invite
+          </Button>
+        )}
+
+        {authenticated && (
+          <Button className="w-full">
+            <CheckIcon className="mr-2 h-4 w-4" /> Accept Invitation
+          </Button>
+        )}
       </CardContent>
     </Card>
   )

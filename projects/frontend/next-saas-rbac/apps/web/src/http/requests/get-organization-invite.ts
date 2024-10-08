@@ -28,8 +28,6 @@ export async function getOrganizationInvite(
 ) {
   const { id } = params
 
-  console.log(id)
-
   const result = await api
     .get(`invites/${id}`, {
       next: {

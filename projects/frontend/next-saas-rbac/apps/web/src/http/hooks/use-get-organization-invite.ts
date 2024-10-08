@@ -22,5 +22,6 @@ export function useGetOrganizationInvite(params: GetOrganizationInviteParams) {
     select(data) {
       return data.invite
     },
+    enabled: !!id,
   })
 }

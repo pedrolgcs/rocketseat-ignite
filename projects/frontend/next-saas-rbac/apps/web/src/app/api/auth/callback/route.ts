@@ -2,7 +2,8 @@ import { HTTPError } from 'ky'
 import { cookies } from 'next/headers'
 import { type NextRequest, NextResponse } from 'next/server'
 
-import { signInWithGithub } from '@/modules/users/authenticate'
+import { acceptInvite } from '@/http/requests/accept-invite'
+import { signInWithGithub } from '@/http/requests/sign-in-with-github'
 
 export async function GET(request: NextRequest) {
   const searchParams = request.nextUrl.searchParams
@@ -25,6 +26,18 @@ export async function GET(request: NextRequest) {
       path: '/',
       maxAge: 60 * 60 * 24 * 7, // 7 days
     })
+
+    const invitedId = cookies().get('@saas:invited-id')
+
+    if (invitedId) {
+      try {
+        await acceptInvite({ id: invitedId.value })
+      } catch (error) {
+        console.error(error)
+      } finally {
+        cookies().delete('@saas:invited-id')
+      }
+    }
 
     const redirectUrl = request.nextUrl.clone()
     redirectUrl.pathname = '/'

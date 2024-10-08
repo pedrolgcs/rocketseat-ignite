@@ -3,6 +3,7 @@
 import { zodResolver } from '@hookform/resolvers/zod'
 import { AlertTriangle, Loader2 } from 'lucide-react'
 import Link from 'next/link'
+import { useSearchParams } from 'next/navigation'
 import { useAction } from 'next-safe-action/hooks'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
@@ -12,6 +13,8 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Separator } from '@/components/ui/separator'
+import { useInvitedUser } from '@/hooks/use-invited-user'
+import { useGetOrganizationInvite } from '@/http/hooks/use-get-organization-invite'
 
 import { signInAction } from '../actions/sign-in'
 import { GithubOauth } from './github-oauth'
@@ -27,11 +30,20 @@ const signInFormSchema = z.object({
 type SignInForm = z.infer<typeof signInFormSchema>
 
 export function SignInForm() {
+  const searchParams = useSearchParams()
+
+  const { isInvited, inviteId } = useInvitedUser()
+
+  const { data: invite } = useGetOrganizationInvite({ id: inviteId || '' })
+
   const { hasErrored, result, isPending, executeAsync } =
     useAction(signInAction)
 
   const { register, handleSubmit, formState } = useForm<SignInForm>({
     resolver: zodResolver(signInFormSchema),
+    defaultValues: {
+      email: searchParams?.get('email') ?? undefined,
+    },
   })
 
   const handleSignIn = async (data: SignInForm) => {
@@ -99,6 +111,17 @@ export function SignInForm() {
       <Separator />
 
       <GithubOauth label="Sign in with github" />
+
+      {isInvited && (
+        <Alert>
+          <AlertTriangle className="size-4" />
+          <AlertTitle>Invited to {invite?.organization.name} team</AlertTitle>
+          <AlertDescription className="leading-relaxed text-muted-foreground">
+            You have been invited to join the team, please sign in or create an
+            account to continue. You automatically become a member of the team.
+          </AlertDescription>
+        </Alert>
+      )}
     </div>
   )
 }

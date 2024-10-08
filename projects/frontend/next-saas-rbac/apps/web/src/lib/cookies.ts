@@ -1,4 +1,8 @@
-import { getCookie as getCookieNext } from 'cookies-next'
+import {
+  deleteCookie as deleteCookieNext,
+  getCookie as getCookieNext,
+  setCookie as setCookieNext,
+} from 'cookies-next'
 import type { CookiesFn } from 'cookies-next/lib/types'
 
 export const getCookie = async (key: string) => {
@@ -10,4 +14,26 @@ export const getCookie = async (key: string) => {
   }
 
   return getCookieNext(key, { cookies: cookiesStore })
+}
+
+export const setCookie = async (key: string, value: string) => {
+  let cookiesStore: CookiesFn | undefined
+
+  if (typeof window === 'undefined') {
+    const { cookies: serverCookies } = await import('next/headers')
+    cookiesStore = serverCookies
+  }
+
+  return setCookieNext(key, value, { cookies: cookiesStore })
+}
+
+export const deleteCookie = async (key: string) => {
+  let cookiesStore: CookiesFn | undefined
+
+  if (typeof window === 'undefined') {
+    const { cookies: serverCookies } = await import('next/headers')
+    cookiesStore = serverCookies
+  }
+
+  return deleteCookieNext(key, { cookies: cookiesStore })
 }

@@ -4,6 +4,7 @@ import { cookies } from 'next/headers'
 import { redirect } from 'next/navigation'
 import { z } from 'zod'
 
+import { acceptInvite } from '@/http/requests/accept-invite'
 import { signInWithPassword } from '@/http/requests/sign-in-with-password'
 import { actionClient } from '@/lib/safe-action'
 
@@ -29,6 +30,18 @@ export const signInAction = actionClient.schema(schema).action(
       path: '/',
       maxAge: 60 * 60 * 24 * 7, // 7 days
     })
+
+    const invitedId = cookies().get('@saas:invited-id')
+
+    if (invitedId) {
+      try {
+        await acceptInvite({ id: invitedId.value })
+      } catch (error) {
+        console.error(error)
+      } finally {
+        cookies().delete('@saas:invited-id')
+      }
+    }
   },
   {
     onSuccess: () => {
