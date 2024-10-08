@@ -1,6 +1,6 @@
 'use client'
 
-import { CheckIcon, LoaderCircleIcon, LogInIcon } from 'lucide-react'
+import { LoaderCircleIcon, LogInIcon } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
@@ -10,6 +10,8 @@ import { useIsAuthenticated } from '@/hooks/use-is-authenticated'
 import { useGetOrganizationInvite } from '@/http/hooks/use-get-organization-invite'
 import { setCookie } from '@/lib/cookies'
 import dayjs from '@/lib/day-js'
+
+import { AuthenticatedUser } from './authenticated-user'
 
 type InviteProps = {
   id: string
@@ -28,7 +30,7 @@ export function AcceptInvite({ id }: InviteProps) {
 
   const { authenticated } = useIsAuthenticated()
 
-  const handleNavigateToLogin = async () => {
+  const handleNavigateToSignIn = async () => {
     await setCookie('@saas:invited-id', id)
     router.push(`/auth/sign-in?email=${invite?.email}`)
   }
@@ -71,12 +73,14 @@ export function AcceptInvite({ id }: InviteProps) {
     )
   }
 
+  if (!invite) return null
+
   return (
     <Card className="flex w-full max-w-md flex-col justify-center space-y-6">
       <CardContent className="space-y-6 p-6">
         <div className="flex items-center space-x-4">
           <Avatar className="size-16">
-            {invite?.author?.avatarUrl && (
+            {invite.author?.avatarUrl && (
               <AvatarImage src={invite.author.avatarUrl} />
             )}
 
@@ -85,12 +89,12 @@ export function AcceptInvite({ id }: InviteProps) {
 
           <div>
             <h3 className="text-lg font-semibold">
-              {invite?.organization.name}
+              {invite.organization.name}
             </h3>
 
             <p className="text-sm leading-relaxed text-muted-foreground">
               <span className="font-medium text-foreground">
-                {invite?.author?.name ?? 'Someone'}
+                {invite.author?.name ?? 'Someone'}
               </span>{' '}
               invited you to join in{' '}
               <span className="font-medium text-foreground">
@@ -99,7 +103,7 @@ export function AcceptInvite({ id }: InviteProps) {
             </p>
 
             <span className="text-xs text-muted-foreground underline underline-offset-4">
-              {dayjs(invite?.createdAt).fromNow()}
+              {dayjs(invite.createdAt).fromNow()}
             </span>
           </div>
         </div>
@@ -108,17 +112,13 @@ export function AcceptInvite({ id }: InviteProps) {
           <Button
             type="button"
             className="w-full"
-            onClick={handleNavigateToLogin}
+            onClick={handleNavigateToSignIn}
           >
             <LogInIcon className="mr-2 h-4 w-4" /> Sign in to accept the invite
           </Button>
         )}
 
-        {authenticated && (
-          <Button className="w-full">
-            <CheckIcon className="mr-2 h-4 w-4" /> Accept Invitation
-          </Button>
-        )}
+        {authenticated && <AuthenticatedUser invite={invite} />}
       </CardContent>
     </Card>
   )
