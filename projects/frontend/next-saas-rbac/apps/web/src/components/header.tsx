@@ -3,6 +3,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 
 import rocketseatIcon from '@/assets/rocketseat-icon.svg'
+import { PendingInvitesPopover } from '@/modules/organization/pending-invites'
 import { SelectProject } from '@/modules/organization/select-current-project'
 import { ThemeSwitcher } from '@/modules/styles/theme'
 import { ProfileButton } from '@/modules/users/authenticate'
@@ -29,10 +30,9 @@ export async function Header() {
       </div>
 
       <div className="flex items-center gap-4">
+        <PendingInvitesPopover />
         <ThemeSwitcher />
-
         <Separator orientation="vertical" className="h-5" />
-
         <ProfileButton />
       </div>
     </div>
