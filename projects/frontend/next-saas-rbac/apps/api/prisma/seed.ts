@@ -118,7 +118,8 @@ async function createInvite(
 async function seed() {
   await resetDatabase()
 
-  const [johnDoe, randomOne, randomTwo] = await Promise.all([
+  // create users
+  const [johnDoe, randomOne, randomTwo, janaina] = await Promise.all([
     createUser({
       name: 'John Doe',
       email: 'johndoe@acme.com',
@@ -132,8 +133,14 @@ async function seed() {
     createUser({
       name: 'Random Two',
     }),
+
+    createUser({
+      name: 'Janaina',
+      email: 'janaina@gmail.com',
+    }),
   ])
 
+  // create organizations
   const [adminOrg, memberOrg, billingOrg] = await Promise.all([
     createOrganization({
       name: 'Acme Inc (admin)',
@@ -156,6 +163,7 @@ async function seed() {
     }),
   ])
 
+  // create projects
   for (let i = 0; i < 3; i++) {
     await Promise.all([
       createProject(
@@ -173,6 +181,7 @@ async function seed() {
     ])
   }
 
+  // create members
   await Promise.all([
     createMember(adminOrg.id, johnDoe.id, 'ADMIN'),
     createMember(adminOrg.id, randomOne.id, 'MEMBER'),
@@ -187,6 +196,7 @@ async function seed() {
     createMember(billingOrg.id, randomTwo.id, 'ADMIN'),
   ])
 
+  // create invites
   for (let i = 0; i < 10; i++) {
     await Promise.all([
       createInvite(
@@ -195,12 +205,14 @@ async function seed() {
         faker.helpers.arrayElement(['ADMIN', 'BILLING', 'MEMBER']),
         johnDoe.id,
       ),
+
       createInvite(
         memberOrg.id,
         faker.internet.email().toLocaleLowerCase(),
         faker.helpers.arrayElement(['ADMIN', 'BILLING', 'MEMBER']),
         randomOne.id,
       ),
+
       createInvite(
         billingOrg.id,
         faker.internet.email().toLocaleLowerCase(),
@@ -209,6 +221,29 @@ async function seed() {
       ),
     ])
   }
+
+  await Promise.all([
+    createInvite(
+      adminOrg.id,
+      janaina.email,
+      faker.helpers.arrayElement(['ADMIN', 'BILLING', 'MEMBER']),
+      johnDoe.id,
+    ),
+
+    createInvite(
+      memberOrg.id,
+      janaina.email,
+      faker.helpers.arrayElement(['ADMIN', 'BILLING', 'MEMBER']),
+      randomOne.id,
+    ),
+
+    createInvite(
+      billingOrg.id,
+      janaina.email,
+      faker.helpers.arrayElement(['ADMIN', 'BILLING', 'MEMBER']),
+      randomTwo.id,
+    ),
+  ])
 }
 
 seed().then(() => console.log('Done!'))
