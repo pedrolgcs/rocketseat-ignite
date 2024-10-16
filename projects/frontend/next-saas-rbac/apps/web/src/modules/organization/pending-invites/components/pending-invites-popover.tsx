@@ -28,7 +28,7 @@ export function PendingInvitesPopover() {
 
         <div className="flex flex-col gap-2">
           {pendingInvites?.map((invite) => (
-            <div className="space-y-2 rounded-md border border-muted-foreground/30 p-4">
+            <div className="space-y-2 rounded-md border border-muted-foreground/30 p-3">
               <p className="text-sm leading-relaxed text-muted-foreground">
                 <span className="font-medium text-foreground">
                   {invite.author?.name}
@@ -38,7 +38,7 @@ export function PendingInvitesPopover() {
                   {invite?.organization?.name}
                 </span>{' '}
                 <span className="text-xs">
-                  {dayjs(invite.createdAt).fromNow()}
+                  - {dayjs(invite.createdAt).fromNow()}
                 </span>
               </p>
 
