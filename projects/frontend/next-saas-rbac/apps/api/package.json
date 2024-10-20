@@ -4,6 +4,7 @@
   "scripts": {
     "env:load": "dotenv -e ../../.env --",
     "dev": "pnpm env:load tsx watch src/http/server.ts",
+    "build": "tsc",
     "db:migrate": "pnpm env:load prisma migrate dev",
     "db:deploy": "pnpm env:load prisma migrate deploy",
     "db:studio": "pnpm env:load prisma studio",
@@ -29,6 +30,7 @@
     "fastify-type-provider-zod": "^1.2.0",
     "nodemailer": "6.9.15",
     "pug": "3.0.3",
+    "tsup": "8.3.0",
     "zod": "^3.23.8"
   },
   "devDependencies": {

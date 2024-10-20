@@ -4,7 +4,7 @@ import { removeOldTokensJob } from '@/jobs/remove-old-tokens'
 
 import { app } from './app'
 
-app.listen({ port: env.SERVER_PORT }).then(() => {
+app.listen({ port: env.PORT }).then(() => {
   removeOldTokensJob.start()
 
   console.log('🚀 HTTP Server running on http://localhost:3333')
