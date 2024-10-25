@@ -4,7 +4,7 @@ import { z } from 'zod'
 export const env = createEnv({
   server: {
     DATABASE_URL: z.string().url(),
-    SERVER_PORT: z.coerce.number().default(3333),
+    PORT: z.coerce.number().default(3333),
     JWT_SECRET: z.string(),
     GITHUB_OAUTH_CLIENT_ID: z.string(),
     GITHUB_OAUTH_CLIENT_SECRET: z.string(),
@@ -20,7 +20,7 @@ export const env = createEnv({
 
   runtimeEnv: {
     DATABASE_URL: process.env.DATABASE_URL,
-    SERVER_PORT: process.env.SERVER_PORT,
+    PORT: process.env.PORT,
     JWT_SECRET: process.env.JWT_SECRET,
     GITHUB_OAUTH__CLIENT_REDIRECT_URI:
       process.env.GITHUB_OAUTH__CLIENT_REDIRECT_URI,
