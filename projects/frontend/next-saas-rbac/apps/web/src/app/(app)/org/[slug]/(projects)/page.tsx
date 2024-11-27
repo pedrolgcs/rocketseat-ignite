@@ -29,9 +29,7 @@ export default async function OrganizationProject() {
         )}
       </div>
 
-      <div>
-        <ProjectsList />
-      </div>
+      <ProjectsList />
     </div>
   )
 }
