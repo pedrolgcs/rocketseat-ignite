@@ -1,16 +1,17 @@
-import { api } from '../api-client'
+import type { z } from 'zod'
 
-export type AcceptInviteParams = {
-  id: string
-}
+import { api } from '../api-client'
+import type { acceptInviteParams } from '../generated/api'
+
+export type AcceptInviteParams = z.infer<typeof acceptInviteParams>
 
 export type AcceptInviteResponse = void
 
 export async function acceptInvite(params: AcceptInviteParams) {
-  const { id } = params
+  const { inviteId } = params
 
   const result = await api
-    .post(`invites/${id}/accept`)
+    .post(`invites/${inviteId}/accept`)
     .json<AcceptInviteResponse>()
 
   return result

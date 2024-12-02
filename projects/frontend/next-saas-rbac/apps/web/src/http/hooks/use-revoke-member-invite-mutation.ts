@@ -2,7 +2,7 @@ import { useMutation, useQueryClient } from '@tanstack/react-query'
 
 import {
   USE_GET_ORGANIZATION_INVITES,
-  type UseGetOrganizationBySlugQueryKey,
+  type UseGetOrganizationInvitesQueryKey,
 } from '@/http/hooks/use-get-organization-invites'
 import type { GetOrganizationInvitesResponse } from '@/http/requests/get-organization-invites'
 
@@ -18,7 +18,7 @@ export function useRevokeMemberInviteMutation() {
     mutationFn: (params: RevokeMemberInviteParams) =>
       revokeMemberInvite(params),
     onSuccess(_, params) {
-      const getOrganizationsInvitesKey: UseGetOrganizationBySlugQueryKey = [
+      const getOrganizationsInvitesKey: UseGetOrganizationInvitesQueryKey = [
         USE_GET_ORGANIZATION_INVITES,
         params.organizationSlug,
       ]

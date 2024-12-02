@@ -30,7 +30,7 @@ export function AuthenticatedUser({ invite }: AuthenticatedUserProps) {
 
   const handleAcceptInvite = () => {
     acceptInvite(
-      { id: invite.id },
+      { inviteId: invite.id },
       {
         onSuccess: () => {
           toast.success('Accept invite successful!')

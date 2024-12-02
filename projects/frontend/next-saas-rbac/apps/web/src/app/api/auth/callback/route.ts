@@ -31,7 +31,7 @@ export async function GET(request: NextRequest) {
 
     if (invitedId) {
       try {
-        await acceptInvite({ id: invitedId.value })
+        await acceptInvite({ inviteId: invitedId.value })
       } catch (error) {
         console.error(error)
       } finally {

@@ -30,7 +30,7 @@ export function useAcceptOrganizationInviteMutation() {
           if (!cache) return
 
           const updatePendingInvitesCache = cache.invites.filter(
-            (invite) => invite.id !== params.id,
+            (invite) => invite.id !== params.inviteId,
           )
 
           return {

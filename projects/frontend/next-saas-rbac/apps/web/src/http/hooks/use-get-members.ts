@@ -10,8 +10,13 @@ export type UseGetOrganizationMembersQueryKey = [
 ]
 
 export function useGetMembersQuery(params: GetMembersParams) {
+  const key: UseGetOrganizationMembersQueryKey = [
+    USE_GET_ORGANIZATION_MEMBERS_QUERY_KEY,
+    params.slug,
+  ]
+
   return useQuery({
-    queryKey: [USE_GET_ORGANIZATION_MEMBERS_QUERY_KEY, params.slug],
+    queryKey: key,
     queryFn: () => getMembers(params),
     staleTime: Infinity,
     select(data) {

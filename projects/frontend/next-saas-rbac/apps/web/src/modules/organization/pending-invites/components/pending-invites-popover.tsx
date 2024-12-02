@@ -22,9 +22,9 @@ export function PendingInvitesPopover() {
 
   const { mutate: acceptInvite } = useAcceptOrganizationInviteMutation()
 
-  const handleAcceptInvite = (id: string) => {
+  const handleAcceptInvite = (inviteId: string) => {
     acceptInvite(
-      { id },
+      { inviteId },
       {
         onSuccess: () => {
           toast.success('Accept invite successful!')

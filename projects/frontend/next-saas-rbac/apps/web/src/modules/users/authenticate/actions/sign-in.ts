@@ -35,7 +35,7 @@ export const signInAction = actionClient.schema(schema).action(
 
     if (invitedId) {
       try {
-        await acceptInvite({ id: invitedId.value })
+        await acceptInvite({ inviteId: invitedId.value })
       } catch (error) {
         console.error(error)
       } finally {
