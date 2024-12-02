@@ -20,6 +20,7 @@ export async function getProjects(app: FastifyInstance) {
       '/organizations/:slug/projects',
       {
         schema: {
+          operationId: 'getProjects',
           tags: ['Projects'],
           summary: 'Get all organization projects',
           security: [{ bearerAuth: [] }],

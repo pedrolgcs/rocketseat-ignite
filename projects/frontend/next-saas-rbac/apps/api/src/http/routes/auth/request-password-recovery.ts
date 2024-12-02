@@ -13,6 +13,7 @@ export async function requestPasswordRecovery(app: FastifyInstance) {
     '/password/recover',
     {
       schema: {
+        operationId: 'requestPasswordRecovery',
         tags: ['Auth'],
         summary: 'Request password recovery',
         body: bodySchema,

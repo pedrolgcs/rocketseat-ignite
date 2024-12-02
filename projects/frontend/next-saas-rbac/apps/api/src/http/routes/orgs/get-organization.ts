@@ -16,6 +16,7 @@ export async function getOrganization(app: FastifyInstance) {
       '/organizations/:slug',
       {
         schema: {
+          operationId: 'getOrganization',
           tags: ['Organizations'],
           summary: 'Get details from organization',
           security: [{ bearerAuth: [] }],

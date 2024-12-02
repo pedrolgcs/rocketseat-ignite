@@ -17,6 +17,7 @@ export async function resetPassword(app: FastifyInstance) {
     '/password/reset',
     {
       schema: {
+        operationId: 'resetPassword',
         tags: ['Auth'],
         summary: 'Reset password',
         body: bodySchema,

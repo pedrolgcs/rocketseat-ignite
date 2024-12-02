@@ -27,6 +27,7 @@ export async function createProject(app: FastifyInstance) {
       '/organizations/:slug/projects',
       {
         schema: {
+          operationId: 'createProject',
           tags: ['Projects'],
           summary: 'Create an new project',
           security: [{ bearerAuth: [] }],

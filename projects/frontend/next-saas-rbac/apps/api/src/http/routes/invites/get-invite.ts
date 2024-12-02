@@ -16,6 +16,7 @@ export async function getInvite(app: FastifyInstance) {
     '/invites/:inviteId',
     {
       schema: {
+        operationId: 'getInvite',
         tags: ['Invites'],
         summary: 'Get an invite',
         params: paramsSchema,

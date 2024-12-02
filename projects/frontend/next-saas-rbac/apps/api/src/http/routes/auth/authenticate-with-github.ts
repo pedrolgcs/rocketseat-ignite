@@ -16,6 +16,7 @@ export async function authenticateWithGithub(app: FastifyInstance) {
     '/sessions/github',
     {
       schema: {
+        operationId: 'authenticateWithGithub',
         tags: ['Auth'],
         summary: 'Authenticate with github',
         body: bodySchema,

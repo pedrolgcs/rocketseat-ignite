@@ -1,0 +1,2082 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Next.js SaaS",
+    "description": "Full-stack SaaS app with multi-tenant & RBAC.",
+    "version": "1.0.0"
+  },
+  "components": {
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    },
+    "schemas": {}
+  },
+  "paths": {
+    "/health-check": {
+      "get": {
+        "operationId": "healthCheck",
+        "summary": "Health check",
+        "tags": [
+          "App"
+        ],
+        "responses": {
+          "200": {
+            "description": "Default Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {},
+                  "additionalProperties": false
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/profile": {
+      "get": {
+        "operationId": "getProfile",
+        "summary": "Get authenticated user profile",
+        "tags": [
+          "Auth"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Default Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "user": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string"
+                        },
+                        "name": {
+                          "type": "string",
+                          "nullable": true
+                        },
+                        "email": {
+                          "type": "string"
+                        },
+                        "avatarUrl": {
+                          "type": "string",
+                          "format": "uri",
+                          "nullable": true
+                        }
+                      },
+                      "required": [
+                        "id",
+                        "name",
+                        "email",
+                        "avatarUrl"
+                      ],
+                      "additionalProperties": false
+                    }
+                  },
+                  "required": [
+                    "user"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users": {
+      "post": {
+        "operationId": "createAccount",
+        "summary": "Create an new account",
+        "tags": [
+          "Auth"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "email": {
+                    "type": "string",
+                    "format": "email"
+                  },
+                  "password": {
+                    "type": "string",
+                    "minLength": 6
+                  }
+                },
+                "required": [
+                  "name",
+                  "email",
+                  "password"
+                ],
+                "additionalProperties": false
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Default Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {},
+                  "additionalProperties": false
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/sessions/password": {
+      "post": {
+        "operationId": "authenticateWithPassword",
+        "summary": "Authenticate with e-mail and password",
+        "tags": [
+          "Auth"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "email": {
+                    "type": "string",
+                    "format": "email"
+                  },
+                  "password": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "email",
+                  "password"
+                ],
+                "additionalProperties": false
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Default Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "token": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "token"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/password/recover": {
+      "post": {
+        "operationId": "requestPasswordRecovery",
+        "summary": "Request password recovery",
+        "tags": [
+          "Auth"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "email": {
+                    "type": "string",
+                    "format": "email"
+                  }
+                },
+                "required": [
+                  "email"
+                ],
+                "additionalProperties": false
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Default Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "enum": [
+                    "null"
+                  ],
+                  "nullable": true
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/sessions/github": {
+      "post": {
+        "operationId": "authenticateWithGithub",
+        "summary": "Authenticate with github",
+        "tags": [
+          "Auth"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "code": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "code"
+                ],
+                "additionalProperties": false
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Default Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "token": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "token"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/password/reset": {
+      "post": {
+        "operationId": "resetPassword",
+        "summary": "Reset password",
+        "tags": [
+          "Auth"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "code": {
+                    "type": "string"
+                  },
+                  "password": {
+                    "type": "string",
+                    "minLength": 6
+                  }
+                },
+                "required": [
+                  "code",
+                  "password"
+                ],
+                "additionalProperties": false
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "204": {
+            "description": "Default Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "enum": [
+                    "null"
+                  ],
+                  "nullable": true
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/organizations/{slug}": {
+      "get": {
+        "operationId": "getOrganization",
+        "summary": "Get details from organization",
+        "tags": [
+          "Organizations"
+        ],
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "path",
+            "name": "slug",
+            "required": true
+          }
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Default Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "organization": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string"
+                        },
+                        "name": {
+                          "type": "string"
+                        },
+                        "slug": {
+                          "type": "string"
+                        },
+                        "domain": {
+                          "type": "string",
+                          "nullable": true
+                        },
+                        "avatarUrl": {
+                          "type": "string",
+                          "format": "uri",
+                          "nullable": true
+                        },
+                        "shouldAttachUsersByDomain": {
+                          "type": "boolean"
+                        },
+                        "ownerId": {
+                          "type": "string",
+                          "format": "uuid"
+                        },
+                        "createdAt": {
+                          "type": "string",
+                          "format": "date-time"
+                        },
+                        "updatedAt": {
+                          "type": "string",
+                          "format": "date-time"
+                        }
+                      },
+                      "required": [
+                        "id",
+                        "name",
+                        "slug",
+                        "ownerId",
+                        "createdAt",
+                        "updatedAt"
+                      ],
+                      "additionalProperties": false
+                    }
+                  },
+                  "required": [
+                    "organization"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "operationId": "updateOrganization",
+        "summary": "Update organization details",
+        "tags": [
+          "Organizations"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "domain": {
+                    "type": "string",
+                    "nullable": true
+                  },
+                  "shouldAttachUsersByDomain": {
+                    "type": "boolean"
+                  }
+                },
+                "required": [
+                  "name"
+                ],
+                "additionalProperties": false
+              }
+            }
+          },
+          "required": true
+        },
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "path",
+            "name": "slug",
+            "required": true
+          }
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Default Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "enum": [
+                    "null"
+                  ],
+                  "nullable": true
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "operationId": "shutdownOrganization",
+        "summary": "Shutdown organization",
+        "tags": [
+          "Organizations"
+        ],
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "path",
+            "name": "slug",
+            "required": true
+          }
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Default Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "enum": [
+                    "null"
+                  ],
+                  "nullable": true
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/organizations": {
+      "get": {
+        "operationId": "getOrganizations",
+        "summary": "Get organizations where user is a member",
+        "tags": [
+          "Organizations"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Default Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "organizations": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string"
+                          },
+                          "name": {
+                            "type": "string"
+                          },
+                          "slug": {
+                            "type": "string"
+                          },
+                          "domain": {
+                            "type": "string",
+                            "nullable": true
+                          },
+                          "avatarUrl": {
+                            "type": "string",
+                            "format": "uri",
+                            "nullable": true
+                          },
+                          "role": {
+                            "anyOf": [
+                              {
+                                "type": "string",
+                                "enum": [
+                                  "ADMIN"
+                                ]
+                              },
+                              {
+                                "type": "string",
+                                "enum": [
+                                  "MEMBER"
+                                ]
+                              },
+                              {
+                                "type": "string",
+                                "enum": [
+                                  "BILLING"
+                                ]
+                              }
+                            ]
+                          }
+                        },
+                        "required": [
+                          "id",
+                          "name",
+                          "slug",
+                          "role"
+                        ],
+                        "additionalProperties": false
+                      }
+                    }
+                  },
+                  "required": [
+                    "organizations"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "operationId": "createOrganization",
+        "summary": "Create an new organization",
+        "tags": [
+          "Organizations"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "domain": {
+                    "type": "string",
+                    "nullable": true
+                  },
+                  "shouldAttachUsersByDomain": {
+                    "type": "boolean"
+                  }
+                },
+                "required": [
+                  "name"
+                ],
+                "additionalProperties": false
+              }
+            }
+          },
+          "required": true
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Default Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "organizationId": {
+                      "type": "string",
+                      "format": "uuid"
+                    }
+                  },
+                  "required": [
+                    "organizationId"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/organizations/{slug}/membership": {
+      "get": {
+        "operationId": "getMembership",
+        "summary": "Get user membership on organization",
+        "tags": [
+          "Organizations"
+        ],
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "path",
+            "name": "slug",
+            "required": true
+          }
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Default Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "membership": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string"
+                        },
+                        "organizationId": {
+                          "type": "string"
+                        },
+                        "role": {
+                          "anyOf": [
+                            {
+                              "type": "string",
+                              "enum": [
+                                "ADMIN"
+                              ]
+                            },
+                            {
+                              "type": "string",
+                              "enum": [
+                                "MEMBER"
+                              ]
+                            },
+                            {
+                              "type": "string",
+                              "enum": [
+                                "BILLING"
+                              ]
+                            }
+                          ]
+                        },
+                        "userId": {
+                          "type": "string",
+                          "format": "uuid"
+                        }
+                      },
+                      "required": [
+                        "id",
+                        "organizationId",
+                        "role",
+                        "userId"
+                      ],
+                      "additionalProperties": false
+                    }
+                  },
+                  "required": [
+                    "membership"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/organizations/{slug}/owner": {
+      "patch": {
+        "operationId": "transferOrganization",
+        "summary": "Transfer organization ownership",
+        "tags": [
+          "Organizations"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "transferToUserId": {
+                    "type": "string",
+                    "format": "uuid"
+                  }
+                },
+                "required": [
+                  "transferToUserId"
+                ],
+                "additionalProperties": false
+              }
+            }
+          },
+          "required": true
+        },
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "path",
+            "name": "slug",
+            "required": true
+          }
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Default Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "enum": [
+                    "null"
+                  ],
+                  "nullable": true
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/organizations/{slug}/projects": {
+      "post": {
+        "operationId": "createProject",
+        "summary": "Create an new project",
+        "tags": [
+          "Projects"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "description": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "name",
+                  "description"
+                ],
+                "additionalProperties": false
+              }
+            }
+          },
+          "required": true
+        },
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "path",
+            "name": "slug",
+            "required": true
+          }
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Default Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "projectId": {
+                      "type": "string",
+                      "format": "uuid"
+                    }
+                  },
+                  "required": [
+                    "projectId"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "operationId": "getProjects",
+        "summary": "Get all organization projects",
+        "tags": [
+          "Projects"
+        ],
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "path",
+            "name": "slug",
+            "required": true
+          }
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Default Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "projects": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string",
+                            "format": "uuid"
+                          },
+                          "description": {
+                            "type": "string"
+                          },
+                          "name": {
+                            "type": "string"
+                          },
+                          "slug": {
+                            "type": "string"
+                          },
+                          "avatarUrl": {
+                            "type": "string",
+                            "nullable": true
+                          },
+                          "organizationId": {
+                            "type": "string",
+                            "format": "uuid"
+                          },
+                          "ownerId": {
+                            "type": "string",
+                            "format": "uuid"
+                          },
+                          "createdAt": {
+                            "type": "string",
+                            "format": "date-time"
+                          },
+                          "owner": {
+                            "type": "object",
+                            "properties": {
+                              "id": {
+                                "type": "string",
+                                "format": "uuid"
+                              },
+                              "name": {
+                                "type": "string",
+                                "nullable": true
+                              },
+                              "email": {
+                                "type": "string"
+                              },
+                              "avatarUrl": {
+                                "type": "string",
+                                "nullable": true
+                              }
+                            },
+                            "required": [
+                              "id",
+                              "name",
+                              "email",
+                              "avatarUrl"
+                            ],
+                            "additionalProperties": false
+                          }
+                        },
+                        "required": [
+                          "id",
+                          "description",
+                          "name",
+                          "slug",
+                          "avatarUrl",
+                          "organizationId",
+                          "ownerId",
+                          "createdAt",
+                          "owner"
+                        ],
+                        "additionalProperties": false
+                      }
+                    }
+                  },
+                  "required": [
+                    "projects"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/organizations/{slug}/projects/{projectId}": {
+      "delete": {
+        "operationId": "deleteProject",
+        "summary": "Delete a project",
+        "tags": [
+          "Projects"
+        ],
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "path",
+            "name": "slug",
+            "required": true
+          },
+          {
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "in": "path",
+            "name": "projectId",
+            "required": true
+          }
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Default Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "enum": [
+                    "null"
+                  ],
+                  "nullable": true
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/organizations/{orgSlug}/projects/{projectSlug}": {
+      "get": {
+        "operationId": "getProject",
+        "summary": "Get project details",
+        "tags": [
+          "Projects"
+        ],
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "path",
+            "name": "orgSlug",
+            "required": true
+          },
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "path",
+            "name": "projectSlug",
+            "required": true
+          }
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Default Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "project": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string",
+                          "format": "uuid"
+                        },
+                        "description": {
+                          "type": "string"
+                        },
+                        "name": {
+                          "type": "string"
+                        },
+                        "slug": {
+                          "type": "string"
+                        },
+                        "avatarUrl": {
+                          "type": "string",
+                          "nullable": true
+                        },
+                        "organizationId": {
+                          "type": "string",
+                          "format": "uuid"
+                        },
+                        "ownerId": {
+                          "type": "string",
+                          "format": "uuid"
+                        },
+                        "owner": {
+                          "type": "object",
+                          "properties": {
+                            "id": {
+                              "type": "string",
+                              "format": "uuid"
+                            },
+                            "name": {
+                              "type": "string",
+                              "nullable": true
+                            },
+                            "email": {
+                              "type": "string"
+                            },
+                            "avatarUrl": {
+                              "type": "string",
+                              "nullable": true
+                            }
+                          },
+                          "required": [
+                            "id",
+                            "name",
+                            "email",
+                            "avatarUrl"
+                          ],
+                          "additionalProperties": false
+                        }
+                      },
+                      "required": [
+                        "id",
+                        "description",
+                        "name",
+                        "slug",
+                        "avatarUrl",
+                        "organizationId",
+                        "ownerId",
+                        "owner"
+                      ],
+                      "additionalProperties": false
+                    }
+                  },
+                  "required": [
+                    "project"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/organizations/{slug}/members": {
+      "get": {
+        "operationId": "getMembers",
+        "summary": "Get all organization members",
+        "tags": [
+          "Members"
+        ],
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "path",
+            "name": "slug",
+            "required": true
+          }
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Default Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "members": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string",
+                            "format": "uuid"
+                          },
+                          "role": {
+                            "anyOf": [
+                              {
+                                "type": "string",
+                                "enum": [
+                                  "ADMIN"
+                                ]
+                              },
+                              {
+                                "type": "string",
+                                "enum": [
+                                  "MEMBER"
+                                ]
+                              },
+                              {
+                                "type": "string",
+                                "enum": [
+                                  "BILLING"
+                                ]
+                              }
+                            ]
+                          },
+                          "userId": {
+                            "type": "string",
+                            "format": "uuid"
+                          },
+                          "name": {
+                            "type": "string",
+                            "nullable": true
+                          },
+                          "email": {
+                            "type": "string",
+                            "format": "email"
+                          },
+                          "avatarUrl": {
+                            "type": "string",
+                            "format": "uri",
+                            "nullable": true
+                          }
+                        },
+                        "required": [
+                          "id",
+                          "role",
+                          "userId",
+                          "name",
+                          "email",
+                          "avatarUrl"
+                        ],
+                        "additionalProperties": false
+                      }
+                    }
+                  },
+                  "required": [
+                    "members"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/organizations/{slug}/members/{memberId}": {
+      "put": {
+        "operationId": "updateMember",
+        "summary": "Update a member",
+        "tags": [
+          "Members"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "role": {
+                    "anyOf": [
+                      {
+                        "type": "string",
+                        "enum": [
+                          "ADMIN"
+                        ]
+                      },
+                      {
+                        "type": "string",
+                        "enum": [
+                          "MEMBER"
+                        ]
+                      },
+                      {
+                        "type": "string",
+                        "enum": [
+                          "BILLING"
+                        ]
+                      }
+                    ]
+                  }
+                },
+                "required": [
+                  "role"
+                ],
+                "additionalProperties": false
+              }
+            }
+          },
+          "required": true
+        },
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "path",
+            "name": "slug",
+            "required": true
+          },
+          {
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "in": "path",
+            "name": "memberId",
+            "required": true
+          }
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Default Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "enum": [
+                    "null"
+                  ],
+                  "nullable": true
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "operationId": "removeMember",
+        "summary": "Remove a member from an organization",
+        "tags": [
+          "Members"
+        ],
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "path",
+            "name": "slug",
+            "required": true
+          },
+          {
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "in": "path",
+            "name": "memberId",
+            "required": true
+          }
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Default Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "enum": [
+                    "null"
+                  ],
+                  "nullable": true
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/organizations/{slug}/invites": {
+      "post": {
+        "operationId": "createInvite",
+        "summary": "Create an new invite",
+        "tags": [
+          "Invites"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "email": {
+                    "type": "string",
+                    "format": "email"
+                  },
+                  "role": {
+                    "anyOf": [
+                      {
+                        "type": "string",
+                        "enum": [
+                          "ADMIN"
+                        ]
+                      },
+                      {
+                        "type": "string",
+                        "enum": [
+                          "MEMBER"
+                        ]
+                      },
+                      {
+                        "type": "string",
+                        "enum": [
+                          "BILLING"
+                        ]
+                      }
+                    ]
+                  }
+                },
+                "required": [
+                  "name",
+                  "email",
+                  "role"
+                ],
+                "additionalProperties": false
+              }
+            }
+          },
+          "required": true
+        },
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "path",
+            "name": "slug",
+            "required": true
+          }
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Default Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "inviteId": {
+                      "type": "string",
+                      "format": "uuid"
+                    }
+                  },
+                  "required": [
+                    "inviteId"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "operationId": "getInvites",
+        "summary": "Get all organization invites",
+        "tags": [
+          "Invites"
+        ],
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "path",
+            "name": "slug",
+            "required": true
+          }
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Default Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "invites": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string",
+                            "format": "uuid"
+                          },
+                          "email": {
+                            "type": "string",
+                            "format": "email"
+                          },
+                          "role": {
+                            "anyOf": [
+                              {
+                                "type": "string",
+                                "enum": [
+                                  "ADMIN"
+                                ]
+                              },
+                              {
+                                "type": "string",
+                                "enum": [
+                                  "MEMBER"
+                                ]
+                              },
+                              {
+                                "type": "string",
+                                "enum": [
+                                  "BILLING"
+                                ]
+                              }
+                            ]
+                          },
+                          "createdAt": {
+                            "type": "string",
+                            "format": "date-time"
+                          },
+                          "author": {
+                            "type": "object",
+                            "properties": {
+                              "id": {
+                                "type": "string",
+                                "format": "uuid"
+                              },
+                              "name": {
+                                "type": "string",
+                                "nullable": true
+                              }
+                            },
+                            "required": [
+                              "id",
+                              "name"
+                            ],
+                            "additionalProperties": false,
+                            "nullable": true
+                          }
+                        },
+                        "required": [
+                          "id",
+                          "email",
+                          "role",
+                          "createdAt",
+                          "author"
+                        ],
+                        "additionalProperties": false
+                      }
+                    }
+                  },
+                  "required": [
+                    "invites"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/invites/{inviteId}": {
+      "get": {
+        "operationId": "getInvite",
+        "summary": "Get an invite",
+        "tags": [
+          "Invites"
+        ],
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "path",
+            "name": "inviteId",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Default Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "invite": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string",
+                          "format": "uuid"
+                        },
+                        "email": {
+                          "type": "string",
+                          "format": "email"
+                        },
+                        "role": {
+                          "anyOf": [
+                            {
+                              "type": "string",
+                              "enum": [
+                                "ADMIN"
+                              ]
+                            },
+                            {
+                              "type": "string",
+                              "enum": [
+                                "MEMBER"
+                              ]
+                            },
+                            {
+                              "type": "string",
+                              "enum": [
+                                "BILLING"
+                              ]
+                            }
+                          ]
+                        },
+                        "createdAt": {
+                          "type": "string",
+                          "format": "date-time"
+                        },
+                        "author": {
+                          "type": "object",
+                          "properties": {
+                            "id": {
+                              "type": "string",
+                              "format": "uuid"
+                            },
+                            "name": {
+                              "type": "string",
+                              "nullable": true
+                            },
+                            "avatarUrl": {
+                              "type": "string",
+                              "format": "uri",
+                              "nullable": true
+                            }
+                          },
+                          "required": [
+                            "id",
+                            "name",
+                            "avatarUrl"
+                          ],
+                          "additionalProperties": false,
+                          "nullable": true
+                        },
+                        "organization": {
+                          "type": "object",
+                          "properties": {
+                            "name": {
+                              "type": "string"
+                            }
+                          },
+                          "required": [
+                            "name"
+                          ],
+                          "additionalProperties": false
+                        }
+                      },
+                      "required": [
+                        "id",
+                        "email",
+                        "role",
+                        "createdAt",
+                        "author",
+                        "organization"
+                      ],
+                      "additionalProperties": false
+                    }
+                  },
+                  "required": [
+                    "invite"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/invites/{inviteId}/accept": {
+      "post": {
+        "operationId": "acceptInvite",
+        "summary": "Accept an invite",
+        "tags": [
+          "Invites"
+        ],
+        "parameters": [
+          {
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "in": "path",
+            "name": "inviteId",
+            "required": true
+          }
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Default Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "enum": [
+                    "null"
+                  ],
+                  "nullable": true
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/invites/{inviteId}/reject": {
+      "post": {
+        "operationId": "rejectInvite",
+        "summary": "Reject an invite",
+        "tags": [
+          "Invites"
+        ],
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "path",
+            "name": "inviteId",
+            "required": true
+          }
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Default Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "enum": [
+                    "null"
+                  ],
+                  "nullable": true
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/organizations/{slug}/invites/{inviteId}": {
+      "delete": {
+        "operationId": "revokeInvite",
+        "summary": "Revoke an invite",
+        "tags": [
+          "Invites"
+        ],
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "path",
+            "name": "slug",
+            "required": true
+          },
+          {
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "in": "path",
+            "name": "inviteId",
+            "required": true
+          }
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Default Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "enum": [
+                    "null"
+                  ],
+                  "nullable": true
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/pending-invites": {
+      "get": {
+        "operationId": "getPendingInvites",
+        "summary": "Get all pending invites",
+        "tags": [
+          "Invites"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Default Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "invites": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string",
+                            "format": "uuid"
+                          },
+                          "email": {
+                            "type": "string",
+                            "format": "email"
+                          },
+                          "role": {
+                            "anyOf": [
+                              {
+                                "type": "string",
+                                "enum": [
+                                  "ADMIN"
+                                ]
+                              },
+                              {
+                                "type": "string",
+                                "enum": [
+                                  "MEMBER"
+                                ]
+                              },
+                              {
+                                "type": "string",
+                                "enum": [
+                                  "BILLING"
+                                ]
+                              }
+                            ]
+                          },
+                          "createdAt": {
+                            "type": "string",
+                            "format": "date-time"
+                          },
+                          "author": {
+                            "type": "object",
+                            "properties": {
+                              "id": {
+                                "type": "string",
+                                "format": "uuid"
+                              },
+                              "name": {
+                                "type": "string",
+                                "nullable": true
+                              },
+                              "avatarUrl": {
+                                "type": "string",
+                                "format": "uri",
+                                "nullable": true
+                              }
+                            },
+                            "required": [
+                              "id",
+                              "name",
+                              "avatarUrl"
+                            ],
+                            "additionalProperties": false,
+                            "nullable": true
+                          },
+                          "organization": {
+                            "type": "object",
+                            "properties": {
+                              "name": {
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "name"
+                            ],
+                            "additionalProperties": false
+                          }
+                        },
+                        "required": [
+                          "id",
+                          "email",
+                          "role",
+                          "createdAt",
+                          "author",
+                          "organization"
+                        ],
+                        "additionalProperties": false
+                      }
+                    }
+                  },
+                  "required": [
+                    "invites"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/organizations/{slug}/billing": {
+      "get": {
+        "operationId": "getOrganizationBilling",
+        "summary": "Get billing information from organization",
+        "tags": [
+          "Billing"
+        ],
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "path",
+            "name": "slug",
+            "required": true
+          }
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Default Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "billing": {
+                      "type": "object",
+                      "properties": {
+                        "seats": {
+                          "type": "object",
+                          "properties": {
+                            "amount": {
+                              "type": "number"
+                            },
+                            "unit": {
+                              "type": "number"
+                            },
+                            "price": {
+                              "type": "number"
+                            }
+                          },
+                          "required": [
+                            "amount",
+                            "unit",
+                            "price"
+                          ],
+                          "additionalProperties": false
+                        },
+                        "projects": {
+                          "type": "object",
+                          "properties": {
+                            "amount": {
+                              "type": "number"
+                            },
+                            "unit": {
+                              "type": "number"
+                            },
+                            "price": {
+                              "type": "number"
+                            }
+                          },
+                          "required": [
+                            "amount",
+                            "unit",
+                            "price"
+                          ],
+                          "additionalProperties": false
+                        },
+                        "total": {
+                          "type": "number"
+                        }
+                      },
+                      "required": [
+                        "seats",
+                        "projects",
+                        "total"
+                      ],
+                      "additionalProperties": false
+                    }
+                  },
+                  "required": [
+                    "billing"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

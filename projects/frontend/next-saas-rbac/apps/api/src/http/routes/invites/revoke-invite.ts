@@ -21,6 +21,7 @@ export async function revokeInvite(app: FastifyInstance) {
       '/organizations/:slug/invites/:inviteId',
       {
         schema: {
+          operationId: 'revokeInvite',
           tags: ['Invites'],
           summary: 'Revoke an invite',
           params: paramsSchema,

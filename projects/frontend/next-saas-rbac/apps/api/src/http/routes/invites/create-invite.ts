@@ -29,6 +29,7 @@ export async function createInvite(app: FastifyInstance) {
       '/organizations/:slug/invites',
       {
         schema: {
+          operationId: 'createInvite',
           tags: ['Invites'],
           summary: 'Create an new invite',
           security: [{ bearerAuth: [] }],
