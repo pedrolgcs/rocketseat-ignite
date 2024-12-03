@@ -6,6 +6,7 @@ export default defineConfig({
     output: {
       target: './src/http/generated/api.ts',
       client: 'zod',
+      mode: 'tags',
       httpClient: 'fetch',
     },
   },

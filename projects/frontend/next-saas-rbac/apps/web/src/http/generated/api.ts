@@ -9,6 +9,13 @@ import {
   z as zod
 } from 'zod'
 
+/**
+ * @summary Health check
+ */
+export const healthCheckResponse = zod.object({
+
+})
+
 
 /**
  * @summary Get authenticated user profile
