@@ -1,9 +1,8 @@
 import { roleSchema } from '@saas/auth'
-import type { FastifyInstance } from 'fastify'
-import type { ZodTypeProvider } from 'fastify-type-provider-zod'
 import { z } from 'zod'
 
 import { prisma } from '@/lib/prisma'
+import { FastifyTypedInstance } from '@/types/fastify'
 
 import { BadRequestError } from '../_errors/bad-request-error'
 
@@ -11,8 +10,8 @@ const paramsSchema = z.object({
   inviteId: z.string(),
 })
 
-export async function getInvite(app: FastifyInstance) {
-  app.withTypeProvider<ZodTypeProvider>().get(
+export async function getInvite(app: FastifyTypedInstance) {
+  app.get(
     '/invites/:inviteId',
     {
       schema: {

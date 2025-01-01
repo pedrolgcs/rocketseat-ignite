@@ -1,9 +1,8 @@
 import { hash } from 'bcryptjs'
-import type { FastifyInstance } from 'fastify'
-import type { ZodTypeProvider } from 'fastify-type-provider-zod'
 import { z } from 'zod'
 
 import { prisma } from '@/lib/prisma'
+import { FastifyTypedInstance } from '@/types/fastify'
 
 import { BadRequestError } from '../_errors/bad-request-error'
 
@@ -13,8 +12,8 @@ const bodySchema = z.object({
   password: z.string().min(6),
 })
 
-export async function createAccount(app: FastifyInstance) {
-  app.withTypeProvider<ZodTypeProvider>().post(
+export async function createAccount(app: FastifyTypedInstance) {
+  app.post(
     '/users',
     {
       schema: {

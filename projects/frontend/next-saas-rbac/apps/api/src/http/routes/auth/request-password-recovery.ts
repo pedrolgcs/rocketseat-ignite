@@ -1,15 +1,14 @@
-import type { FastifyInstance } from 'fastify'
-import type { ZodTypeProvider } from 'fastify-type-provider-zod'
 import z from 'zod'
 
 import { prisma } from '@/lib/prisma'
+import { FastifyTypedInstance } from '@/types/fastify'
 
 const bodySchema = z.object({
   email: z.string().email(),
 })
 
-export async function requestPasswordRecovery(app: FastifyInstance) {
-  app.withTypeProvider<ZodTypeProvider>().post(
+export async function requestPasswordRecovery(app: FastifyTypedInstance) {
+  app.post(
     '/password/recover',
     {
       schema: {

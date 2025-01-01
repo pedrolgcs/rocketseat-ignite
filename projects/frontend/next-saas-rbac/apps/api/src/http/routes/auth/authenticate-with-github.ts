@@ -1,9 +1,8 @@
-import type { FastifyInstance } from 'fastify'
-import type { ZodTypeProvider } from 'fastify-type-provider-zod'
 import { z } from 'zod'
 
 import { GithubProvider } from '@/http/providers/github-provider'
 import { prisma } from '@/lib/prisma'
+import { FastifyTypedInstance } from '@/types/fastify'
 
 import { BadRequestError } from '../_errors/bad-request-error'
 
@@ -11,8 +10,8 @@ const bodySchema = z.object({
   code: z.string(),
 })
 
-export async function authenticateWithGithub(app: FastifyInstance) {
-  app.withTypeProvider<ZodTypeProvider>().post(
+export async function authenticateWithGithub(app: FastifyTypedInstance) {
+  app.post(
     '/sessions/github',
     {
       schema: {

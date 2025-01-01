@@ -1,4 +1,4 @@
-import type { FastifyInstance } from 'fastify'
+import { FastifyTypedInstance } from '@/types/fastify'
 
 import { authenticateWithGithub } from './auth/authenticate-with-github'
 import { authenticateWithPassword } from './auth/authenticate-with-password'
@@ -30,7 +30,7 @@ import { deleteProject } from './projects/delete-project'
 import { getProject } from './projects/get-project'
 import { getProjects } from './projects/get-projects'
 
-export async function routes(app: FastifyInstance) {
+export async function routes(app: FastifyTypedInstance) {
   healthCheck(app)
 
   // auth

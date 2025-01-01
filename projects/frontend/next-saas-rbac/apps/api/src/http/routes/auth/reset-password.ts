@@ -1,9 +1,8 @@
 import { hash } from 'bcryptjs'
-import type { FastifyInstance } from 'fastify'
-import type { ZodTypeProvider } from 'fastify-type-provider-zod'
 import z from 'zod'
 
 import { prisma } from '@/lib/prisma'
+import { FastifyTypedInstance } from '@/types/fastify'
 
 import { UnauthorizedError } from '../_errors/unautorized-error'
 
@@ -12,8 +11,8 @@ const bodySchema = z.object({
   password: z.string().min(6),
 })
 
-export async function resetPassword(app: FastifyInstance) {
-  app.withTypeProvider<ZodTypeProvider>().post(
+export async function resetPassword(app: FastifyTypedInstance) {
+  app.post(
     '/password/reset',
     {
       schema: {
